@@ -87,17 +87,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 | I18N-01 | Phase 1 | Pending |
 | I18N-02 | Phase 1 | Pending |
 | I18N-03 | Phase 1 | Pending |
-| STATE-01 | Phase 1 | Pending |
-| STATE-02 | Phase 1 | Pending |
-| STATE-03 | Phase 1 | Pending |
-| SESSION-01 | Phase 2 | Pending |
-| SESSION-02 | Phase 2 | Pending |
-| SESSION-03 | Phase 2 | Pending |
-| SESSION-04 | Phase 2 | Pending |
-| SESSION-05 | Phase 2 | Pending |
-| QNA-01 | Phase 2 | Pending |
-| QNA-02 | Phase 2 | Pending |
-| QNA-03 | Phase 2 | Pending |
+| STATE-01 | Phase 2 | Pending |
+| STATE-02 | Phase 2 | Pending |
+| STATE-03 | Phase 2 | Pending |
+| SESSION-01 | Phase 3 | Pending |
+| SESSION-02 | Phase 3 | Pending |
+| SESSION-03 | Phase 3 | Pending |
+| SESSION-04 | Phase 3 | Pending |
+| SESSION-05 | Phase 3 | Pending |
+| QNA-01 | Phase 4 | Pending |
+| QNA-02 | Phase 4 | Pending |
+| QNA-03 | Phase 4 | Pending |
 
 **Coverage:**
 
@@ -108,4 +108,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 ---
 
 *Requirements defined: 2026-03-09*
-*Last updated: 2026-03-09 after initial definition*
+*Last updated: 2026-03-09 after roadmap creation*
