@@ -12,6 +12,7 @@ files_modified:
 autonomous: true
 requirements:
   - INFRA-02
+  - INFRA-03
 must_haves:
   truths:
     - "Developer can run `pnpm install` without errors"

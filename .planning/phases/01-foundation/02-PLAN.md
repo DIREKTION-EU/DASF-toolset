@@ -4,7 +4,7 @@ plan: 02
 type: execute
 wave: 1
 depends_on:
-  - 0
+  - 01
 files_modified:
   - src/main.ts
   - src/router.ts

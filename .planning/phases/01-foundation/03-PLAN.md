@@ -4,7 +4,7 @@ plan: 03
 type: execute
 wave: 2
 depends_on:
-  - 1
+  - 02
 files_modified:
   - src/i18n/index.ts
   - src/i18n/locales/en.json
