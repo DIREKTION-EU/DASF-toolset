@@ -7,7 +7,7 @@
 
 ## Phases
 
-- [ ] **Phase 1: Foundation** - Set up project infrastructure, i18n, and build configuration
+- [x] **Phase 1: Foundation** - Set up project infrastructure, i18n, and build configuration
 - [ ] **Phase 2: State Management** - Implement meiosis pattern with IndexedDB persistence
 - [ ] **Phase 3: Session Collaboration** - Enable WebRTC-based facilitator-participant sessions
 - [ ] **Phase 4: Questionnaires** - Render DASF assessment forms and enable facilitator access
@@ -30,7 +30,12 @@
 3. Dev environment links to localhost, production links to GitHub Pages automatically
 4. Build outputs a static site ready for GitHub Pages docs folder deployment
 
-**Plans:** TBD
+**Plans:** 3 plans (01-03)
+
+Plans:
+- [x] 01-PLAN.md — Project scaffolding with pnpm, TypeScript, and Vite
+- [x] 02-PLAN.md — Mithril SPA foundation with routing and components
+- [x] 03-PLAN.md — Internationalization with translate.js and language switcher
 
 ---
 
@@ -91,11 +96,11 @@
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1 - Foundation | 0/4 | Not started | - |
+| 1 - Foundation | 3/3 | In Progress | INFRA-01, INFRA-02, INFRA-03, INFRA-04, I18N-01, I18N-02, I18N-03 |
 | 2 - State Management | 0/3 | Not started | - |
 | 3 - Session Collaboration | 0/5 | Not started | - |
 | 4 - Questionnaires | 0/3 | Not started | - |
 
 ---
 
-*Roadmap last updated: 2026-03-09*
+*Roadmap last updated: 2026-03-10*
