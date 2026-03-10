@@ -10,8 +10,8 @@ Requirements for initial release. Each maps to roadmap phases.
 ### Application Infrastructure
 
 - [ ] **INFRA-01**: Build SPA using Mithril, Mithril Materialized, and TypeScript
-- [ ] **INFRA-02**: Use pnpm for dependency management with Vite for development
-- [ ] **INFRA-03**: Deploy to GitHub Pages docs folder as static site
+- [x] **INFRA-02**: Use pnpm for dependency management with Vite for development
+- [x] **INFRA-03**: Deploy to GitHub Pages docs folder as static site
 - [ ] **INFRA-04**: Configure dev mode to link to localhost, production to GitHub Pages
 
 ### Internationalization
@@ -81,8 +81,8 @@ Which phases cover which requirements. Updated during roadmap creation.
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | INFRA-01 | Phase 1 | Pending |
-| INFRA-02 | Phase 1 | Pending |
-| INFRA-03 | Phase 1 | Pending |
+| INFRA-02 | Phase 1 | Complete |
+| INFRA-03 | Phase 1 | Complete |
 | INFRA-04 | Phase 1 | Pending |
 | I18N-01 | Phase 1 | Pending |
 | I18N-02 | Phase 1 | Pending |
