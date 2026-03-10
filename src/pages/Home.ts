@@ -1,4 +1,5 @@
 import m from "mithril";
+import { t } from "../i18n";
 
 interface Attrs {}
 
@@ -21,14 +22,14 @@ const Home: m.Component<Attrs, State> = {
             m(
               "div",
               { class: "card" },
-              m("div", { class: "card-content" }, m("span", { class: "card-title" }, "DASF Toolset")),
-              m("div", { class: "card-body" }, m("p", {}, "Disaster Assessment and Solution Framework toolset for safety professionals to collaboratively assess disaster management capabilities, identify gaps, and build roadmaps for research and solution adoption through structured facilitator-led sessions."))
+              m("div", { class: "card-content" }, m("span", { class: "card-title" }, t("home.title"))),
+              m("div", { class: "card-body" }, m("p", {}, t("home.description")))
             )
           )
         )
       )
     );
-  },
+  }
 };
 
 export default Home;
