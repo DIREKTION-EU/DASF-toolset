@@ -1,0 +1,18 @@
+{
+  "home": {
+    "title": "DASF Toolset",
+    "description": "Disaster Assessment and Solution Framework"
+  },
+  "header": {
+    "nav": {
+      "home": "Home",
+      "about": "Over"
+    }
+  },
+  "footer": {
+    "copyright": "Copyright"
+  },
+  "languageSwitcher": {
+    "label": "Taal"
+  }
+}
