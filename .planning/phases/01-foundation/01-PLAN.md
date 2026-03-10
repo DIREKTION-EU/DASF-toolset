@@ -12,6 +12,38 @@ files_modified:
 autonomous: true
 requirements:
   - INFRA-02
+must_haves:
+  truths:
+    - "Developer can run `pnpm install` without errors"
+    - "Developer can run `pnpm dev` and see the app running"
+    - "Build outputs to docs/ folder for GitHub Pages"
+    - "TypeScript compilation runs without errors"
+  artifacts:
+    - path: "package.json"
+      provides: "Project dependencies and scripts"
+      contains: ["pnpm", "mithril", "vite"]
+    - path: "tsconfig.json"
+      provides: "TypeScript compiler configuration"
+      contains: ["target", "moduleResolution", "strict"]
+    - path: "vite.config.ts"
+      provides: "Vite build configuration"
+      contains: ["build.outDir", "base"]
+    - path: ".gitignore"
+      provides: "Excludes build artifacts and dependencies"
+      contains: ["node_modules", "dist", "docs"]
+  key_links:
+    - from: "package.json"
+      to: "pnpm install"
+      via: "dependencies and devDependencies"
+      pattern: "\"dependencies\":|\"devDependencies\":"
+    - from: "tsconfig.json"
+      to: "pnpm dev"
+      via: "TypeScript compilation"
+      pattern: "\"moduleResolution\": \"bundler\""
+    - from: "vite.config.ts"
+      to: "pnpm build"
+      via: "build.outDir and base"
+      pattern: "outDir.*docs|base.*dasf-toolset"
 ---
 
 <objective>

@@ -19,6 +19,49 @@ requirements:
   - I18N-01
   - I18N-02
   - I18N-03
+must_haves:
+  truths:
+    - "translate.js initialized with en, nl, de, fr languages"
+    - "Language switcher in UI allows switching between languages"
+    - "Text displays correctly in all supported languages"
+    - "Language preference persists in localStorage"
+    - "All visible text is translated via t() helper"
+  artifacts:
+    - path: "src/i18n/index.ts"
+      provides: "translate.js initialization and configuration"
+      exports: ["translate", "t", "setLang"]
+    - path: "src/i18n/locales/en.json"
+      provides: "English translations"
+      keys: ["home.title", "home.description", "header.nav.home"]
+    - path: "src/i18n/locales/nl.json"
+      provides: "Dutch translations"
+      keys: ["home.title", "home.description", "header.nav.home"]
+    - path: "src/i18n/locales/de.json"
+      provides: "German translations"
+      keys: ["home.title", "home.description", "header.nav.home"]
+    - path: "src/i18n/locales/fr.json"
+      provides: "French translations"
+      keys: ["home.title", "home.description", "header.nav.home"]
+    - path: "src/components/LanguageSwitcher.ts"
+      provides: "Language switcher UI component"
+      contains: ["select", "onchange", "translate.setLang"]
+  key_links:
+    - from: "src/i18n/index.ts"
+      to: "src/i18n/locales/en.json"
+      via: "translate.load() call"
+      pattern: "translate\\.load.*en"
+    - from: "src/components/LanguageSwitcher.ts"
+      to: "src/i18n/index.ts"
+      via: "import translate"
+      pattern: "import.*translate"
+    - from: "src/components/LanguageSwitcher.ts"
+      to: "setLang"
+      via: "onchange handler"
+      pattern: "onchange.*setLang"
+    - from: "src/components/Header.ts"
+      to: "t()"
+      via: "text rendering"
+      pattern: "t\\(.*\\)"
 ---
 
 <objective>
@@ -137,7 +180,7 @@ export const config = {
 
 <task type="auto">
   <name>Create i18n index.ts with translate.js initialization</name>
-  <files>/Users/erik/vullings/dev/DASF-toolset/src/i18n/index.ts</files>
+  <files>/Users/erik.vullings/dev/DASF-toolset/src/i18n/index.ts</files>
   <action>Create i18n/index.ts with:
   - Import translate from "translate.js"
   - Import config from "../utils/config"

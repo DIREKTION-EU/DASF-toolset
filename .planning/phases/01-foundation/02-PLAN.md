@@ -19,6 +19,49 @@ autonomous: true
 requirements:
   - INFRA-01
   - INFRA-04
+must_haves:
+  truths:
+    - "Developer can run `pnpm dev` and the Mithril app loads with TypeScript compilation"
+    - "App displays Home page at '/' route"
+    - "App displays 404 page at unknown routes"
+    - "Navigation links work with m.routeLink"
+    - "All components use Mithril Materialized classes"
+  artifacts:
+    - path: "src/main.ts"
+      provides: "App entry point mounting Mithril to #app"
+      contains: ["m.mount", "m.route"]
+    - path: "src/router.ts"
+      provides: "Route definitions with m.route"
+      exports: ["routes"]
+    - path: "src/components/App.ts"
+      provides: "Main app component with Layout wrapper"
+      contains: ["Layout"]
+    - path: "src/pages/Home.ts"
+      provides: "Home page component"
+      contains: ["m", "class", "view"]
+    - path: "src/pages/NotFound.ts"
+      provides: "404 page component"
+      contains: ["m.routeLink", "404"]
+    - path: "index.html"
+      provides: "HTML entry point"
+      contains: ["#app", "type=\"module\""]
+  key_links:
+    - from: "src/main.ts"
+      to: "src/components/App.ts"
+      via: "m.mount to #app"
+      pattern: "m\\.mount.*#app"
+    - from: "src/main.ts"
+      to: "src/router.ts"
+      via: "m.route setup"
+      pattern: "m\\.route.*routes"
+    - from: "src/components/App.ts"
+      to: "src/components/Layout.ts"
+      via: "Layout wrapper"
+      pattern: "Layout"
+    - from: "src/router.ts"
+      to: "src/pages/Home.ts"
+      via: "route mapping"
+      pattern: "\"/\": Home"
 ---
 
 <objective>
