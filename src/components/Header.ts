@@ -1,4 +1,6 @@
 import m from "mithril";
+import { t } from "../i18n";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 interface Attrs {
   title?: string;
@@ -17,7 +19,7 @@ const Header: m.Component<Attrs, State> = {
         m(
           "a",
           { href: "#!", class: "brand-logo center" },
-          vnode.attrs.title || "DASF Toolset"
+          vnode.attrs.title || t("home.title")
         ),
         m(
           "nav",
@@ -25,12 +27,13 @@ const Header: m.Component<Attrs, State> = {
           m(
             "ul",
             { class: "right hide-on-med-and-down" },
-            m("li", {}, m("a", { href: "/", class: "waves-effect" }, "Home"))
+            m("li", {}, m("a", { href: "/", class: "waves-effect" }, t("header.nav.home"))),
+            m("li", {}, m(() => m(LanguageSwitcher)))
           )
         )
       )
     );
-  },
+  }
 };
 
 export default Header;
