@@ -30,7 +30,7 @@
 3. Dev environment links to localhost, production links to GitHub Pages automatically
 4. Build outputs a static site ready for GitHub Pages docs folder deployment
 
-**Plans:** 3 plans (01-03)
+**Plans:** 3/3 plans complete
 
 Plans:
 - [x] 01-PLAN.md — Project scaffolding with pnpm, TypeScript, and Vite
@@ -96,7 +96,7 @@ Plans:
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1 - Foundation | 3/3 | In Progress | INFRA-01, INFRA-02, INFRA-03, INFRA-04, I18N-01, I18N-02, I18N-03 |
+| 1 - Foundation | 3/3 | Complete   | 2026-03-10 |
 | 2 - State Management | 0/3 | Not started | - |
 | 3 - Session Collaboration | 0/5 | Not started | - |
 | 4 - Questionnaires | 0/3 | Not started | - |

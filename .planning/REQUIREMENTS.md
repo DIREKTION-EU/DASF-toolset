@@ -9,16 +9,16 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Application Infrastructure
 
-- [ ] **INFRA-01**: Build SPA using Mithril, Mithril Materialized, and TypeScript
+- [x] **INFRA-01**: Build SPA using Mithril, Mithril Materialized, and TypeScript
 - [x] **INFRA-02**: Use pnpm for dependency management with Vite for development
 - [x] **INFRA-03**: Deploy to GitHub Pages docs folder as static site
-- [ ] **INFRA-04**: Configure dev mode to link to localhost, production to GitHub Pages
+- [x] **INFRA-04**: Configure dev mode to link to localhost, production to GitHub Pages
 
 ### Internationalization
 
-- [ ] **I18N-01**: Implement i18n with translate.js
-- [ ] **I18N-02**: Support EU languages (English, Dutch, German, French)
-- [ ] **I18N-03**: Allow language switching in the UI
+- [x] **I18N-01**: Implement i18n with translate.js
+- [x] **I18N-02**: Support EU languages (English, Dutch, German, French)
+- [x] **I18N-03**: Allow language switching in the UI
 
 ### State Management
 
@@ -80,13 +80,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| INFRA-01 | Phase 1 | Pending |
+| INFRA-01 | Phase 1 | Complete |
 | INFRA-02 | Phase 1 | Complete |
 | INFRA-03 | Phase 1 | Complete |
-| INFRA-04 | Phase 1 | Pending |
-| I18N-01 | Phase 1 | Pending |
-| I18N-02 | Phase 1 | Pending |
-| I18N-03 | Phase 1 | Pending |
+| INFRA-04 | Phase 1 | Complete |
+| I18N-01 | Phase 1 | Complete |
+| I18N-02 | Phase 1 | Complete |
+| I18N-03 | Phase 1 | Complete |
 | STATE-01 | Phase 2 | Pending |
 | STATE-02 | Phase 2 | Pending |
 | STATE-03 | Phase 2 | Pending |
