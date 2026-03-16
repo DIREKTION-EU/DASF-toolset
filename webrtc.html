@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Workshop Peer Tool</title>
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <style>
+        body { font-family: sans-serif; max-width: 600px; margin: 2rem auto; padding: 1rem; line-height: 1.6; }
+        .hidden { display: none; }
+        .card { border: 1px solid #ddd; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        input { padding: 8px; width: 80%; margin-bottom: 10px; }
+        button { padding: 8px 16px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 4px; }
+        ul { list-style: none; padding: 0; }
+        li { background: #f4f4f4; margin: 5px 0; padding: 10px; border-radius: 4px; }
+        .badge { font-size: 0.8rem; background: #28a745; color: white; padding: 2px 6px; border-radius: 10px; }
+    </style>
+</head>
+<body>
+
+    <div id="setup-role" class="card">
+        <h2>Workshop Setup</h2>
+        <button onclick="showFacilitator()">I am the Facilitator</button>
+        <button onclick="showParticipant()">I am a Participant</button>
+    </div>
+
+    <div id="view-facilitator" class="hidden card">
+        <h2 id="display-workshop-name">Facilitator Dashboard</h2>
+        <p>Invite participants with Room ID: <strong id="room-id-display">...</strong></p>
+        <h3>Participants (<span id="count">0</span>)</h3>
+        <ul id="participant-list"></ul>
+    </div>
+
+    <div id="view-participant" class="hidden card">
+        <h2>Join Workshop</h2>
+        <input type="text" id="input-room-id" placeholder="Enter Room ID"><br>
+        <input type="text" id="input-name" placeholder="Your Name"><br>
+        <button onclick="joinWorkshop()">Join</button>
+        <p id="status"></p>
+    </div>
+
+    <script>
+        let peer = null;
+        let connections = [];
+        let participants = [];
+
+        // --- FACILITATOR LOGIC ---
+        function showFacilitator() {
+            const workshopName = prompt("Enter Workshop Name:");
+            if (!workshopName) return;
+            
+            document.getElementById('setup-role').classList.add('hidden');
+            document.getElementById('view-facilitator').classList.remove('hidden');
+            document.getElementById('display-workshop-name').innerText = workshopName;
+
+            // Create a random short ID for the room
+            const roomId = 'ws-' + Math.random().toString(36).substr(2, 6);
+            document.getElementById('room-id-display').innerText = roomId;
+
+            peer = new Peer(roomId);
+
+            peer.on('connection', (conn) => {
+                conn.on('data', (data) => {
+                    if (data.type === 'JOIN') {
+                        addParticipant(data.name);
+                        conn.send({ type: 'WELCOME', workshop: workshopName });
+                    }
+                });
+            });
+        }
+
+        function addParticipant(name) {
+            participants.push(name);
+            const list = document.getElementById('participant-list');
+            const li = document.createElement('li');
+            li.innerText = name;
+            list.appendChild(li);
+            document.getElementById('count').innerText = participants.length;
+        }
+
+        // --- PARTICIPANT LOGIC ---
+        function showParticipant() {
+            document.getElementById('setup-role').classList.add('hidden');
+            document.getElementById('view-participant').classList.remove('hidden');
+            
+            // Auto-fill Room ID if in URL (e.g., ?room=ws-123)
+            const urlParams = new URLSearchParams(window.location.search);
+            if(urlParams.get('room')) document.getElementById('input-room-id').value = urlParams.get('room');
+        }
+
+        function joinWorkshop() {
+            const roomId = document.getElementById('input-room-id').value;
+            const name = document.getElementById('input-name').value;
+            const status = document.getElementById('status');
+
+            if (!roomId || !name) return alert("Please fill in both fields");
+
+            peer = new Peer(); // Participant gets a random ID
+            
+            peer.on('open', () => {
+                const conn = peer.connect(roomId);
+                conn.on('open', () => {
+                    status.innerText = "Connected! Sending info...";
+                    conn.send({ type: 'JOIN', name: name });
+                });
+
+                conn.on('data', (data) => {
+                    if (data.type === 'WELCOME') {
+                        status.innerHTML = `<span class="badge">Joined: ${data.workshop}</span><br>Wait for facilitator instructions.`;
+                    }
+                });
+            });
+
+            peer.on('error', (err) => {
+                status.innerText = "Error: Room not found or connection failed.";
+                console.error(err);
+            });
+        }
+    </script>
+</body>
+</html>
