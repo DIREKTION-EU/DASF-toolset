@@ -1,44 +1,96 @@
-import { meiosisSetup } from 'meiosis-setup';
-import type { MeiosisCell, MeiosisConfig, Service } from 'meiosis-setup/types';
-import m, { type FactoryComponent } from 'mithril';
-import { routingSvc } from '.';
-import { type DataModel, Pages, type SearchResults } from '../models';
-import { type Settings, type SearchResultItem } from '@dasf-toolset/shared';
-import { type User, type UserRole } from './login-service';
-import { scrollToTop } from '../utils';
+import { meiosisSetup } from "meiosis-setup";
+import type { MeiosisCell, MeiosisConfig, Service } from "meiosis-setup/types";
+import m, { type FactoryComponent } from "mithril";
+import { i18n, routingSvc } from ".";
+import {
+  Assessment,
+  assessmentModel,
+  Development,
+  developmentModel,
+  Evaluation,
+  evaluationModel,
+  ICapabilityDataModel,
+  type CapabilityModel,
+  Pages,
+  preparationModel,
+  ProjectEvaluation,
+  projectEvaluationModel,
+  type SearchResults,
+  settingsModel,
+  UserType,
+  defaultCapabilityModel,
+} from "../models";
+import { type Settings, type SearchResultItem } from "@dasf-toolset/shared";
+import { type User, type UserRole } from "./login-service";
+import { scrollToTop } from "../utils";
+import { UIForm } from "mithril-ui-form";
 
 export const EmptyDataModel = () =>
   ({
     version: 1,
     lastUpdate: Date.now(),
-  }) as DataModel;
+  }) as CapabilityModel;
 
 // const settingsSvc = restServiceFactory<Settings>('settings');
-const MODEL_KEY = 'MITHRIL_APP_MODEL';
-const USER_ROLE = 'USER_ROLE';
-const SETTINGS_KEY = 'MITHRIL_APP_SETTINGS';
+const MODEL_KEY = "DASF_MODEL";
+const USER_ROLE = "DASF_USER_ROLE";
+const SETTINGS_KEY = "DASF_SETTINGS";
+const CUR_USER_KEY = "DASF_CUR_USER";
+
 // Vite injects import.meta.env.APP_TITLE from .env files at build time
-export const APP_TITLE = import.meta.env.APP_TITLE || 'Mithril App';
-export const APP_TITLE_SHORT = import.meta.env.APP_TITLE_SHORT || 'Mithril';
+export const APP_TITLE = import.meta.env.APP_TITLE || "Mithril App";
+export const APP_TITLE_SHORT = import.meta.env.APP_TITLE_SHORT || "Mithril";
 
 export interface State {
   page: Pages;
-  model: DataModel;
+  model: CapabilityModel;
   loggedInUser?: User;
   role: UserRole;
-  settings: Settings;
+  settings: Settings & UIForm<ICapabilityDataModel>;
   searchFilter: string;
   searchResults: SearchResults;
+
+  curUser: UserType;
+  apiService: string;
+  isSearching: boolean;
+  searchQuery?: string;
+  catModel: CapabilityModel;
+  textFilter: string;
+  stakeholderFilter: string[];
+  categoryId?: string;
+  subcategoryId?: string;
+  capabilityId?: string;
+  // FORMS
+  preparations?: UIForm<ICapabilityDataModel>;
+  assessment?: UIForm<Assessment>;
+  development?: UIForm<Development>;
+  evaluation?: UIForm<Partial<Evaluation>>;
+  projectEvaluation?: UIForm<Partial<ProjectEvaluation>>;
 }
 
 export type MeiosisComponent<A = {}> = FactoryComponent<MeiosisCell<State> & A>;
+
+const localizeDataModel = (state: Partial<State>) => {
+  if (!state) return;
+  state.assessment = assessmentModel(
+    state.catModel && state.catModel.data ? state.catModel.data : {},
+  );
+  state.development = developmentModel();
+  state.settings = settingsModel();
+  state.evaluation = evaluationModel();
+  state.projectEvaluation = projectEvaluationModel();
+  state.preparations = preparationModel();
+  return state;
+};
 
 export const actions = {
   // addDucks: (cell, amount) => {
   //   cell.update({ ducks: (value) => value + amount });
   // },
+  update: (cell: MeiosisCell<State>, state: Partial<State>) =>
+    cell.update(state),
   setPage: (cell: MeiosisCell<State>, page: Pages, info?: string) => {
-    document.title = `${APP_TITLE} | ${page.replace('_', ' ')}${info ? ` | ${info}` : ''}`;
+    document.title = `${APP_TITLE} | ${page.replace("_", " ")}${info ? ` | ${info}` : ""}`;
     // const curPage = states().page;
     // if (curPage === page) return;
     cell.update({
@@ -48,24 +100,40 @@ export const actions = {
       },
     });
   },
+  setLanguage: async (
+    cell: MeiosisCell<State>,
+    locale = i18n.currentLocale,
+  ) => {
+    const state = cell.getState();
+    localStorage.setItem("CAT_LANGUAGE", locale);
+    await i18n.loadAndSetLocale(locale);
+    cell.update({ ...localizeDataModel(state) });
+  },
   changePage: (
     cell: MeiosisCell<State>,
     page: Pages,
     params?: Record<string, string | number | undefined>,
-    query?: Record<string, string | number | undefined>
+    query?: Record<string, string | number | undefined>,
   ) => {
     routingSvc && routingSvc.switchTo(page, params, query);
-    document.title = `${APP_TITLE} | ${page.replace('_', ' ')}`;
+    document.title = `${APP_TITLE} | ${page.replace("_", " ")}`;
     cell.update({ page });
   },
-  saveModel: (cell: MeiosisCell<State>, model: DataModel) => {
+  createRoute: (
+    page: Pages,
+    params?: { [key: string]: string | number | undefined },
+  ) => (routingSvc ? routingSvc.route(page, params) : ""),
+  saveModel: (cell: MeiosisCell<State>, model: CapabilityModel) => {
     model.lastUpdate = Date.now();
     model.version = model.version ? model.version++ : 1;
     localStorage.setItem(MODEL_KEY, JSON.stringify(model));
     console.log(JSON.stringify(model, null, 2));
     cell.update({ model: () => model });
   },
-  saveSettings: async (cell: MeiosisCell<State>, settings: Settings) => {
+  saveSettings: async (
+    cell: MeiosisCell<State>,
+    settings: Settings & UIForm<ICapabilityDataModel>,
+  ) => {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
     cell.update({
       settings: () => settings,
@@ -84,6 +152,12 @@ export const actions = {
     cell.update({ role });
   },
   login: (_cell: MeiosisCell<State>) => {},
+
+  saveCurUser: (cell: MeiosisCell<State>, curUser: UserType) => {
+    console.table(curUser);
+    localStorage.setItem(CUR_USER_KEY, curUser);
+    cell.update({ curUser });
+  },
 };
 
 // Helper to retrieve model data from localStorage
@@ -96,14 +170,14 @@ const getModelData = (): Record<string, unknown> => {
       return parsed.data || parsed;
     }
   } catch (e) {
-    console.error('Error parsing model from localStorage:', e);
+    console.error("Error parsing model from localStorage:", e);
   }
   return {};
 };
 
 // Helper to search through model data for matching items
 const searchModelData = (filter: string): SearchResultItem[] => {
-  if (!filter || filter.trim() === '') {
+  if (!filter || filter.trim() === "") {
     return [];
   }
 
@@ -128,32 +202,48 @@ const searchModelData = (filter: string): SearchResultItem[] => {
 
     if (Array.isArray(obj)) {
       obj.forEach((item, index) => {
-        if (typeof item === 'object' && item !== null) {
-          searchObject(item as Record<string, unknown>, [...path, `[${index}]`]);
+        if (typeof item === "object" && item !== null) {
+          searchObject(item as Record<string, unknown>, [
+            ...path,
+            `[${index}]`,
+          ]);
         }
       });
       return;
     }
 
-    if (typeof obj === 'object') {
+    if (typeof obj === "object") {
       // Check if this object has searchable fields (title, description, content, type)
-      const searchableFields = ['title', 'description', 'content', 'type', 'name', 'authors'];
-      const hasSearchableField = searchableFields.some((field) => obj[field] !== undefined);
+      const searchableFields = [
+        "title",
+        "description",
+        "content",
+        "type",
+        "name",
+        "authors",
+      ];
+      const hasSearchableField = searchableFields.some(
+        (field) => obj[field] !== undefined,
+      );
 
       if (hasSearchableField) {
-        const matchFields = searchableFields.filter((field) => matchesSearch(obj[field]));
+        const matchFields = searchableFields.filter((field) =>
+          matchesSearch(obj[field]),
+        );
         if (matchFields.length > 0) {
-          const title = typeof obj.title === 'string' ? obj.title : undefined;
-          const name = typeof obj.name === 'string' ? obj.name : undefined;
-          const description = typeof obj.description === 'string' ? obj.description : undefined;
-          const content = typeof obj.content === 'string' ? obj.content : undefined;
+          const title = typeof obj.title === "string" ? obj.title : undefined;
+          const name = typeof obj.name === "string" ? obj.name : undefined;
+          const description =
+            typeof obj.description === "string" ? obj.description : undefined;
+          const content =
+            typeof obj.content === "string" ? obj.content : undefined;
           results.push({
             title,
             name,
             description,
             content,
             _matchedFields: matchFields,
-            _path: path.join('.'),
+            _path: path.join("."),
           });
         }
       }
@@ -161,8 +251,8 @@ const searchModelData = (filter: string): SearchResultItem[] => {
       // Recursively search nested objects
       Object.entries(obj).forEach(([key, value]) => {
         // Skip metadata fields
-        if (!['version', 'lastUpdate'].includes(key)) {
-          if (typeof value === 'object' && value !== null) {
+        if (!["version", "lastUpdate"].includes(key)) {
+          if (typeof value === "object" && value !== null) {
             searchObject(value as Record<string, unknown>, [...path, key]);
           }
         }
@@ -198,7 +288,7 @@ const config: MeiosisConfig<State> = {
     initial: {
       page: Pages.HOME,
       loggedInUser: undefined,
-      role: 'user',
+      role: "user",
       settings: {} as Settings,
     } as State,
     services: [setSearchResults, settingsSaveService],
@@ -211,16 +301,59 @@ cells.map(() => {
   m.redraw();
 });
 
-const loadData = async () => {
-  const role = (localStorage.getItem(USER_ROLE) || 'user') as UserRole;
+export const loadData = async () => {
+  const role = (localStorage.getItem(USER_ROLE) || "user") as UserRole;
+
+  let model: CapabilityModel;
+
   const ds = localStorage.getItem(MODEL_KEY);
-  const model: DataModel = ds ? JSON.parse(ds) : EmptyDataModel();
-  const settings = JSON.parse(localStorage.getItem(SETTINGS_KEY) || '{}') as Settings;
+  if (ds) {
+    try {
+      model = JSON.parse(ds);
+    } catch (err) {
+      console.warn(
+        "Invalid model in localStorage, falling back to default",
+        err,
+      );
+      model = defaultCapabilityModel();
+    }
+  } else {
+    model = defaultCapabilityModel();
+  }
+
+  console.log(model);
+
+  const curUser = (localStorage.getItem(CUR_USER_KEY) || "user") as UserType;
+  const settings = JSON.parse(
+    localStorage.getItem(SETTINGS_KEY) || "{}",
+  ) as Settings & UIForm<ICapabilityDataModel>;
 
   cells().update({
     role,
-    model: () => model,
+    curUser,
+    model: () => model, // ← no need for || {} anymore
     settings: () => settings || ({} as Settings),
   });
 };
+
+// Keep this at the bottom — or move it after everything else if you want
 loadData();
+// export const loadData = async () => {
+//   const role = (localStorage.getItem(USER_ROLE) || "user") as UserRole;
+//   const ds = localStorage.getItem(MODEL_KEY);
+//   const model: CapabilityModel = ds ? JSON.parse(ds) : defaultCapabilityModel();
+//   console.log(model);
+//   const curUser = (localStorage.getItem(CUR_USER_KEY) || "user") as UserType;
+//   const settings = JSON.parse(
+//     localStorage.getItem(SETTINGS_KEY) || "{}",
+//   ) as Settings & UIForm<ICapabilityDataModel>;
+
+//   cells().update({
+//     role,
+//     curUser,
+//     model: () => model || {},
+//     settings: () => settings || ({} as Settings),
+//   });
+// };
+
+// loadData();

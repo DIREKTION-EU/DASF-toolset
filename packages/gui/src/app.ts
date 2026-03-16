@@ -7,6 +7,9 @@ import { LANGUAGE, SAVED } from "./utils";
 import { type Languages, i18n } from "./services";
 
 document.documentElement.setAttribute("lang", "en");
+// document.addEventListener("onload", async () => {
+//   await loadData();
+// });
 
 window.onbeforeunload = (e) => {
   if (localStorage.getItem(SAVED) === "true") return;
@@ -14,15 +17,11 @@ window.onbeforeunload = (e) => {
   e.preventDefault(); // This is necessary for older browsers
 };
 
-i18n.addOnChangeListener((locale: string) => {
+i18n.addOnChangeListener(async (locale: string) => {
   console.log(`Language loaded`);
   routingSvc.init();
   document.documentElement.setAttribute("lang", locale);
 
-  console.table({
-    defaultRoute: routingSvc.defaultRoute,
-    routes: routingSvc.routingTable(),
-  });
   m.route(document.body, routingSvc.defaultRoute, routingSvc.routingTable());
 });
 i18n.init(

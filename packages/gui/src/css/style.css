@@ -2,3 +2,22 @@
   padding-top: 1rem;
   height: calc(100vh - 64px);
 }
+
+/* Responsive helper classes */
+.show-on-small {
+  @media (max-width: 599px) {
+    display: block !important;
+  }
+  @media (min-width: 600px) {
+    display: none !important;
+  }
+}
+
+.hide-on-med-and-down {
+  @media (max-width: 599px) {
+    display: none !important;
+  }
+  @media (min-width: 600px) {
+    display: block !important;
+  }
+}

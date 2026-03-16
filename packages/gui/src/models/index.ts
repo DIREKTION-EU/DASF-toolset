@@ -1,6 +1,8 @@
-export * from './page';
-export * from './settings';
-export * from './data-model';
+export * from "./page";
+export * from "./settings";
+export * from "./capability-model";
+
+export type UserType = "user" | "moderator" | "admin";
 
 export interface ILokiObj {
   id: number;

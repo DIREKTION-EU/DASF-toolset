@@ -1,28 +1,51 @@
-import m from 'mithril';
-import { Pages } from '../models/index';
-import { actions, type MeiosisComponent, t } from '../services/index';
+import m from "mithril";
+import { TabItem, Tabs } from "mithril-materialized";
+import { FormAttributes, LayoutForm, UIForm } from "mithril-ui-form";
+import { Pages } from "../models";
+import {
+  ICapabilityDataModel,
+  CapabilityModel,
+} from "../models/capability-model/capability-model";
+import { actions, MeiosisComponent } from "../services";
 
-export const SettingsPage: MeiosisComponent = () => {
-  return {
-    oninit: ({ attrs }) => {
-      actions.setPage(attrs, Pages.SETTINGS);
-    },
-    view: () => {
-      return m('#settings-page.settings.page', [
-        m('.col.s12.m8.offset-m2.l6.offset-l6', [
-          m('h2.primary-text', t('SETTINGS', 'PAGE')),
-          m('p', t('SETTINGS', 'INTRO')),
-          m('.divider'),
-          m('h4', t('SETTINGS', 'SECTION1_TITLE')),
-          m('p', t('SETTINGS', 'SECTION1')),
-          m('.divider'),
-          m('h4', t('SETTINGS', 'SECTION2_TITLE')),
-          m('p', t('SETTINGS', 'SECTION2')),
-          m('.divider'),
-          m('h4', t('SETTINGS', 'SECTION3_TITLE')),
-          m('p', t('SETTINGS', 'SECTION3')),
-        ]),
-      ]);
-    },
-  };
-};
+export const SettingsPage: MeiosisComponent = () => ({
+  oninit: ({ attrs }) => actions.setPage(attrs, Pages.SETTINGS),
+  view: ({ attrs }) => {
+    const {
+      settings: form = [],
+      catModel = {
+        form: [] as UIForm,
+        settings: [] as UIForm,
+        data: {},
+      } as CapabilityModel,
+    } = attrs.state;
+    const { data = {} } = catModel;
+    const sections = form.filter((i) => i.type === "section");
+    const tabs = sections.map(
+      (s) =>
+        ({
+          id: s.id,
+          title: s.label,
+          vnode: m(LayoutForm, {
+            form,
+            obj: data,
+            section: s.id,
+            context: [data],
+            onchange: () => {
+              console.log(
+                JSON.stringify(
+                  catModel.data && catModel.data.capabilities
+                    ? catModel.data.capabilities[0]
+                    : "",
+                  null,
+                  2,
+                ),
+              );
+              actions.saveModel(attrs, catModel);
+            },
+          } as FormAttributes<ICapabilityDataModel>),
+        }) as TabItem,
+    );
+    return m(".settings.page", m(".row", m(Tabs, { tabs, tabWidth: "fill" })));
+  },
+});

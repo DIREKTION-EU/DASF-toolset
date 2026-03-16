@@ -3,10 +3,15 @@ import { Pages, type Page } from "../models";
 import { Layout } from "../components/layout";
 import {
   AboutPage,
+  AssessmentPage,
+  DevelopmentPage,
   HomePage,
   LandingPage,
   NotFoundPage,
+  OverviewPage,
+  PreparationPage,
   SettingsPage,
+  TaxonomyPage,
 } from "../components";
 import { t } from "./translations";
 import { cells } from "./meiosis";
@@ -37,12 +42,57 @@ class RoutingService {
         component: HomePage,
       },
       {
+        id: Pages.OVERVIEW,
+        title: t("overview"),
+        icon: "apps",
+        route: t("overview_route"),
+        visible: true,
+        component: OverviewPage,
+      },
+      {
+        id: Pages.ASSESSMENT,
+        title: t("assessment"),
+        icon: "assessment",
+        // iconClass: 'blue-text',
+        route: t("assessment_route"),
+        visible: true,
+        component: AssessmentPage,
+      },
+      {
+        id: Pages.DEVELOPMENT,
+        title: t("development"),
+        icon: "engineering",
+        // iconClass: 'blue-text',
+        route: t("development_route"),
+        visible: ({ catModel = {} }) =>
+          (catModel.data && catModel.data.enableSolutionAssessmentSupport) ||
+          false,
+        component: DevelopmentPage,
+      },
+      {
         id: Pages.ABOUT,
         icon: "info",
         title: t("ABOUT", "TITLE"),
         route: t("ABOUT", "ROUTE"),
         visible: true,
         component: AboutPage,
+      },
+      {
+        id: Pages.TAXONOMY,
+        title: t("taxonomy"),
+        icon: "book",
+        route: t("taxonomy_route"),
+        visible: true,
+        component: TaxonomyPage,
+      },
+      {
+        id: Pages.PREPARATION,
+        title: t("preparation"),
+        icon: "video_settings",
+        iconClass: "blue-text",
+        route: t("preparation_route"),
+        visible: ({ curUser }) => curUser !== "user",
+        component: PreparationPage,
       },
       {
         id: Pages.SETTINGS,
