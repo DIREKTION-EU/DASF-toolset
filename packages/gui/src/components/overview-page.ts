@@ -10,7 +10,6 @@ import {
 } from "../models/capability-model/capability-model";
 import { actions, APP_TITLE_SHORT, MeiosisComponent, t } from "../services";
 import { routingSvc } from "../services/routing-service";
-import { toggleSidenav } from "./layout";
 import { colorPalette, formatDate, toWord } from "../utils";
 import logo from "../assets/logo.svg";
 
@@ -83,21 +82,16 @@ export const OverviewPage: MeiosisComponent = () => {
 
       return m(".overview.page", [
 
-        // ── Compact page header ──────────────────────────────────────────────
-        m(".row.dasf-page-header", { style: "display:flex; align-items:center; margin-bottom:0;" }, [
-          m("div", [
-            m(FlatButton, { iconName: "menu", onclick: () => toggleSidenav() }),
-          ]),
-          m("div", { style: "flex:1;" }, [
-            m("a", {
-              href: routingSvc.href(Pages.LANDING),
-              style: "display:flex; align-items:center; color:inherit; text-decoration:none;",
-            }, [
-              m("img[width=32][height=32][alt=logo]", { src: logo, style: "margin-right:8px;" }),
-              m("span.hide-on-small-only", { style: "font-size:1rem; font-weight:500;" },
-                sessionName ? `${APP_TITLE_SHORT} — ${sessionName}` : APP_TITLE_SHORT
-              ),
-            ]),
+        // ── Page header (logo + session name) ───────────────────────────────
+        m(".row.dasf-page-header", { style: "display:flex; align-items:center; padding-left:48px; margin-bottom:0;" }, [
+          m("a", {
+            href: routingSvc.href(Pages.LANDING),
+            style: "display:flex; align-items:center; color:inherit; text-decoration:none;",
+          }, [
+            m("img[width=32][height=32][alt=logo]", { src: logo, style: "margin-right:8px;" }),
+            m("span.hide-on-small-only", { style: "font-size:1rem; font-weight:500;" },
+              sessionName ? `${APP_TITLE_SHORT} — ${sessionName}` : APP_TITLE_SHORT
+            ),
           ]),
         ]),
 

@@ -1,6 +1,21 @@
 .container {
-  padding-top: 1rem;
-  height: calc(100vh - 64px);
+  padding-top: 56px;
+}
+
+.dasf-hamburger {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 1000;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: inherit;
 }
 
 /* Responsive helper classes */
@@ -20,4 +35,102 @@
   @media (min-width: 600px) {
     display: block !important;
   }
+}
+
+/* DASF-specific styles */
+/* Equal-height step cards */
+.dasf-step-cards {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: stretch;
+}
+.dasf-step-cards > [class*="col"] {
+  display: flex;
+}
+.dasf-step-card {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.dasf-step-card .card-content {
+  flex: 1;
+}
+.dasf-step-card:hover {
+  transform: translateY(-2px);
+}
+
+.dasf-step-number {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  line-height: 28px;
+  border-radius: 50%;
+  background: #546e7a;
+  color: #fff;
+  text-align: center;
+  font-weight: bold;
+  font-size: 14px;
+  vertical-align: middle;
+}
+
+.dasf-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 12px;
+  color: #fff;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.dasf-add-panel {
+  border-radius: 4px;
+  padding: 12px;
+  margin-top: 8px;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+}
+
+.timeline-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.timeline-item {
+  margin-bottom: 0 !important;
+}
+
+.dasf-cap-check {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 0;
+  cursor: pointer;
+  user-select: none;
+}
+
+.language-option {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 8px;
+  cursor: pointer;
+}
+
+.language-option img {
+  height: 20px;
+  width: auto;
+}
+
+.language-option img.disabled-image {
+  opacity: 0.4;
+  cursor: default;
+}
+
+.language-option img.clickable {
+  opacity: 1;
+  cursor: pointer;
+}
+.language-option img.clickable:hover {
+  opacity: 0.8;
 }

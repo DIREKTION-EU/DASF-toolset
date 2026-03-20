@@ -1,9 +1,8 @@
 import m from 'mithril';
-import { Icon, ThemeToggle, ModalPanel, FlatButton, TextInput, Sidenav, SidenavItem } from 'mithril-materialized';
-import logo from '../assets/logo.svg';
+import { ThemeToggle, ModalPanel, FlatButton, TextInput, Sidenav, SidenavItem } from 'mithril-materialized';
 import { Pages, Page } from '../models';
 import { routingSvc } from '../services/routing-service';
-import { actions, APP_TITLE, APP_TITLE_SHORT, MeiosisComponent, t } from '../services';
+import { actions, MeiosisComponent, t } from '../services';
 import { isActivePage } from '../utils';
 
 let _sidenavOpen = false;
@@ -30,10 +29,8 @@ export const Layout: MeiosisComponent = () => {
 
   return {
     view: ({ children, attrs }) => {
-      const { page, searchFilter, searchResults = [], currentSessionId, catModel } = attrs.state;
-      const sessionName = currentSessionId && catModel?.data?.title ? catModel.data.title : '';
+      const { page, searchFilter, searchResults = [] } = attrs.state;
       const curPage = routingSvc.getList().filter((p) => p.id === page).shift();
-      const isFullscreen = curPage?.fullscreen === true;
       const isActive = isActivePage(page);
 
       const navPages = routingSvc
@@ -46,51 +43,11 @@ export const Layout: MeiosisComponent = () => {
 
       return [
         m('.main', { style: 'overflow-x: hidden' }, [
-          !isFullscreen && m(
-            '.navbar-fixed',
-            m(
-              'nav',
-              m('.nav-wrapper', [
-                // Hamburger button — always visible
-                m('a.sidenav-trigger', {
-                  href: '#',
-                  style: 'margin-left: 8px;',
-                  onclick: (e: Event) => { e.preventDefault(); _sidenavOpen = !_sidenavOpen; },
-                }, m(Icon, { iconName: 'menu' })),
-
-                // Brand logo — compact
-                m(
-                  'a.brand-logo',
-                  {
-                    title: APP_TITLE,
-                    style: 'left: 56px; color: inherit;',
-                    href: routingSvc.href(Pages.LANDING),
-                  },
-                  [
-                    m('img[width=36][height=36][alt=logo]', {
-                      src: logo,
-                      style: 'margin: 7px 4px; vertical-align: middle;',
-                    }),
-                    m('span.hide-on-small-only', {
-                      style: 'margin-left: 8px; vertical-align: middle; font-size: 1rem;',
-                    }, sessionName ? `${APP_TITLE_SHORT} — ${sessionName}` : APP_TITLE_SHORT),
-                  ]
-                ),
-
-                // Right-side actions
-                m('ul.right', [
-                  m('li', [
-                    m(FlatButton, {
-                      iconName: 'search',
-                      onclick: () => { searchDialogOpen = true; },
-                      tooltip: t('SEARCH_TOOLTIP'),
-                    }),
-                  ]),
-                  m('li', m(ThemeToggle)),
-                ]),
-              ])
-            )
-          ),
+          // Fixed hamburger — always top-left of the viewport
+          m('button.dasf-hamburger', {
+            onclick: () => { _sidenavOpen = !_sidenavOpen; },
+            title: 'Menu',
+          }, m('i.material-icons', 'menu')),
 
           // Sidenav — primary navigation for all screen sizes
           m(
@@ -105,21 +62,31 @@ export const Layout: MeiosisComponent = () => {
               closeOnBackdropClick: true,
               closeOnEscape: true,
             },
-            navPages.map((d: Page) =>
-              m(SidenavItem, {
-                text: d.step ? `${d.step}. ${d.title}` : d.title,
-                icon: typeof d.icon === 'string' ? d.icon : d.icon ? d.icon() : '',
-                active: curPage?.id === d.id,
-                href: routingSvc.href(d.id),
-                onclick: () => { actions.changePage(attrs, d.id); _sidenavOpen = false; },
-              })
-            )
+            [
+              ...navPages.map((d: Page) =>
+                m(SidenavItem, {
+                  text: d.step ? `${d.step}. ${d.title}` : d.title,
+                  icon: typeof d.icon === 'string' ? d.icon : d.icon ? d.icon() : '',
+                  active: curPage?.id === d.id,
+                  href: routingSvc.href(d.id),
+                  onclick: () => { actions.changePage(attrs, d.id); _sidenavOpen = false; },
+                })
+              ),
+              m('li.divider', { style: 'margin: 8px 0;' }),
+              m('li', { style: 'padding: 8px 16px; display: flex; align-items: center; gap: 8px;' }, [
+                m(FlatButton, {
+                  iconName: 'search',
+                  label: t('SEARCH'),
+                  onclick: () => { searchDialogOpen = true; _sidenavOpen = false; },
+                }),
+              ]),
+              m('li', { style: 'padding: 8px 16px; display: flex; align-items: center; gap: 8px;' }, [
+                m(ThemeToggle),
+              ]),
+            ]
           ),
 
-          m(
-            '.container',
-            { style: isFullscreen ? 'padding-top: 0' : '' },
-            children,
+          m('.container', children,
             searchDialogOpen &&
               m(ModalPanel, {
                 id: 'search-dialog',
