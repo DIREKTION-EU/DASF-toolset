@@ -1,10 +1,9 @@
 import m, { type RouteDefs } from "mithril";
-import { Pages, type Page } from "../models";
+import { Pages, type Page } from "../models/page";
 import { Layout } from "../components/layout";
 import {
   AboutPage,
   AssessmentPage,
-  DevelopmentPage,
   HomePage,
   LandingPage,
   NotFoundPage,
@@ -12,9 +11,16 @@ import {
   PreparationPage,
   SettingsPage,
   TaxonomyPage,
+  HazardsPage,
+  SolutionsPage,
+  RoadmapPage,
 } from "../components";
 import { t } from "./translations";
 import { cells } from "./meiosis";
+
+const hasSession = (s: { currentSessionId?: string }) => !!s.currentSessionId;
+const hasSessionAndStep = (step: number) => (s: { currentSessionId?: string; catModel?: { data?: { enabledSteps?: number[] } } }) =>
+  !!s.currentSessionId && (!s.catModel?.data?.enabledSteps || s.catModel.data.enabledSteps.includes(step));
 
 class RoutingService {
   private pages!: ReadonlyArray<Page>;
@@ -29,45 +35,62 @@ class RoutingService {
         route: t("LANDING", "ROUTE"),
         visible: false,
         default: true,
-        hasSidebar: true,
+        hasNavBar: false,
         component: LandingPage,
       },
       {
         id: Pages.HOME,
-        icon: "home",
+        icon: "dashboard",
         title: t("HOME", "TITLE"),
-        route: t("HOME", "ROUTE"),
-        visible: true,
-        hasSidebar: true,
+        route: "/dashboard",
+        visible: hasSession,
         component: HomePage,
+      },
+      {
+        id: Pages.HAZARDS,
+        title: t("HAZARDS", "TITLE"),
+        icon: "warning",
+        route: t("HAZARDS", "ROUTE"),
+        visible: hasSessionAndStep(1),
+        component: HazardsPage,
+        step: 1,
       },
       {
         id: Pages.OVERVIEW,
         title: t("overview"),
         icon: "apps",
         route: t("overview_route"),
-        visible: true,
+        visible: hasSessionAndStep(2),
         component: OverviewPage,
+        step: 2,
+        fullscreen: true,
       },
       {
         id: Pages.ASSESSMENT,
         title: t("assessment"),
         icon: "assessment",
-        // iconClass: 'blue-text',
         route: t("assessment_route"),
-        visible: true,
+        visible: hasSessionAndStep(2),
         component: AssessmentPage,
+        step: 2,
       },
       {
-        id: Pages.DEVELOPMENT,
-        title: t("development"),
-        icon: "engineering",
-        // iconClass: 'blue-text',
-        route: t("development_route"),
-        visible: ({ catModel = {} }) =>
-          (catModel.data && catModel.data.enableSolutionAssessmentSupport) ||
-          false,
-        component: DevelopmentPage,
+        id: Pages.SOLUTIONS,
+        title: t("SOLUTIONS", "TITLE"),
+        icon: "lightbulb",
+        route: t("SOLUTIONS", "ROUTE"),
+        visible: hasSessionAndStep(3),
+        component: SolutionsPage,
+        step: 3,
+      },
+      {
+        id: Pages.ROADMAP,
+        title: t("ROADMAP", "TITLE"),
+        icon: "timeline",
+        route: t("ROADMAP", "ROUTE"),
+        visible: hasSessionAndStep(4),
+        component: RoadmapPage,
+        step: 4,
       },
       {
         id: Pages.ABOUT,
@@ -82,7 +105,7 @@ class RoutingService {
         title: t("taxonomy"),
         icon: "book",
         route: t("taxonomy_route"),
-        visible: true,
+        visible: hasSession,
         component: TaxonomyPage,
       },
       {
@@ -91,7 +114,7 @@ class RoutingService {
         icon: "video_settings",
         iconClass: "blue-text",
         route: t("preparation_route"),
-        visible: ({ curUser }) => curUser !== "user",
+        visible: (s) => hasSession(s) && s.curUser !== undefined && s.curUser !== "user",
         component: PreparationPage,
       },
       {
