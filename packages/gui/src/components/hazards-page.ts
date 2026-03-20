@@ -143,7 +143,7 @@ export const HazardsPage: MeiosisComponent = () => {
                         value: h.label,
                         onchange: (v) => { h.label = v || h.label; actions.saveModel(attrs, catModel); },
                       })
-                    : (t(h.id) || h.label)
+                    : (t(h.id as any) || h.label)
                   ),
                   m('td', m('span.dasf-badge', {
                     style: `background: ${categoryColor(h.category)}`,
