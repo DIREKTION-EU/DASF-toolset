@@ -73,7 +73,7 @@ export const OverviewPage: MeiosisComponent = () => {
 
       const maxItems = filteredCategories.length
         ? Math.max(...filteredCategories.map((cat) =>
-            Math.max(...cat.subcategories.map((sc) => sc.capabilities.length))
+            Math.max(...(cat.subcategories as ISubcategoryVM[]).map((sc) => sc.capabilities.length))
           ))
         : 0;
       const height = 90 + maxItems * 30;
