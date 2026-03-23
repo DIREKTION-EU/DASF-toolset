@@ -2,8 +2,9 @@ import m from 'mithril';
 import { ThemeToggle, ModalPanel, FlatButton, TextInput, Sidenav, SidenavItem } from 'mithril-materialized';
 import { Pages, Page } from '../models';
 import { routingSvc } from '../services/routing-service';
-import { actions, MeiosisComponent, t } from '../services';
+import { actions, APP_TITLE_SHORT, MeiosisComponent, t } from '../services';
 import { isActivePage } from '../utils';
+import logo from '../assets/logo.svg';
 
 let _sidenavOpen = false;
 
@@ -61,6 +62,11 @@ export const Layout: MeiosisComponent = () => {
               showBackdrop: true,
               closeOnBackdropClick: true,
               closeOnEscape: true,
+              header: {
+                text: APP_TITLE_SHORT,
+                icon: { type: 'image', content: logo },
+                onclick: () => { actions.changePage(attrs, Pages.LANDING); _sidenavOpen = false; },
+              },
             },
             [
               ...navPages.map((d: Page) =>

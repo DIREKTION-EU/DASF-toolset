@@ -2,7 +2,7 @@ import m from 'mithril';
 import { Select } from 'mithril-materialized';
 import { InputField, resolveExpression, PluginType } from 'mithril-ui-form';
 import { getTextColorFromBackground } from '../../utils';
-import { t } from 'mithriljs-i18n';
+import { t } from '../../services/translations';
 
 type LookupTableFieldType = InputField & {
   /** Path to the row ID */
@@ -62,7 +62,6 @@ export const lookupTable: PluginType = () => {
         tbl.filter((t) => t.rowId === rId && t.colId === cId).shift();
       const opt = optTmp && optionId && optTmp.filter((o) => o.id === optionId.optionId).shift();
       const color = opt && opt.color ? opt.color : '#f0f8ff';
-      console.table({ tbl, rId, cId });
 
       if (onchange && opt && obj[id] !== opt.id) onchange(opt.id);
       return m('section.row', [

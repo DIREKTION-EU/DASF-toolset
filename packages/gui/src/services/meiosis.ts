@@ -2,28 +2,26 @@ import { meiosisSetup } from "meiosis-setup";
 import type { MeiosisCell, MeiosisConfig, Service } from "meiosis-setup/types";
 import m, { type FactoryComponent } from "mithril";
 import { i18n, routingSvc } from ".";
-import {
-  Assessment,
-  assessmentModel,
-  Development,
-  developmentModel,
-  Evaluation,
-  evaluationModel,
-  ICapabilityDataModel,
-  type CapabilityModel,
-  Pages,
-  preparationModel,
-  ProjectEvaluation,
-  projectEvaluationModel,
-  type SearchResults,
-  settingsModel,
-  UserType,
-  defaultCapabilityModel,
-} from "../models";
-import { type Settings, type SearchResultItem } from "@dasf-toolset/shared";
+// Import types/values directly to avoid circular dependency through barrel
+import type { Assessment } from "../models/capability-model/assessment";
+import { assessmentModel } from "../models/capability-model/assessment";
+import type { Development } from "../models/capability-model/development";
+import { developmentModel } from "../models/capability-model/development";
+import type { Evaluation, ProjectEvaluation, ICapabilityDataModel, CapabilityModel } from "../models/capability-model/capability-model";
+import { defaultCapabilityModel } from "../models/capability-model/capability-model";
+import { evaluationModel, projectEvaluationModel } from "../models/capability-model/evaluation";
+import { preparationModel } from "../models/capability-model/preparation";
+import { settingsModel } from "../models/capability-model/settings";
+import { Pages } from "../models/page";
+import { type SearchResultItem } from "@dasf-toolset/shared";
 import { type User, type UserRole } from "./login-service";
 import { scrollToTop } from "../utils";
 import { UIForm } from "mithril-ui-form";
+import { sessionService } from "./session-service";
+
+// Inline types to avoid importing from barrel (circular dependency)
+type UserType = "user" | "moderator" | "admin";
+type SearchResults<T = SearchResultItem> = T[];
 
 export const EmptyDataModel = () =>
   ({
@@ -36,6 +34,7 @@ const MODEL_KEY = "DASF_MODEL";
 const USER_ROLE = "DASF_USER_ROLE";
 const SETTINGS_KEY = "DASF_SETTINGS";
 const CUR_USER_KEY = "DASF_CUR_USER";
+const LAST_SESSION_KEY = "DASF_LAST_SESSION";
 
 // Vite injects import.meta.env.APP_TITLE from .env files at build time
 export const APP_TITLE = import.meta.env.APP_TITLE || "Mithril App";
@@ -43,23 +42,26 @@ export const APP_TITLE_SHORT = import.meta.env.APP_TITLE_SHORT || "Mithril";
 
 export interface State {
   page: Pages;
-  model: CapabilityModel;
+  model?: CapabilityModel;
   loggedInUser?: User;
   role: UserRole;
-  settings: Settings & UIForm<ICapabilityDataModel>;
-  searchFilter: string;
-  searchResults: SearchResults;
+  settings: UIForm<ICapabilityDataModel>;
+  searchFilter?: string;
+  searchResults?: SearchResults;
 
-  curUser: UserType;
-  apiService: string;
-  isSearching: boolean;
+  curUser?: UserType;
+  apiService?: string;
+  isSearching?: boolean;
   searchQuery?: string;
-  catModel: CapabilityModel;
-  textFilter: string;
-  stakeholderFilter: string[];
+  catModel?: CapabilityModel;
+  textFilter?: string;
+  stakeholderFilter?: string[];
   categoryId?: string;
   subcategoryId?: string;
   capabilityId?: string;
+  // Session management
+  sessions: Array<{ id: string; name: string; createdAt: number; updatedAt: number }>;
+  currentSessionId?: string;
   // FORMS
   preparations?: UIForm<ICapabilityDataModel>;
   assessment?: UIForm<Assessment>;
@@ -125,14 +127,23 @@ export const actions = {
   ) => (routingSvc ? routingSvc.route(page, params) : ""),
   saveModel: (cell: MeiosisCell<State>, model: CapabilityModel) => {
     model.lastUpdate = Date.now();
-    model.version = model.version ? model.version++ : 1;
+    model.version = model.version ? model.version + 1 : 1;
     localStorage.setItem(MODEL_KEY, JSON.stringify(model));
-    console.log(JSON.stringify(model, null, 2));
-    cell.update({ model: () => model });
+    cell.update({ model: () => model, catModel: () => model });
+    // Also persist to IndexedDB session
+    const state = cell.getState();
+    if (state.currentSessionId) {
+      sessionService.getSession(state.currentSessionId).then(session => {
+        if (session) {
+          session.model = model;
+          sessionService.saveSession(session);
+        }
+      });
+    }
   },
   saveSettings: async (
     cell: MeiosisCell<State>,
-    settings: Settings & UIForm<ICapabilityDataModel>,
+    settings: UIForm<ICapabilityDataModel>,
   ) => {
     localStorage.setItem(SETTINGS_KEY, JSON.stringify(settings));
     cell.update({
@@ -154,9 +165,69 @@ export const actions = {
   login: (_cell: MeiosisCell<State>) => {},
 
   saveCurUser: (cell: MeiosisCell<State>, curUser: UserType) => {
-    console.table(curUser);
     localStorage.setItem(CUR_USER_KEY, curUser);
     cell.update({ curUser });
+  },
+
+  // Session management
+  loadSessions: async (cell: MeiosisCell<State>) => {
+    const sessions = await sessionService.listSessions();
+    cell.update({ sessions: () => sessions });
+  },
+
+  createSession: async (cell: MeiosisCell<State>, name: string) => {
+    const model = defaultCapabilityModel();
+    const session = await sessionService.createSession(name, model);
+    const sessions = await sessionService.listSessions();
+    localStorage.setItem(MODEL_KEY, JSON.stringify(session.model));
+    localStorage.setItem(LAST_SESSION_KEY, session.id);
+    cell.update({
+      sessions: () => sessions,
+      currentSessionId: session.id,
+      catModel: () => session.model,
+      model: () => session.model,
+    });
+    routingSvc && routingSvc.switchTo(Pages.HOME);
+  },
+
+  openSession: async (cell: MeiosisCell<State>, id: string) => {
+    const session = await sessionService.getSession(id);
+    if (!session) return;
+    localStorage.setItem(MODEL_KEY, JSON.stringify(session.model));
+    localStorage.setItem(LAST_SESSION_KEY, id);
+    cell.update({
+      currentSessionId: id,
+      catModel: () => session.model,
+      model: () => session.model,
+    });
+    routingSvc && routingSvc.switchTo(Pages.HOME);
+  },
+
+  deleteSession: async (cell: MeiosisCell<State>, id: string) => {
+    await sessionService.deleteSession(id);
+    const sessions = await sessionService.listSessions();
+    const state = cell.getState();
+    const isCurrentSession = state.currentSessionId === id;
+    if (isCurrentSession) localStorage.removeItem(LAST_SESSION_KEY);
+    cell.update({
+      sessions: () => sessions,
+      ...(isCurrentSession ? { currentSessionId: undefined } : {}),
+    });
+  },
+
+  cloneSession: async (cell: MeiosisCell<State>, id: string, clearUserData = false) => {
+    await sessionService.cloneSession(id, clearUserData);
+    const sessions = await sessionService.listSessions();
+    cell.update({ sessions: () => sessions });
+  },
+
+  saveCurrentSession: async (cell: MeiosisCell<State>) => {
+    const state = cell.getState();
+    if (!state.currentSessionId) return;
+    const session = await sessionService.getSession(state.currentSessionId);
+    if (!session || !state.catModel) return;
+    session.model = state.catModel;
+    await sessionService.saveSession(session);
   },
 };
 
@@ -269,7 +340,6 @@ export const setSearchResults: Service<State> = {
   run: (cell) => {
     const state = cell.getState();
     const { searchFilter } = state;
-    console.log(`Searching ${searchFilter}`);
     const results = searchFilter ? searchModelData(searchFilter) : [];
     cell.update({ searchResults: () => results });
   },
@@ -286,10 +356,11 @@ export const settingsSaveService: Service<State> = {
 const config: MeiosisConfig<State> = {
   app: {
     initial: {
-      page: Pages.HOME,
+      page: Pages.LANDING,
       loggedInUser: undefined,
       role: "user",
-      settings: {} as Settings,
+      settings: [] as UIForm<ICapabilityDataModel>,
+      sessions: [],
     } as State,
     services: [setSearchResults, settingsSaveService],
   },
@@ -321,39 +392,39 @@ export const loadData = async () => {
     model = defaultCapabilityModel();
   }
 
-  console.log(model);
-
   const curUser = (localStorage.getItem(CUR_USER_KEY) || "user") as UserType;
   const settings = JSON.parse(
-    localStorage.getItem(SETTINGS_KEY) || "{}",
-  ) as Settings & UIForm<ICapabilityDataModel>;
+    localStorage.getItem(SETTINGS_KEY) || "[]",
+  ) as UIForm<ICapabilityDataModel>;
+
+  // Load sessions from IndexedDB
+  const sessions = await sessionService.listSessions();
+
+  // Restore last active session
+  const lastSessionId = localStorage.getItem(LAST_SESSION_KEY);
+  const lastSession = lastSessionId ? await sessionService.getSession(lastSessionId) : null;
+  if (lastSession) {
+    model = lastSession.model;
+    localStorage.setItem(MODEL_KEY, JSON.stringify(model));
+  }
+
+  const forms = localizeDataModel({ catModel: model }) || {};
 
   cells().update({
     role,
     curUser,
-    model: () => model, // ← no need for || {} anymore
-    settings: () => settings || ({} as Settings),
+    model: () => model,
+    catModel: () => model,
+    sessions: () => sessions,
+    ...(lastSession ? { currentSessionId: lastSessionId! } : {}),
+    assessment: () => forms.assessment!,
+    development: () => forms.development!,
+    settings: () => forms.settings || settings || [],
+    evaluation: () => forms.evaluation!,
+    projectEvaluation: () => forms.projectEvaluation!,
+    preparations: () => forms.preparations!,
   });
 };
 
-// Keep this at the bottom — or move it after everything else if you want
-loadData();
-// export const loadData = async () => {
-//   const role = (localStorage.getItem(USER_ROLE) || "user") as UserRole;
-//   const ds = localStorage.getItem(MODEL_KEY);
-//   const model: CapabilityModel = ds ? JSON.parse(ds) : defaultCapabilityModel();
-//   console.log(model);
-//   const curUser = (localStorage.getItem(CUR_USER_KEY) || "user") as UserType;
-//   const settings = JSON.parse(
-//     localStorage.getItem(SETTINGS_KEY) || "{}",
-//   ) as Settings & UIForm<ICapabilityDataModel>;
-
-//   cells().update({
-//     role,
-//     curUser,
-//     model: () => model || {},
-//     settings: () => settings || ({} as Settings),
-//   });
-// };
-
-// loadData();
+// Defer loadData to avoid circular dependency during module initialization
+setTimeout(loadData, 0);

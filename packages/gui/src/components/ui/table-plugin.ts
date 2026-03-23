@@ -8,7 +8,6 @@ export const tablePlugin: PluginType = () => {
       if (obj instanceof Array || !(options instanceof Array)) return;
       const values = obj[id] as Array<Record<string, any>>;
 
-      console.log(`Table plugin: ${values.join(', ')}`);
 
       return m('table.highlight.responsive-table', { style: 'margin-bottom: 30px' }, [
         label && m('caption', m('strong', label)),

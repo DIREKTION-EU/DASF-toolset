@@ -1,8 +1,6 @@
 import { UIForm } from "mithril-ui-form";
 import { ICapabilityDataModel } from "./capability-model";
-import { t } from "../../services";
-import { Settings } from "@dasf-toolset/shared";
-
+import { t } from "../../services/translations";
 export const settingsModel = () =>
   [
     { id: "general-settings", type: "section", label: t("general_settings") },
@@ -179,4 +177,4 @@ export const settingsModel = () =>
       label: t("ass_perf_scale"),
       rowHeader: t("ass_task_scale"),
     },
-  ] as Settings & UIForm<ICapabilityDataModel>;
+  ] as UIForm<ICapabilityDataModel>;

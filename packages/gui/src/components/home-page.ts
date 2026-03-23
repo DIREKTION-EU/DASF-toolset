@@ -1,272 +1,134 @@
 import m from "mithril";
-import lz from "lz-string";
-import { Button, Icon, ModalPanel, toast } from "mithril-materialized";
-import background from "../assets/background.jpg";
-import tno from "../assets/tno.svg";
-import { routingSvc, MeiosisComponent, i18n, t, actions } from "../services";
-import { type CapabilityModel, defaultCapabilityModel, Pages } from "../models";
-import { DutchFlag, EnglishFlag, formatDate } from "../utils";
-import { Attribution } from "./about-page";
+import { Button, Icon } from "mithril-materialized";
+import { routingSvc, MeiosisComponent, actions, t } from "../services";
+import { type CapabilityModel, Pages } from "../models";
 
 export const HomePage: MeiosisComponent = () => {
-  const readerAvailable =
-    window.File && window.FileReader && window.FileList && window.Blob;
-
   return {
     oninit: ({ attrs }) => {
       actions.setPage(attrs, Pages.HOME);
-      const model = m.route.param("model");
-      if (!model) return;
-      try {
-        const decompressed = lz.decompressFromEncodedURIComponent(model);
-        if (!decompressed) return;
-        const catModel = JSON.parse(decompressed);
-        actions.saveModel(attrs, catModel);
-        actions.changePage(attrs, Pages.OVERVIEW);
-      } catch (err) {
-        console.error(err);
-      }
     },
     view: ({ attrs }) => {
-      const { catModel = {} as CapabilityModel } = attrs.state;
-      const { saveModel, setLanguage } = actions;
+      const { catModel = {} as CapabilityModel, currentSessionId } = attrs.state;
+      const { data = {} } = catModel;
+      const { enabledSteps = [1, 2, 3, 4], hazardTypes = [], selectedHazardIds = [], capabilities = [], solutions = [], roadmapItems = [] } = data;
 
-      return [
-        m("div", { style: "position: relative; " }, [
-          m(
-            ".center.black",
-            {
-              style: "width: 100%",
-            },
-            m(
-              "a",
-              { target: "_blank", href: "https://www.tno.nl" },
-              m("img.right", { style: "margin: 15px", alt: "TNO", src: tno }),
-            ),
-            m(
-              "h3.white-text.left",
-              { style: "margin: 10px" },
-              catModel.data?.title || "DIREKTION Assessment and Screening Tool",
-            ),
-          ),
-          m(
-            ".center.black",
-            m("img.responsive-img.center-align", {
-              alt: "Background of a cat sitting in a tree.",
-              src: background,
-              style: {
-                "max-height": "500px",
-              },
-            }),
-          ),
+      if (!currentSessionId) {
+        routingSvc.switchTo(Pages.LANDING);
+        return null;
+      }
 
-          m(".buttons.center", { style: "margin: 60px auto;" }, [
-            [
-              [
-                m(
-                  ".language-option",
-                  {
-                    onclick: () => setLanguage(attrs, "nl"),
-                  },
-                  [
-                    m("img", {
-                      src: DutchFlag,
-                      alt: "Nederlands",
-                      title: "Nederlands",
-                      disabled: i18n.currentLocale === "nl",
-                      class:
-                        i18n.currentLocale === "nl"
-                          ? "disabled-image"
-                          : "clickable",
-                    }),
-                    m("span", "Nederlands"),
-                  ],
-                ),
-                m(
-                  ".language-option",
-                  {
-                    onclick: () => setLanguage(attrs, "en"),
-                  },
-                  [
-                    m("img", {
-                      src: EnglishFlag,
-                      alt: "English",
-                      title: "English",
-                      disabled: i18n.currentLocale === "en",
-                      class:
-                        i18n.currentLocale === "en"
-                          ? "disabled-image"
-                          : "clickable",
-                    }),
-                    m("span", "English"),
-                  ],
-                ),
-              ],
-            ],
-            m(Button, {
-              iconName: "clear",
-              className: "btn-large",
-              label: t("clear"),
-              modalId: "clearAll",
-            }),
-            typeof catModel.version === "number" &&
-              m(Button, {
-                iconName: "edit",
-                className: "btn-large",
-                label: t("continue"),
-                onclick: () => {
-                  routingSvc.switchTo(Pages.OVERVIEW);
-                },
-              }),
-            m("a#downloadAnchorElem", { style: "display:none" }),
-            m(Button, {
-              iconName: "download",
-              className: "btn-large",
-              label: t("download"),
-              onclick: () => {
-                const dlAnchorElem =
-                  document.getElementById("downloadAnchorElem");
-                if (!dlAnchorElem) return;
-                const version =
-                  typeof catModel.version === "undefined"
-                    ? 1
-                    : ++catModel.version;
-                const dataStr =
-                  "data:text/json;charset=utf-8," +
-                  encodeURIComponent(
-                    JSON.stringify({ version, ...catModel }, null, 2),
-                  );
-                dlAnchorElem.setAttribute("href", dataStr);
-                dlAnchorElem.setAttribute(
-                  "download",
-                  `${formatDate()}_v${version}_capability_model.json`,
-                );
-                dlAnchorElem.click();
-              },
-            }),
-            m("input#selectFiles[type=file][accept=.json]", {
-              style: "display:none",
-            }),
-            readerAvailable &&
-              m(Button, {
-                iconName: "upload",
-                className: "btn-large",
-                label: t("upload"),
-                onclick: () => {
-                  const fileInput = document.getElementById(
-                    "selectFiles",
-                  ) as HTMLInputElement;
-                  fileInput.onchange = () => {
-                    if (!fileInput) return;
-                    const files = fileInput.files;
-                    if (files && files.length <= 0) {
-                      return;
-                    }
-                    const reader = new FileReader();
-                    reader.onload = (e: ProgressEvent<FileReader>) => {
-                      const result =
-                        e &&
-                        e.target &&
-                        e.target.result &&
-                        (JSON.parse(
-                          e.target.result.toString(),
-                        ) as CapabilityModel);
-                      result && result.version && saveModel(attrs, result);
-                    };
-                    const data = files && files.item(0);
-                    data && reader.readAsText(data);
-                    routingSvc.switchTo(Pages.OVERVIEW);
-                  };
-                  fileInput.click();
-                },
-              }),
-            m(Button, {
-              iconName: "link",
-              className: "btn-large",
-              label: t("permalink"),
-              onclick: () => {
-                const permLink = document.createElement(
-                  "input",
-                ) as HTMLInputElement;
-                document.body.appendChild(permLink);
-                if (!permLink) return;
-                const compressed = lz.compressToEncodedURIComponent(
-                  JSON.stringify(catModel),
-                );
-                const url = `${window.location.href}${
-                  /\?/.test(window.location.href) ? "&" : "?"
-                }model=${compressed}`;
-                permLink.value = url;
-                permLink.select();
-                permLink.setSelectionRange(0, 999999); // For mobile devices
-                try {
-                  const successful = document.execCommand("copy");
-                  if (successful)
-                    toast({
-                      html: "Copied permanent link to clipboard.",
-                      classes: "yellow black-text",
-                    });
-                } catch (err) {
-                  toast({
-                    html: "Failed copying link to clipboard: " + err,
-                    classes: "red",
-                  });
-                } finally {
-                  document.body.removeChild(permLink);
-                }
-              },
-            }),
+      const selectedHazards = hazardTypes.filter(h => selectedHazardIds.includes(h.id) || h.selected);
+      const assessedCapabilities = capabilities.filter(c => c.assessmentId);
+      const capsWithGaps = capabilities.filter(c => c.gaps && c.gaps.length > 0);
+
+      const steps = [
+        {
+          step: 1,
+          title: t('step1_title'),
+          icon: 'warning',
+          page: Pages.HAZARDS,
+          summary: `${selectedHazards.length} ${t('selected_hazards').toLowerCase()}`,
+          color: selectedHazards.length > 0 ? '#4caf50' : '#ff9800',
+        },
+        {
+          step: 2,
+          title: t('step2_title'),
+          icon: 'assessment',
+          page: Pages.OVERVIEW,
+          summary: `${assessedCapabilities.length}/${capabilities.length} ${t('caps').toLowerCase()}, ${capsWithGaps.length} ${t('gaps').toLowerCase()}`,
+          color: assessedCapabilities.length > 0 ? '#4caf50' : '#ff9800',
+        },
+        {
+          step: 3,
+          title: t('step3_title'),
+          icon: 'lightbulb',
+          page: Pages.SOLUTIONS,
+          summary: `${solutions.length} ${t('solutions').toLowerCase()}`,
+          color: solutions.length > 0 ? '#4caf50' : '#ff9800',
+        },
+        {
+          step: 4,
+          title: t('step4_title'),
+          icon: 'timeline',
+          page: Pages.ROADMAP,
+          summary: `${roadmapItems.length} ${t('roadmap').toLowerCase()}`,
+          color: roadmapItems.length > 0 ? '#4caf50' : '#ff9800',
+        },
+      ].filter(s => enabledSteps.includes(s.step));
+
+      return m('.dashboard.page', [
+        m('.row', [
+          m('.col.s12', [
+            m('h4', data.title || 'DASF Assessment'),
+            m('p.grey-text', t('dashboard_subtitle')),
           ]),
-          m(
-            ".section",
-            m(".row.container.center", [
-              m(".row", [
-                m(
-                  ".col.s12.m4",
-                  m(".icon-block", [
-                    m(".center", m(Icon, { iconName: "dashboard" })),
-                    m("h5.center", t("prepare")),
-                    m("p.light", t("prepare_content")),
-                  ]),
-                ),
-                m(
-                  ".col.s12.m4",
-                  m(".icon-block", [
-                    m(".center", m(Icon, { iconName: "flash_on" })),
-                    m("h5.center", t("assess")),
-                    m("p.light", t("assess_content")),
-                  ]),
-                ),
-                m(
-                  ".col.s12.m4",
-                  m(".icon-block", [
-                    m(".center", m(Icon, { iconName: "group" })),
-                    m("h5.center", t("develop")),
-                    m("p.light", t("develop_content")),
-                  ]),
-                ),
+        ]),
+
+        // Step cards — use flex row so all cards match height
+        m('.row.dasf-step-cards', steps.map(s =>
+          m('.col.s12.m6.l3', { key: s.step },
+            m('.card.hoverable.dasf-step-card', {
+              style: `border-top: 4px solid ${s.color}; cursor: pointer; height: 100%;`,
+              onclick: () => routingSvc.switchTo(s.page),
+            }, [
+              m('.card-content', [
+                m('span.card-title', [
+                  m('.dasf-step-number', `${s.step}`),
+                  m(Icon, { iconName: s.icon, style: 'margin-left: 8px; vertical-align: middle;' }),
+                ]),
+                m('h6', s.title),
+                m('p.grey-text', s.summary),
+              ]),
+              m('.card-action', [
+                m('a', {
+                  href: '#',
+                  onclick: (e: Event) => { e.preventDefault(); routingSvc.switchTo(s.page); },
+                }, t('continue')),
               ]),
             ]),
           ),
-          m(Attribution, { ...attrs }),
-          m(ModalPanel, {
-            id: "clearAll",
-            title: t("del_model"),
-            description: t("del_model_desc"),
-            buttons: [
-              {
-                label: t("yes"),
-                iconName: "delete",
-                onclick: () => {
-                  actions.saveModel(attrs, defaultCapabilityModel());
-                  routingSvc.switchTo(Pages.PREPARATION);
-                },
-              },
-              { label: t("no"), iconName: "cancel" },
-            ],
-          }),
+        )),
+
+        // Summary section
+        (selectedHazards.length > 0 || capsWithGaps.length > 0 || solutions.length > 0) &&
+        m('.row', { style: 'margin-top: 20px;' }, [
+          m('.col.s12', m('h5', t('summary'))),
+          selectedHazards.length > 0 && m('.col.s12.m4', [
+            m('h6', t('selected_hazards')),
+            m('ul.collection', selectedHazards.slice(0, 5).map(h =>
+              m('li.collection-item', h.label)
+            )),
+            selectedHazards.length > 5 && m('p.grey-text', `...${selectedHazards.length - 5} ${t('more').toLowerCase()}`),
+          ]),
+          capsWithGaps.length > 0 && m('.col.s12.m4', [
+            m('h6', t('capability_gaps')),
+            m('ul.collection', capsWithGaps.slice(0, 5).map(c =>
+              m('li.collection-item', c.label)
+            )),
+            capsWithGaps.length > 5 && m('p.grey-text', `...${capsWithGaps.length - 5} ${t('more').toLowerCase()}`),
+          ]),
+          solutions.length > 0 && m('.col.s12.m4', [
+            m('h6', t('solutions')),
+            m('ul.collection', solutions.slice(0, 5).map(s =>
+              m('li.collection-item', s.label)
+            )),
+            solutions.length > 5 && m('p.grey-text', `...${solutions.length - 5} ${t('more').toLowerCase()}`),
+          ]),
         ]),
-      ];
+
+        // Back to sessions
+        m('.row', { style: 'margin-top: 30px;' }, [
+          m('.col.s12', [
+            m(Button, {
+              iconName: 'arrow_back',
+              label: t('back_to_sessions'),
+              className: 'btn-flat',
+              onclick: () => routingSvc.switchTo(Pages.LANDING),
+            }),
+          ]),
+        ]),
+      ]);
     },
   };
 };

@@ -1,5 +1,5 @@
 import m from 'mithril';
-import { type MeiosisComponent, t } from '../services';
+import { type MeiosisComponent } from '../services';
 
 export const NotFoundPage: MeiosisComponent = () => {
   return {

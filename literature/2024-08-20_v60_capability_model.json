@@ -1,0 +1,3939 @@
+{
+  "version": 60,
+  "data": {
+    "stakeholderTypes": [
+      {
+        "id": "TO-01",
+        "label": "Fire brigade / Civil protection"
+      },
+      {
+        "id": "TO-02",
+        "label": "Police"
+      },
+      {
+        "id": "TO-03",
+        "label": "Emergency health care"
+      },
+      {
+        "id": "TO-04",
+        "label": "Defence"
+      },
+      {
+        "id": "TO-05",
+        "label": "Command centre"
+      },
+      {
+        "id": "TO-06",
+        "label": "Authorities"
+      },
+      {
+        "id": "TO-07",
+        "label": "Critical infrastructure"
+      },
+      {
+        "id": "TO-08",
+        "label": "NGO"
+      },
+      {
+        "id": "TO-09",
+        "label": "Other"
+      }
+    ],
+    "stakeholders": [
+      {
+        "label": "Fire brigade/Civil protection",
+        "id": "SH-01"
+      },
+      {
+        "id": "SH-02",
+        "label": "Police"
+      },
+      {
+        "id": "SH-03",
+        "label": "Emergency health care"
+      },
+      {
+        "id": "SH-04",
+        "label": "SAR"
+      },
+      {
+        "id": "SH-05",
+        "label": "Command or Dispatch centre (112)"
+      },
+      {
+        "id": "SH-06",
+        "label": "Authorities (ministries, municipalities)"
+      },
+      {
+        "id": "SH-07",
+        "label": "Defence"
+      },
+      {
+        "id": "SH-08",
+        "label": "Public services"
+      },
+      {
+        "id": "SH-09",
+        "label": "Coast guard or Border security"
+      },
+      {
+        "id": "SH-10",
+        "label": "Critical infrastructure operator"
+      },
+      {
+        "id": "SH-11",
+        "label": "NGO"
+      },
+      {
+        "id": "SH-12",
+        "label": "Other (to be described)"
+      }
+    ],
+    "categories": [
+      {
+        "id": "Cat-01",
+        "label": "Mitigation / Prevention",
+        "subcategories": [
+          {
+            "id": "Mit-01",
+            "label": "Risk assessment",
+            "desc": "Identification, analysis and evaluation of risks."
+          },
+          {
+            "id": "Mit-02",
+            "label": "Exposure reduction",
+            "desc": "Protection of properties, natural resources and society in general from hazards."
+          },
+          {
+            "id": "Mit-03",
+            "label": "Mitigation support",
+            "desc": "Capabilities in support of Mitigation / Prevention"
+          }
+        ],
+        "desc": "Objective: To take measures to limit the probability and to reduce the impact of an incident, disaster or crises. It concerns capabilities that contribute to the reduction of the vulnerability of the society."
+      },
+      {
+        "id": "Cat-02",
+        "label": "Preparedness",
+        "subcategories": [
+          {
+            "id": "Prep-01",
+            "label": "Capacity development",
+            "desc": "Process of developing and maintaining required crisis management capacities, including improvement of knowledge, skills, systems, and institutions (UNISDR, 2009)."
+          },
+          {
+            "id": "Prep-02",
+            "label": "Monitoring",
+            "desc": "Determine the status of an environment or situation to enable detection of incidents and alert organisations that are involved in reacting in case of deviant or suspicious situations."
+          },
+          {
+            "id": "Prep-03",
+            "label": "Preparedness support",
+            "desc": "Capabilities in support of capacity development."
+          }
+        ],
+        "desc": "Objective: To develop and maintain the organisation structure and the capabilities to carry out response and recovery activities in case of an incident, disaster or crisis. Adequate preparedness will improve response and (short-term) recovery capabilities."
+      },
+      {
+        "id": "Cat-03",
+        "label": "Response",
+        "subcategories": [
+          {
+            "id": "Rsp-01",
+            "label": "Suppress incident",
+            "desc": "On-site activities to stop or to contain the cause of the disaster; depending on the disaster it might be Firefighting, Flood control, Stop spill of hazardous materials, and Containment of hazardous materials."
+          },
+          {
+            "id": "Rsp-02",
+            "label": "Rescue operations",
+            "desc": "On-site activities to save lives; it concerns: Search and Rescue (SAR), Triage of victims, Decontamination of persons, Stabilisation (first treatment), and Ambulance transport to safe areas or (field-) hospitals."
+          },
+          {
+            "id": "Rsp-03",
+            "label": "Security/Law enforcement",
+            "desc": "Securing areas/persons, Identification of persons, Forensics, Maintain public order, and Traffic management (both in-going and out-going the affected area)."
+          },
+          {
+            "id": "Rsp-04",
+            "label": "Emergency Health Care",
+            "desc": "Off-site activities to save lives."
+          },
+          {
+            "id": "Rsp-05",
+            "label": "Communicate to society",
+            "desc": "Warning and Crisis communication"
+          },
+          {
+            "id": "Rsp-06",
+            "label": "Safeguard population/animals",
+            "desc": "Controlled evacuation of persons and/or animals."
+          },
+          {
+            "id": "Rsp-07",
+            "label": "Disaster area clearance",
+            "desc": "Arrange accessibility to and safety in the affected area"
+          },
+          {
+            "id": "Rsp-08",
+            "desc": "This concerns the supply and/or restoration of basic products and services, or alternatives, which are of vital importance to survive",
+            "label": "Basic needs supply"
+          },
+          {
+            "id": "Rsp-09",
+            "label": "Response support",
+            "desc": "Capabilities to enable one or more other response capabilities."
+          }
+        ],
+        "desc": "Objective: To save lives and to limit adverse effects. Conform ISO 22300 is concerns \"Actions taken in order to stop the causes for the imminent hazard and to mitigate the consequences of potentially destabilizing or disruptive events and to recover to a normal situation.”"
+      },
+      {
+        "subcategories": [
+          {
+            "id": "Rec-01",
+            "label": "Humanitarian recovery",
+            "desc": "Provision of public health and safety services and Provision of food and shelter for those displaced."
+          },
+          {
+            "id": "Rec-02",
+            "label": "Environmental recovery",
+            "desc": "Clearance of pollution and decontamination in the environment."
+          },
+          {
+            "id": "Rec-03",
+            "label": "Economic recovery",
+            "desc": "Economic and business recovery and Recovery from financial impact on authorities."
+          },
+          {
+            "id": "Rec-04",
+            "label": "Re-establishment of infrastructure",
+            "desc": "Re-establishment of transport routes and Restoration of interrupted utilities and other essential services."
+          },
+          {
+            "id": "Rec-05",
+            "label": "Recovery support",
+            "desc": "Capabilities that are required to recover in a well-coordinated way."
+          }
+        ],
+        "id": "Cat-04",
+        "label": "Recovery",
+        "desc": "Objective: To reconstruct and restore normal life in an efficient way. Recovery concerns both short-term and long-term restoration of facilities, livelihoods and living conditions."
+      }
+    ],
+    "capabilities": [
+      {
+        "id": "Mit-RA-01",
+        "categoryId": "Cat-01",
+        "subcategoryId": "Mit-01",
+        "label": "Risk identification",
+        "capabilityStakeholders": [
+          "SH-01",
+          "SH-05",
+          "SH-06"
+        ],
+        "documentation": [
+          {},
+          {}
+        ],
+        "taskAssessment": {
+          "assessmentId": "Imp-5",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "desc": "Test",
+              "placeholder": "Prevent disasters / crisis situations.",
+              "value": "Imp-5"
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise losses from hazards",
+              "desc": "",
+              "placeholder": "Reduce / avoid losses from hazards.",
+              "value": "Imp-2"
+            },
+            {
+              "id": "Goal-03",
+              "label": "Help victims",
+              "placeholder": "Assure prompt effective assistance to victims"
+            },
+            {
+              "id": "Goal-04",
+              "label": "Adequate recovery",
+              "placeholder": "Achieve rapid and effective recovery"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "PSc-2",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "desc": "",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance",
+              "value": "PSc-2"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "desc": "",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "desc": "",
+              "placeholder": "Relation between costs and results "
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "Kn-02",
+          "items": [
+            {
+              "id": "Nat-01",
+              "label": "Technological",
+              "desc": "",
+              "value": "Kn-01"
+            },
+            {
+              "id": "Nat-02",
+              "label": "Human",
+              "desc": "",
+              "value": "Kn-02"
+            },
+            {
+              "id": "Nat-03",
+              "label": "Organizational",
+              "desc": "",
+              "value": "Kn-01"
+            },
+            {
+              "id": "Nat-04",
+              "label": "Regulatory",
+              "desc": "",
+              "value": "Kn-01"
+            }
+          ]
+        },
+        "desc": "Process of finding, recognising and describing risk.",
+        "assessmentId": "ASc-05",
+        "shouldDevelop": true,
+        "order": "",
+        "hide": false,
+        "gaps": [
+          {
+            "gapAssessment": {
+              "assessmentId": "Kn-03",
+              "items": [
+                {
+                  "id": "Nat-01",
+                  "label": "Technological",
+                  "desc": "There are no supporting ICT-tools to support risk identification",
+                  "placeholder": "E.g., Sensing Technologies, Command and control, communications and coordination, Surveillance, General public protection, Simulations, Physical protection, Crisis logistics, Technical Interoperability, ICT",
+                  "value": "Kn-03"
+                },
+                {
+                  "id": "Nat-02",
+                  "label": "Human",
+                  "placeholder": "E.g., Amount of personnel, Competence of personnel, Training and education, Health and Safety aspects",
+                  "value": "Kn-02"
+                },
+                {
+                  "id": "Nat-03",
+                  "label": "Organizational",
+                  "desc": "Most organisations lack interest to perform risk identification on a regular basis. It is too much an ad hoc activity.",
+                  "placeholder": "E.g., Procedures, Organizational structure, Financial Aspects, Agreements",
+                  "value": "Kn-03"
+                },
+                {
+                  "id": "Nat-04",
+                  "label": "Regulatory",
+                  "placeholder": "E.g., Legal Aspects, Formal Standardization aspects",
+                  "value": "Kn-02"
+                }
+              ]
+            },
+            "documentation": [
+              {}
+            ],
+            "title": "jljll"
+          }
+        ]
+      },
+      {
+        "id": "Mit-RA-02",
+        "categoryId": "Cat-01",
+        "subcategoryId": "Mit-01",
+        "label": "Risk analysis",
+        "capabilityStakeholders": [
+          "SH-01",
+          "SH-02"
+        ],
+        "documentation": [],
+        "desc": "Process to comprehend the nature of risk and to determine the level of risk.",
+        "taskAssessment": {
+          "assessmentId": "Imp-5",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "placeholder": "Prevent disasters / crisis situations.",
+              "value": "Imp-5"
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise losses from hazards",
+              "placeholder": "Reduce / avoid losses from hazards.",
+              "value": "Imp-2"
+            },
+            {
+              "id": "Goal-03",
+              "label": "Help victims",
+              "placeholder": "Assure prompt effective assistance to victims"
+            },
+            {
+              "id": "Goal-04",
+              "label": "Adequate recovery",
+              "placeholder": "Achieve rapid and effective recovery"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "PSc-3",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance",
+              "value": "PSc-2"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel",
+              "value": "PSc-3"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results ",
+              "value": "PSc-3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            },
+            {
+              "id": "Nat-01"
+            },
+            {
+              "id": "Nat-02"
+            },
+            {
+              "id": "Nat-03"
+            },
+            {
+              "id": "Nat-04"
+            },
+            {
+              "id": "Nat-05"
+            },
+            {
+              "id": "Nat-06"
+            },
+            {
+              "id": "Nat-07"
+            }
+          ]
+        },
+        "order": "",
+        "gaps": [
+          {
+            "gapAssessment": {
+              "assessmentId": "Kn-03",
+              "items": [
+                {
+                  "id": "Nat-01",
+                  "label": "Technological",
+                  "desc": "nkljl l lj 'l 'lj 'lj'l jlkj ;kljlk jl j;lj",
+                  "placeholder": "E.g., Sensing Technologies, Command and control, communications and coordination, Surveillance, General public protection, Simulations, Physical protection, Crisis logistics, Technical Interoperability, ICT",
+                  "value": "Kn-03"
+                },
+                {
+                  "id": "Nat-02",
+                  "label": "Human",
+                  "placeholder": "E.g., Amount of personnel, Competence of personnel, Training and education, Health and Safety aspects",
+                  "value": "Kn-02"
+                },
+                {
+                  "id": "Nat-03",
+                  "label": "Organizational",
+                  "placeholder": "E.g., Procedures, Organizational structure, Financial Aspects, Agreements",
+                  "value": "Kn-02"
+                },
+                {
+                  "id": "Nat-04",
+                  "label": "Regulatory",
+                  "desc": "jklj ljl ;jl j;kl ;jhk; klj ;lj ;j ;lkjl jl ;k ;",
+                  "placeholder": "E.g., Legal Aspects, Formal Standardization aspects",
+                  "value": "Kn-03"
+                }
+              ]
+            },
+            "documentation": [],
+            "title": "Gap 1 of risk analysis"
+          },
+          {
+            "gapAssessment": {
+              "assessmentId": "Kn-03",
+              "items": [
+                {
+                  "id": "Nat-01",
+                  "label": "Technological",
+                  "placeholder": "E.g. Sensing Technologies, Command and control, communications and coordination, Surveillance, General public protection, Simulations, Physical protection, Crisis logistics, Technical Interoperability, ICT",
+                  "value": "Kn-03"
+                },
+                {
+                  "id": "Nat-02",
+                  "label": "Human",
+                  "desc": "nkn,mnn",
+                  "placeholder": "E.g. Amount of personnel, Competence of personnel, Training and education, Health and Safety aspects",
+                  "value": "Kn-01"
+                },
+                {
+                  "id": "Nat-03",
+                  "label": "Organizational",
+                  "placeholder": "E.g. Procedures, Organizational structure, Financial Aspects, Agreements"
+                },
+                {
+                  "id": "Nat-04",
+                  "label": "Regulatory",
+                  "placeholder": "E.g. Legal Aspects, Formal Standardization aspects"
+                }
+              ]
+            },
+            "documentation": [],
+            "title": "Gap 2 bij risk analysis"
+          }
+        ],
+        "assessmentId": "ASc-04",
+        "shouldDevelop": true
+      },
+      {
+        "id": "Mit-RA-03",
+        "categoryId": "Cat-01",
+        "subcategoryId": "Mit-01",
+        "label": "Risk evaluation",
+        "capabilityStakeholders": [
+          "SH-01",
+          "SH-08",
+          "SH-02"
+        ],
+        "documentation": [],
+        "desc": "Process of comparing the results of risk analysis with risk criteria to determine whether the risk and/or its magnitude is acceptable or tolerable.",
+        "taskAssessment": {
+          "assessmentId": "Imp-2",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "placeholder": "Prevent disasters / crisis situations.",
+              "value": "Imp-1"
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise losses from hazards",
+              "placeholder": "Reduce / avoid losses from hazards.",
+              "value": "Imp-2"
+            },
+            {
+              "id": "Goal-03",
+              "label": "Help victims",
+              "placeholder": "Assure prompt effective assistance to victims"
+            },
+            {
+              "id": "Goal-04",
+              "label": "Adequate recovery",
+              "placeholder": "Achieve rapid and effective recovery"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "PSc-2",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance",
+              "value": "PSc-2"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results "
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            },
+            {
+              "id": "Nat-01"
+            },
+            {
+              "id": "Nat-02"
+            },
+            {
+              "id": "Nat-03"
+            },
+            {
+              "id": "Nat-04"
+            },
+            {
+              "id": "Nat-05"
+            },
+            {
+              "id": "Nat-06"
+            },
+            {
+              "id": "Nat-07"
+            }
+          ]
+        },
+        "gaps": [
+          {
+            "gapAssessment": {
+              "assessmentId": "",
+              "items": [
+                {
+                  "id": "Nat-01",
+                  "label": "Technological",
+                  "placeholder": "E.g., Sensing Technologies, Command and control, communications and coordination, Surveillance, General public protection, Simulations, Physical protection, Crisis logistics, Technical Interoperability, ICT"
+                },
+                {
+                  "id": "Nat-02",
+                  "label": "Human",
+                  "placeholder": "E.g., Amount of personnel, Competence of personnel, Training and education, Health and Safety aspects"
+                },
+                {
+                  "id": "Nat-03",
+                  "label": "Organizational",
+                  "placeholder": "E.g., Procedures, Organizational structure, Financial Aspects, Agreements"
+                },
+                {
+                  "id": "Nat-04",
+                  "label": "Regulatory",
+                  "placeholder": "E.g., Legal Aspects, Formal Standardization aspects"
+                }
+              ]
+            },
+            "documentation": [],
+            "title": "hkjfhskfhk"
+          }
+        ],
+        "assessmentId": "ASc-02"
+      },
+      {
+        "id": "Mit-ER-01",
+        "categoryId": "Cat-01",
+        "subcategoryId": "Mit-02",
+        "label": "Property protection",
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "desc": "Property protection (incl. critical infrastructures). It concerns actions that involve the modification of existing buildings or structures to protect them from a hazard, or removal from a potential hazard area (FEMA, 2005).",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "placeholder": "Prevent disasters / crisis situations."
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise losses from hazards",
+              "placeholder": "Reduce / avoid losses from hazards."
+            },
+            {
+              "id": "Goal-03",
+              "label": "Help victims",
+              "placeholder": "Assure prompt effective assistance to victims"
+            },
+            {
+              "id": "Goal-04",
+              "label": "Adequate recovery",
+              "placeholder": "Achieve rapid and effective recovery"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results "
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            },
+            {
+              "id": "Nat-01"
+            },
+            {
+              "id": "Nat-02"
+            },
+            {
+              "id": "Nat-03"
+            },
+            {
+              "id": "Nat-04"
+            },
+            {
+              "id": "Nat-05"
+            },
+            {
+              "id": "Nat-06"
+            },
+            {
+              "id": "Nat-07"
+            }
+          ]
+        },
+        "gaps": []
+      },
+      {
+        "id": "Mit-ER-02",
+        "categoryId": "Cat-01",
+        "subcategoryId": "Mit-02",
+        "label": "Natural resource protection",
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "desc": "Natural resource protection. It concerns actions that, in addition to minimizing hazard losses, also preserve or restore the functions of natural systems (FEMA, 2005)",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            },
+            {
+              "id": "PA-1"
+            },
+            {
+              "id": "PA-2"
+            },
+            {
+              "id": "PA-3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            },
+            {
+              "id": "Nat-01"
+            },
+            {
+              "id": "Nat-02"
+            },
+            {
+              "id": "Nat-03"
+            },
+            {
+              "id": "Nat-04"
+            },
+            {
+              "id": "Nat-05"
+            },
+            {
+              "id": "Nat-06"
+            },
+            {
+              "id": "Nat-07"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [
+          "SH-06",
+          "SH-01"
+        ],
+        "documentation": [],
+        "categoryId": "Cat-01",
+        "subcategoryId": "Mit-02",
+        "label": "Awareness raising",
+        "id": "Mit-ER-03",
+        "taskAssessment": {
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "desc": "",
+              "placeholder": "Prevent disasters / crisis situations.",
+              "value": "Imp-2"
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise losses from hazards",
+              "desc": "",
+              "placeholder": "Reduce / avoid losses from hazards."
+            },
+            {
+              "id": "Goal-03",
+              "label": "Help victims",
+              "placeholder": "Assure prompt effective assistance to victims"
+            },
+            {
+              "id": "Goal-04",
+              "label": "Adequate recovery",
+              "placeholder": "Achieve rapid and effective recovery"
+            }
+          ],
+          "assessmentId": "Imp-2"
+        },
+        "performanceAssessment": {
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance",
+              "value": "PSc-5"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel",
+              "value": "__exclude__id__"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results "
+            }
+          ],
+          "assessmentId": "PSc-5"
+        },
+        "gapAssessment": {
+          "assessmentId": "ASc3",
+          "items": [
+            {
+              "id": "Nat-01",
+              "label": "Organisational / Procedural",
+              "desc": "Bijv. organisatorische tekortkomingen bij betrokken instanties, gebrekkige of ontbrekende procedures, e.d."
+            },
+            {
+              "id": "Nat-02",
+              "label": "Personnel",
+              "desc": "Bijv. onvoldoende personeel met de benodigde competenties"
+            },
+            {
+              "id": "Nat-03",
+              "label": "Materiel",
+              "desc": "Bijv. tekortkomingen van gebruikte middelen, materialen of voertuigen"
+            },
+            {
+              "id": "Nat-04",
+              "label": "ICT technical",
+              "desc": "Bijv. verouderde of niet op elkaar aansluitende ICT-systemen, of ontbreken van benodigde software dan wel hardware"
+            },
+            {
+              "id": "Nat-05",
+              "label": "Ethical / Legal",
+              "desc": "Bijv. ontbrekende wettelijke kaders om taken adequaat uit te kunnen/te mogen voeren"
+            },
+            {
+              "id": "Nat-06",
+              "label": "Financial",
+              "desc": "Bijv. gebrek aan voldoende budget bij betrokken stakeholders"
+            },
+            {
+              "id": "Nat-07",
+              "label": "Other"
+            }
+          ]
+        },
+        "assessmentId": "ASc-01",
+        "shouldDevelop": false,
+        "desc": "Public education and awareness raising concerns actions to inform and educate citizens, elected officials, and property owners about the hazards and potential ways to mitigate them (FEMA, 2005).",
+        "gaps": []
+      },
+      {
+        "capabilityStakeholders": [
+          "SH-06",
+          "SH-12"
+        ],
+        "documentation": [],
+        "categoryId": "Cat-01",
+        "subcategoryId": "Mit-03",
+        "label": "Trend analysis",
+        "id": "Mit-MS-01",
+        "desc": "Investigation of the evolution of risks.",
+        "taskAssessment": {
+          "assessmentId": "Imp-3",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "desc": "",
+              "placeholder": "Prevent disasters / crisis situations.",
+              "value": "Imp-3"
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise losses from hazards",
+              "desc": "",
+              "placeholder": "Reduce / avoid losses from hazards.",
+              "value": "Imp-2"
+            },
+            {
+              "id": "Goal-03",
+              "label": "Help victims",
+              "placeholder": "Assure prompt effective assistance to victims",
+              "value": "Imp-2"
+            },
+            {
+              "id": "Goal-04",
+              "label": "Adequate recovery",
+              "placeholder": "Achieve rapid and effective recovery",
+              "value": "Imp-1"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "PSc-3",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance",
+              "value": "PSc-3"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results ",
+              "value": "__exclude__id__"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "ASc3",
+          "items": [
+            {
+              "id": "Nat-01",
+              "label": "Organisational / Procedural"
+            },
+            {
+              "id": "Nat-02",
+              "label": "Personnel"
+            },
+            {
+              "id": "Nat-03",
+              "label": "Materiel"
+            },
+            {
+              "id": "Nat-04",
+              "label": "ICT technical"
+            },
+            {
+              "id": "Nat-05",
+              "label": "Ethical / Legal"
+            },
+            {
+              "id": "Nat-06",
+              "label": "Financial"
+            },
+            {
+              "id": "Nat-07",
+              "label": "Other"
+            }
+          ]
+        },
+        "assessmentId": "ASc-02",
+        "shouldDevelop": false,
+        "gaps": []
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-01",
+        "subcategoryId": "Mit-03",
+        "label": "Monitoring and review",
+        "id": "Mit-MS-02",
+        "taskAssessment": {
+          "assessmentId": "TSc3",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "placeholder": "Voorkomen van aanslagen met explosieven door het treffen van proactieve en preventieve maatregelen. "
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise impact of incidents",
+              "placeholder": "Treffen van maatregelen die de gevolgen van eventuele aanslagen met explosieve middelen tot een minimum beperken."
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "PSc3",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results "
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "ASc3",
+          "items": [
+            {
+              "id": "MG1"
+            },
+            {
+              "id": "MG2"
+            },
+            {
+              "id": "MG3"
+            },
+            {
+              "id": "MG4"
+            },
+            {
+              "id": "MG5"
+            },
+            {
+              "id": "MG6"
+            },
+            {
+              "id": "MG7"
+            },
+            {
+              "id": "Aard1",
+              "value": "ASc1"
+            },
+            {
+              "id": "Aard2",
+              "value": "ASc3"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6",
+              "value": "ASc2"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        },
+        "desc": "Ensuring controls are effective and efficient, obtaining further information to improve risks assessment, analysing lessons identified, detect changes in internal and external context, identify emerging risks.",
+        "assessmentId": "AS3",
+        "shouldDevelop": false,
+        "gaps": []
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-02",
+        "subcategoryId": "Prep-01",
+        "label": "Response and recovery planning",
+        "id": "Prep-CD-01",
+        "desc": "Develop, compile and maintain procedures and information in readiness for use in an incident (response and recovery) (ISO 28002).",
+        "taskAssessment": {
+          "assessmentId": "Imp-1",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "desc": "",
+              "placeholder": "Voorkomen van aanslagen met explosieven door het treffen van proactieve en preventieve maatregelen. "
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise impact of incidents",
+              "desc": "Taking measures that minimize the consequences of any attacks involving explosive means.",
+              "placeholder": "Treffen van maatregelen die de gevolgen van eventuele aanslagen met explosieve middelen tot een minimum beperken."
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results "
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Nat-01",
+              "label": "Technological"
+            },
+            {
+              "id": "Nat-02",
+              "label": "Human"
+            },
+            {
+              "id": "Nat-03",
+              "label": "Organizational"
+            },
+            {
+              "id": "Nat-04",
+              "label": "Regulatory"
+            }
+          ]
+        },
+        "gaps": []
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-02",
+        "subcategoryId": "Prep-01",
+        "label": "Training",
+        "id": "Prep-CD-02",
+        "taskAssessment": {
+          "assessmentId": "TSc4",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "placeholder": "Voorkomen van aanslagen met explosieven door het treffen van proactieve en preventieve maatregelen. "
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise impact of incidents",
+              "placeholder": "Treffen van maatregelen die de gevolgen van eventuele aanslagen met explosieve middelen tot een minimum beperken."
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "PSc5",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results "
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "MG1"
+            },
+            {
+              "id": "MG2"
+            },
+            {
+              "id": "MG3"
+            },
+            {
+              "id": "MG4"
+            },
+            {
+              "id": "MG5"
+            },
+            {
+              "id": "MG6"
+            },
+            {
+              "id": "MG7"
+            },
+            {
+              "id": "AA1"
+            },
+            {
+              "id": "AA2"
+            },
+            {
+              "id": "AA3"
+            },
+            {
+              "id": "AA4"
+            },
+            {
+              "id": "AA5"
+            },
+            {
+              "id": "AA6"
+            },
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        },
+        "desc": "Activities designed to facilitate the learning and development of knowledge, skills, and abilities, and to improve the performance of specific tasks or roles (in disaster response and/or recovery) (ISO 22300).",
+        "assessmentId": "AS2",
+        "shouldDevelop": false,
+        "gaps": []
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-02",
+        "subcategoryId": "Prep-01",
+        "label": "Risk communication",
+        "id": "Prep-CD-03",
+        "taskAssessment": {
+          "assessmentId": "TSc3",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "placeholder": "Prevent disasters / crisis situations."
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise losses from hazards",
+              "placeholder": "Reduce / avoid losses from hazards."
+            },
+            {
+              "id": "Goal-03",
+              "label": "Help victims",
+              "placeholder": "Assure prompt effective assistance to victims"
+            },
+            {
+              "id": "Goal-04",
+              "label": "Adequate recovery",
+              "placeholder": "Achieve rapid and effective recovery"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "PSc5",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results "
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "MG1"
+            },
+            {
+              "id": "MG2"
+            },
+            {
+              "id": "MG3"
+            },
+            {
+              "id": "MG4"
+            },
+            {
+              "id": "MG5"
+            },
+            {
+              "id": "MG6"
+            },
+            {
+              "id": "MG7"
+            },
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        },
+        "desc": "Communicating, consulting and/or instructing the pubic how to be well-prepared for a crisis/disasters and how to behave when a crisis/disaster event occurs.",
+        "shouldDevelop": false,
+        "assessmentId": "AS1",
+        "gaps": []
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-02",
+        "subcategoryId": "Prep-02",
+        "label": "Detection",
+        "id": "Prep-MO-01",
+        "desc": "Detection of circumstances deviating from normal.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            },
+            {
+              "id": "PA-1"
+            },
+            {
+              "id": "PA-2"
+            },
+            {
+              "id": "PA-3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            },
+            {
+              "id": "Nat-01"
+            },
+            {
+              "id": "Nat-02"
+            },
+            {
+              "id": "Nat-03"
+            },
+            {
+              "id": "Nat-04"
+            },
+            {
+              "id": "Nat-05"
+            },
+            {
+              "id": "Nat-06"
+            },
+            {
+              "id": "Nat-07"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-02",
+        "subcategoryId": "Prep-03",
+        "label": "Personnel management",
+        "id": "Prep-PS-01",
+        "desc": "Activities to provide enough and skilled personnel that is required to carry out certain response and recovery tasks: Establish workforce and Education of knowledge and skills to perform certain response or recovery tasks.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            },
+            {
+              "id": "PA-1"
+            },
+            {
+              "id": "PA-2"
+            },
+            {
+              "id": "PA-3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            },
+            {
+              "id": "Nat-01"
+            },
+            {
+              "id": "Nat-02"
+            },
+            {
+              "id": "Nat-03"
+            },
+            {
+              "id": "Nat-04"
+            },
+            {
+              "id": "Nat-05"
+            },
+            {
+              "id": "Nat-06"
+            },
+            {
+              "id": "Nat-07"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-02",
+        "subcategoryId": "Prep-03",
+        "label": "Asset management",
+        "id": "Prep-PS-02",
+        "desc": "Activities to provide equipment, tools, ICT and other assets that are required to enable to respond to and recover from disasters: Procurement of infrastructure, equipment, (ICT) tools and supplies that are needed to respond/recover, Maintenance of the infrastructure, equipment and (ICT) tools, and Warehousing of relief goods.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-02",
+        "subcategoryId": "Prep-03",
+        "label": "Cooperation establishment",
+        "id": "Prep-PS-03",
+        "desc": "(International) Cooperation Establishment between emergency services and with third parties. Process of working or acting together for common interests and values based on agreement. Note: The organisations agree by contract or by other arrangements to contribute with their resources to the incident (disaster) response but keep independence concerning their own hierarchical structure (ISO/PAS 22399).",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "placeholder": "Prevent disasters / crisis situations."
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise losses from hazards",
+              "placeholder": "Reduce / avoid losses from hazards."
+            },
+            {
+              "id": "Goal-03",
+              "label": "Help victims",
+              "placeholder": "Assure prompt effective assistance to victims"
+            },
+            {
+              "id": "Goal-04",
+              "label": "Adequate recovery",
+              "placeholder": "Achieve rapid and effective recovery"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results "
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            },
+            {
+              "id": "Nat-01"
+            },
+            {
+              "id": "Nat-02"
+            },
+            {
+              "id": "Nat-03"
+            },
+            {
+              "id": "Nat-04"
+            },
+            {
+              "id": "Nat-05"
+            },
+            {
+              "id": "Nat-06"
+            },
+            {
+              "id": "Nat-07"
+            }
+          ]
+        },
+        "gaps": []
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-02",
+        "subcategoryId": "Prep-02",
+        "label": "Alert",
+        "id": "Prep-MO-02",
+        "desc": "Alert personnel (i.e. emergency services, CI operators) to the presence of an incident and to allow control (response) actions to be initiated (based on ISO 14004 and ISO 10418).",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            },
+            {
+              "id": "PA-1"
+            },
+            {
+              "id": "PA-2"
+            },
+            {
+              "id": "PA-3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            },
+            {
+              "id": "Nat-01"
+            },
+            {
+              "id": "Nat-02"
+            },
+            {
+              "id": "Nat-03"
+            },
+            {
+              "id": "Nat-04"
+            },
+            {
+              "id": "Nat-05"
+            },
+            {
+              "id": "Nat-06"
+            },
+            {
+              "id": "Nat-07"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-01",
+        "label": "Firefighting - Infrastructures",
+        "id": "Resp-SI-01",
+        "desc": "Fighting fires in buildings, built-up areas or at infrastructures.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            },
+            {
+              "id": "PA-1"
+            },
+            {
+              "id": "PA-2"
+            },
+            {
+              "id": "PA-3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            },
+            {
+              "id": "Nat-01"
+            },
+            {
+              "id": "Nat-02"
+            },
+            {
+              "id": "Nat-03"
+            },
+            {
+              "id": "Nat-04"
+            },
+            {
+              "id": "Nat-05"
+            },
+            {
+              "id": "Nat-06"
+            },
+            {
+              "id": "Nat-07"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-01",
+        "label": "Firefighting - Nature",
+        "id": "Resp-SI-02",
+        "desc": "Fighting fires in natural enviroments.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-01",
+        "label": "Flood control",
+        "id": "Resp-SI-03",
+        "desc": "Water management in case of (an eminent threat of) a flooding due to a dike burst or to heavy rainfall.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-01",
+        "label": "Hazmat control (CBRN-E)",
+        "id": "Resp-SI04",
+        "desc": "Stop spill of hazardous materials, including containment of these materials (CBRN-E incidents)",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-02",
+        "label": "Search and Rescue (SAR)",
+        "id": "Resp-RO-01",
+        "desc": "...",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            },
+            {
+              "id": "PA-1"
+            },
+            {
+              "id": "PA-2"
+            },
+            {
+              "id": "PA-3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            },
+            {
+              "id": "Nat-01"
+            },
+            {
+              "id": "Nat-02"
+            },
+            {
+              "id": "Nat-03"
+            },
+            {
+              "id": "Nat-04"
+            },
+            {
+              "id": "Nat-05"
+            },
+            {
+              "id": "Nat-06"
+            },
+            {
+              "id": "Nat-07"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-02",
+        "label": "On-site casualty treatment",
+        "id": "Resp-RO-02",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "MG1"
+            },
+            {
+              "id": "MG2"
+            },
+            {
+              "id": "MG3"
+            },
+            {
+              "id": "MG4"
+            },
+            {
+              "id": "MG5"
+            },
+            {
+              "id": "MG6"
+            },
+            {
+              "id": "MG7"
+            },
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        },
+        "desc": "This concerns activities such as triage, decontamination (if needed), and stabilisation of victims."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-02",
+        "label": "Transport of victims",
+        "id": "Resp-RO-03",
+        "desc": "Ambulance transport to safe areas or (field) hospitals.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-03",
+        "label": "Securing locations/persons",
+        "id": "Resp-SL-01",
+        "desc": "Protect areas, infrastructures, and/or certain persons to avoid that other people, who are not involved in response activities in those locations, will enter or get in contact with those persons.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-03",
+        "label": "Identification of persons",
+        "id": "Resp-SL-02",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "MG1"
+            },
+            {
+              "id": "MG2"
+            },
+            {
+              "id": "MG3"
+            },
+            {
+              "id": "MG4"
+            },
+            {
+              "id": "MG5"
+            },
+            {
+              "id": "MG6"
+            },
+            {
+              "id": "MG7"
+            },
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        },
+        "desc": "Identification of victims."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-03",
+        "label": "Forensics",
+        "id": "Resp-SL-03",
+        "desc": "Forensic activities to investigate the cause of the incident and to safeguard evidence."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-03",
+        "label": "Maintain public order",
+        "id": "Resp-SL-04",
+        "desc": "Riot control, etc.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "placeholder": "Prevent disasters / crisis situations."
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise losses from hazards",
+              "placeholder": "Reduce / avoid losses from hazards."
+            },
+            {
+              "id": "Goal-03",
+              "label": "Help victims",
+              "placeholder": "Assure prompt effective assistance to victims"
+            },
+            {
+              "id": "Goal-04",
+              "label": "Adequate recovery",
+              "placeholder": "Achieve rapid and effective recovery"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results "
+            }
+          ]
+        },
+        "gaps": []
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-03",
+        "label": "Traffic management",
+        "id": "Resp-SL-05",
+        "desc": "Traffic control both in-going and out-going the affected area."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-04",
+        "label": "Urgent care - Hospitals",
+        "id": "Resp-EH-01",
+        "desc": "Health service in regular and/or in field hospitals.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": []
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": []
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": []
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-04",
+        "label": "Quarantine",
+        "id": "Resp-EH-02",
+        "desc": "Isolation of (potentially) infectious persons/victims.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "placeholder": "Prevent disasters / crisis situations."
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise losses from hazards",
+              "placeholder": "Reduce / avoid losses from hazards."
+            },
+            {
+              "id": "Goal-03",
+              "label": "Help victims",
+              "placeholder": "Assure prompt effective assistance to victims"
+            },
+            {
+              "id": "Goal-04",
+              "label": "Adequate recovery",
+              "placeholder": "Achieve rapid and effective recovery"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results "
+            }
+          ]
+        },
+        "gaps": []
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-04",
+        "label": "Mass public health",
+        "id": "Resp-EH-03",
+        "desc": "Mass prophylaxis (e.g. in case of a nuclear incident) or vaccination (e.g. in case of a pandemic)."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-04",
+        "label": "Psychological care",
+        "id": "Prep-EH-04",
+        "desc": "Psychological (mental) health care to victims, relatives and other people affected by the incident."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-05",
+        "label": "Warning",
+        "id": "Resp-CS-01",
+        "desc": "Warn the society (persons, institutions, etc.) in the threatened zone by providing timely and adequate information on the threat or disaster, including realistic guidelines on which safety measures one should take."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-05",
+        "label": "Crisis communication",
+        "id": "Resp-CS-02",
+        "desc": "\nProviding information on the threat or disaster to the society in general on the incident and emergency response. This includes issues like information channels for relatives, how one could assist disaster relief (volunteer management) and making appeals to avoid disaster tourism."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-06",
+        "label": "Evacuate",
+        "id": "Resp-SF-01",
+        "desc": "This concerns (a controlled) evacuation of persons and animals from a certain area or building.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-06",
+        "label": "Shelter",
+        "id": "Resp-SF-02",
+        "desc": "Provision of shelter to the evacuees, including provision of nutrition and sanitation to evacuees. "
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-06",
+        "label": "Reunification",
+        "id": "Resp-SF-03",
+        "desc": "Reunification of evacuees with their relatives."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-07",
+        "label": "Debris clearance",
+        "id": "Resp-DA-01",
+        "desc": "Removal of debris and/or contaminated material.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-07",
+        "label": "Decontamination of objects",
+        "id": "Resp-DA-02",
+        "desc": "Decontamination of contaminated area(s), infrastructure(s) and/or vehicle(s).",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-07",
+        "label": "Draining",
+        "id": "Resp-DA-03",
+        "desc": "Draining and pumping of inundated area(s) or infrastructure(s)."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-07",
+        "label": "Animal destruction",
+        "id": "Resp-DA-04",
+        "desc": "Destruction of (potentially) infected animals."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-08",
+        "label": "Drinking water supply",
+        "id": "Resp-BN-01",
+        "desc": "Restoration of drinking water or temporary provision of drinking water in an alternative way."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-08",
+        "label": "Food supply",
+        "id": "Resp-BN-02",
+        "desc": "Temporary provision of food."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-08",
+        "label": "Energy supply",
+        "id": "Resp-BN-03",
+        "desc": "Restoration of electricity and/or gas supply, or provision of temporary provision of alternative options for energy supply (emergency power supply)."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-08",
+        "label": "Provision of ICT/Telecom",
+        "id": "Resp-BN-04",
+        "desc": "Restoration or temporary supply of ICT and Telecommunication."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-08",
+        "label": "Provide sanitation",
+        "id": "Resp-BN-05",
+        "desc": "Restore sanitation or provide temporary solutions.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Doel1"
+            },
+            {
+              "id": "Doel2"
+            },
+            {
+              "id": "Doel3"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "MG1"
+            },
+            {
+              "id": "MG2"
+            },
+            {
+              "id": "MG3"
+            },
+            {
+              "id": "MG4"
+            },
+            {
+              "id": "MG5"
+            },
+            {
+              "id": "MG6"
+            },
+            {
+              "id": "MG7"
+            },
+            {
+              "id": "AA1"
+            },
+            {
+              "id": "AA2"
+            },
+            {
+              "id": "AA3"
+            },
+            {
+              "id": "AA4"
+            },
+            {
+              "id": "AA5"
+            },
+            {
+              "id": "AA6"
+            }
+          ]
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-09",
+        "label": "Command, Control and Coordination",
+        "id": "Resp-RS-01",
+        "desc": "Decision-making, planning and tasking activities at the various coordination and command levels that are involved in managing a certain disaster event (including volunteer management and collaboration with third parties while responding to the disaster situation)."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-09",
+        "label": "Situation assessment",
+        "id": "Resp-RS-02",
+        "desc": "Development of operational information through enrichment of collected data, including the development of a Common Operational Picture and Threat assessment.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": []
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": []
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": []
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-09",
+        "label": "Information management",
+        "id": "Resp-RS-03",
+        "desc": "Storing (log-keeping) and sharing of information such as collected data, assessments made and decisions taken."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-09",
+        "label": "Monitoring/Data collection",
+        "id": "Resp-RS-04",
+        "desc": "Collection of data by Physical monitoring (surveillance) and Data-mining."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-09",
+        "label": "On-site operations support",
+        "id": "Resp-RS-05",
+        "desc": "Supply of basic services to first responders on-site or nearby the location of the incident to enable their response activities. It concerns Provision of Communication/ICT to first responders, Provision of Energy to first responders, and Guarantee Safety and Security to first responders.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": []
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": []
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": []
+        }
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-03",
+        "subcategoryId": "Rsp-09",
+        "label": "Logistics",
+        "id": "Resp-RS-06",
+        "desc": "Transport of personnel and materiel, including supply of relief goods (vaccines, food, tents, etc.), fuel and spare parts, to support sustained disaster response operations."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-04",
+        "subcategoryId": "Rec-01",
+        "label": "Provide public health & safety",
+        "id": "Rec-HR-01",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": []
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": []
+        },
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": []
+        },
+        "desc": "Provision of public health and safety services for those displaced. This covers for example physical impacts (including individuals’ health, housing and financial needs), psychological impacts, and deaths."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-04",
+        "subcategoryId": "Rec-01",
+        "label": "Provide food and shelter",
+        "id": "Rec-HR-02",
+        "desc": "Provision of food and shelter for those displaced."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-04",
+        "subcategoryId": "Rec-02",
+        "label": "Waste management",
+        "id": "Rec-ER-01",
+        "desc": "Clearance of large-scale pollution and decontamination, and dealing with waste."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-04",
+        "subcategoryId": "Rec-02",
+        "label": "Restoration habitats",
+        "id": "Rec-ER-02",
+        "desc": "Restoration of natural resources and habitats.",
+        "taskAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Goal-01",
+              "label": "Prevent incidents",
+              "placeholder": "Prevent disasters / crisis situations."
+            },
+            {
+              "id": "Goal-02",
+              "label": "Minimise losses from hazards",
+              "placeholder": "Reduce / avoid losses from hazards."
+            },
+            {
+              "id": "Goal-03",
+              "label": "Help victims",
+              "placeholder": "Assure prompt effective assistance to victims"
+            },
+            {
+              "id": "Goal-04",
+              "label": "Adequate recovery",
+              "placeholder": "Achieve rapid and effective recovery"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results "
+            }
+          ]
+        },
+        "gaps": []
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-04",
+        "subcategoryId": "Rec-03",
+        "label": "Business recovery",
+        "id": "Rec-EC-01",
+        "desc": "Business recovery (e.g. shops, industry that suffered from the disaster or crisis). "
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-04",
+        "subcategoryId": "Rec-03",
+        "label": "Financial recovery",
+        "id": "Rec-EC-02",
+        "desc": "Recovery from financial impact on authorities."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-04",
+        "subcategoryId": "Rec-04",
+        "label": "Re-establish transport",
+        "id": "Rec-RI-01",
+        "desc": "Re-establishment of transport routes (road, rail, water, air, pipelines)."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-04",
+        "subcategoryId": "Rec-04",
+        "label": "Re-establish utilities",
+        "id": "Rec-RI-02",
+        "desc": "Restoration of interrupted utilities and other essential services."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-04",
+        "subcategoryId": "Rec-05",
+        "label": "Establish recovery organisation",
+        "id": "Rec-RS-01",
+        "desc": "•Establishment of recovery organisation structure. One or more recovery organisation structure(s) has/have to be established both on the short-term as well as on the long-term. Recovery structures and processes have to be established, based on the general organisation structures that are developed in the preparedness phase."
+      },
+      {
+        "capabilityStakeholders": [],
+        "documentation": [],
+        "categoryId": "Cat-04",
+        "subcategoryId": "Rec-05",
+        "label": "Recovery programming",
+        "id": "Rec-RS-02",
+        "desc": "Determination and implementation of recovery programme. Based on an impact assessment a recovery programme has to be established on policy level, and has to be implemented in accordance to policy-decisions."
+      }
+    ],
+    "mainTasks": [
+      {
+        "id": "Goal-01",
+        "label": "Prevent incidents",
+        "desc": "Prevent disasters / crisis situations."
+      },
+      {
+        "id": "Goal-02",
+        "label": "Minimise losses from hazards",
+        "desc": "Reduce / avoid losses from hazards."
+      },
+      {
+        "id": "Goal-03",
+        "label": "Help victims",
+        "desc": "Assure prompt effective assistance to victims"
+      },
+      {
+        "id": "Goal-04",
+        "label": "Adequate recovery",
+        "desc": "Achieve rapid and effective recovery"
+      }
+    ],
+    "taskScale": [
+      {
+        "id": "Imp-1",
+        "color": "#d3d3d3",
+        "label": "None/Very low"
+      },
+      {
+        "id": "Imp-2",
+        "color": "#d2f550",
+        "label": "Low"
+      },
+      {
+        "id": "Imp-3",
+        "color": "#ffff00",
+        "label": "Medium"
+      },
+      {
+        "id": "Imp-4",
+        "color": "#ffac1c",
+        "label": "Quite high"
+      },
+      {
+        "id": "Imp-5",
+        "color": "#ff0000",
+        "label": "Very high"
+      }
+    ],
+    "performanceAspects": [
+      {
+        "id": "PA-1",
+        "label": "Effectiveness",
+        "desc": "- Quality of the results\n- Timeliness\n- Endurance"
+      },
+      {
+        "id": "PA-2",
+        "label": "Safety/Security of professionals",
+        "desc": "Physical and mental safety of involved personnel"
+      },
+      {
+        "id": "PA-3",
+        "label": "Efficiency",
+        "desc": "Relation between costs and results "
+      }
+    ],
+    "performanceScale": [
+      {
+        "id": "PSc-1",
+        "color": "#ff0000",
+        "label": "Poor"
+      },
+      {
+        "id": "PSc-2",
+        "color": "#ffac1c",
+        "label": "Unsatisfactory"
+      },
+      {
+        "id": "PSc-3",
+        "color": "#ffff00",
+        "label": "Moderate"
+      },
+      {
+        "id": "PSc-4",
+        "color": "#d2f550",
+        "label": "Satisfactory"
+      },
+      {
+        "id": "PSc-5",
+        "color": "#2d8c0a",
+        "label": "Good"
+      }
+    ],
+    "mainGaps": [
+      {
+        "id": "Nat-01",
+        "label": "Technological",
+        "desc": "E.g., Sensing Technologies, Command and control, communications and coordination, Surveillance, General public protection, Simulations, Physical protection, Crisis logistics, Technical Interoperability, ICT"
+      },
+      {
+        "id": "Nat-02",
+        "label": "Human",
+        "desc": "E.g., Amount of personnel, Competence of personnel, Training and education, Health and Safety aspects"
+      },
+      {
+        "id": "Nat-03",
+        "label": "Organizational",
+        "desc": "E.g., Procedures, Organizational structure, Financial Aspects, Agreements"
+      },
+      {
+        "id": "Nat-04",
+        "label": "Regulatory",
+        "desc": "E.g., Legal Aspects, Formal Standardization aspects"
+      }
+    ],
+    "gapScale": [
+      {
+        "id": "Kn-01",
+        "label": "Unknown",
+        "color": "#d3d3d3"
+      },
+      {
+        "id": "Kn-02",
+        "label": "No",
+        "color": "#000000"
+      },
+      {
+        "id": "Kn-03",
+        "label": "Yes",
+        "color": "#0000ff"
+      }
+    ],
+    "assessmentScale": [
+      {
+        "id": "ASc-01",
+        "color": "#2d8c0a",
+        "label": "Very low"
+      },
+      {
+        "id": "ASc-02",
+        "color": "#a4c62a",
+        "label": "Low"
+      },
+      {
+        "id": "ASc-03",
+        "color": "#ffff00",
+        "label": "Moderate"
+      },
+      {
+        "id": "ASc-04",
+        "color": "#ffac1c",
+        "label": "High"
+      },
+      {
+        "id": "ASc-05",
+        "color": "#ff0000",
+        "label": "Very high"
+      }
+    ],
+    "assessmentTable": [
+      {
+        "rowId": "Imp-1",
+        "colId": "PSc-1",
+        "optionId": "ASc-01"
+      },
+      {
+        "rowId": "Imp-1",
+        "colId": "PSc-2",
+        "optionId": "ASc-01"
+      },
+      {
+        "rowId": "Imp-1",
+        "colId": "PSc-3",
+        "optionId": "ASc-01"
+      },
+      {
+        "rowId": "Imp-1",
+        "colId": "PSc-4",
+        "optionId": "ASc-01"
+      },
+      {
+        "rowId": "Imp-1",
+        "colId": "PSc-5",
+        "optionId": "ASc-01"
+      },
+      {
+        "rowId": "Imp-2",
+        "colId": "PSc-1",
+        "optionId": "ASc-03"
+      },
+      {
+        "rowId": "Imp-2",
+        "colId": "PSc-2",
+        "optionId": "ASc-02"
+      },
+      {
+        "rowId": "Imp-2",
+        "colId": "PSc-3",
+        "optionId": "ASc-01"
+      },
+      {
+        "rowId": "Imp-2",
+        "colId": "PSc-4",
+        "optionId": "ASc-01"
+      },
+      {
+        "rowId": "Imp-2",
+        "colId": "PSc-5",
+        "optionId": "ASc-01"
+      },
+      {
+        "rowId": "Imp-3",
+        "colId": "PSc-1",
+        "optionId": "ASc-04"
+      },
+      {
+        "rowId": "Imp-3",
+        "colId": "PSc-2",
+        "optionId": "ASc-03"
+      },
+      {
+        "rowId": "Imp-3",
+        "colId": "PSc-3",
+        "optionId": "ASc-02"
+      },
+      {
+        "rowId": "Imp-3",
+        "colId": "PSc-4",
+        "optionId": "ASc-01"
+      },
+      {
+        "rowId": "Imp-3",
+        "colId": "PSc-5",
+        "optionId": "ASc-01"
+      },
+      {
+        "rowId": "Imp-4",
+        "colId": "PSc-1",
+        "optionId": "ASc-05"
+      },
+      {
+        "rowId": "Imp-4",
+        "colId": "PSc-2",
+        "optionId": "ASc-04"
+      },
+      {
+        "rowId": "Imp-4",
+        "colId": "PSc-3",
+        "optionId": "ASc-03"
+      },
+      {
+        "rowId": "Imp-4",
+        "colId": "PSc-4",
+        "optionId": "ASc-02"
+      },
+      {
+        "rowId": "Imp-4",
+        "colId": "PSc-5",
+        "optionId": "ASc-01"
+      },
+      {
+        "rowId": "Imp-5",
+        "colId": "PSc-1",
+        "optionId": "ASc-05"
+      },
+      {
+        "rowId": "Imp-5",
+        "colId": "PSc-2",
+        "optionId": "ASc-05"
+      },
+      {
+        "rowId": "Imp-5",
+        "colId": "PSc-3",
+        "optionId": "ASc-04"
+      },
+      {
+        "rowId": "Imp-5",
+        "colId": "PSc-4",
+        "optionId": "ASc-03"
+      },
+      {
+        "rowId": "Imp-5",
+        "colId": "PSc-5",
+        "optionId": "ASc-02"
+      }
+    ],
+    "lexicon": [
+      {
+        "id": "Assessment",
+        "label": "Process to determine the extent to which a capability is adequately performed and to determine the urgency to strengthen the capability"
+      },
+      {
+        "id": "Capability",
+        "label": "The means to accomplish one or more tasks under specific conditions. capabilities can be described along three types of resources: Technologies, Skills; competences of staff and Organization's work processes and procedures",
+        "ref": "[Project Responder 5, Homeland Security, Science and Technology, August 2017]"
+      },
+      {
+        "id": "Capability gap",
+        "label": "The gap between the current ability to provide a response and the actual response assessed to be required for a given threat or hazard. Plans should be made to reduce or eliminate this gap, if the risk justifies it.",
+        "ref": "[Cabinet Office, UK Civil Protection Lexicon, version 2.1.1, February 2013]"
+      },
+      {
+        "label": "The process by which people, organisations and society systematically stimulate and develop their capacities over time to achieve social and economic goals, including through improvement of knowledge, skills, systems, and institutions.",
+        "id": "Capacity development",
+        "ref": "[UNISDR 2009]"
+      },
+      {
+        "id": "Gap analysis",
+        "label": "A method to examine whether the performance of the current implementation of the capability meets the desired level (or ambition), and if not, to determine which steps need to be taken to improve the performance leve"
+      },
+      {
+        "id": "Interoperability ",
+        "ref": "[ISO 22397]",
+        "label": "The ability of diverse systems and organisations to work together, i.e. to interoperate."
+      },
+      {
+        "id": "Mitigation ",
+        "ref": "[ISO 22300]",
+        "label": "Measures taken to prevent, limit and reduce impact of the negative consequences of incidents, emergencies and disasters."
+      },
+      {
+        "id": "Monitoring / Detection ",
+        "ref": "[in line with ISO 14004 and ISO 10418]",
+        "label": "Determine the status of an environment to alert personnel (i.e. emergency services) to the presence of an incident and to allow control (response) actions to be initiated."
+      },
+      {
+        "id": "Organisational interoperability ",
+        "ref": "[European Interoperability Framework]",
+        "label": "Which aims at coordinating processes in which different organisations achieve a previously agreed and mutually beneficial goal. It focuses on integrating business processes and meeting end-user requirements by making services available, easily identifiable, accessible and user-focused."
+      },
+      {
+        "id": "Preparedness",
+        "ref": "[ISO 22300]",
+        "label": "Activities taken in order to prepare incident (disaster) response."
+      },
+      {
+        "id": "Recovery",
+        "label": "Restoration and improvement, where appropriate, facilities, livelihoods and living conditions of disaster-affected communities, including efforts to reduce risk factors.",
+        "ref": "[UNISDR]"
+      },
+      {
+        "id": "Response",
+        "label": "Actions taken in order to stop the causes for the imminent hazard and to mitigate the consequences of potentially destabilizing or disruptive events and to recover to a normal situation.",
+        "ref": "[ISO 22320]"
+      },
+      {
+        "id": "Risk",
+        "label": "Effect of uncertainty on objectives.",
+        "ref": "[ISO 31000]"
+      },
+      {
+        "id": "Technical interoperability ",
+        "ref": "[European Interoperability Framework]",
+        "label": "Which is related to the technical issues involved in linking computer systems and services."
+      },
+      {
+        "id": "Threat",
+        "ref": "[ISO 22300]",
+        "label": "Potential cause of an unwanted incident, which may result in harm to individuals, a system or organisation, the environment or the community."
+      }
+    ],
+    "projectProposals": [
+      {
+        "id": 1685007916576,
+        "label": "Test proposal",
+        "capabilityIds": [
+          "VK2"
+        ],
+        "projectStakeholders": [],
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Aard1"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA1"
+            },
+            {
+              "id": "PA2"
+            },
+            {
+              "id": "PA3"
+            }
+          ]
+        },
+        "approved": false
+      },
+      {
+        "id": 1688401219188,
+        "label": "Test-voorstel betere vroegsignalering",
+        "capabilityIds": [
+          "VK1"
+        ],
+        "projectStakeholders": [
+          {
+            "stakeholderId": "NCTV",
+            "persons": "Jaap en Mies"
+          }
+        ],
+        "gapAssessment": {
+          "assessmentId": "ASc1",
+          "items": [
+            {
+              "id": "Aard1",
+              "value": "ASc3",
+              "desc": "Voortvarend"
+            },
+            {
+              "id": "Aard2"
+            },
+            {
+              "id": "Aard3"
+            },
+            {
+              "id": "Aard4"
+            },
+            {
+              "id": "Aard5"
+            },
+            {
+              "id": "Aard6"
+            },
+            {
+              "id": "Aard7"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "PSc5",
+          "items": [
+            {
+              "id": "PA1",
+              "value": "PSc5"
+            },
+            {
+              "id": "PA2",
+              "value": "PSc4"
+            },
+            {
+              "id": "PA3",
+              "value": "PSc5"
+            }
+          ]
+        },
+        "proposal": "bla, bla, bla ....",
+        "approved": true
+      },
+      {
+        "id": 1695115880064,
+        "label": "Nog uit te werken voorstel ...",
+        "capabilityIds": [
+          "VK1"
+        ],
+        "projectStakeholders": [
+          {
+            "stakeholderId": "TNO",
+            "persons": "Dirk Stolk en Erik Vullings"
+          }
+        ],
+        "gapAssessment": {
+          "assessmentId": "ASc1",
+          "items": []
+        },
+        "performanceAssessment": {
+          "assessmentId": "PSc1",
+          "items": []
+        }
+      },
+      {
+        "id": 1724147359106,
+        "label": "New proposal",
+        "capabilityIds": [
+          "Mit-RA-01"
+        ],
+        "projectStakeholders": [],
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Nat-01",
+              "label": "Technological",
+              "placeholder": "E.g., Sensing Technologies, Command and control, communications and coordination, Surveillance, General public protection, Simulations, Physical protection, Crisis logistics, Technical Interoperability, ICT"
+            },
+            {
+              "id": "Nat-02",
+              "label": "Human",
+              "placeholder": "E.g., Amount of personnel, Competence of personnel, Training and education, Health and Safety aspects"
+            },
+            {
+              "id": "Nat-03",
+              "label": "Organizational",
+              "placeholder": "E.g., Procedures, Organizational structure, Financial Aspects, Agreements"
+            },
+            {
+              "id": "Nat-04",
+              "label": "Regulatory",
+              "placeholder": "E.g., Legal Aspects, Formal Standardization aspects"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "PSc-4",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance",
+              "value": "PSc-4"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel",
+              "value": "PSc-4"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results ",
+              "value": "PSc-5"
+            }
+          ]
+        },
+        "proposal": "kjl jl jlj kl jlkj jl jl",
+        "approved": true
+      },
+      {
+        "id": 1724147391411,
+        "label": "New proposal 2",
+        "capabilityIds": [
+          "Mit-RA-01"
+        ],
+        "projectStakeholders": [],
+        "gapAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "Nat-01",
+              "label": "Technological",
+              "placeholder": "E.g., Sensing Technologies, Command and control, communications and coordination, Surveillance, General public protection, Simulations, Physical protection, Crisis logistics, Technical Interoperability, ICT"
+            },
+            {
+              "id": "Nat-02",
+              "label": "Human",
+              "placeholder": "E.g., Amount of personnel, Competence of personnel, Training and education, Health and Safety aspects"
+            },
+            {
+              "id": "Nat-03",
+              "label": "Organizational",
+              "placeholder": "E.g., Procedures, Organizational structure, Financial Aspects, Agreements"
+            },
+            {
+              "id": "Nat-04",
+              "label": "Regulatory",
+              "placeholder": "E.g., Legal Aspects, Formal Standardization aspects"
+            }
+          ]
+        },
+        "performanceAssessment": {
+          "assessmentId": "",
+          "items": [
+            {
+              "id": "PA-1",
+              "label": "Effectiveness",
+              "placeholder": "- Quality of the results\n- Timeliness\n- Endurance"
+            },
+            {
+              "id": "PA-2",
+              "label": "Safety/Security of professionals",
+              "placeholder": "Physical and mental safety of involved personnel"
+            },
+            {
+              "id": "PA-3",
+              "label": "Efficiency",
+              "placeholder": "Relation between costs and results "
+            }
+          ]
+        },
+        "proposal": "kl; k;l k;l k;l"
+      }
+    ],
+    "enableDecisionSupport": false,
+    "logo": "data:image/png;base64,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",
+    "attributionLogo": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEYAAAAvCAYAAABe1bwWAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAAEnQAABJ0Ad5mH3gAAA+9SURBVGhD7VtrcFXVGT3vexPAEJIAIYgIIkVFFAQUxIqiBRwFRdBSX8UgUpVXeQkqBpAYXoEQQl4kEUJehECAIAqig44dZ9Tp1MdMx2m1TtVx2jh27NiOP7q61r45NmqsJNwgP/zxzTln33PO3nvt9a3v+/ZJLMuqed+y6pstq7rTzLZqmh2rkbav2XPymz27qNmznuf1s82WU9Fs25W8fpb2Es9rmi1/S7Pl7uSz+/lsbbNvNfC3wzxva5xVtD0tpvNv/95e20ermkdgqr+0rAMgOJ1qtrWfVg/HKodjV9AaYm12DSxbvx9g215YTiUsl6Z28yzbrQZaXcv1vpZjaHzG/CbTeevfOmKNtJpHBcznsQYNpDOsmraHE6WZ8ypOvoKTL6KVsF1tHIzD9iAPlreT1000jsnexSOBcPisW8xrAmbV0trqJ14m4GuWnhlgnGc4KU7cOsxjQ4wRXhltBxnzDNlwlPfs5zUn79SQPcfYThYLGJtAeHyH7rd3/++dxsI+BFa8ADsjwLQM1qH7eHVw7ZNw3EY4QQ1c7yDbyuG52+E6dCW7joBU0dhu74fr7uM9tbBdguPKxQgcwbXdPbxXJqDDPkJ3at13R+2MAcOVtcsISjUc5znYHrXFq+fETyAICJaTzXtWYkj/jRjUdzvP8xDxy+D5BMolu4Iy2I7eQ/cSMNQnijWvQ2BCXdExHqzpFGBa01umgdbSVWpodAWnkJOVsB7i5JoQ0G1SkvIx4tK52PLEg1gz7xEMHbAIyd23w/GlLQd5fxkZJN2hzjh8P/XGlhnG6P2aCAE0x3iwJu7AxED45rksBlZycinS+qzg+UZaEzxvN92mBIMH1KIgdyO++OhGfPbeJKxeugLpvQp4DwfoK0IUEsBs9O9TiWggMSa41BrHIaMUxQxTBAxd7ewChgxwJJIHONHDcElxl4LqUTQViqOJpRjQZyvm3ZuF5Ytn4rzz5qBbl70EhrrjyHXWYPYDmfjoowl474+jcestt7GN0co5CtcvRGr3JzFh5BxsWpaDGRMXoXfqIkQi5ezrWd53mIwqZN+MciaSCZxvs7a9Fi9g5O8uB2ZzkNZxakYZNWIrV1mruxu9MsqxdkkBPn3jFnz8wTDkZC/BoAHqT9pTQnC24dprt2BOZibmPjgVY69+km2MUtbzBDgPk8dk4+ju+/HlB+Pw1vHpmDVtM7olMjrZR+lSTdSqDS0AC6hDNI3rdMCJG2M0QeUoWq3jJmq4QREB2kugRPFtuGfGLPztL1fhk89G4RGyxrZz2N7IiR1ANFKN5K4lCKztSPBWokf3VQjY5jonDAPTk+djZ8kkfPnvYXj1xakYdekGPksBjjCsM/dxrV08anGoOdSstsfYHosbMByQiRIEwX6edpDnBMW4FkMz9eDaK1dh7YrbsXT5TRj/i+VcYeYvmlSwh9GnGAFdL7BeoEDv4/0lbNuNxMgxuuNRCvFTmHn3AjyRdQsWPbwAA8/XszthR9Un3ZEL4ticTECXUq7zDa3riMUFGA6ASZhN97GVuCmskj0OEzqHmS1rJET9BmSkPINzgiy61zKkppbDD0h55ja2m8/7SuAbl6BGOIxW7mH4BCYh2Mv79yOpWxFSUrayr43okbATKal8b7SE9zUQOAFaxCMZRICNS58dwDAKEBiHIhmJaDDlOKfbNowduxPpfRR96B6REpPDyK1sowFi1BE+xwE4xWzjpKgntnOMbS+xjS7pbjFMY+HJexWqlfHyXCLrbSYIzKT5jr7dD2LcJbnoEqzndSXBCqPSj64xAoNhl9ROCGpxYb/NmDN7Fuoa7sXiZZm4+Gcb0CWh1EQnsUfAmHSfQqkM13IYfcgay91BU2R7jke6ppfLc+Upck9p2BH2wQI0UI3VBD/yPM4fUIqFc9eiqnQO7py+gCGe2bSrYvh0QJHFBRiaJkARdRmVrr/qUbzy4iUAkvH716/CrZOfhO+2UNtMlG5G/VHC5xrRlmhy9YNNZAFN4il38FRcil1imSryI2QQj576fIGuthcz7piLt98dgq/+0weHGm/CVVdkG5bFchlZR90pXsAw0VL9o0n0S12N4pyJeO8P41GVP535yyy2c+JyD/ZhM4N1bEYsY9QlFZXWSf7eQF3axTaKtqm8NUGyh6wSMC5Z6XuFZAxZxXstqxiXXfwAmhqH4a/vX44t625GWo8H2U7mqRI3AGkhNMYQoJYF+kHA4gSMXEQ5i0u9SE+twYQrq3D9qA24YcwO9MvYxIEWkQGit1ZR+cczfIZmIpkAo94odAs4k8VyQmYrQgBoXEwUGZLFBttnf55Sg90YeG4FJk94DFMmLcWkCRuQ2uNptquvcgLL7Fj6ZVPgzdZFS9Q0mqU+2p5LzOIFDPXDI8UDVsx+hO/RvopVQPqXMSKRAR4H5VNAv65tWpsAUHu4uq1NbaFe6F5V3ay7HLHhMMsD/c4QzQn7zGmiCbqWqKvY1LgICjXM1sKYWkuACJhQoL/P4uZKXNEIV8NT5vkij7sYjrciQs3xqAees49siq18m8+fshEATlbbFCY10Pu02eXrvXJJtWmXUAw8TmOks8lE7ecYdgpQHUOwv8/iJr40E0mqkBhoVbki9g5OoIqr20BQCIyJRFqxHxpUW6ZnFO6PMN/ZTx2iMMvteO74jGiesui9iLis4G3lO3JVAfMCx6HNLrmi3FS12xkExqX4Rqx8DDl3NWbetBF9U1YxEuXBUybqy9+lJ4ouovDpAWPbZKXyH21bMBIGXAzX2oxze5Ri2vgC9ErJ5L2bEPWOcVxkkVfK/pUrybUEjFjTqcDo5aJwHbomlOGW65ahYvMMvP7iOORkXYuxozYzp1DYpVAGTN/9WC7TMXfSMy3uEJAhvkK5isyjSPDLcP3Vj2JL1l149dAUrHr8TgwfuYZFZgWZtY8JH4GQqxu3aqLuadxt6Vlriwsw9YiwYJw6eQHee2ca85fLcKJxIkZclM3BcwAUSDtKxrjarw2faet9/8/0DNnGssOS67h8jypr7QI6m3DjuPvx5qsj2fdQHD+eidFjnmAwYLZNQJxAZYL2m1mpM6l0tdnV+cDoqOfK0X9AFooKF+Lkc7/CxuUL0D36GAfD3yJ11Jo6+OxMPv7d95y6OdSO2IqzdKB22QmKSLvQO3Ur8vNm4rVXbsbm9XPRu+fDbK+nOz0HJ1pAMBWVGgmK9pwJlBHgtvuIWVw0Jua3PfsWYvioNbjkgkdw9fB16Jmynu1cHU/fgw4yOilREzAhoO03bZS7rKs8RhdX36FM+v8SevZ+CSNGP86E70GMGb0aaalPss8qU5mbTFrBwJIbsXJXstm5jAlNtGbm6ynicGUowlpF3+fAPYqevhO56kiF4+kBozHaTCQ9O48MVGkh5hxnaiBBZj/KeskGT18RTD8CJDSNT8dTYW2cgDFh0NCTGmBKA9U4PHoV9PFck5BptWP3d9SdNFHmKXIhfxsXYmssLTDtejfH4TA8mzIibG+9COH5GQMm5kqeU8CjRI6uwxDaJYklQlTZbglXV/slyjxbD7S9pmcJuDbCfEY7X7lLPgJGvq5R5kys7s3mmJnHt0Fpr8UJGBVsYkXgMjO11mJwvxWY9ct8DB40n1rwFFP3Yv6uVdVKtvWOUzEygrmLY3YI9zPqyG0WY/hFGzBzymPISMuk/qwiQGfNDh5XRik3V7NLtAFTrlmH+m2z8edXZ6AybzYmjCmgBmifhRqjKHUaK6ki0jf7Ok3MnWoxdeIW7Cmdj9+9PA6562bh6qHbuDgCRn386MDQlEAFrIsYln8+Yj7ePHEFc4oBeOUg85nBj3OleY/E2SR4HbEYA1xnOzPd7WShvklVYOINv8G7b49nXxehrvIGXDLw6RbdOR1myuIFDBM3T0UkB9+/7zpkr52GuoZRWJc1Bxk9s9jOKBUJa5RQGPWsJqzzcIVD03VrsY49p6+RHqt0x1dfxRg29FGU5t2Gk4dvxorFd6J7svrSpGRhHx2xOLmSisOIdwBRfw/SUqox8IJyZPR9CoOHFCCtZy5XuIgUV2cCRwWeCjoCZKreMIzqPZUm94l9XeT9ZktTrqM9mxA0/iaQ/Sqcl3EYl5+fixH9llJr1qLrOUr4zibGcMAuKew6+jqga20B6Ksgcw5fm9qqeEuQkp6HjHNzeR5L1mzzpyGqfjlxu5zPM7qopnKlRydMnWV72mRqQsCaqE/PciRGVVqsh9WF9weqoBWey5n0MUI51SaJ++742mtxA0a0VQ2io1abuQYnaz6626WIJO5Eeq+nMTtzPlYuX4gL++YgpStBM384RBZ4ZIv+LoYJmphkMlppEsNyEC1CEkEYMXQlVi1bicnXPYRzokvhJzBkO0oalTdVEhCmB3rW9N/WGNtjcQUm1AQNjK5Cd3DNFmQZ0nrXY+nCHfjTWxPwyYfDkLv2PlzUP7cFuFd4z0laAXr3yEFast5FJrnMS/T3NE4xrhuZj5rSOfj7x2Px2rHp+PWUPHRPUE5TRb3ZZLRHH93M10jzWVjv+PYY22OdBYzqGIeT8pTf7ELA6vuu2+fiHx9eg39+PgK/nTeaLvEQgZHOHEFi4iFkpC/Gw5n3474Z2UjqloNI101wI2SRvQPpSUtQsXUqo89gvPHySFwzfCHzlTq6jr5irjfAxD7FCBgyyYxDetR6jO2xuAEjEzgt4ihKUzQd7daT4voycM2oTVjx0CNY9NA9uGnyAoLGzNWE750YNHgzcnIexvvv3oB33piEpYuXoE9GfkyDWDCmdc/H7DuykbViMn+bhgsHKfocIJv2wnG3MauuphvF9nlj25dnDWNkAiWMCPJ1XpvNbxZ1fjWSkrYzASQTgi3olkSRjfCeiFa5HtGE+VgybzK++mIiPv10IO6ZeSVZpr+PeZl2FF271COF4CREFiG151p0S+Z7XbqSt5/gV5stjYBao+9VP1w5n4rFFRgBooHFKKxy39ZfP5now8HqA5opC1ToMQ+R4Or7NV3Jtwtw24QsbHzibmzIuhk3jnmc9zAiUZgdfXbRn5uZfRTVQ3zGYVkQYSQL2AdDvs++A5pzWu7T2uIKjECR6bxFcwxjWmitj/1eE/XgOHy6WOAXxv7w0CNjonvQq0cho89qpCZlI50CnOhTo9wdvKeS1kiQVKjWICIX0t8ku3QjJnsK8b72Z0wf2saU+4Zj6qh1iivpvAWYr2ktkaXrSJApzBJN3y3mpCrgMiS7fvhZQ2PgxDnpgO5nciPmRI7D4pEu5/H+CCOWzwVwXf3VZymBLiJTlDSyz7MTmFM37dh/k1W6FrBinMYRukTYpqNM2bEsfJfeEVrYFg/7kYA5++1rYGr+Fcsg1fCTxbZhzf8S1M4jY5aQOT+ZMWFRO+q/IiqTcSeLpe4AAAAASUVORK5CYII=",
+    "attributionText": "© 2023-2026 This document and its content are the property of the DIREKTION Consortium. All rights relevant to this document are determined by the applicable laws. Access to this document does not grant any right or license on the document or its contents. This document or its contents are not to be used or treated in any manner inconsistent with the rights or interests of the DIREKTION Consortium or the Partners detriment and are not to be disclosed externally without prior written consent from the DIREKTION Partners. Each DIREKTION Partner may use this document in conformity with the DIREKTION Consortium Grant Agreement provisions. The research leading to these results has received funding from the European Union’s Horizon Europe Research and Innovation Programme, under the Grant Agreement No 101121249.\n\nThe views and opinions in this document are solely those of the authors and contributors, not those of the European Commission.",
+    "title": "DIREKTION",
+    "enableSolutionAssessmentSupport": true
+  }
+}

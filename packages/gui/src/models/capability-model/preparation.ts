@@ -1,6 +1,6 @@
 import { UIForm } from "mithril-ui-form";
 import { ICapabilityDataModel } from "./capability-model";
-import { t } from "../../services";
+import { t } from "../../services/translations";
 
 export const preparationModel = () =>
   [

@@ -32,15 +32,6 @@ export const SettingsPage: MeiosisComponent = () => ({
             section: s.id,
             context: [data],
             onchange: () => {
-              console.log(
-                JSON.stringify(
-                  catModel.data && catModel.data.capabilities
-                    ? catModel.data.capabilities[0]
-                    : "",
-                  null,
-                  2,
-                ),
-              );
               actions.saveModel(attrs, catModel);
             },
           } as FormAttributes<ICapabilityDataModel>),

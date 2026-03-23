@@ -1,6 +1,8 @@
 export * from "./word";
 import { padLeft } from "mithril-materialized";
 import { type Page, Pages } from "../models";
+import type { ICapabilityDataModel, ILabelled } from "../models/capability-model/capability-model";
+import { t } from "../services/translations";
 
 export const LANGUAGE = "SG_LANGUAGE";
 export const SAVED = "SG_MODEL_SAVED";
@@ -456,6 +458,43 @@ export const list = (arr: string[] = [], prefix = "") =>
       (arr.length === 1
         ? arr[0]
         : `${arr.slice(0, arr.length - 1).join(", ")} en ${arr[arr.length - 1]}`);
+
+/** Translate label and description of a model item using its ID as the translation key. Falls back to original values if no translation exists. */
+const translateItem = <T extends ILabelled>(item: T): T => {
+  const labelKey = item.id as any;
+  const descKey = `${item.id}_desc` as any;
+  const labelT = t(labelKey);
+  const descT = item.desc ? t(descKey) : undefined;
+  return {
+    ...item,
+    label: labelT !== item.id ? labelT : item.label,
+    ...(item.desc !== undefined ? { desc: descT !== descKey ? descT : item.desc } : {}),
+  };
+};
+
+/**
+ * Returns a shallow copy of the capability data model with all ILabelled items
+ * translated using their IDs as translation keys. Call this at render time
+ * (not at store time) to ensure translations reflect the current locale.
+ */
+export const localizeCapabilityModelData = (data: Partial<ICapabilityDataModel>): Partial<ICapabilityDataModel> => ({
+  ...data,
+  mainTasks: data.mainTasks?.map(translateItem),
+  taskScale: data.taskScale?.map(translateItem),
+  performanceAspects: data.performanceAspects?.map(translateItem),
+  performanceScale: data.performanceScale?.map(translateItem),
+  mainGaps: data.mainGaps?.map(translateItem),
+  gapScale: data.gapScale?.map(translateItem),
+  assessmentScale: data.assessmentScale?.map(translateItem),
+  categories: data.categories?.map(cat => ({
+    ...translateItem(cat),
+    subcategories: cat.subcategories?.map(translateItem),
+  })),
+  stakeholders: data.stakeholders?.map(translateItem),
+  stakeholderTypes: data.stakeholderTypes?.map(translateItem),
+  capabilities: data.capabilities?.map(translateItem),
+  availableCapabilities: data.availableCapabilities?.map(translateItem),
+});
 
 export const DutchFlag =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpDRkNCMjg2RDE3ODMxMUUyQTcxNDlDNEFCRkNENzc2NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpDRkNCMjg2RTE3ODMxMUUyQTcxNDlDNEFCRkNENzc2NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkNGQ0IyODZCMTc4MzExRTJBNzE0OUM0QUJGQ0Q3NzY2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkNGQ0IyODZDMTc4MzExRTJBNzE0OUM0QUJGQ0Q3NzY2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+dLNUtgAAAEBJREFUeNpiXCej8Z9hAAATwwCBUYtHLaYZYPz///8nIM1LZ3s/j8bxqMU0AyxK7j28A2Av72gcj1o8/CwGCDAAa10IGBJ1C8IAAAAASUVORK5CYII=";

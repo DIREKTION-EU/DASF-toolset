@@ -1,5 +1,5 @@
 import m from "mithril";
-import { FlatButton, TextInput } from "mithril-materialized";
+import { FlatButton, TextInput, TreeView, type TreeNode } from "mithril-materialized";
 import { Pages } from "../models";
 import {
   ICapability,
@@ -8,10 +8,9 @@ import {
   ICategory,
   ILabelled,
 } from "../models/capability-model/capability-model";
-import { actions, APP_TITLE_SHORT, MeiosisComponent, t } from "../services";
+import { actions, MeiosisComponent, t } from "../services";
 import { routingSvc } from "../services/routing-service";
 import { colorPalette, formatDate, toWord } from "../utils";
-import logo from "../assets/logo.svg";
 
 type ISubcategoryVM = ILabelled & { capabilities: ICapability[] };
 type ICategoryVM = ICategory & { subcategories: ISubcategoryVM[] };
@@ -27,8 +26,6 @@ const createTextFilter = (txt: string) => {
 
 export const OverviewPage: MeiosisComponent = () => {
   let showCapAccordion = false;
-  let expandedCategories = new Set<string>();
-  let expandedSubcategories = new Set<string>();
   let editingCapId: string | null = null;
   let textFilter = '';
 
@@ -37,7 +34,7 @@ export const OverviewPage: MeiosisComponent = () => {
       actions.setPage(attrs, Pages.OVERVIEW);
     },
     view: ({ attrs }) => {
-      const { catModel = {} as CapabilityModel, currentSessionId } = attrs.state;
+      const { catModel = {} as CapabilityModel } = attrs.state;
       const curUser = attrs.state.curUser;
       const isEditor = curUser !== 'user';
 
@@ -77,23 +74,7 @@ export const OverviewPage: MeiosisComponent = () => {
         : 0;
       const height = 90 + maxItems * 30;
       const filename = `${formatDate(Date.now())}_${title}_v${catModel.version}.docx`;
-      const selectedCapIds = new Set(capabilities.map((c) => c.id));
-      const sessionName = currentSessionId && title ? title : '';
-
       return m(".overview.page", [
-
-        // ── Page header (logo + session name) ───────────────────────────────
-        m(".row.dasf-page-header", { style: "display:flex; align-items:center; padding-left:48px; margin-bottom:0;" }, [
-          m("a", {
-            href: routingSvc.href(Pages.LANDING),
-            style: "display:flex; align-items:center; color:inherit; text-decoration:none;",
-          }, [
-            m("img[width=32][height=32][alt=logo]", { src: logo, style: "margin-right:8px;" }),
-            m("span.hide-on-small-only", { style: "font-size:1rem; font-weight:500;" },
-              sessionName ? `${APP_TITLE_SHORT} — ${sessionName}` : APP_TITLE_SHORT
-            ),
-          ]),
-        ]),
 
         // ── Filter toolbar ───────────────────────────────────────────────────
         m(".row.dasf-filter-toolbar", { style: "align-items:center; margin-bottom:0;" }, [
@@ -104,6 +85,7 @@ export const OverviewPage: MeiosisComponent = () => {
               value: textFilter,
               placeholder: t("filter_ph"),
               iconName: "filter_list",
+              oninput: (v?: string) => { textFilter = v || ''; m.redraw(); },
               onchange: (v?: string) => { textFilter = v || ''; },
               canClear: true,
             }),
@@ -130,55 +112,42 @@ export const OverviewPage: MeiosisComponent = () => {
             m("span.card-title", t("manage_capabilities")),
             availableCapabilities.length === 0
               ? m("p.grey-text", t("cap_all_selected"))
-              : categories.map((cat) => {
-                  const catExpanded = expandedCategories.has(cat.id);
-                  return m("div", { key: cat.id }, [
-                    m("div", {
-                      style: "cursor:pointer; padding:8px 0; font-weight:bold; display:flex; align-items:center; gap:8px;",
-                      onclick: () => {
-                        if (catExpanded) expandedCategories.delete(cat.id);
-                        else expandedCategories.add(cat.id);
-                      },
-                    }, [
-                      m("i.material-icons.tiny", catExpanded ? "expand_less" : "expand_more"),
-                      tLabel(cat),
-                    ]),
-                    catExpanded && (cat.subcategories || []).map((sc) => {
-                      const scExpanded = expandedSubcategories.has(sc.id);
-                      const scCaps = availableCapabilities.filter((c) => c.subcategoryId === sc.id);
-                      if (!scCaps.length) return null;
-                      return m("div", { key: sc.id, style: "margin-left:16px;" }, [
-                        m("div", {
-                          style: "cursor:pointer; padding:4px 0; display:flex; align-items:center; gap:8px;",
-                          onclick: () => {
-                            if (scExpanded) expandedSubcategories.delete(sc.id);
-                            else expandedSubcategories.add(sc.id);
-                          },
-                        }, [
-                          m("i.material-icons.tiny", scExpanded ? "expand_less" : "expand_more"),
-                          tLabel(sc),
-                        ]),
-                        scExpanded && m(".row", scCaps.map((cap) =>
-                          m(".col.s12.m6.l4", { key: cap.id }, [
-                            m("label.dasf-cap-check", [
-                              m("input[type=checkbox]", {
-                                checked: selectedCapIds.has(cap.id),
-                                onchange: (e: Event) => {
-                                  const checked = (e.target as HTMLInputElement).checked;
-                                  data.capabilities = checked
-                                    ? [...capabilities, { ...cap }]
-                                    : capabilities.filter((c) => c.id !== cap.id);
-                                  actions.saveModel(attrs, catModel);
-                                },
-                              }),
-                              m("span", tLabel(cap)),
-                            ]),
-                          ])
-                        )),
-                      ]);
-                    }),
-                  ]);
-                }),
+              : (() => {
+                  const availableIds = new Set(availableCapabilities.map((c) => c.id));
+                  const selectedAvailableIds = capabilities.map((c) => c.id).filter((id) => availableIds.has(id));
+                  const selectedSet = new Set(selectedAvailableIds);
+                  const treeData: TreeNode[] = categories.reduce((acc, cat) => {
+                    const scNodes = (cat.subcategories || []).reduce((sacc, sc) => {
+                      const capNodes = availableCapabilities
+                        .filter((c) => c.subcategoryId === sc.id)
+                        .map((c) => ({ id: c.id, label: tLabel(c) }));
+                      if (capNodes.length) {
+                        const hasSelected = capNodes.some((n) => selectedSet.has(n.id));
+                        sacc.push({ id: sc.id, label: tLabel(sc), children: capNodes, expanded: hasSelected });
+                      }
+                      return sacc;
+                    }, [] as TreeNode[]);
+                    if (scNodes.length) {
+                      const hasSelected = scNodes.some((n) => n.expanded);
+                      acc.push({ id: cat.id, label: tLabel(cat), children: scNodes, expanded: hasSelected });
+                    }
+                    return acc;
+                  }, [] as TreeNode[]);
+                  return m(TreeView, {
+                    data: treeData,
+                    selectionMode: 'multiple',
+                    selectedIds: selectedAvailableIds,
+                    iconType: 'caret',
+                    showConnectors: true,
+                    onselection: (newIds) => {
+                      const newCapIds = new Set(newIds.filter((id) => availableIds.has(id)));
+                      const keptCaps = capabilities.filter((c) => !availableIds.has(c.id));
+                      const addedCaps = availableCapabilities.filter((c) => newCapIds.has(c.id));
+                      data.capabilities = [...keptCaps, ...addedCaps];
+                      actions.saveModel(attrs, catModel);
+                    },
+                  });
+                })(),
           ]))),
         ]),
 
@@ -193,11 +162,11 @@ export const OverviewPage: MeiosisComponent = () => {
                   (subcategories as ISubcategoryVM[]).map((sc) =>
                     m(".category-item.col.s12.m6.l4.xl3",
                       m(".card", {
-                        style: `background:${color || colorPalette[i % colorPalette.length]}; height:${height}px`,
+                        style: `background:${color || colorPalette[i % colorPalette.length]}; height:${height}px; overflow:hidden; filter:none`,
                       },
-                        m(".card-content.white-text", [
-                          m("span.card-title.truncate.black-text.white.center-align", {
-                            style: "padding:0.4rem; border:2px solid black;",
+                        m(".card-content", { style: "color:#000" }, [
+                          m("span.card-title.truncate", {
+                            style: "display:block; padding:0.4rem; border:2px solid #000; background:#fff; color:#000;",
                           }, m("strong", tLabel(sc))),
                           m("ul.caps",
                             sc.capabilities && sc.capabilities.map((cap) => {
@@ -206,23 +175,21 @@ export const OverviewPage: MeiosisComponent = () => {
                                 editingCapId === cap.id && isEditor
                                   ? m(TextInput, {
                                       id: `cap-edit-${cap.id}`,
-                                      value: cap.label,
+                                      defaultValue: cap.label,
                                       onchange: (v) => { cap.label = v || cap.label; actions.saveModel(attrs, catModel); },
                                       onblur: () => { editingCapId = null; },
                                       style: "background:white; color:black; padding:2px 4px;",
                                     })
-                                  : m(m.route.Link, {
-                                      href: actions.createRoute(Pages.ASSESSMENT),
-                                      selector: "a.black-text",
-                                      params: { id: cap.id },
-                                      options: { replace: true },
+                                  : m("a.black-text", {
+                                      href: routingSvc.href(Pages.ASSESSMENT, cap.id),
+                                      onclick: (e: Event) => { e.preventDefault(); routingSvc.switchTo(Pages.ASSESSMENT, { id: cap.id }); },
                                     }, [
-                                      m(".capability", [
+                                      m(".capability", { style: "display:flex; align-items:center; flex-wrap:nowrap; min-width:0" }, [
                                         m(".square", {
                                           title: assessment?.label,
-                                          style: `background-color:${assessment?.color}`,
+                                          style: `flex-shrink:0; background-color:${assessment?.color}`,
                                         }),
-                                        m(".name", tLabel(cap)),
+                                        m(".name", { style: "flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" }, tLabel(cap)),
                                         isEditor && m("i.material-icons.tiny", {
                                           style: "font-size:12px; cursor:pointer; margin-left:4px; opacity:0.6;",
                                           title: t("edit"),

@@ -7,7 +7,7 @@ import { actions } from "../services/meiosis";
 
 export const EvaluationPage: MeiosisComponent = () => {
   return {
-    oninit: ({ attrs }) => actions.setPage(attrs, Pages.EVALUATION),
+    oninit: ({ attrs }) => actions.setPage(attrs, Pages.ROADMAP),
     view: ({ attrs }) => {
       const {
         catModel = { data: {} } as CapabilityModel,

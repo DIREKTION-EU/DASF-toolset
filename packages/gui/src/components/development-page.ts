@@ -18,7 +18,7 @@ export const DevelopmentPage: MeiosisComponent = () => {
   let selectedProject: ProjectProposal;
 
   return {
-    oninit: ({ attrs }) => actions.setPage(attrs, Pages.DEVELOPMENT),
+    oninit: ({ attrs }) => actions.setPage(attrs, Pages.SOLUTIONS),
     view: ({ attrs }) => {
       const {
         catModel = { data: {} } as CapabilityModel,

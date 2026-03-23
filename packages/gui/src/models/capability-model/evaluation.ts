@@ -1,5 +1,5 @@
 import { UIForm } from "mithril-ui-form";
-import { t } from "../../services";
+import { t } from "../../services/translations";
 import { Evaluation, ProjectEvaluation } from "./capability-model";
 
 export const evaluationModel = () =>

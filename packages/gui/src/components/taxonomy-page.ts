@@ -125,7 +125,6 @@ export const TaxonomyPage: MeiosisComponent = () => ({
             form: TaxonomyForm(),
             obj: data,
             onchange: () => {
-              console.log(JSON.stringify(catModel, null, 2));
               actions.saveModel(attrs, catModel);
             },
           } as FormAttributes<any>),

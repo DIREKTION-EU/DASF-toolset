@@ -4,7 +4,7 @@ import {
   ICapabilityDataModel,
   ILabelled,
 } from "./capability-model";
-import { t } from "../../services";
+import { t } from "../../services/translations";
 
 export type AssessmentItem = {
   assessmentId: string;
@@ -43,24 +43,24 @@ export const assessmentModel = (model: Partial<ICapabilityDataModel>) => {
       id: "taskAssessment",
       type: "assessment",
       options: "mainTasks",
-      optionLabel: t("main_goals"),
+      optionLabel: "main_goals",
       assessmentOptions: "taskScale",
-      assessmentLabel: t("importance"),
-      descriptionLabel: t("expl"),
-      overallAssessmentLabel: t("max_imp"),
+      assessmentLabel: "importance",
+      descriptionLabel: "expl",
+      overallAssessmentLabel: "max_imp",
       overallAssessment: "max",
     },
     {
       id: "performanceAssessment",
       type: "assessment",
       options: "performanceAspects",
-      optionLabel: t("perf_asps"),
+      optionLabel: "perf_asps",
       assessmentOptions: "performanceScale",
-      assessmentLabel: t("level"),
-      descriptionLabel: t("expl"),
-      overallAssessmentLabel: t("avg_perf"),
+      assessmentLabel: "level",
+      descriptionLabel: "expl",
+      overallAssessmentLabel: "avg_perf",
       overallAssessment: "avg",
-      excludeLabel: t("ignore"),
+      excludeLabel: "ignore",
     },
     {
       id: "assessmentId",
@@ -98,10 +98,10 @@ export const assessmentModel = (model: Partial<ICapabilityDataModel>) => {
           id: "gapAssessment",
           type: "assessment",
           options: "mainGaps",
-          optionLabel: t("prob_areas"),
+          optionLabel: "prob_areas",
           assessmentOptions: "gapScale",
-          assessmentLabel: t("relevance"),
-          descriptionLabel: t("expl"),
+          assessmentLabel: "relevance",
+          descriptionLabel: "expl",
           // overallAssessmentLabel: t('ass_label'),
           overallAssessment: "max",
         },

@@ -5,7 +5,6 @@ import { PluginType } from "mithril-ui-form";
 import { ILabelled } from "../../models/capability-model/capability-model";
 import { getTextColorFromBackground } from "../../utils";
 import { t } from "../../services/translations";
-import { Messages } from "src/services/lang";
 
 // const range = (start: number, end: number) =>
 //   Array.from({ length: end - start + 1 }, (_, k) => k + start);
@@ -111,7 +110,7 @@ export const assessmentPlugin: PluginType = () => {
       if (score && excludeLabel) {
         score.push({
           id: EXCLUDE_ID,
-          label: excludeLabel,
+          label: t(excludeLabel as any),
         });
       }
 
@@ -140,7 +139,7 @@ export const assessmentPlugin: PluginType = () => {
                 style: { background: color },
               },
               [
-                m("strong", `${overallAssessmentLabel}: `),
+                m("strong", `${t(overallAssessmentLabel as any)}: `),
                 m("span", assessmentStarted ? outcome.label : t("TBD")),
               ],
             ),
@@ -166,15 +165,18 @@ export const assessmentPlugin: PluginType = () => {
                   },
                   o.label,
                   o.desc &&
-                    m(Icon, {
-                      iconName: "info",
-                      className: "tooltipped grey-text info-icon",
-                      "data-position": "bottom",
-                      "data-tooltip": `<div class="left-align">${render(
-                        o.desc,
-                      ).replace(/<ul/, '<ul class="browser-default"')}</div>`,
-                      // oncreate: ({ dom }) => o.desc && M.Tooltip.init(dom),
-                    }),
+                    m(
+                      "span.tooltipped.grey-text.info-icon",
+                      {
+                        "data-position": "bottom",
+                        "data-tooltip": `<div class="left-align">${render(
+                          o.desc,
+                        ).replace(/<ul/, '<ul class="browser-default"')}</div>`,
+                        // oncreate: ({ dom }) => tooltip.init(dom as Element),
+                        // onremove: ({ dom }) => M.Tooltip.getInstance(dom as Element)?.destroy(),
+                      },
+                      m(Icon, { iconName: "info" }),
+                    ),
                 ),
                 m(
                   ".col.s4.m2.l2",

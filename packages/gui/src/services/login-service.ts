@@ -1,6 +1,6 @@
 import m from 'mithril';
 import { LandingPage } from '../components';
-import { Pages } from '../models';
+import { Pages } from '../models/page';
 import { actions, type MeiosisComponent } from './meiosis';
 
 const userId = 'userid';
@@ -81,7 +81,7 @@ export const checkRole = (role: UserRole) => Auth.roles.includes(role);
 
 export const Login: MeiosisComponent = () => {
   return {
-    oninit: ({ attrs }) => actions.setPage(attrs, Pages.LOGIN),
+    oninit: ({ attrs }) => actions.setPage(attrs, Pages.LANDING),
     view: ({ attrs }) => {
       const { loggedInUser } = attrs.state;
 

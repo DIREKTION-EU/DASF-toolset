@@ -140,7 +140,7 @@ export const HazardsPage: MeiosisComponent = () => {
                   m('td', editMode
                     ? m(TextInput, {
                         id: `hazard-${h.id}`,
-                        value: h.label,
+                        defaultValue: h.label,
                         onchange: (v) => { h.label = v || h.label; actions.saveModel(attrs, catModel); },
                       })
                     : (t(h.id as any) || h.label)
@@ -168,7 +168,7 @@ export const HazardsPage: MeiosisComponent = () => {
                     m(TextInput, {
                       id: `desc-${h.id}`,
                       label: t('hazard_description'),
-                      value: h.description || '',
+                      defaultValue: h.description || '',
                       onchange: (v) => { h.description = v; actions.saveModel(attrs, catModel); },
                     }),
                   ]),
