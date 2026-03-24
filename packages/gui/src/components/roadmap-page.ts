@@ -65,7 +65,7 @@ export const RoadmapPage: MeiosisComponent = () => {
                 const sol = getSolution(item.solutionId);
                 if (!sol) return null;
                 return m('tr', { key: item.solutionId }, [
-                  m('td', [
+                  m('td', { style: 'cursor:pointer', onclick: () => actions.openDrawer(attrs, 'roadmap', item.solutionId) }, [
                     m('strong', sol.label),
                     sol.url && m('br'),
                     sol.url && m('a.grey-text', { href: sol.url, target: '_blank' }, sol.url),

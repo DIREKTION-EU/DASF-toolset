@@ -112,6 +112,7 @@ export interface ICapability extends ILabelled {
   capabilityStakeholders?: string | string[];
   documentation?: Documentation[];
   assessmentId?: string;
+  hazardIds?: string[];
   shouldDevelop?: boolean;
   taskAssessment?: AssessmentItem;
   performanceAssessment?: AssessmentItem;

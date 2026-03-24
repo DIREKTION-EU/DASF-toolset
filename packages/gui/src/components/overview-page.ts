@@ -47,6 +47,7 @@ export const OverviewPage: MeiosisComponent = () => {
         availableCapabilities = [],
         projectProposals = [],
         assessmentScale = [],
+        selectedHazardIds = [],
         logo: sessionLogo,
         title = "cat",
       } = data;
@@ -183,28 +184,38 @@ export const OverviewPage: MeiosisComponent = () => {
                                   : m("a.black-text", {
                                       href: routingSvc.href(Pages.ASSESSMENT, cap.id),
                                       onclick: (e: Event) => { e.preventDefault(); routingSvc.switchTo(Pages.ASSESSMENT, { id: cap.id }); },
+                                      style: "display:flex; align-items:center; flex-wrap:nowrap; min-width:0;",
                                     }, [
-                                      m(".capability", { style: "display:flex; align-items:center; flex-wrap:nowrap; min-width:0" }, [
+                                      m(".capability-info", { style: "flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" }, [
                                         m(".square", {
                                           title: assessment?.label,
-                                          style: `flex-shrink:0; background-color:${assessment?.color}`,
+                                          style: `flex-shrink:0; background-color:${assessment?.color}; margin-right:8px;`,
                                         }),
-                                        m(".name", { style: "flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" }, tLabel(cap)),
-                                        isEditor && m("i.material-icons.tiny", {
-                                          style: "font-size:12px; cursor:pointer; margin-left:4px; opacity:0.6;",
-                                          title: t("edit"),
-                                          onclick: (e: Event) => {
-                                            e.preventDefault();
-                                            e.stopPropagation();
-                                            editingCapId = cap.id;
-                                          },
-                                        }, "edit"),
-                                        m(".badges.right-align",
+                                        m(".name", { style: "display:inline-block;" }, tLabel(cap)),
+                                        m(".badges",
                                           m.trust(
-                                            `${cap.gaps?.length ? `${cap.gaps.length}<i class="inline-icon material-icons">report_problem</i> ` : ""}${(cap.capabilityStakeholders as string[])?.length ? `${(cap.capabilityStakeholders as string[]).length}<i class="inline-icon material-icons">people</i> ` : ""}${cap.shouldDevelop ? "✓" : ""}${projectProposals.filter((p) => !p.approved && p.capabilityIds?.includes(cap.id)).length > 0 ? `${projectProposals.filter((p) => !p.approved && p.capabilityIds?.includes(cap.id)).length}<i class="inline-icon material-icons">lightbulb</i>` : ""}${projectProposals.filter((p) => p.approved && p.capabilityIds?.includes(cap.id)).length > 0 ? `${projectProposals.filter((p) => p.approved && p.capabilityIds?.includes(cap.id)).length}<i class="inline-icon material-icons">engineering</i>` : ""}`
+                                            `${selectedHazardIds.length ? `${(cap.hazardIds || []).length}<i class="inline-icon material-icons">report_problem</i> ` : ""}${(cap.capabilityStakeholders as string[])?.length ? `${(cap.capabilityStakeholders as string[]).length}<i class="inline-icon material-icons">people</i> ` : ""}${cap.shouldDevelop ? "✓" : ""}${projectProposals.filter((p) => !p.approved && p.capabilityIds?.includes(cap.id)).length > 0 ? `${projectProposals.filter((p) => !p.approved && p.capabilityIds?.includes(cap.id)).length}<i class="inline-icon material-icons">lightbulb</i>` : ""}${projectProposals.filter((p) => p.approved && p.capabilityIds?.includes(cap.id)).length > 0 ? `${projectProposals.filter((p) => p.approved && p.capabilityIds?.includes(cap.id)).length}<i class="inline-icon material-icons">engineering</i>` : ""}`
                                           )
                                         ),
                                       ]),
+                                      m("i.material-icons.tiny.context-drawer-trigger", {
+                                        style: "font-size:14px; cursor:pointer; margin-left:8px; opacity:0.5; flex-shrink:0;",
+                                        title: t('drawer_capabilities'),
+                                        onclick: (e: Event) => {
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                          actions.openDrawer(attrs, 'capability', cap.id);
+                                        },
+                                      }, "info_outline"),
+                                      isEditor && m("i.material-icons.tiny", {
+                                        style: "font-size:12px; cursor:pointer; margin-left:4px; opacity:0.6;",
+                                        title: t("edit"),
+                                        onclick: (e: Event) => {
+                                          e.preventDefault();
+                                          e.stopPropagation();
+                                          editingCapId = cap.id;
+                                        },
+                                      }, "edit"),
                                     ])
                               );
                             })

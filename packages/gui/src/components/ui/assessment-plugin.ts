@@ -159,7 +159,7 @@ export const assessmentPlugin: PluginType = () => {
                 m(
                   ".col.s8.m5.l3.truncate",
                   {
-                    style: "margin: 9px auto 0 auto;",
+                    style: "margin: 14px auto 0 auto;",
                     className:
                       item.value === EXCLUDE_ID ? "disabled-option" : "",
                   },

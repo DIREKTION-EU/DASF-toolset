@@ -120,7 +120,7 @@ export const HazardsPage: MeiosisComponent = () => {
                 editMode && m('th', ''),
               ])),
               m('tbody', filtered.flatMap((h) => [
-                m('tr', { key: h.id }, [
+                m('tr', { key: h.id, style: 'cursor:pointer', onclick: () => actions.openDrawer(attrs, 'hazard', h.id) }, [
                   m('td', [
                     m('label', [
                       m('input[type=checkbox]', {

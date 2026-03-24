@@ -160,3 +160,5 @@ pnpm-lock.yaml
 # Node.js
 .npm
 .yarn
+
+.superpowers

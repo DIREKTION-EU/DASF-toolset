@@ -496,6 +496,43 @@ export const localizeCapabilityModelData = (data: Partial<ICapabilityDataModel>)
   availableCapabilities: data.availableCapabilities?.map(translateItem),
 });
 
+/** Translate an assessment question (for solution assessments) using its ID as the translation key. */
+const translateAssessmentQuestion = <T extends { id?: string; label: string; value?: string }>(item: T): T => {
+  if (!item.id) return item;
+  const labelT = t(item.id as any);
+  return {
+    ...item,
+    label: labelT !== item.id ? labelT : item.label,
+  };
+};
+
+/** Translate compliance check items using their ID as the translation key. */
+const translateComplianceCheck = <T extends { id?: string; label: string; value?: string }>(item: T): T => {
+  if (!item.id) return item;
+  const labelT = t(item.id as any);
+  return {
+    ...item,
+    label: labelT !== item.id ? labelT : item.label,
+  };
+};
+
+/**
+ * Returns a shallow copy of the solution data with all assessment questions
+ * translated using their IDs as translation keys. Call this at render time
+ * to ensure translations reflect the current locale.
+ */
+export const localizeSolutionData = <T>(solution: T): T => {
+  if (!solution) return solution;
+  return {
+    ...solution,
+    compliance: (solution as any).compliance?.map(translateComplianceCheck),
+    userNeeds: (solution as any).userNeeds?.map(translateAssessmentQuestion),
+    operationalNeeds: (solution as any).operationalNeeds?.map(translateAssessmentQuestion),
+    organisationalNeeds: (solution as any).organisationalNeeds?.map(translateAssessmentQuestion),
+    expectedImpact: (solution as any).expectedImpact?.map(translateAssessmentQuestion),
+  } as T;
+};
+
 export const DutchFlag =
   "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAUCAYAAACaq43EAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDpDRkNCMjg2RDE3ODMxMUUyQTcxNDlDNEFCRkNENzc2NiIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDpDRkNCMjg2RTE3ODMxMUUyQTcxNDlDNEFCRkNENzc2NiI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOkNGQ0IyODZCMTc4MzExRTJBNzE0OUM0QUJGQ0Q3NzY2IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOkNGQ0IyODZDMTc4MzExRTJBNzE0OUM0QUJGQ0Q3NzY2Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+dLNUtgAAAEBJREFUeNpiXCej8Z9hAAATwwCBUYtHLaYZYPz///8nIM1LZ3s/j8bxqMU0AyxK7j28A2Av72gcj1o8/CwGCDAAa10IGBJ1C8IAAAAASUVORK5CYII=";
 export const EnglishFlag =

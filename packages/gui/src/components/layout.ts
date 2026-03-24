@@ -5,6 +5,7 @@ import { routingSvc } from '../services/routing-service';
 import { actions, APP_TITLE_SHORT, MeiosisComponent, t } from '../services';
 import { isActivePage } from '../utils';
 import logo from '../assets/logo.svg';
+import { ContextDrawer } from './ui/context-drawer';
 
 let _sidenavOpen = false;
 
@@ -91,6 +92,8 @@ export const Layout: MeiosisComponent = () => {
               ]),
             ]
           ),
+
+            m(ContextDrawer, { ...attrs }),
 
           m('.container', children,
             searchDialogOpen &&

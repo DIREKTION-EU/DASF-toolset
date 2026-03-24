@@ -59,6 +59,7 @@ export interface State {
   categoryId?: string;
   subcategoryId?: string;
   capabilityId?: string;
+  drawerItem?: { type: 'capability' | 'hazard' | 'solution' | 'roadmap'; id: string };
   // Session management
   sessions: Array<{ id: string; name: string; createdAt: number; updatedAt: number }>;
   currentSessionId?: string;
@@ -91,6 +92,10 @@ export const actions = {
   // },
   update: (cell: MeiosisCell<State>, state: Partial<State>) =>
     cell.update(state),
+  openDrawer: (cell: MeiosisCell<State>, type: 'capability' | 'hazard' | 'solution' | 'roadmap', id: string) =>
+    cell.update({ drawerItem: { type, id } }),
+  closeDrawer: (cell: MeiosisCell<State>) =>
+    cell.update({ drawerItem: undefined }),
   setPage: (cell: MeiosisCell<State>, page: Pages, info?: string) => {
     document.title = `${APP_TITLE} | ${page.replace("_", " ")}${info ? ` | ${info}` : ""}`;
     // const curPage = states().page;
