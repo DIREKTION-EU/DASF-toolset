@@ -17,9 +17,18 @@ import {
 import { actions, MeiosisComponent, t } from "../services";
 import { localizeSolutionData } from "../utils";
 
+/** Translate item labels in-place using their IDs. Safe to call at render time since labels are readonly in the form. */
+const translateItemLabels = (items?: Array<{ id?: string; label: string }>) => {
+  items?.forEach((item) => {
+    if (item.id) {
+      const translated = t(item.id as any);
+      if (translated !== item.id) item.label = translated as string;
+    }
+  });
+};
+
 export const SolutionsPage: MeiosisComponent = () => {
   const form = solutionForm();
-  console.log(form);
 
   return {
     oninit: ({ attrs }) => actions.setPage(attrs, Pages.SOLUTIONS),
@@ -29,25 +38,12 @@ export const SolutionsPage: MeiosisComponent = () => {
       const { solutions = [], capabilities = [] } = data;
       if (!data.solutions) data.solutions = solutions;
 
-      const capsWithGaps = capabilities.filter(
-        (c) => c.gaps && c.gaps.length > 0,
-      );
       const hazardTypes = data.hazardTypes || [];
 
       return m(".solutions.page", [
         m(".row", [
           m(".col.s12", m("h4", t("solutions_step_title"))),
           m(".col.s12", m("p", t("solutions_step_desc"))),
-          capsWithGaps.length > 0 &&
-            m(
-              ".col.s12",
-              m(
-                "p.grey-text",
-                t("solution_gaps_found", capsWithGaps.length) +
-                  ": " +
-                  capsWithGaps.map((c) => t(c.id as any)).join(", "),
-              ),
-            ),
         ]),
 
         // Add new solution
@@ -87,9 +83,13 @@ export const SolutionsPage: MeiosisComponent = () => {
         solutions.length > 0 &&
           m(Collapsible, {
             items: solutions.map((sol) => {
-              const localizedSol = localizeSolutionData(sol);
+              translateItemLabels(sol.compliance);
+              translateItemLabels(sol.userNeeds);
+              translateItemLabels(sol.operationalNeeds);
+              translateItemLabels(sol.organisationalNeeds);
+              translateItemLabels(sol.expectedImpact);
               return {
-                header: `${localizedSol.label}${localizedSol.trl ? ` (TRL ${localizedSol.trl})` : ""}`,
+                header: `${sol.label}${sol.trl ? ` (TRL ${sol.trl})` : ""}`,
                 iconName: "lightbulb",
                 body: m(".row", [
                   m(".col.s12.right-align", [
@@ -110,16 +110,16 @@ export const SolutionsPage: MeiosisComponent = () => {
                       },
                     }),
                   ]),
-                  // Addressed gaps selector
+                  // Addressed capabilities selector
                   m(".sol-gaps-section", [
                     m(".sol-gaps-label", t("sol_addressed_gaps")),
-                    capsWithGaps.length === 0
+                    capabilities.length === 0
                       ? m(
                           "p.grey-text",
                           { style: "font-size:13px" },
                           t("sol_no_gaps"),
                         )
-                      : capsWithGaps.map((cap) => {
+                      : capabilities.map((cap) => {
                           const selected = (sol.capabilityIds || []).includes(
                             cap.id,
                           );
