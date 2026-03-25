@@ -14,6 +14,15 @@ registerPlugin("create-lookup-table", lookupTableCreatorPlugin);
 registerPlugin("table", tablePlugin);
 import { LANGUAGE, SAVED } from "./utils";
 import { type Languages, i18n } from "./services";
+import { registerServiceWorker } from "./register-sw";
+
+// Register service worker for PWA support (production only — avoid caching in dev)
+if (import.meta.env.DEV) {
+  // Unregister any lingering SW from previous sessions so it doesn't serve stale cache
+  navigator.serviceWorker?.getRegistrations().then((regs) => regs.forEach((r) => r.unregister()));
+} else {
+  registerServiceWorker();
+}
 
 document.documentElement.setAttribute("lang", "en");
 // document.addEventListener("onload", async () => {

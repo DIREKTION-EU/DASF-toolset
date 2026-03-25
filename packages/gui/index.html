@@ -6,6 +6,17 @@
     <title><%= env.APP_TITLE %></title>
     <meta name="description" content="<%= env.APP_DESC %>" />
     <link rel="icon" type="image/x-icon" href="./src/favicon.ico" />
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="/manifest.json" />
+    <!-- iOS Safari installable app meta tags -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="<%= env.APP_TITLE_SHORT %>" />
+    <!-- Tile for Windows -->
+    <link rel="apple-touch-icon" href="/assets/icons/apple-touch-icon.png" />
+    <meta name="msapplication-TileColor" content="#1976d2" />
+    <meta name="msapplication-TileImage" content="assets/icons/icon-192.png" />
   </head>
   <body>
     <div id="app"></div>

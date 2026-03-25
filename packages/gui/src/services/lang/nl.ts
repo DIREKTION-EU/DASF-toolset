@@ -276,6 +276,10 @@ export const messagesNL: Messages = {
   hazard_description: "Beschrijving / context",
   hazard_selected_count: "{n} gevarentype(n) geselecteerd.",
   solutions: "Oplossingen",
+  solution_count: {
+    1: "1 oplossing",
+    n: "{n} oplossingen",
+  },
   solutions_route: "/oplossingen",
   solutions_step_title: "Stap 3: Oplossingsbeoordeling",
   solutions_step_desc:
@@ -288,7 +292,11 @@ export const messagesNL: Messages = {
   },
   solution_empty:
     "Nog geen oplossingen toegevoegd. Klik op 'Oplossing toevoegen' om te starten.",
-  roadmap: "Routekaart",
+  roadmap: "Routekaarten",
+  roadmap_count: {
+    1: "1 routekaart",
+    n: "{n} routekaarten",
+  },
   roadmap_route: "/routekaart",
   roadmap_step_title: "Stap 4: Routekaart",
   roadmap_step_desc:

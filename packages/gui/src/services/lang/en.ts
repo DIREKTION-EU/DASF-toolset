@@ -274,6 +274,10 @@ export const messages = {
   hazard_description: "Description / context",
   hazard_selected_count: "{n} hazard type(s) selected.",
   solutions: "Solutions",
+  solution_count: {
+    1: "1 solution",
+    n: "{n} solutions",
+  },
   solutions_route: "/solutions",
   solutions_step_title: "Step 3: Solution Assessment",
   solutions_step_desc:
@@ -287,6 +291,10 @@ export const messages = {
   solution_empty:
     "No solutions added yet. Click 'Add Solution' to get started.",
   roadmap: "Roadmap",
+  roadmap_count: {
+    1: "1 roadmap item",
+    n: "{n} roadmap items",
+  },
   roadmap_route: "/roadmap",
   roadmap_step_title: "Step 4: Roadmapping",
   roadmap_step_desc:

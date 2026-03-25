@@ -145,9 +145,9 @@ export const assessmentPlugin: PluginType = () => {
             ),
           ),
         m("div", [
-          m(".col.s8.m5.l3", m("h6", m("strong", t(optionLabel as any)))),
-          m(".col.s4.m2.l2", m("h6", m("strong", t(assessmentLabel as any)))),
-          m(".col.s12.m5.l7", m("h6", m("strong", t(descriptionLabel as any)))),
+          m(".col.s8.m6.l4", m("h6", m("strong", t(optionLabel as any)))),
+          m(".col.s4.m3.l3", m("h6", m("strong", t(assessmentLabel as any)))),
+          m(".col.s12.m3.l5", m("h6", m("strong", t(descriptionLabel as any)))),
           opt &&
             score &&
             opt.length > 0 &&
@@ -155,74 +155,61 @@ export const assessmentPlugin: PluginType = () => {
               const existing = items.filter((i) => i.id === o.id).shift();
               if (!existing) items.push({ id: o.id });
               const item = existing || items[items.length - 1];
-              return m(".condensed", [
-                m(
-                  ".col.s8.m5.l3.truncate",
-                  {
-                    style: "margin: 14px auto 0 auto;",
-                    className:
-                      item.value === EXCLUDE_ID ? "disabled-option" : "",
-                  },
-                  o.label,
-                  o.desc &&
-                    m(
-                      "span.tooltipped.grey-text.info-icon",
-                      {
-                        "data-position": "bottom",
-                        "data-tooltip": `<div class="left-align">${render(
-                          o.desc,
-                        ).replace(/<ul/, '<ul class="browser-default"')}</div>`,
-                        // oncreate: ({ dom }) => tooltip.init(dom as Element),
-                        // onremove: ({ dom }) => M.Tooltip.getInstance(dom as Element)?.destroy(),
-                      },
-                      m(Icon, { iconName: "info" }),
-                    ),
-                ),
-                m(
-                  ".col.s4.m2.l2",
+              return m(
+                ".col.s12",
+                m(".row.condensed", [
                   m(
-                    ".row",
+                    ".col.s8.m6.l4.truncate",
                     {
+                      style: "margin: 14px auto 0 auto;",
                       className:
-                        item.value === EXCLUDE_ID
-                          ? "disabled-option"
-                          : undefined,
+                        item.value === EXCLUDE_ID ? "disabled-option" : "",
                     },
-                    disabled
-                      ? m(TextInput, {
-                          disabled,
-                          initialValue: score
-                            .filter((s) => s.id === item.value)
-                            .shift()?.label,
-                        })
-                      : [
-                          m(Select, {
-                            key: `select_${key}_${i}`,
-                            placeholder: t("pick_one"),
-                            options: score,
-                            className: "col s10",
-                            initialValue: item.value,
-                            onchange: (v) => {
-                              item.value = v[0] as string;
-                              const o = computeOutcome(
-                                overallAssessment,
-                                score,
-                                items,
-                              );
-                              (obj[id] as AssessmentType).assessmentId =
-                                typeof o === "number" ? score[o].id : undefined;
-                              onchange && onchange(obj[id]);
-                            },
-                          }),
-                          m(Icon, {
-                            key: "icon",
-                            iconName: "clear",
-                            className: "tiny left-align clickable",
-                            style: "line-height: 48px",
-                            onclick: () => {
-                              if (item.value) {
-                                item.value = undefined;
-                                key++;
+                    o.label,
+                    o.desc &&
+                      m(
+                        "span.tooltipped.grey-text.info-icon",
+                        {
+                          "data-position": "bottom",
+                          "data-tooltip": `<div class="left-align">${render(
+                            o.desc,
+                          ).replace(
+                            /<ul/,
+                            '<ul class="browser-default"',
+                          )}</div>`,
+                          // oncreate: ({ dom }) => tooltip.init(dom as Element),
+                          // onremove: ({ dom }) => M.Tooltip.getInstance(dom as Element)?.destroy(),
+                        },
+                        m(Icon, { iconName: "info" }),
+                      ),
+                  ),
+                  m(
+                    ".col.s4.m3.l3",
+                    m(
+                      ".row",
+                      {
+                        className:
+                          item.value === EXCLUDE_ID
+                            ? "disabled-option"
+                            : undefined,
+                      },
+                      disabled
+                        ? m(TextInput, {
+                            disabled,
+                            value: score
+                              .filter((s) => s.id === item.value)
+                              .shift()?.label,
+                          })
+                        : [
+                            m(Select, {
+                              key: `select_${key}_${i}`,
+                              placeholder: t("pick_one"),
+                              options: score,
+                              className: "col s10",
+                              checkedId: item.value,
+                              onchange: (v) => {
+                                console.log(v);
+                                item.value = v[0] as string;
                                 const o = computeOutcome(
                                   overallAssessment,
                                   score,
@@ -233,36 +220,58 @@ export const assessmentPlugin: PluginType = () => {
                                     ? score[o].id
                                     : undefined;
                                 onchange && onchange(obj[id]);
-                              }
-                            },
-                          }),
-                        ],
+                              },
+                            }),
+                            m(Icon, {
+                              key: "icon",
+                              iconName: "clear",
+                              className: "tiny left-align clickable",
+                              style: "line-height: 48px",
+                              onclick: () => {
+                                if (item.value) {
+                                  item.value = undefined;
+                                  key++;
+                                  const o = computeOutcome(
+                                    overallAssessment,
+                                    score,
+                                    items,
+                                  );
+                                  (obj[id] as AssessmentType).assessmentId =
+                                    typeof o === "number"
+                                      ? score[o].id
+                                      : undefined;
+                                  onchange && onchange(obj[id]);
+                                }
+                              },
+                            }),
+                          ],
+                    ),
                   ),
-                ),
-                m(
-                  ".col.s12.m5.l7",
                   m(
-                    ".row",
-                    m(TextArea, {
-                      disabled,
-                      placeholder: item.placeholder,
-                      initialValue: item.desc,
-                      onchange: (v) => {
-                        item.desc = v;
-                        onchange && onchange(obj[id]);
-                        const o = computeOutcome(
-                          overallAssessment,
-                          score,
-                          items,
-                        );
-                        if (typeof o === "number")
-                          (obj[id] as AssessmentType).assessmentId =
-                            score[o].id;
-                      },
-                    }),
+                    ".col.s12.m3.l5",
+                    m(
+                      ".row",
+                      m(TextArea, {
+                        disabled,
+                        placeholder: item.placeholder,
+                        value: item.desc,
+                        onchange: (v) => {
+                          item.desc = v;
+                          onchange && onchange(obj[id]);
+                          const o = computeOutcome(
+                            overallAssessment,
+                            score,
+                            items,
+                          );
+                          if (typeof o === "number")
+                            (obj[id] as AssessmentType).assessmentId =
+                              score[o].id;
+                        },
+                      }),
+                    ),
                   ),
-                ),
-              ]);
+                ]),
+              );
             }),
         ]),
       ]);

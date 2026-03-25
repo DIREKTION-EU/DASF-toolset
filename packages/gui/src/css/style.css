@@ -176,12 +176,24 @@
   }
 }
 
+.row.condensed,
+.row.condensed .row,
+.row.condensed .input-field,
+.row.condensed .input-field .select-wrapper {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+.row.condensed .input-field.select-space {
+  margin-top: 0;
+}
 /* Assessment score readability - fix white text on light background */
 /* Note: The plugin uses format like `.assessment-score.enblack-text` */
+.assessment-score {
+  margin: 20px 0;
+  padding: 5px 15px;
+}
 .assessment-score.enblack-text,
 .assessment-score.black-text {
-  margin: 10px 0;
-  padding: 0 10px;
   color: #000 !important;
 }
 
@@ -326,16 +338,39 @@
   margin-bottom: 4px;
 }
 
-/* Context drawer trigger icon on Overview page */
-.context-drawer-trigger:hover {
-  opacity: 1 !important;
+/* Context drawer trigger icon on Overview page — hidden until row hover */
+.caps li .context-drawer-trigger {
+  opacity: 0;
+  transition: opacity 0.15s;
+  flex-shrink: 0;
+}
+.caps li:hover .context-drawer-trigger {
+  opacity: 0.6;
+}
+.caps li:hover .context-drawer-trigger:hover {
+  opacity: 1;
   color: #1976d2;
+}
+
+/* Dark mode: TreeView / collection inside capability accordion must not force white bg */
+[data-theme="dark"] .dasf-cap-accordion .tree-view,
+[data-theme="dark"] .dasf-cap-accordion .collection,
+[data-theme="dark"] .dasf-cap-accordion .collection-item {
+  background: transparent !important;
+  color: inherit !important;
+  border-color: rgba(255, 255, 255, 0.15) !important;
+}
+
+/* Overview capability cards: card-content must be transparent so the card's
+   inline pastel background colour shows through in dark mode */
+.overview .card .card-content {
+  background: transparent !important;
 }
 
 /* Addressed gaps selector on Solutions page */
 .sol-gaps-section {
   padding: 12px 0 8px;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   margin-bottom: 12px;
 }
 
@@ -357,7 +392,9 @@
   cursor: pointer;
   margin-bottom: 4px;
   border: 1px solid transparent;
-  transition: background 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
 }
 
 .sol-gap-item:hover {
@@ -370,7 +407,7 @@
   border-color: rgba(25, 118, 210, 0.35);
 }
 
-.sol-gap-item input[type=checkbox] {
+.sol-gap-item input[type="checkbox"] {
   margin-top: 3px;
   flex-shrink: 0;
   cursor: pointer;

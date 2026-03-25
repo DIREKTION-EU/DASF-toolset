@@ -44,7 +44,13 @@ export default defineConfig({
   },
   server: {
     port: APP_PORT,
+    host: '127.0.0.1',
+    strictPort: true,
     open: true,
+    hmr: true,
+    watch: {
+      usePolling: true,
+    },
   },
   resolve: {
     extensions: [".ts", ".js", ".json", ".wasm"],
