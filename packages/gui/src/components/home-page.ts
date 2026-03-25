@@ -2,6 +2,7 @@ import m from "mithril";
 import { Button, Icon } from "mithril-materialized";
 import { routingSvc, MeiosisComponent, actions, t } from "../services";
 import { type CapabilityModel, Pages } from "../models";
+import { PageNav } from "./ui";
 
 export const HomePage: MeiosisComponent = () => {
   return {
@@ -70,6 +71,7 @@ export const HomePage: MeiosisComponent = () => {
       ].filter((s) => enabledSteps.includes(s.step));
 
       return m(".dashboard.page", [
+        m(PageNav, { ...attrs }),
         m(".row", [
           m(".col.s12", [
             m("h4", data.title || "DASF Assessment"),

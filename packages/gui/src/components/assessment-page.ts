@@ -3,6 +3,7 @@ import { FlatButton, TooltipComponent } from "mithril-materialized";
 import { FormAttributes, LayoutForm, SlimdownView } from "mithril-ui-form";
 import { Pages, ICapability, CapabilityModel } from "../models";
 import { MeiosisComponent, t, i18n, actions } from "../services";
+import { PageNav } from "./ui";
 import { formatDate, localizeCapabilityModelData, toWord } from "../utils";
 
 export const AssessmentPage: MeiosisComponent = () => {
@@ -91,6 +92,7 @@ export const AssessmentPage: MeiosisComponent = () => {
       return m(
         ".assessment.page",
         [
+          m(PageNav, { ...attrs }),
           m(
             "button.dasf-context-drawer-toggle",
             {

@@ -17,6 +17,7 @@ import {
 } from "../models/capability-model/capability-model";
 import { actions, MeiosisComponent, t } from "../services";
 import { routingSvc } from "../services/routing-service";
+import { PageNav } from "./ui";
 import { colorPalette, formatDate, toWord } from "../utils";
 
 type ISubcategoryVM = ILabelled & { capabilities: ICapability[] };
@@ -98,6 +99,7 @@ export const OverviewPage: MeiosisComponent = () => {
       const height = 120 + maxItems * 30 + 48;
       const filename = `${formatDate(Date.now())}_${title}_v${catModel.version}.docx`;
       return m(".overview.page", [
+        m(PageNav, { ...attrs }),
         // ── Filter toolbar ───────────────────────────────────────────────────
         m(
           ".row.dasf-filter-toolbar",

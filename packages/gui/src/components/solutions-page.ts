@@ -15,6 +15,7 @@ import {
   defaultExpectedImpact,
 } from "../models/capability-model/solution";
 import { actions, MeiosisComponent, t } from "../services";
+import { PageNav } from "./ui";
 import { localizeSolutionData } from "../utils";
 
 /** Translate item labels in-place using their IDs. Safe to call at render time since labels are readonly in the form. */
@@ -41,6 +42,7 @@ export const SolutionsPage: MeiosisComponent = () => {
       const hazardTypes = data.hazardTypes || [];
 
       return m(".solutions.page", [
+        m(PageNav, { ...attrs }),
         m(".row", [
           m(".col.s12", m("h4", t("solutions_step_title"))),
           m(".col.s12", m("p", t("solutions_step_desc"))),

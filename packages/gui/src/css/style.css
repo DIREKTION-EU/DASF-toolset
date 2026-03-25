@@ -1,3 +1,18 @@
+html {
+  scrollbar-gutter: stable;
+  background-color: var(--mm-background-color, #ffffff);
+  scrollbar-color: rgba(0, 0, 0, 0.3) var(--mm-background-color, #ffffff);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--mm-background-color, #ffffff);
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+}
+
 .container {
   padding-top: 56px;
 }
@@ -205,6 +220,93 @@
 
     .assessment-score.enwhite-text,
     .assessment-score.white-text {
+      color: #fff !important;
+    }
+  }
+}
+
+/* ── Page Quick-Nav ──────────────────────────────────────────────────── */
+.dasf-page-nav {
+  position: fixed;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  display: flex;
+  gap: 20px;
+}
+
+.dasf-page-nav__item {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  text-decoration: none;
+  color: inherit;
+  opacity: 0.45;
+  border: 1.5px solid currentColor;
+  transition: opacity 0.15s, background 0.15s, color 0.15s;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.dasf-page-nav__item:hover {
+  opacity: 1;
+  color: #1976d2;
+  text-decoration: none;
+}
+
+.dasf-page-nav__item--active {
+  opacity: 1;
+  background: #1976d2;
+  border-color: #1976d2;
+  color: #fff !important;
+}
+
+.dasf-page-nav__item--active:hover {
+  color: #fff !important;
+}
+
+.dasf-page-nav__item--disabled {
+  opacity: 0.2;
+  cursor: default;
+  pointer-events: none;
+}
+
+.dasf-page-nav__num {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.dasf-page-nav__home-icon {
+  font-size: 16px !important;
+  line-height: 1 !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+}
+
+[data-theme="dark"] .dasf-page-nav__item:hover {
+  color: #64b5f6;
+}
+
+[data-theme="dark"] .dasf-page-nav__item--active {
+  background: #1565c0;
+  border-color: #1565c0;
+  color: #fff !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    .dasf-page-nav__item:hover {
+      color: #64b5f6;
+    }
+    .dasf-page-nav__item--active {
+      background: #1565c0;
+      border-color: #1565c0;
       color: #fff !important;
     }
   }

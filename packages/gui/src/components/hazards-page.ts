@@ -1,5 +1,6 @@
 import m from "mithril";
 import { FlatButton, TextInput } from "mithril-materialized";
+import { PageNav } from "./ui";
 import { Pages, type CapabilityModel, type IHazardType, type HazardCategory } from "../models";
 import { defaultHazardTypes } from "../models/capability-model/hazard";
 import { actions, MeiosisComponent, t } from "../services";
@@ -41,6 +42,7 @@ export const HazardsPage: MeiosisComponent = () => {
         cat === 'natural' ? '#4caf50' : cat === 'technical' ? '#2196f3' : '#f44336';
 
       return m('.hazards.page', [
+        m(PageNav, { ...attrs }),
         // 1. Title + description
         m('.row', [
           m('.col.s12', m('h4', t('hazard_step_title'))),

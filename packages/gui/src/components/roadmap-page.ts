@@ -2,6 +2,7 @@ import m from "mithril";
 import { DatePicker, FlatButton, TextInput } from "mithril-materialized";
 import { Pages, type CapabilityModel, type IRoadmapItem } from "../models";
 import { actions, MeiosisComponent, t } from "../services";
+import { PageNav } from "./ui";
 
 export const RoadmapPage: MeiosisComponent = () => {
   return {
@@ -38,6 +39,7 @@ export const RoadmapPage: MeiosisComponent = () => {
       );
 
       return m(".roadmap.page", [
+        m(PageNav, { ...attrs }),
         m(".row", [
           m(".col.s12", m("h4", t("roadmap_step_title"))),
           m(".col.s12", m("p", t("roadmap_step_desc"))),

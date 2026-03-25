@@ -19,8 +19,15 @@ import { t } from "./translations";
 import { cells } from "./meiosis";
 
 const hasSession = (s: { currentSessionId?: string }) => !!s.currentSessionId;
-const hasSessionAndStep = (step: number) => (s: { currentSessionId?: string; catModel?: { data?: { enabledSteps?: number[] } } }) =>
-  !!s.currentSessionId && (!s.catModel?.data?.enabledSteps || s.catModel.data.enabledSteps.includes(step));
+const hasSessionAndStep =
+  (step: number) =>
+  (s: {
+    currentSessionId?: string;
+    catModel?: { data?: { enabledSteps?: number[] } };
+  }) =>
+    !!s.currentSessionId &&
+    (!s.catModel?.data?.enabledSteps ||
+      s.catModel.data.enabledSteps.includes(step));
 
 class RoutingService {
   private pages!: ReadonlyArray<Page>;
@@ -70,7 +77,7 @@ class RoutingService {
         title: t("assessment"),
         icon: "assessment",
         route: t("assessment_route"),
-        visible: hasSessionAndStep(2),
+        visible: false, //hasSessionAndStep(2),
         component: AssessmentPage,
         step: 2,
       },
@@ -114,7 +121,8 @@ class RoutingService {
         icon: "video_settings",
         iconClass: "blue-text",
         route: t("preparation_route"),
-        visible: (s) => hasSession(s) && s.curUser !== undefined && s.curUser !== "user",
+        visible: (s) =>
+          hasSession(s) && s.curUser !== undefined && s.curUser !== "user",
         component: PreparationPage,
       },
       {
