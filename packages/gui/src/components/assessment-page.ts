@@ -119,7 +119,7 @@ export const AssessmentPage: MeiosisComponent = () => {
                   toWord(filename, data, cap);
                 },
               }),
-              m("h5.col.s12", [
+              m("h5.col.s12.condensed", [
                 `${t("cap")} '${t(cap.id as any) || cap.label}'`,
                 cap.desc &&
                   m(
