@@ -531,7 +531,7 @@ export const OverviewPage: MeiosisComponent = () => {
                                 const allDone = assessedCount === total;
                                 return [
                                   m(
-                                    "span",
+                                    "span.black-text",
                                     { style: "font-size:11px; opacity:0.7;" },
                                     `${assessedCount}/${total}` +
                                       (partialCount > 0

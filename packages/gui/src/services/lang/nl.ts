@@ -18,7 +18,7 @@ export const messagesNL: Messages = {
       "Navigeer door de secties met de navigatiebalk. Gebruik de zoekfunctie om content te vinden op alle pagina s. Wissel talen om de internationalisatiefuncties te ervaren.",
   },
   ABOUT: {
-    TITLE: "over de app",
+    TITLE: "Over de app",
     ROUTE: "/over",
     PAGE: "Over Mithril App",
     INTRO: "Leer meer over deze Mithril.js applicatie en haar ontwikkeling",
@@ -189,8 +189,8 @@ export const messagesNL: Messages = {
   pick_one: "Kies één",
   prep_content:
     "Stel de capaciteiten vast die binnen de context van de problematiek relevant zijn.",
-  preparation_route: "/voorbereiding",
-  preparation: "Voorbereiding",
+  preparation_route: "/instellingen",
+  preparation: "Instellingen",
   prepare_content:
     "Stel de capaciteiten vast die binnen de context van de problematiek relevant zijn.",
   prepare: "Voorbereiden",
@@ -219,10 +219,10 @@ export const messagesNL: Messages = {
   shs: "Betrokken organisaties",
   spec_cap_instr:
     "1. Specificeer de belangrijkste doelstellingen binnen de betreffende context.\n2. Specificeer betrokken organisaties en hun rol binnen de betreffende context.\n3. Specificeer de hoofd- en subcategorieën van capaciteiten (1ste en 2de niveau).\n4. **Specificeer relevante capaciteiten binnen alle subcategorieën (3de niveau).**",
-  spec_cap: "Specificatie capaciteiten",
+  spec_cap: "Capaciteiten",
   spec_cat_instr:
     "1. Specificeer de belangrijkste doelstellingen binnen de betreffende context.\n2. Specificeer betrokken organisaties en hun rol binnen de betreffende context.\n3. **Specificeer de hoofd- en subcategorieën van capaciteiten (1ste en 2de niveau).**\n4. Specificeer relevante capaciteiten binnen alle subcategorieën (3de niveau).",
-  spec_cat: "Categorie-indeling",
+  spec_cat: "Categorieën",
   spec_sh_instr:
     "1. Specificeer de belangrijkste doelstellingen binnen de betreffende context.\n2. **Specificeer betrokken organisaties en hun rol binnen de betreffende context.**\n3. Specificeer de hoofd- en subcategorieën van capaciteiten (1ste en 2de niveau).\n4. Specificeer relevante capaciteiten binnen alle subcategorieën (3de niveau).",
   spec_sh: "Betrokken organisaties",
@@ -235,7 +235,7 @@ export const messagesNL: Messages = {
   ass_task_scale: "Belang",
   ass_perf_scale: "Status",
   taxonomy_route: "/taxonomie",
-  taxonomy: "TAXONOMIE",
+  taxonomy: "Taxonomie",
   tax_def: "#### Taxonomie\n\nBetekenis van gebruikte begrippen.",
   term: "Begrip",
   title: "Titel",
@@ -419,7 +419,7 @@ export const messagesNL: Messages = {
   step4_abbr: "Stap 4: RK",
   step4_desc: "Plan implementatieroutekaart en toezeggingen.",
   landing_attribution:
-    "Dit project heeft financiering ontvangen van het Horizon 2020 onderzoeks- en innovatieprogramma van de Europese Unie.",
+    "DIREKTION heeft financiering ontvangen van het Horizon Europe-onderzoeks- en innovatieprogramma van de Europese Unie onder subsidieovereenkomst nr. 101121249.",
   landing_developed_by: "Ontwikkeld door",
   landing_as_part_of: "als onderdeel van het",
   landing_project: "project.",

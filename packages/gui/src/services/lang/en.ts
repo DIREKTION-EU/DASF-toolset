@@ -186,8 +186,8 @@ export const messages = {
   pick_one: "Pick one",
   prep_content:
     "_Define your organisation's goals, and your most important capabilities._",
-  preparation_route: "/preparation",
-  preparation: "Preparation",
+  preparation_route: "/settings",
+  preparation: "Settings",
   prepare_content:
     "Create or select the capabilities that are important for your organisation.",
   prepare: "Prepare",
@@ -232,7 +232,7 @@ export const messages = {
   ass_task_scale: "Task scale",
   ass_perf_scale: "Performance",
   taxonomy_route: "/taxonomy",
-  taxonomy: "TAXONOMY",
+  taxonomy: "Taxonomy",
   tax_def:
     "#### Taxonomy\n\nDefinitions and abbreviations of commonly used words.",
   term: "Term",
@@ -414,7 +414,7 @@ export const messages = {
   step4_abbr: "Step 4: RM",
   step4_desc: "Plan implementation roadmap and commitments.",
   landing_attribution:
-    "This project has received funding from the European Union's Horizon 2020 research and innovation programme.",
+    "DIREKTION has received funding from the European Union’s Horizon Europe research and innovation programme under grant agreement No 101121249.",
   landing_developed_by: "Developed by",
   landing_as_part_of: "as part of the",
   landing_project: "project.",
