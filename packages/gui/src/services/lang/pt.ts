@@ -246,6 +246,7 @@ export const messagesPT: typeof messages = {
   landing_developed_by: "Desenvolvido por",
   landing_as_part_of: "no âmbito do",
   landing_project: "projeto.",
+  landing_assessment_process: "Processo de avaliação",
   landing_funded_by: "Financiado pela União Europeia",
   delete_session_confirm: "Eliminar sessão: {name}?",
   delete_session_warning: "Esta ação não pode ser revertida. Tem a certeza?",
@@ -254,4 +255,28 @@ export const messagesPT: typeof messages = {
     "Todas as capacidades de referência foram adicionadas à sua sessão.",
   cap_add_selected: "Adicionar capacidades selecionadas",
   cap_ref_panel_title: "Capacidades disponíveis (modelo de referência DASF)",
+  about_markdown: `#### DIREKTION Assessment & Screening Framework (DASF)
+
+O conjunto de ferramentas DASF apoia o processo sistemático de avaliação e triagem para gerenciamento de desastres. Fornece uma abordagem estruturada em 4 etapas:
+
+1. **Iniciação e Preparação (I&P)**: Identifique os tipos de perigo relevantes e defina o escopo da avaliação.
+2. **Avaliação de Necessidades e Lacunas (ANL)**: Avalie capacidades no ciclo de gerenciamento de desastres, identifique lacunas e necessidades de melhoria.
+3. **Avaliação de Soluções (AS)**: Avalie soluções potenciais para lacunas de capacidade identificadas, incluindo conformidade, necessidades do usuário e avaliação de impacto.
+4. **Mapa de Rota (MR)**: Planeje cronogramas de implementação e compromissos para soluções selecionadas.
+
+##### Primeiros Passos
+
+- Crie ou abra uma sessão de avaliação a partir da página inicial
+- Navegue pelas 4 etapas usando os ícones da barra de ferramentas
+- Alterne entre as funções de Usuário e Editor usando o seletor abaixo
+
+##### Funções
+
+- **Usuário Regular**: Pode preencher avaliações e visualizar resultados
+- **Moderador**: Pode editar a configuração do framework (tipos de perigo, capacidades, partes interessadas)
+- **Administrador**: Pode modificar escalas de avaliação e configurações
+
+##### Contexto
+
+Este projeto recebeu financiamento do programa de pesquisa e inovação Horizon 2020 da União Europeia. Desenvolvido pela TNO como parte do projeto [DIREKTION](https://www.direktion-network.org).`,
 };

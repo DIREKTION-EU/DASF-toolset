@@ -240,6 +240,7 @@ export const messagesPL: typeof messages = {
   landing_developed_by: "Opracowane przez",
   landing_as_part_of: "w ramach",
   landing_project: "projektu.",
+  landing_assessment_process: "Proces oceny",
   landing_funded_by: "Finansowane przez Unię Europejską",
   delete_session_confirm: "Usunąć sesję: {name}?",
   delete_session_warning: "Tej operacji nie można cofnąć. Czy jesteś pewien?",
@@ -248,4 +249,28 @@ export const messagesPL: typeof messages = {
     "Wszystkie zdolności referencyjne zostały dodane do Twojej sesji.",
   cap_add_selected: "Dodaj wybrane zdolności",
   cap_ref_panel_title: "Dostępne zdolności (model referencyjny DASF)",
+  about_markdown: `#### DIREKTION Assessment & Screening Framework (DASF)
+
+Zestaw narzędzi DASF wspomaga systematyczny proces oceny i przesiewu dla zarządzania katastrofami. Oferuje ustrukturyzowane podejście w 4 krokach:
+
+1. **Inicjacja i Przygotowanie (I&P)**: Zidentyfikuj odpowiednie rodzaje zagrożeń i określ zakres oceny.
+2. **Ocena Potrzeb i Luk (OPL)**: Oceń możliwości w cyklu zarządzania katastrofami, zidentyfikuj luki i potrzeby doskonalenia.
+3. **Ocena Rozwiązań (OR)**: Oceń potencjalne rozwiązania dla zidentyfikowanych luk w możliwościach, w tym zgodność, potrzeby użytkowników i ocenę wpływu.
+4. **Mapa Drogowa (MD)**: Zaplanuj harmonogramy wdrożenia i zaangażowanie dla wybranych rozwiązań.
+
+##### Pierwsze Kroki
+
+- Utwórz lub otwórz sesję oceny ze strony głównej
+- Poruszaj się przez 4 kroki, używając ikon na pasku narzędzi
+- Przełączaj się między rolami Użytkownika i Redaktora za pomocą selektora poniżej
+
+##### Role
+
+- **Zwykły Użytkownik**: Może wypełniać oceny i przeglądać wyniki
+- **Moderator**: Może edytować konfigurację framework'a (rodzaje zagrożeń, możliwości, interesariusze)
+- **Administrator**: Może modyfikować skale oceny i ustawienia
+
+##### Kontekst
+
+Projekt ten otrzymał finansowanie z programu badań i innowacji Horizon 2020 Unii Europejskiej. Opracowany przez TNO w ramach projektu [DIREKTION](https://www.direktion-network.org).`,
 };

@@ -528,6 +528,7 @@ export const messages = {
   landing_developed_by: "Developed by",
   landing_as_part_of: "as part of the",
   landing_project: "project.",
+  landing_assessment_process: "Assessment Process",
   landing_funded_by: "Funded by the European Union",
   delete_session_confirm: "Delete session: {name}?",
   delete_session_warning: "This cannot be undone. Are you sure?",
@@ -895,6 +896,30 @@ export const messages = {
   //     one: "1 stakeholder",
   //   },
   // },
+  about_markdown: `#### DIREKTION Assessment & Screening Framework (DASF)
+
+The DASF toolset supports the systematic assessment and screening process for disaster management. It provides a structured 4-step approach:
+
+1. **Initiation & Preparation (I&P)**: Identify relevant hazard types and define the assessment scope.
+2. **Needs & Gaps Assessment (NGA)**: Assess capabilities across the disaster management cycle, identify gaps and improvement needs.
+3. **Solution Assessment (SA)**: Evaluate potential solutions for identified capability gaps, including compliance, user needs, and impact assessment.
+4. **Roadmapping (RM)**: Plan implementation timelines and commitments for selected solutions.
+
+##### Getting Started
+
+- Create or open an assessment session from the landing page
+- Navigate through the 4 steps using the toolbar icons
+- Switch between User and Editor roles using the selector below
+
+##### Roles
+
+- **Regular User**: Can fill out assessments and view results
+- **Moderator**: Can edit framework configuration (hazard types, capabilities, stakeholders)
+- **Administrator**: Can modify assessment scales and settings
+
+##### Background
+
+This project has received funding from the European Union's Horizon 2020 research and innovation programme. Developed by TNO as part of the [DIREKTION](https://www.direktion-network.org) project.`,
 };
 
 export type Messages = typeof messages;

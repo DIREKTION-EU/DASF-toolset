@@ -247,6 +247,7 @@ export const messagesIT: typeof messages = {
   landing_developed_by: "Sviluppato da",
   landing_as_part_of: "nell'ambito del",
   landing_project: "progetto.",
+  landing_assessment_process: "Processo di valutazione",
   landing_funded_by: "Finanziato dall'Unione europea",
   delete_session_confirm: "Elimina sessione: {name}?",
   delete_session_warning: "Questa azione non può essere annullata. Sei sicuro?",
@@ -255,4 +256,28 @@ export const messagesIT: typeof messages = {
     "Tutte le capacità di riferimento sono state aggiunte alla tua sessione.",
   cap_add_selected: "Aggiungi capacità selezionate",
   cap_ref_panel_title: "Capacità disponibili (modello di riferimento DASF)",
+  about_markdown: `#### DIREKTION Assessment & Screening Framework (DASF)
+
+L'insieme di strumenti DASF supporta il processo sistematico di valutazione e screening per la gestione dei disastri. Fornisce un approccio strutturato in 4 fasi:
+
+1. **Iniziazione e Preparazione (I&P)**: Identificare i tipi di pericolo rilevanti e definire l'ambito della valutazione.
+2. **Valutazione delle Esigenze e Lacune (VEL)**: Valutare le capacità nel ciclo di gestione dei disastri, identificare le lacune e le esigenze di miglioramento.
+3. **Valutazione della Soluzione (VS)**: Valutare le soluzioni potenziali per le lacune di capacità identificate, inclusa la conformità, le esigenze degli utenti e la valutazione dell'impatto.
+4. **Roadmapping (RM)**: Pianificare i tempi di implementazione e gli impegni per le soluzioni selezionate.
+
+##### Per Iniziare
+
+- Creare o aprire una sessione di valutazione dalla pagina iniziale
+- Navigare attraverso i 4 passaggi utilizzando le icone della barra degli strumenti
+- Passare tra i ruoli Utente ed Editor utilizzando il selettore di seguito
+
+##### Ruoli
+
+- **Utente Regolare**: Può compilare le valutazioni e visualizzare i risultati
+- **Moderatore**: Può modificare la configurazione del framework (tipi di pericolo, capacità, stakeholder)
+- **Amministratore**: Può modificare le scale di valutazione e le impostazioni
+
+##### Contesto
+
+Questo progetto ha ricevuto finanziamenti dal programma di ricerca e innovazione Horizon 2020 dell'Unione Europea. Sviluppato da TNO come parte del progetto [DIREKTION](https://www.direktion-network.org).`,
 };

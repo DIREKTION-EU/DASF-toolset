@@ -242,6 +242,7 @@ export const messagesSV: typeof messages = {
   landing_developed_by: "Utvecklad av",
   landing_as_part_of: "som en del av",
   landing_project: "projektet.",
+  landing_assessment_process: "Bedömningsprocess",
   landing_funded_by: "Finansierat av Europeiska unionen",
   delete_session_confirm: "Ta bort session: {name}?",
   delete_session_warning: "Detta kan inte ångras. Är du säker?",
@@ -249,4 +250,28 @@ export const messagesSV: typeof messages = {
   cap_all_selected: "Alla referensförmågor har lagts till i din session.",
   cap_add_selected: "Lägg till valda förmågor",
   cap_ref_panel_title: "Tillgängliga förmågor (DASF-referensmodell)",
+  about_markdown: `#### DIREKTION Assessment & Screening Framework (DASF)
+
+Verktygssamlingen DASF stödjer den systematiska bedömnings- och screeningprocessen för katastrofhantering. Den ger ett strukturerat fyra-stegsapproach:
+
+1. **Initiering och Beredskap (I&B)**: Identifiera relevanta farotyper och definiera omfånget för bedömningen.
+2. **Bedömning av Behov och Luckor (BBL)**: Bedöm kapaciteter inom katastrofhanteringscykeln, identifiera luckor och förbättringsbehov.
+3. **Lösningsbedömning (LB)**: Utvärdera potentiella lösningar för identifierade kapacitetsluckor, inklusive efterlevnad, användarnas behov och effektbedömning.
+4. **Vägkarta (VK)**: Planera implementeringstidsplaner och åtaganden för valda lösningar.
+
+##### Komma Igång
+
+- Skapa eller öppna en bedömningssession från startsidan
+- Navigera genom de 4 stegen med hjälp av verktygsfältets ikoner
+- Växla mellan Användare och Redaktör roller med hjälp av väljaren nedan
+
+##### Roller
+
+- **Vanlig Användare**: Kan fylla i bedömningar och se resultat
+- **Moderator**: Kan redigera ramverkskonfigurationen (farotyper, kapaciteter, intressenter)
+- **Administrator**: Kan ändra bedömningsskalor och inställningar
+
+##### Bakgrund
+
+Detta projekt har mottagit finansiering från Europeiska unionens Horizon 2020-program för forskning och innovation. Utvecklat av TNO som en del av projektet [DIREKTION](https://www.direktion-network.org).`,
 };

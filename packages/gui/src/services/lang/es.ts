@@ -246,6 +246,7 @@ export const messagesES: typeof messages = {
   landing_developed_by: "Desarrollado por",
   landing_as_part_of: "como parte del",
   landing_project: "proyecto.",
+  landing_assessment_process: "Proceso de evaluación",
   landing_funded_by: "Financiado por la Unión Europea",
   delete_session_confirm: "¿Eliminar sesión: {name}?",
   delete_session_warning: "Esta acción no se puede deshacer. ¿Está seguro?",
@@ -254,4 +255,28 @@ export const messagesES: typeof messages = {
     "Todas las capacidades de referencia se han añadido a su sesión.",
   cap_add_selected: "Añadir capacidades seleccionadas",
   cap_ref_panel_title: "Capacidades disponibles (modelo de referencia DASF)",
+  about_markdown: `#### DIREKTION Assessment & Screening Framework (DASF)
+
+El conjunto de herramientas DASF apoya el proceso sistemático de evaluación y detección para la gestión de desastres. Proporciona un enfoque estructurado de 4 pasos:
+
+1. **Iniciación y Preparación (I&P)**: Identifique los tipos de peligro relevantes y defina el alcance de la evaluación.
+2. **Evaluación de Necesidades y Brechas (ENB)**: Evalúe las capacidades en el ciclo de gestión de desastres, identifique las brechas y las necesidades de mejora.
+3. **Evaluación de Soluciones (ES)**: Evalúe las soluciones potenciales para las brechas de capacidad identificadas, incluido el cumplimiento normativo, las necesidades de los usuarios y la evaluación del impacto.
+4. **Hoja de Ruta (HR)**: Planifique los cronogramas de implementación y los compromisos para las soluciones seleccionadas.
+
+##### Comenzar
+
+- Cree o abra una sesión de evaluación desde la página de inicio
+- Navegue a través de los 4 pasos utilizando los iconos de la barra de herramientas
+- Cambie entre los roles de Usuario y Editor usando el selector a continuación
+
+##### Funciones
+
+- **Usuario Regular**: Puede completar evaluaciones y ver resultados
+- **Moderador**: Puede editar la configuración del marco (tipos de peligro, capacidades, partes interesadas)
+- **Administrador**: Puede modificar las escalas de evaluación y la configuración
+
+##### Antecedentes
+
+Este proyecto ha recibido financiación del programa de investigación e innovación Horizon 2020 de la Unión Europea. Desarrollado por TNO como parte del proyecto [DIREKTION](https://www.direktion-network.org).`,
 };

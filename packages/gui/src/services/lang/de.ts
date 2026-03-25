@@ -246,6 +246,7 @@ export const messagesDE: typeof messages = {
   landing_developed_by: "Entwickelt von",
   landing_as_part_of: "als Teil des",
   landing_project: "Projekts.",
+  landing_assessment_process: "Bewertungsprozess",
   landing_funded_by: "Finanziert von der Europäischen Union",
   delete_session_confirm: "Sitzung löschen: {name}?",
   delete_session_warning:
@@ -255,4 +256,28 @@ export const messagesDE: typeof messages = {
     "Alle Referenzfähigkeiten wurden Ihrer Sitzung hinzugefügt.",
   cap_add_selected: "Ausgewählte Fähigkeiten hinzufügen",
   cap_ref_panel_title: "Verfügbare Fähigkeiten (DASF-Referenzmodell)",
+  about_markdown: `#### DIREKTION Assessment & Screening Framework (DASF)
+
+Die DASF-Toolsammlung unterstützt den systematischen Bewertungs- und Screening-Prozess für das Katastrophenmanagement. Sie bietet einen strukturierten Ansatz in 4 Schritten:
+
+1. **Initiierung & Vorbereitung (I&V)**: Identifizieren Sie relevante Gefahrentypen und definieren Sie den Bewertungsumfang.
+2. **Bedarfs- & Lückenbewertung (BLB)**: Bewerten Sie Fähigkeiten im Katastrophenmanagement-Zyklus, identifizieren Sie Lücken und Verbesserungsbedarfe.
+3. **Lösungsbewertung (LB)**: Evaluieren Sie potenzielle Lösungen für identifizierte Fähigkeitslücken, einschließlich Compliance, Benutzeranforderungen und Auswirkungsbewertung.
+4. **Roadmapping (RM)**: Planen Sie Implementierungszeitpläne und Verpflichtungen für ausgewählte Lösungen.
+
+##### Erste Schritte
+
+- Erstellen oder öffnen Sie eine Bewertungssitzung von der Startseite
+- Navigieren Sie durch die 4 Schritte mit den Symbolleistensymbolen
+- Wechseln Sie zwischen Benutzer- und Editor-Rollen mit dem Selector unten
+
+##### Rollen
+
+- **Normaler Benutzer**: Kann Bewertungen ausfüllen und Ergebnisse anzeigen
+- **Moderator**: Kann die Framework-Konfiguration bearbeiten (Gefahrentypen, Fähigkeiten, Stakeholder)
+- **Administrator**: Kann Bewertungsskalen und Einstellungen ändern
+
+##### Hintergrund
+
+Dieses Projekt wurde aus dem Horizon-2020-Programm der Europäischen Union für Forschung und Innovation finanziert. Entwickelt von TNO als Teil des [DIREKTION](https://www.direktion-network.org)-Projekts.`,
 };

@@ -246,6 +246,7 @@ export const messagesFR: typeof messages = {
   landing_developed_by: "Développé par",
   landing_as_part_of: "dans le cadre du",
   landing_project: "projet.",
+  landing_assessment_process: "Processus d'évaluation",
   landing_funded_by: "Financé par l'Union européenne",
   delete_session_confirm: "Supprimer la session : {name} ?",
   delete_session_warning: "Cette action est irréversible. Êtes-vous sûr ?",
@@ -254,4 +255,28 @@ export const messagesFR: typeof messages = {
     "Toutes les capacités de référence ont été ajoutées à votre session.",
   cap_add_selected: "Ajouter les capacités sélectionnées",
   cap_ref_panel_title: "Capacités disponibles (modèle de référence DASF)",
+  about_markdown: `#### DIREKTION Assessment & Screening Framework (DASF)
+
+L'ensemble d'outils DASF soutient le processus systématique d'évaluation et de dépistage pour la gestion des catastrophes. Il fournit une approche structurée en 4 étapes :
+
+1. **Initiation et Préparation (I&P)** : Identifiez les types de dangers pertinents et définissez l'étendue de l'évaluation.
+2. **Évaluation des Besoins et des Lacunes (EBL)** : Évaluez les capacités dans le cycle de gestion des catastrophes, identifiez les lacunes et les besoins d'amélioration.
+3. **Évaluation des Solutions (ES)** : Évaluez les solutions potentielles pour les lacunes de capacité identifiées, y compris la conformité, les besoins des utilisateurs et l'évaluation des impacts.
+4. **Feuille de Route (FR)** : Planifiez les calendriers de mise en œuvre et les engagements pour les solutions sélectionnées.
+
+##### Débuter
+
+- Créez ou ouvrez une session d'évaluation à partir de la page d'accueil
+- Naviguez à travers les 4 étapes en utilisant les icônes de la barre d'outils
+- Basculez entre les rôles Utilisateur et Éditeur à l'aide du sélecteur ci-dessous
+
+##### Rôles
+
+- **Utilisateur Standard** : Peut remplir les évaluations et afficher les résultats
+- **Modérateur** : Peut modifier la configuration du cadre (types de dangers, capacités, parties prenantes)
+- **Administrateur** : Peut modifier les échelles d'évaluation et les paramètres
+
+##### Contexte
+
+Ce projet a reçu un financement du programme de recherche et d'innovation Horizon 2020 de l'Union européenne. Développé par TNO dans le cadre du projet [DIREKTION](https://www.direktion-network.org).`,
 };

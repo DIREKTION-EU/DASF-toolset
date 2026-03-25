@@ -533,6 +533,7 @@ export const messagesNL: Messages = {
   landing_developed_by: "Ontwikkeld door",
   landing_as_part_of: "als onderdeel van het",
   landing_project: "project.",
+  landing_assessment_process: "Beoordelingsproces",
   landing_funded_by: "Gefinancierd door de Europese Unie",
   delete_session_confirm: "Sessie verwijderen: {name}?",
   delete_session_warning:
@@ -903,4 +904,28 @@ export const messagesNL: Messages = {
   drawer_go_to_roadmap: "Ga naar routekaart →",
   drawer_none: "Geen",
   drawer_relevant_hazards: "Relevante gevaren",
+  about_markdown: `#### DIREKTION Assessment & Screening Framework (DASF)
+
+De DASF-toolset ondersteunt het systematische beoordelings- en screeningproces voor rampenbestrijding. Het biedt een gestructureerde aanpak in 4 stappen:
+
+1. **Initiatie & Voorbereiding (I&P)**: Identificeer relevante typen gevaren en definieer de scope van de beoordeling.
+2. **Behoeften & Lacunes Beoordeling (NGA)**: Beoordeel capaciteiten in de rampenbestrijdingscyclus, identificeer lacunes en verbeterbehoeften.
+3. **Oplossingsbeoordeling (SA)**: Evalueer potentiële oplossingen voor geïdentificeerde lacunes, inclusief compliance, gebruikersbehoeften en impactbeoordeling.
+4. **Routekaart (RM)**: Plan implementatietijdlijnen en toezeggingen voor geselecteerde oplossingen.
+
+##### Aan de slag
+
+- Maak een nieuwe of open een bestaande beoordelingssessie vanaf de startpagina
+- Navigeer door de 4 stappen met de werkbalkpictogrammen
+- Schakel tussen Gebruiker- en Redacteurrol met de selector hieronder
+
+##### Rollen
+
+- **Gewone gebruiker**: Kan beoordelingen invullen en resultaten bekijken
+- **Moderator**: Kan de frameworkconfiguratie bewerken (gevarentypen, capaciteiten, stakeholders)
+- **Beheerder**: Kan beoordelingsschalen en instellingen wijzigen
+
+##### Achtergrond
+
+Dit project heeft financiering ontvangen van het Horizon 2020-programma voor onderzoek en innovatie van de Europese Unie. Ontwikkeld door TNO als onderdeel van het [DIREKTION](https://www.direktion-network.org)-project.`,
 };
