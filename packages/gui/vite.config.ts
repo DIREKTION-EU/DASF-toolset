@@ -11,11 +11,11 @@ const outputPath = resolve(process.cwd(), isProduction ? "../../docs" : "dist");
 // Load env file in correct mode
 const env = loadEnv(devMode ? "development" : "production", process.cwd(), "");
 
-const SERVER = env.SERVER || "localhost";
+const SERVER = env.SERVER || "http://localhost:4545";
 const publicPath = isProduction ? "/DASF-toolset/" : "/";
 const APP_PORT = parseInt(env.APP_PORT || "65533", 10);
-const APP_TITLE = env.APP_TITLE || "MITHRIL-APP";
-const APP_TITLE_SHORT = env.APP_TITLE_SHORT || "MITHRIL";
+const APP_TITLE = env.APP_TITLE || "DASF-toolset";
+const APP_TITLE_SHORT = env.APP_TITLE_SHORT || "DASF";
 const APP_DESC =
   env.APP_DESC ||
   "The DASF toolset consists of several core tools designed to simplify and systematize the assessment and screening process for disaster management. In addition to a user guide to support you through the assessment process. The toolset analysis is aligned with the latest EU priorities for disaster management, including the EU civil security taxonomy.";
@@ -62,4 +62,18 @@ export default defineConfig({
     "import.meta.env.APP_TITLE_SHORT": JSON.stringify(APP_TITLE_SHORT),
     "import.meta.env.APP_DESC": JSON.stringify(APP_DESC),
   },
+  plugins: [
+    {
+      name: "html-env-variables",
+      transformIndexHtml: {
+        order: "pre",
+        handler(html) {
+          return html
+            .replace(/<%= env\.APP_TITLE %>/g, APP_TITLE)
+            .replace(/<%= env\.APP_TITLE_SHORT %>/g, APP_TITLE_SHORT)
+            .replace(/<%= env\.APP_DESC %>/g, APP_DESC);
+        },
+      },
+    },
+  ],
 });
