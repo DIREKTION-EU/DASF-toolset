@@ -143,7 +143,6 @@ docs
 
 # pnpm store and lockfiles
 .pnpm-store
-pnpm-lock.yaml
 
 # IDE and editor files
 .vscode/
