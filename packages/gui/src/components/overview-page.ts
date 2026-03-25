@@ -95,7 +95,7 @@ export const OverviewPage: MeiosisComponent = () => {
             ),
           )
         : 0;
-      const height = 120 + maxItems * 30;
+      const height = 120 + maxItems * 30 + 48;
       const filename = `${formatDate(Date.now())}_${title}_v${catModel.version}.docx`;
       return m(".overview.page", [
         // ── Filter toolbar ───────────────────────────────────────────────────
@@ -207,12 +207,15 @@ export const OverviewPage: MeiosisComponent = () => {
                             const newCapIds = new Set(
                               newIds.filter((id) => availableIds.has(id)),
                             );
+                            const existingById = new Map(
+                              capabilities.map((c) => [c.id, c]),
+                            );
                             const keptCaps = capabilities.filter(
                               (c) => !availableIds.has(c.id),
                             );
-                            const addedCaps = availableCapabilities.filter(
-                              (c) => newCapIds.has(c.id),
-                            );
+                            const addedCaps = availableCapabilities
+                              .filter((c) => newCapIds.has(c.id))
+                              .map((c) => existingById.get(c.id) || c);
                             data.capabilities = [...keptCaps, ...addedCaps];
                             actions.saveModel(attrs, catModel);
                           },
@@ -236,234 +239,334 @@ export const OverviewPage: MeiosisComponent = () => {
                   subcategories &&
                     (subcategories as ISubcategoryVM[]).map((sc) =>
                       m(
-                        ".category-item.col.s12.m6.l6.xl3",
+                        ".category-item.col.s12.m6.l6.xl4",
                         m(
                           ".card",
                           {
-                            style: `background:${color || colorPalette[i % colorPalette.length]}; height:${height}px; overflow:hidden; filter:none`,
+                            style: `background:${color || colorPalette[i % colorPalette.length]}; height:${height}px; filter:none; display:flex; flex-direction:column;`,
                           },
-                          m(".card-content", [
+                          [
                             m(
-                              "span.card-title.truncate",
-                              {
-                                style:
-                                  "display:block; padding:0.4rem; border:2px solid rgba(0,0,0,0.55);",
-                              },
-                              m("strong", tLabel(sc)),
-                            ),
-                            m(
-                              "ul.caps",
-                              sc.capabilities &&
-                                sc.capabilities.map((cap) => {
-                                  const assessment = assessmentScale.find(
-                                    (a) => a.id === cap.assessmentId,
-                                  );
-                                  return m(
-                                    "li",
-                                    { key: cap.id },
-                                    editingCapId === cap.id && isEditor
-                                      ? m(TextInput, {
-                                          id: `cap-edit-${cap.id}`,
-                                          defaultValue: cap.label,
-                                          onchange: (v) => {
-                                            cap.label = v || cap.label;
-                                            actions.saveModel(attrs, catModel);
-                                          },
-                                          onblur: () => {
-                                            editingCapId = null;
-                                          },
-                                          style:
-                                            "background:white; color:black; padding:2px 4px;",
-                                        })
-                                      : m(
-                                          "a",
-                                          {
-                                            href: routingSvc.href(
-                                              Pages.ASSESSMENT,
-                                              cap.id,
-                                            ),
-                                            onclick: (e: Event) => {
-                                              e.preventDefault();
-                                              routingSvc.switchTo(
-                                                Pages.ASSESSMENT,
-                                                { id: cap.id },
-                                              );
-                                            },
-                                            style:
-                                              "display:flex; align-items:center; flex-wrap:nowrap; min-width:0; color:rgba(0,0,0,0.87);",
-                                          },
-                                          [
-                                            m(
-                                              ".capability-info",
-                                              {
-                                                style:
-                                                  "display:flex; align-items:center; flex:1; min-width:0; gap:4px;",
+                              ".card-content",
+                              { style: "flex:1; overflow:hidden;" },
+                              [
+                                m(
+                                  "span.card-title.truncate",
+                                  {
+                                    style:
+                                      "display:block; padding:0.4rem; border:2px solid rgba(0,0,0,0.55);",
+                                  },
+                                  m("strong", tLabel(sc)),
+                                ),
+                                m(
+                                  "ul.caps",
+                                  sc.capabilities &&
+                                    sc.capabilities.map((cap) => {
+                                      const assessment = assessmentScale.find(
+                                        (a) => a.id === cap.assessmentId,
+                                      );
+                                      return m(
+                                        "li",
+                                        { key: cap.id },
+                                        editingCapId === cap.id && isEditor
+                                          ? m(TextInput, {
+                                              id: `cap-edit-${cap.id}`,
+                                              defaultValue: cap.label,
+                                              onchange: (v) => {
+                                                cap.label = v || cap.label;
+                                                actions.saveModel(
+                                                  attrs,
+                                                  catModel,
+                                                );
                                               },
-                                              [
-                                                m(".square", {
-                                                  title: assessment?.label,
-                                                  style: `flex-shrink:0; background-color:${assessment?.color}; margin-right:4px;`,
-                                                }),
-                                                m(
-                                                  ".name",
-                                                  {
-                                                    style:
-                                                      "flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;",
-                                                  },
-                                                  tLabel(cap),
-                                                ),
-                                                m(
-                                                  ".badges",
-                                                  {
-                                                    style:
-                                                      "display:flex; align-items:center; gap:6px;",
-                                                  },
-                                                  (() => {
-                                                    const pendingProposals =
-                                                      projectProposals.filter(
-                                                        (p) =>
-                                                          !p.approved &&
-                                                          p.capabilityIds?.includes(
-                                                            cap.id,
-                                                          ),
-                                                      ).length;
-                                                    const approvedProposals =
-                                                      projectProposals.filter(
-                                                        (p) =>
-                                                          p.approved &&
-                                                          p.capabilityIds?.includes(
-                                                            cap.id,
-                                                          ),
-                                                      ).length;
-                                                    const stakeholderCount =
-                                                      (
-                                                        cap.capabilityStakeholders as string[]
-                                                      )?.length || 0;
-                                                    const hazardCount = (
-                                                      cap.hazardIds || []
-                                                    ).length;
-
-                                                    return [
-                                                      selectedHazardIds.length
-                                                        ? m(
-                                                            Badge,
-                                                            {
-                                                              title:
-                                                                t("hazards"),
-                                                              badgeContent:
-                                                                hazardCount,
-                                                              color: "blue",
-                                                            },
-                                                            m(Icon, {
-                                                              iconName:
-                                                                "report_problem",
-                                                            }),
-                                                          )
-                                                        : null,
-                                                      stakeholderCount
-                                                        ? m(
-                                                            Badge,
-                                                            {
-                                                              title: t("shs"),
-                                                              badgeContent:
-                                                                stakeholderCount,
-                                                              color: "blue",
-                                                            },
-                                                            m(Icon, {
-                                                              iconName:
-                                                                "people",
-                                                            }),
-                                                          )
-                                                        : null,
-                                                      cap.shouldDevelop
-                                                        ? m(
-                                                            Badge,
-                                                            {
-                                                              title:
-                                                                t("solutions"),
-                                                              variant: "dot",
-                                                              color: "green",
-                                                            },
-                                                            m(Icon, {
-                                                              iconName: "check",
-                                                            }),
-                                                          )
-                                                        : null,
-                                                      pendingProposals > 0
-                                                        ? m(
-                                                            Badge,
-                                                            {
-                                                              title:
-                                                                t("solutions"),
-                                                              badgeContent:
-                                                                pendingProposals,
-                                                              max: 99,
-                                                            },
-                                                            m(Icon, {
-                                                              iconName:
-                                                                "lightbulb",
-                                                            }),
-                                                          )
-                                                        : null,
-                                                      approvedProposals > 0
-                                                        ? m(
-                                                            Badge,
-                                                            {
-                                                              badgeContent:
-                                                                approvedProposals,
-                                                              max: 99,
-                                                              color: "blue",
-                                                            },
-                                                            m(Icon, {
-                                                              iconName:
-                                                                "engineering",
-                                                            }),
-                                                          )
-                                                        : null,
-                                                    ];
-                                                  })(),
-                                                ),
-                                              ],
-                                            ),
-                                            m(
-                                              "i.material-icons.tiny.context-drawer-trigger",
+                                              onblur: () => {
+                                                editingCapId = null;
+                                              },
+                                              style:
+                                                "background:white; color:black; padding:2px 4px;",
+                                            })
+                                          : m(
+                                              "a",
                                               {
-                                                style:
-                                                  "font-size:14px; cursor:pointer; margin-left:8px; opacity:0.5; flex-shrink:0;",
-                                                title: t("drawer_capabilities"),
+                                                href: routingSvc.href(
+                                                  Pages.ASSESSMENT,
+                                                  cap.id,
+                                                ),
                                                 onclick: (e: Event) => {
                                                   e.preventDefault();
-                                                  e.stopPropagation();
-                                                  actions.openDrawer(
-                                                    attrs,
-                                                    "capability",
-                                                    cap.id,
+                                                  routingSvc.switchTo(
+                                                    Pages.ASSESSMENT,
+                                                    { id: cap.id },
                                                   );
                                                 },
+                                                style:
+                                                  "display:flex; align-items:center; flex-wrap:nowrap; min-width:0; color:rgba(0,0,0,0.87);",
                                               },
-                                              "info_outline",
-                                            ),
-                                            isEditor &&
-                                              m(
-                                                "i.material-icons.tiny",
-                                                {
-                                                  style:
-                                                    "font-size:12px; cursor:pointer; margin-left:4px; opacity:0.6;",
-                                                  title: t("edit"),
-                                                  onclick: (e: Event) => {
-                                                    e.preventDefault();
-                                                    e.stopPropagation();
-                                                    editingCapId = cap.id;
+                                              [
+                                                m(
+                                                  ".capability-info",
+                                                  {
+                                                    style:
+                                                      "display:flex; align-items:center; flex:1; min-width:0; gap:4px;",
                                                   },
-                                                },
-                                                "edit",
-                                              ),
-                                          ],
-                                        ),
-                                  );
-                                }),
+                                                  [
+                                                    m(".cap-status-dot", {
+                                                      title: cap.assessmentId
+                                                        ? assessment?.label
+                                                        : cap.taskAssessment
+                                                              ?.assessmentId ||
+                                                            cap
+                                                              .performanceAssessment
+                                                              ?.assessmentId
+                                                          ? t("partially")
+                                                          : t("not_assessed"),
+                                                      style: `background-color:${
+                                                        cap.assessmentId
+                                                          ? assessment?.color ||
+                                                            "#4caf50"
+                                                          : cap.taskAssessment
+                                                                ?.assessmentId ||
+                                                              cap
+                                                                .performanceAssessment
+                                                                ?.assessmentId
+                                                            ? "#ff9800"
+                                                            : "#9e9e9e"
+                                                      };`,
+                                                    }),
+                                                    m(
+                                                      ".name",
+                                                      {
+                                                        style:
+                                                          "flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;",
+                                                      },
+                                                      tLabel(cap),
+                                                    ),
+                                                    m(
+                                                      ".badges",
+                                                      {
+                                                        style:
+                                                          "display:flex; align-items:center; gap:6px;",
+                                                      },
+                                                      (() => {
+                                                        const pendingProposals =
+                                                          projectProposals.filter(
+                                                            (p) =>
+                                                              !p.approved &&
+                                                              p.capabilityIds?.includes(
+                                                                cap.id,
+                                                              ),
+                                                          ).length;
+                                                        const approvedProposals =
+                                                          projectProposals.filter(
+                                                            (p) =>
+                                                              p.approved &&
+                                                              p.capabilityIds?.includes(
+                                                                cap.id,
+                                                              ),
+                                                          ).length;
+                                                        const stakeholderCount =
+                                                          (
+                                                            cap.capabilityStakeholders as string[]
+                                                          )?.length || 0;
+                                                        const hazardCount = (
+                                                          cap.hazardIds || []
+                                                        ).length;
+
+                                                        return [
+                                                          selectedHazardIds.length
+                                                            ? m(
+                                                                Badge,
+                                                                {
+                                                                  title:
+                                                                    t(
+                                                                      "hazards",
+                                                                    ),
+                                                                  badgeContent:
+                                                                    hazardCount,
+                                                                  color: "blue",
+                                                                },
+                                                                m(Icon, {
+                                                                  iconName:
+                                                                    "report_problem",
+                                                                }),
+                                                              )
+                                                            : null,
+                                                          stakeholderCount
+                                                            ? m(
+                                                                Badge,
+                                                                {
+                                                                  title:
+                                                                    t("shs"),
+                                                                  badgeContent:
+                                                                    stakeholderCount,
+                                                                  color: "blue",
+                                                                },
+                                                                m(Icon, {
+                                                                  iconName:
+                                                                    "people",
+                                                                }),
+                                                              )
+                                                            : null,
+                                                          cap.shouldDevelop
+                                                            ? m(
+                                                                Badge,
+                                                                {
+                                                                  title:
+                                                                    t(
+                                                                      "solutions",
+                                                                    ),
+                                                                  variant:
+                                                                    "dot",
+                                                                  color:
+                                                                    "green",
+                                                                },
+                                                                m(Icon, {
+                                                                  iconName:
+                                                                    "check",
+                                                                }),
+                                                              )
+                                                            : null,
+                                                          pendingProposals > 0
+                                                            ? m(
+                                                                Badge,
+                                                                {
+                                                                  title:
+                                                                    t(
+                                                                      "solutions",
+                                                                    ),
+                                                                  badgeContent:
+                                                                    pendingProposals,
+                                                                  max: 99,
+                                                                },
+                                                                m(Icon, {
+                                                                  iconName:
+                                                                    "lightbulb",
+                                                                }),
+                                                              )
+                                                            : null,
+                                                          approvedProposals > 0
+                                                            ? m(
+                                                                Badge,
+                                                                {
+                                                                  badgeContent:
+                                                                    approvedProposals,
+                                                                  max: 99,
+                                                                  color: "blue",
+                                                                },
+                                                                m(Icon, {
+                                                                  iconName:
+                                                                    "engineering",
+                                                                }),
+                                                              )
+                                                            : null,
+                                                        ];
+                                                      })(),
+                                                    ),
+                                                  ],
+                                                ),
+                                                m(
+                                                  "i.material-icons.tiny.context-drawer-trigger",
+                                                  {
+                                                    style:
+                                                      "font-size:14px; cursor:pointer; margin-left:8px; opacity:0.5; flex-shrink:0;",
+                                                    title: t(
+                                                      "drawer_capabilities",
+                                                    ),
+                                                    onclick: (e: Event) => {
+                                                      e.preventDefault();
+                                                      e.stopPropagation();
+                                                      actions.openDrawer(
+                                                        attrs,
+                                                        "capability",
+                                                        cap.id,
+                                                      );
+                                                    },
+                                                  },
+                                                  "info_outline",
+                                                ),
+                                                isEditor &&
+                                                  m(
+                                                    "i.material-icons.tiny",
+                                                    {
+                                                      style:
+                                                        "font-size:12px; cursor:pointer; margin-left:4px; opacity:0.6;",
+                                                      title: t("edit"),
+                                                      onclick: (e: Event) => {
+                                                        e.preventDefault();
+                                                        e.stopPropagation();
+                                                        editingCapId = cap.id;
+                                                      },
+                                                    },
+                                                    "edit",
+                                                  ),
+                                              ],
+                                            ),
+                                      );
+                                    }),
+                                ),
+                              ],
                             ),
-                          ]),
+                            m(
+                              ".card-action",
+                              {
+                                style:
+                                  "flex-shrink:0; padding:6px 12px; display:flex; align-items:center; justify-content:space-between; border-top:1px solid rgba(0,0,0,0.15);",
+                              },
+                              (() => {
+                                const assessedCount = sc.capabilities.filter(
+                                  (c) => c.assessmentId,
+                                ).length;
+                                const partialCount = sc.capabilities.filter(
+                                  (c) =>
+                                    !c.assessmentId &&
+                                    (c.taskAssessment?.assessmentId ||
+                                      c.performanceAssessment?.assessmentId),
+                                ).length;
+                                const total = sc.capabilities.length;
+                                const firstUnassessed = sc.capabilities.find(
+                                  (c) => !c.assessmentId,
+                                );
+                                const targetCap =
+                                  firstUnassessed || sc.capabilities[0];
+                                const allDone = assessedCount === total;
+                                return [
+                                  m(
+                                    "span",
+                                    { style: "font-size:11px; opacity:0.7;" },
+                                    `${assessedCount}/${total}` +
+                                      (partialCount > 0
+                                        ? ` (${partialCount} ${t("partially")})`
+                                        : ""),
+                                  ),
+                                  targetCap
+                                    ? m(
+                                        "a",
+                                        {
+                                          href: routingSvc.href(
+                                            Pages.ASSESSMENT,
+                                            targetCap.id,
+                                          ),
+                                          class: "cap-assess-action",
+                                          onclick: (e: Event) => {
+                                            e.preventDefault();
+                                            routingSvc.switchTo(
+                                              Pages.ASSESSMENT,
+                                              { id: targetCap.id },
+                                            );
+                                          },
+                                        },
+                                        allDone
+                                          ? t("edit")
+                                          : assessedCount > 0 ||
+                                              partialCount > 0
+                                            ? t("continue")
+                                            : t("assess"),
+                                      )
+                                    : null,
+                                ];
+                              })(),
+                            ),
+                          ],
                         ),
                       ),
                     ),

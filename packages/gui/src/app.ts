@@ -4,7 +4,10 @@ import "mithril-materialized/index.min.css";
 import "./css/style.css";
 import { registerPlugin } from "mithril-ui-form";
 import { assessmentPlugin } from "./components/ui/assessment-plugin";
-import { lookupTable, lookupTableCreatorPlugin } from "./components/ui/lookup-table-plugin";
+import {
+  lookupTable,
+  lookupTableCreatorPlugin,
+} from "./components/ui/lookup-table-plugin";
 import { tablePlugin } from "./components/ui/table-plugin";
 import { routingSvc } from "./services/routing-service";
 
@@ -18,8 +21,29 @@ import { registerServiceWorker } from "./register-sw";
 
 // Register service worker for PWA support (production only — avoid caching in dev)
 if (import.meta.env.DEV) {
-  // Unregister any lingering SW from previous sessions so it doesn't serve stale cache
-  navigator.serviceWorker?.getRegistrations().then((regs) => regs.forEach((r) => r.unregister()));
+  // Ensure dev HMR is never SW-controlled: unregister workers, clear caches, reload once.
+  const DEV_SW_CLEANUP_KEY = "DASF_DEV_SW_CLEANED";
+  void (async () => {
+    try {
+      if (!("serviceWorker" in navigator)) return;
+
+      const isControlled = !!navigator.serviceWorker.controller;
+      const regs = await navigator.serviceWorker.getRegistrations();
+      await Promise.all(regs.map((r) => r.unregister()));
+
+      if ("caches" in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map((k) => caches.delete(k)));
+      }
+
+      if (isControlled && !sessionStorage.getItem(DEV_SW_CLEANUP_KEY)) {
+        sessionStorage.setItem(DEV_SW_CLEANUP_KEY, "1");
+        window.location.reload();
+      }
+    } catch (err) {
+      console.warn("[SW] Dev cleanup failed", err);
+    }
+  })();
 } else {
   registerServiceWorker();
 }

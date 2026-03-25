@@ -331,6 +331,7 @@ export const messagesNL: Messages = {
   capability_gaps: "Capaciteitstekorten",
   more: "meer",
   partially: "Gedeeltelijk",
+  not_assessed: "Niet beoordeeld",
   enabled_steps: "Actieve stappen",
   priority_low: "Laag",
   priority_medium: "Middel",

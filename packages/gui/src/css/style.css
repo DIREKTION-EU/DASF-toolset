@@ -338,6 +338,41 @@
   margin-bottom: 4px;
 }
 
+/* Assessment status dot in capability list items */
+.cap-status-dot {
+  flex-shrink: 0;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 6px;
+  border: 1px solid rgba(0, 0, 0, 0.25);
+}
+
+/* High-contrast CTA for assess/edit action on colored overview cards */
+.overview .card .card-action .cap-assess-action {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: rgba(0, 0, 0, 0.68);
+  color: #fff !important;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+}
+
+.overview .card .card-action .cap-assess-action:hover,
+.overview .card .card-action .cap-assess-action:focus {
+  background: rgba(0, 0, 0, 0.8);
+  color: #fff !important;
+  text-decoration: none;
+}
+
+[data-theme="dark"] .overview .card .card-action .cap-assess-action {
+  border-color: rgba(255, 255, 255, 0.45);
+}
+
 /* Context drawer trigger icon on Overview page — hidden until row hover */
 .caps li .context-drawer-trigger {
   opacity: 0;

@@ -328,6 +328,7 @@ export const messages = {
   capability_gaps: "Capability Gaps",
   more: "more",
   partially: "Partially",
+  not_assessed: "Not assessed",
   enabled_steps: "Enabled steps",
   priority_low: "Low",
   priority_medium: "Medium",
