@@ -12,9 +12,7 @@ const outputPath = resolve(process.cwd(), isProduction ? "../../docs" : "dist");
 const env = loadEnv(devMode ? "development" : "production", process.cwd(), "");
 
 const SERVER = env.SERVER || "localhost";
-const publicPath = isProduction
-  ? "https://github.io/erikvullings/mithril-app"
-  : "";
+const publicPath = isProduction ? "/DASF-toolset/" : "/";
 const APP_PORT = parseInt(env.APP_PORT || "65533", 10);
 const APP_TITLE = env.APP_TITLE || "MITHRIL-APP";
 const APP_TITLE_SHORT = env.APP_TITLE_SHORT || "MITHRIL";
@@ -29,6 +27,7 @@ console.log(
 );
 
 export default defineConfig({
+  base: publicPath,
   build: {
     outDir: outputPath,
     assetsDir: "assets",
