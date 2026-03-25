@@ -12,8 +12,11 @@ import { actions } from "../services/meiosis";
 const createTextFilter = (txt: string) => {
   if (!txt) return () => true;
   const checker = new RegExp(txt, "i");
-  return ({ label = "", id = "" }: { label: string; id?: string }) =>
-    checker.test(id) || checker.test(label);
+  return ({ label = "", id = "" }: { label: string; id?: string }) => {
+    const translatedId = t("TAXONOMY", id as any) || id;
+    const translatedLabel = t("TAXONOMY", label as any) || label;
+    return checker.test(translatedId) || checker.test(translatedLabel);
+  };
 };
 
 export type Taxonomy = {
@@ -97,8 +100,11 @@ export const TaxonomyPage: MeiosisComponent = () => ({
               "tbody",
               filteredLexicon.map((l) =>
                 m("tr", [
-                  m("td", m("strong", l.id)),
-                  m("td", m.trust(render(l.label))),
+                  m("td", m("strong", t("TAXONOMY", l.id as any) || l.id)),
+                  m(
+                    "td",
+                    m.trust(render(t("TAXONOMY", l.label as any) || l.label)),
+                  ),
                   // l.ref &&
                   //   m(
                   //     'td.hide-on-med-and-down',

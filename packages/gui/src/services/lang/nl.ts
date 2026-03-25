@@ -237,6 +237,116 @@ export const messagesNL: Messages = {
   taxonomy_route: "/taxonomie",
   taxonomy: "Taxonomie",
   tax_def: "#### Taxonomie\n\nBetekenis van gebruikte begrippen.",
+  TAXONOMY: {
+    HAZARD: "Gevaar",
+    HAZARD_DEF:
+      "Een proces, fenomeen of menselijke activiteit die levensverlies, letsel, ontwrichting of milieuschade kan veroorzaken.",
+    HAZARD_TYPE: "Gevarentype",
+    HAZARD_TYPE_DEF:
+      "Een klasse van gevaren met vergelijkbare oorsprong of kenmerken, zoals natuurlijke, technologische of door mensen veroorzaakte gevaren.",
+    DISASTER: "Ramp",
+    DISASTER_DEF:
+      "Een ernstige verstoring van een gemeenschap of samenleving die de eigen veerkracht en middelen overstijgt.",
+    EMERGENCY: "Noodsituatie",
+    EMERGENCY_DEF:
+      "Een situatie die onmiddellijke, gecoordineerde actie vereist om leven, gezondheid, eigendom of milieu te beschermen.",
+    DISASTER_RISK: "Rampenrisico",
+    DISASTER_RISK_DEF:
+      "De potentiële schade door gevaarlijke gebeurtenissen, bepaald door gevaar, blootstelling, kwetsbaarheid en capaciteit.",
+    EXPOSURE: "Blootstelling",
+    EXPOSURE_DEF:
+      "De aanwezigheid van mensen, middelen, infrastructuur en diensten op locaties waar gevaren zich kunnen voordoen.",
+    VULNERABILITY: "Kwetsbaarheid",
+    VULNERABILITY_DEF:
+      "Omstandigheden die de gevoeligheid van mensen, middelen of systemen voor de impact van gevaren vergroten.",
+    CAPACITY: "Capaciteit",
+    CAPACITY_DEF:
+      "De sterktes en middelen die beschikbaar zijn om gevaren te voorzien, op te vangen, te weerstaan en ervan te herstellen.",
+    CAPABILITY: "Operationele capaciteit",
+    CAPABILITY_DEF:
+      "Een specifieke, aantoonbare bekwaamheid van een organisatie om onder bepaalde voorwaarden taken uit te voeren en resultaten te behalen.",
+    RESILIENCE: "Veerkracht",
+    RESILIENCE_DEF:
+      "Het vermogen van systemen en gemeenschappen om te weerstaan, op te vangen, zich aan te passen en tijdig te herstellen met behoud van essentiële functies.",
+    PREVENTION: "Preventie",
+    PREVENTION_DEF:
+      "Maatregelen om het ontstaan van nieuwe risico's te voorkomen en schadelijke gevolgen van gevaren te vermijden.",
+    MITIGATION: "Mitigatie",
+    MITIGATION_DEF:
+      "Maatregelen die de ernst of waarschijnlijkheid van negatieve effecten van gevaarlijke gebeurtenissen verminderen.",
+    PREPAREDNESS: "Voorbereidheid",
+    PREPAREDNESS_DEF:
+      "Kennis, plannen en capaciteiten die vooraf worden ontwikkeld om effectief te kunnen anticiperen, reageren en herstellen.",
+    EARLY_WARNING_SYSTEM: "Vroegtijdig waarschuwingssysteem",
+    EARLY_WARNING_SYSTEM_DEF:
+      "Een geïntegreerd systeem voor gevarenmonitoring, risico-inschatting, waarschuwing en tijdig handelen.",
+    RESPONSE: "Respons",
+    RESPONSE_DEF:
+      "Acties vlak voor, tijdens of direct na een gebeurtenis om levens te redden en in acute behoeften te voorzien.",
+    RECOVERY: "Herstel",
+    RECOVERY_DEF:
+      "Het proces van herstel en verbetering van bestaanszekerheid, diensten, infrastructuur en systemen na een ramp.",
+    BUILD_BACK_BETTER: "Beter terugbouwen",
+    BUILD_BACK_BETTER_DEF:
+      "Herstel en wederopbouw gebruiken om toekomstige risico's te verminderen en de veerkracht te vergroten.",
+    CONTINGENCY_PLANNING: "Scenario- en noodplanning",
+    CONTINGENCY_PLANNING_DEF:
+      "Het vooraf uitwerken van operationele plannen en samenwerkingsafspraken voor plausibele noodscenario's.",
+    RISK_ASSESSMENT: "Risicobeoordeling",
+    RISK_ASSESSMENT_DEF:
+      "Een gestructureerd proces om gevaren te identificeren, gevolgen te analyseren en risico's in te schatten ter ondersteuning van besluitvorming.",
+    RISK_COMMUNICATION: "Risicocommunicatie",
+    RISK_COMMUNICATION_DEF:
+      "Tweerichtingsuitwisseling van risico-informatie tussen autoriteiten, responders, stakeholders en publiek.",
+    SITUATION_AWARENESS: "Situatiebewustzijn",
+    SITUATION_AWARENESS_DEF:
+      "Een actueel en gedeeld beeld van incidentomstandigheden, impact, beschikbare middelen en te verwachten ontwikkelingen.",
+    INCIDENT_COMMAND: "Incidentcommandovoering",
+    INCIDENT_COMMAND_DEF:
+      "Een commandostructuur voor de organisatie van rollen, besluiten en middelen tijdens incidenten.",
+    STAKEHOLDER: "Stakeholder",
+    STAKEHOLDER_DEF:
+      "Elke organisatie, groep of persoon met een rol, verantwoordelijkheid of belang in voorbereiding, respons of herstel.",
+    INTEROPERABILITY: "Interoperabiliteit",
+    INTEROPERABILITY_DEF:
+      "Het vermogen van organisaties, teams en systemen om effectief samen te werken over procedures, data en technologie heen.",
+    CAPABILITY_GAP: "Capaciteitstekort",
+    CAPABILITY_GAP_DEF:
+      "Het verschil tussen de vereiste en de huidige capaciteit om beoogde resultaten te behalen.",
+    CAPABILITY_ASSESSMENT: "Capaciteitsbeoordeling",
+    CAPABILITY_ASSESSMENT_DEF:
+      "Een gestructureerde evaluatie van belang en prestatie van capaciteiten om verbeterprioriteiten te bepalen.",
+    SOLUTION: "Oplossing",
+    SOLUTION_DEF:
+      "Een maatregel, werkwijze, technologie of interventie om een of meer capaciteitstekorten aan te pakken.",
+    SOLUTION_ASSESSMENT: "Oplossingsbeoordeling",
+    SOLUTION_ASSESSMENT_DEF:
+      "Een systematische beoordeling van oplossingen op gebruikersbehoeften, operationele toepasbaarheid, impact en compliance.",
+    ROADMAP: "Routekaart",
+    ROADMAP_DEF:
+      "Een gefaseerd implementatieplan dat laat zien wat wanneer en door wie wordt gerealiseerd.",
+    IMPLEMENTATION_TIMELINE: "Implementatietijdlijn",
+    IMPLEMENTATION_TIMELINE_DEF:
+      "De geplande volgorde en timing van activiteiten, mijlpalen en opleveringen voor implementatie.",
+    PRIORITIZATION: "Prioritering",
+    PRIORITIZATION_DEF:
+      "Het rangschikken van acties of investeringen op basis van urgentie, impact, haalbaarheid en beschikbare middelen.",
+    MONITORING_EVALUATION: "Monitoring en evaluatie",
+    MONITORING_EVALUATION_DEF:
+      "Doorlopende opvolging en periodieke beoordeling van voortgang, resultaten en effectiviteit voor leren en bijsturing.",
+    LESSONS_LEARNED: "Lessen geleerd",
+    LESSONS_LEARNED_DEF:
+      "Gedocumenteerde inzichten uit operaties en oefeningen die toekomstige planning en uitvoering verbeteren.",
+    SESSION: "Beoordelingssessie",
+    SESSION_DEF:
+      "Een opgeslagen werkcontext met geselecteerde gevaren, beoordelingen, oplossingen en routekaartgegevens.",
+    COMPLIANCE_CHECK: "Compliancecontrole",
+    COMPLIANCE_CHECK_DEF:
+      "Een verificatie dat voorgestelde oplossingen en acties voldoen aan wetgeving, beleid, ethische en sectorspecifieke eisen.",
+    TECHNOLOGY_READINESS_LEVEL: "Technologisch gereedheidsniveau",
+    TECHNOLOGY_READINESS_LEVEL_DEF:
+      "Een schaal van 1 tot 9 die de volwassenheid van een technologie aangeeft, van concept tot operationele inzet.",
+  },
   term: "Begrip",
   title: "Titel",
   upload: "Uploaden",
@@ -423,6 +533,7 @@ export const messagesNL: Messages = {
   landing_developed_by: "Ontwikkeld door",
   landing_as_part_of: "als onderdeel van het",
   landing_project: "project.",
+  landing_funded_by: "Gefinancierd door de Europese Unie",
   delete_session_confirm: "Sessie verwijderen: {name}?",
   delete_session_warning:
     "Dit kan niet ongedaan worden gemaakt. Weet u het zeker?",

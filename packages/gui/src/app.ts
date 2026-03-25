@@ -69,6 +69,13 @@ i18n.init(
   {
     en: { name: "English", fqn: "en-UK", default: true },
     nl: { name: "Nederlands", fqn: "nl-NL" },
+    de: { name: "Deutsch", fqn: "de-DE" },
+    fr: { name: "Français", fqn: "fr-FR" },
+    es: { name: "Español", fqn: "es-ES" },
+    it: { name: "Italiano", fqn: "it-IT" },
+    pl: { name: "Polski", fqn: "pl-PL" },
+    pt: { name: "Português", fqn: "pt-PT" },
+    sv: { name: "Svenska", fqn: "sv-SE" },
   },
-  (window.localStorage.getItem(LANGUAGE) || "nl") as Languages,
+  (window.localStorage.getItem(LANGUAGE) || "en") as Languages,
 );

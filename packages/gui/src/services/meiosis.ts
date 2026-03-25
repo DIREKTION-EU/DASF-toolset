@@ -7,15 +7,23 @@ import type { Assessment } from "../models/capability-model/assessment";
 import { assessmentModel } from "../models/capability-model/assessment";
 import type { Development } from "../models/capability-model/development";
 import { developmentModel } from "../models/capability-model/development";
-import type { Evaluation, ProjectEvaluation, ICapabilityDataModel, CapabilityModel } from "../models/capability-model/capability-model";
+import type {
+  Evaluation,
+  ProjectEvaluation,
+  ICapabilityDataModel,
+  CapabilityModel,
+} from "../models/capability-model/capability-model";
 import { defaultCapabilityModel } from "../models/capability-model/capability-model";
-import { evaluationModel, projectEvaluationModel } from "../models/capability-model/evaluation";
+import {
+  evaluationModel,
+  projectEvaluationModel,
+} from "../models/capability-model/evaluation";
 import { preparationModel } from "../models/capability-model/preparation";
 import { settingsModel } from "../models/capability-model/settings";
 import { Pages } from "../models/page";
 import { type SearchResultItem } from "@dasf-toolset/shared";
 import { type User, type UserRole } from "./login-service";
-import { scrollToTop } from "../utils";
+import { scrollToTop, LANGUAGE } from "../utils";
 import { UIForm } from "mithril-ui-form";
 import { sessionService } from "./session-service";
 
@@ -59,9 +67,17 @@ export interface State {
   categoryId?: string;
   subcategoryId?: string;
   capabilityId?: string;
-  drawerItem?: { type: 'capability' | 'hazard' | 'solution' | 'roadmap'; id: string };
+  drawerItem?: {
+    type: "capability" | "hazard" | "solution" | "roadmap";
+    id: string;
+  };
   // Session management
-  sessions: Array<{ id: string; name: string; createdAt: number; updatedAt: number }>;
+  sessions: Array<{
+    id: string;
+    name: string;
+    createdAt: number;
+    updatedAt: number;
+  }>;
   currentSessionId?: string;
   // FORMS
   preparations?: UIForm<ICapabilityDataModel>;
@@ -92,8 +108,11 @@ export const actions = {
   // },
   update: (cell: MeiosisCell<State>, state: Partial<State>) =>
     cell.update(state),
-  openDrawer: (cell: MeiosisCell<State>, type: 'capability' | 'hazard' | 'solution' | 'roadmap', id: string) =>
-    cell.update({ drawerItem: { type, id } }),
+  openDrawer: (
+    cell: MeiosisCell<State>,
+    type: "capability" | "hazard" | "solution" | "roadmap",
+    id: string,
+  ) => cell.update({ drawerItem: { type, id } }),
   closeDrawer: (cell: MeiosisCell<State>) =>
     cell.update({ drawerItem: undefined }),
   setPage: (cell: MeiosisCell<State>, page: Pages, info?: string) => {
@@ -112,7 +131,7 @@ export const actions = {
     locale = i18n.currentLocale,
   ) => {
     const state = cell.getState();
-    localStorage.setItem("CAT_LANGUAGE", locale);
+    localStorage.setItem(LANGUAGE, locale);
     await i18n.loadAndSetLocale(locale);
     cell.update({ ...localizeDataModel(state) });
   },
@@ -138,7 +157,7 @@ export const actions = {
     // Also persist to IndexedDB session
     const state = cell.getState();
     if (state.currentSessionId) {
-      sessionService.getSession(state.currentSessionId).then(session => {
+      sessionService.getSession(state.currentSessionId).then((session) => {
         if (session) {
           session.model = model;
           sessionService.saveSession(session);
@@ -220,7 +239,11 @@ export const actions = {
     });
   },
 
-  cloneSession: async (cell: MeiosisCell<State>, id: string, clearUserData = false) => {
+  cloneSession: async (
+    cell: MeiosisCell<State>,
+    id: string,
+    clearUserData = false,
+  ) => {
     await sessionService.cloneSession(id, clearUserData);
     const sessions = await sessionService.listSessions();
     cell.update({ sessions: () => sessions });
@@ -407,7 +430,9 @@ export const loadData = async () => {
 
   // Restore last active session
   const lastSessionId = localStorage.getItem(LAST_SESSION_KEY);
-  const lastSession = lastSessionId ? await sessionService.getSession(lastSessionId) : null;
+  const lastSession = lastSessionId
+    ? await sessionService.getSession(lastSessionId)
+    : null;
   if (lastSession) {
     model = lastSession.model;
     localStorage.setItem(MODEL_KEY, JSON.stringify(model));

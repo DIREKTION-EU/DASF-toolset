@@ -1,9 +1,39 @@
-import translate, { type Options, type Translate } from 'translate.js';
-import { plural_EN } from 'translate.js/pluralize';
-import { messages, messagesNL } from './lang';
-// import { I18n } from 'mithril-ui-form';
+import translate, { type Options, type Translate } from "translate.js";
+import { plural_EN } from "translate.js/pluralize";
+import {
+  messages,
+  messagesNL,
+  messagesDE,
+  messagesFR,
+  messagesES,
+  messagesIT,
+  messagesPL,
+  messagesPT,
+  messagesSV,
+} from "./lang";
 
-export type Languages = 'nl' | 'en';
+export type Languages =
+  | "nl"
+  | "en"
+  | "de"
+  | "fr"
+  | "es"
+  | "it"
+  | "pl"
+  | "pt"
+  | "sv";
+
+const langMessages: Record<Languages, typeof messages> = {
+  en: messages,
+  nl: messagesNL,
+  de: messagesDE,
+  fr: messagesFR,
+  es: messagesES,
+  it: messagesIT,
+  pl: messagesPL,
+  pt: messagesPT,
+  sv: messagesSV,
+};
 
 const setGuiLanguage = (language: Languages) => {
   const options = {
@@ -14,10 +44,13 @@ const setGuiLanguage = (language: Languages) => {
     pluralize: plural_EN, //[Function(count)]: Provides a custom pluralization mapping function, should return a string (or number)
     useKeyForMissingTranslation: true, //[Boolean]: If there is no translation found for given key, the key is used as translation, when set to false, it returns undefiend in this case
   };
-  return translate(language === 'nl' ? messagesNL : messages, options) as Translate<typeof messages, Options>;
+  return translate(langMessages[language] ?? messages, options) as Translate<
+    typeof messages,
+    Options
+  >;
 };
 
-export type TextDirection = 'rtl' | 'ltr';
+export type TextDirection = "rtl" | "ltr";
 
 export type Locale = {
   /** Friendly name */
@@ -37,8 +70,8 @@ export type Listener = (locale: string, dir: TextDirection) => void;
 const onChangeLocale: Listener[] = [];
 
 export const i18n = {
-  defaultLocale: 'en' as Languages,
-  currentLocale: 'en' as Languages,
+  defaultLocale: "en" as Languages,
+  currentLocale: "en" as Languages,
   locales: {} as Locales,
   init,
   addOnChangeListener,
@@ -49,19 +82,24 @@ export const i18n = {
 
 // export const I18N: I18n = {};
 
-export let t: Translate<typeof messages, Options> = setGuiLanguage(i18n.currentLocale);
+export let t: Translate<typeof messages, Options> = setGuiLanguage(
+  i18n.currentLocale,
+);
 
 // export let stemmer: Stemmer;
 // export let tokenizer = new WordTokenizer();
 
 async function init(locales: Locales, selectedLocale: Languages) {
   i18n.locales = locales;
-  const defaultLocale = (Object.keys(locales) as Languages[]).filter((l) => (locales[l] as Locale).default).shift();
+  const defaultLocale = (Object.keys(locales) as Languages[])
+    .filter((l) => (locales[l] as Locale).default)
+    .shift();
   if (defaultLocale) {
     i18n.defaultLocale = defaultLocale || selectedLocale;
     // i18n.stemmer = new LanguageStemmer(i18n.defaultLocale);
   }
-  document.documentElement.setAttribute('lang', selectedLocale);
+  document.documentElement.setAttribute("lang", selectedLocale);
+  i18n.currentLocale = "" as Languages; // ensure loadAndSetLocale always fires on init
   await loadAndSetLocale(selectedLocale);
 }
 
@@ -96,5 +134,5 @@ function supported(locale: Languages) {
 }
 
 function dir(locale = i18n.currentLocale) {
-  return (i18n.locales[locale] as Locale).dir || 'ltr';
+  return (i18n.locales[locale] as Locale).dir || "ltr";
 }

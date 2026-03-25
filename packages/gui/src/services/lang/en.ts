@@ -235,6 +235,116 @@ export const messages = {
   taxonomy: "Taxonomy",
   tax_def:
     "#### Taxonomy\n\nDefinitions and abbreviations of commonly used words.",
+  TAXONOMY: {
+    HAZARD: "Hazard",
+    HAZARD_DEF:
+      "A process, phenomenon, or human activity that can cause loss of life, injury, disruption, or environmental damage.",
+    HAZARD_TYPE: "Hazard type",
+    HAZARD_TYPE_DEF:
+      "A class of hazards with similar origin or characteristics, such as natural, technological, or human-induced hazards.",
+    DISASTER: "Disaster",
+    DISASTER_DEF:
+      "A serious disruption of a community or society that exceeds its capacity to cope using its own resources.",
+    EMERGENCY: "Emergency",
+    EMERGENCY_DEF:
+      "A situation requiring immediate coordinated action to protect life, health, property, or the environment.",
+    DISASTER_RISK: "Disaster risk",
+    DISASTER_RISK_DEF:
+      "The potential for losses from hazardous events, shaped by hazard, exposure, vulnerability, and capacity.",
+    EXPOSURE: "Exposure",
+    EXPOSURE_DEF:
+      "The presence of people, assets, infrastructure, and services in places where hazards may occur.",
+    VULNERABILITY: "Vulnerability",
+    VULNERABILITY_DEF:
+      "Conditions that increase susceptibility of people, assets, or systems to hazard impacts.",
+    CAPACITY: "Capacity",
+    CAPACITY_DEF:
+      "The strengths and resources available to anticipate, cope with, resist, and recover from hazard impacts.",
+    CAPABILITY: "Capability",
+    CAPABILITY_DEF:
+      "A specific, demonstrable ability of an organisation to perform tasks and achieve outcomes under defined conditions.",
+    RESILIENCE: "Resilience",
+    RESILIENCE_DEF:
+      "The ability of systems and communities to resist, absorb, adapt, and recover while preserving essential functions.",
+    PREVENTION: "Prevention",
+    PREVENTION_DEF:
+      "Actions to avoid the creation of new risks and prevent hazards from causing harmful impacts.",
+    MITIGATION: "Mitigation",
+    MITIGATION_DEF:
+      "Measures that reduce the severity or likelihood of adverse impacts from hazardous events.",
+    PREPAREDNESS: "Preparedness",
+    PREPAREDNESS_DEF:
+      "Knowledge, plans, and capacities developed in advance to enable effective anticipation, response, and recovery.",
+    EARLY_WARNING_SYSTEM: "Early warning system",
+    EARLY_WARNING_SYSTEM_DEF:
+      "An integrated system for monitoring hazards, assessing risk, communicating warnings, and enabling timely action.",
+    RESPONSE: "Response",
+    RESPONSE_DEF:
+      "Actions taken directly before, during, or immediately after an event to save lives and meet urgent needs.",
+    RECOVERY: "Recovery",
+    RECOVERY_DEF:
+      "The process of restoring and improving livelihoods, services, infrastructure, and systems after a disaster.",
+    BUILD_BACK_BETTER: "Build back better",
+    BUILD_BACK_BETTER_DEF:
+      "Using recovery and reconstruction to reduce future risk and improve resilience beyond pre-disaster conditions.",
+    CONTINGENCY_PLANNING: "Contingency planning",
+    CONTINGENCY_PLANNING_DEF:
+      "Preparing specific operational plans and coordination arrangements for plausible emergency scenarios.",
+    RISK_ASSESSMENT: "Risk assessment",
+    RISK_ASSESSMENT_DEF:
+      "A structured process to identify hazards, analyse consequences, and estimate risk to support decisions.",
+    RISK_COMMUNICATION: "Risk communication",
+    RISK_COMMUNICATION_DEF:
+      "Two-way exchange of risk information among authorities, responders, stakeholders, and the public.",
+    SITUATION_AWARENESS: "Situation awareness",
+    SITUATION_AWARENESS_DEF:
+      "A current and shared understanding of incident conditions, impacts, resources, and likely developments.",
+    INCIDENT_COMMAND: "Incident command",
+    INCIDENT_COMMAND_DEF:
+      "A command and coordination structure for managing roles, decisions, and resources during incidents.",
+    STAKEHOLDER: "Stakeholder",
+    STAKEHOLDER_DEF:
+      "Any organisation, group, or individual with a role, responsibility, or interest in preparedness, response, or recovery.",
+    INTEROPERABILITY: "Interoperability",
+    INTEROPERABILITY_DEF:
+      "The ability of organisations, teams, and systems to work together effectively across procedures, data, and technology.",
+    CAPABILITY_GAP: "Capability gap",
+    CAPABILITY_GAP_DEF:
+      "The difference between required and current capability levels needed to achieve target outcomes.",
+    CAPABILITY_ASSESSMENT: "Capability assessment",
+    CAPABILITY_ASSESSMENT_DEF:
+      "A structured evaluation of capability importance and performance to identify priorities for improvement.",
+    SOLUTION: "Solution",
+    SOLUTION_DEF:
+      "A measure, practice, technology, or intervention proposed to address one or more capability gaps.",
+    SOLUTION_ASSESSMENT: "Solution assessment",
+    SOLUTION_ASSESSMENT_DEF:
+      "A systematic appraisal of candidate solutions against user needs, operational fit, impact, and compliance.",
+    ROADMAP: "Roadmap",
+    ROADMAP_DEF:
+      "A phased implementation plan showing what will be delivered, by whom, and when.",
+    IMPLEMENTATION_TIMELINE: "Implementation timeline",
+    IMPLEMENTATION_TIMELINE_DEF:
+      "The planned sequence and timing of activities, milestones, and deliverables for implementation.",
+    PRIORITIZATION: "Prioritization",
+    PRIORITIZATION_DEF:
+      "Ranking actions or investments based on urgency, expected impact, feasibility, and available resources.",
+    MONITORING_EVALUATION: "Monitoring and evaluation",
+    MONITORING_EVALUATION_DEF:
+      "Ongoing tracking and periodic review of progress, outcomes, and effectiveness to support learning and adjustment.",
+    LESSONS_LEARNED: "Lessons learned",
+    LESSONS_LEARNED_DEF:
+      "Documented insights from operations and exercises used to improve future planning and performance.",
+    SESSION: "Assessment session",
+    SESSION_DEF:
+      "A saved working context containing selected hazards, assessments, solutions, and roadmap data.",
+    COMPLIANCE_CHECK: "Compliance check",
+    COMPLIANCE_CHECK_DEF:
+      "A verification that proposed solutions and actions meet legal, policy, ethical, and sector requirements.",
+    TECHNOLOGY_READINESS_LEVEL: "Technology readiness level",
+    TECHNOLOGY_READINESS_LEVEL_DEF:
+      "A scale from 1 to 9 indicating the maturity of a technology from concept to operational deployment.",
+  },
   term: "Term",
   title: "Title",
   upload: "Upload",
@@ -418,6 +528,7 @@ export const messages = {
   landing_developed_by: "Developed by",
   landing_as_part_of: "as part of the",
   landing_project: "project.",
+  landing_funded_by: "Funded by the European Union",
   delete_session_confirm: "Delete session: {name}?",
   delete_session_warning: "This cannot be undone. Are you sure?",
   // Hazard types (keys = hazard IDs)
