@@ -110,10 +110,13 @@ export interface ICapability extends ILabelled {
   desc?: string;
   goal?: string;
   capabilityStakeholders?: string | string[];
+  otherStakeholder?: string;
   documentation?: Documentation[];
   assessmentId?: string;
   hazardIds?: string[];
   shouldDevelop?: boolean;
+  /** User's willingness to act upon improving this capability (1 = low, 5 = urgent) */
+  actionPriority?: number;
   taskAssessment?: AssessmentItem;
   performanceAssessment?: AssessmentItem;
   gaps?: {

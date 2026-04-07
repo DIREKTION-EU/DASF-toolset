@@ -9,11 +9,14 @@ import { t } from "../../services/translations";
 export type AssessmentItem = {
   assessmentId: string;
   items: ILabelled[];
+  /** User's willingness to act on this assessment (1 = low priority, 5 = urgent) */
+  actionPriority?: number;
 };
 
 export type Assessment = Partial<{
   desc: string;
   capabilityStakeholders: string[];
+  otherStakeholder: string;
   documentation: Documentation[];
   taskAssessment: AssessmentItem;
   performanceAssessment: AssessmentItem;
@@ -38,6 +41,13 @@ export const assessmentModel = (model: Partial<ICapabilityDataModel>) => {
       options: "stakeholders",
       checkboxClass: "col s4",
       className: "col m12",
+    },
+    {
+      id: "otherStakeholder",
+      label: t("other_stakeholder"),
+      type: "text",
+      show: "capabilityStakeholders = SH-12",
+      className: "col s12 m6",
     },
     {
       id: "taskAssessment",

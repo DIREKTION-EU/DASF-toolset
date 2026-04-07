@@ -1,5 +1,9 @@
 import m from "mithril";
-import { FlatButton, LikertScale, TooltipComponent } from "mithril-materialized";
+import {
+  FlatButton,
+  LikertScale,
+  TooltipComponent,
+} from "mithril-materialized";
 import { FormAttributes, LayoutForm, SlimdownView } from "mithril-ui-form";
 import { Pages, ICapability, CapabilityModel } from "../models";
 import { MeiosisComponent, t, i18n, actions } from "../services";
@@ -49,7 +53,9 @@ export const AssessmentPage: MeiosisComponent = () => {
         title = "cat",
       } = data;
       const capabilityId =
-        m.route.param("id")?.replace(":id", "") || attrs.state.capabilityId || "";
+        m.route.param("id")?.replace(":id", "") ||
+        attrs.state.capabilityId ||
+        "";
       const cap = (capabilities
         .filter((cap) => cap.id === capabilityId)
         .shift() ||

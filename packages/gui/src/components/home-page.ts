@@ -214,7 +214,8 @@ export const HomePage: MeiosisComponent = () => {
                 m("h6", [
                   m(Icon, {
                     iconName: "warning",
-                    style: "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
+                    style:
+                      "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
                   }),
                   t("selected_hazards"),
                   sectionLink(t("continue"), Pages.HAZARDS),
@@ -232,24 +233,32 @@ export const HomePage: MeiosisComponent = () => {
                     [
                       m(
                         "div",
-                        { style: "display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;" },
+                        {
+                          style:
+                            "display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;",
+                        },
                         [
                           m("strong", (t(h.id as any) as string) || h.label),
-                          h.category &&
-                            tag(h.category, "#607d8b"),
+                          h.category && tag(h.category, "#607d8b"),
                         ],
                       ),
                       h.description &&
                         m(
                           "p",
-                          { style: "margin: 4px 0 6px; font-size:13px; color:var(--mm-text-muted, #666);" },
+                          {
+                            style:
+                              "margin: 4px 0 6px; font-size:13px; color:var(--mm-text-muted, #666);",
+                          },
                           h.description,
                         ),
                       relatedCaps.length > 0 &&
                         m("div", { style: "margin-top:4px;" }, [
                           m(
                             "span",
-                            { style: "font-size:11px; color:#888; margin-right:4px;" },
+                            {
+                              style:
+                                "font-size:11px; color:#888; margin-right:4px;",
+                            },
                             t("capability_gaps") + ":",
                           ),
                           relatedCaps.map((c) =>
@@ -267,7 +276,8 @@ export const HomePage: MeiosisComponent = () => {
                 m("h6", [
                   m(Icon, {
                     iconName: "report_problem",
-                    style: "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
+                    style:
+                      "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
                   }),
                   t("capability_gaps"),
                   sectionLink(t("continue"), Pages.OVERVIEW),
@@ -296,12 +306,12 @@ export const HomePage: MeiosisComponent = () => {
                     m(".card-content", { style: "padding: 10px 14px;" }, [
                       m(
                         "div",
-                        { style: "display:flex; align-items:center; margin-bottom:6px;" },
+                        {
+                          style:
+                            "display:flex; align-items:center; margin-bottom:6px;",
+                        },
                         [
-                          statusDot(
-                            capAssessment?.color,
-                            capAssessment?.label,
-                          ),
+                          statusDot(capAssessment?.color, capAssessment?.label),
                           m("strong", getCapLabel(cap.id)),
                         ],
                       ),
@@ -332,7 +342,10 @@ export const HomePage: MeiosisComponent = () => {
                             gap.desc &&
                               m(
                                 "p",
-                                { style: "margin: 3px 0 4px 16px; font-size:12px; color:var(--mm-text-muted, #666);" },
+                                {
+                                  style:
+                                    "margin: 3px 0 4px 16px; font-size:12px; color:var(--mm-text-muted, #666);",
+                                },
                                 gap.desc,
                               ),
                             (capStakeholders.length > 0 ||
@@ -346,7 +359,10 @@ export const HomePage: MeiosisComponent = () => {
                                     m("div", [
                                       m(
                                         "span",
-                                        { style: "font-size:11px; color:#888; margin-right:4px;" },
+                                        {
+                                          style:
+                                            "font-size:11px; color:#888; margin-right:4px;",
+                                        },
                                         t("shs") + ":",
                                       ),
                                       capStakeholders.map((id) =>
@@ -357,21 +373,24 @@ export const HomePage: MeiosisComponent = () => {
                                     m("div", { style: "margin-top:2px;" }, [
                                       m(
                                         "span",
-                                        { style: "font-size:11px; color:#888; margin-right:4px;" },
+                                        {
+                                          style:
+                                            "font-size:11px; color:#888; margin-right:4px;",
+                                        },
                                         t("drawer_relevant_hazards") + ":",
                                       ),
                                       capHazards.map((h) =>
-                                        tag(
-                                          getHazardLabel(h.id),
-                                          "#bf360c",
-                                        ),
+                                        tag(getHazardLabel(h.id), "#bf360c"),
                                       ),
                                     ]),
                                   capSolutions.length > 0 &&
                                     m("div", { style: "margin-top:2px;" }, [
                                       m(
                                         "span",
-                                        { style: "font-size:11px; color:#888; margin-right:4px;" },
+                                        {
+                                          style:
+                                            "font-size:11px; color:#888; margin-right:4px;",
+                                        },
                                         t("solutions") + ":",
                                       ),
                                       capSolutions.map((s) =>
@@ -394,7 +413,8 @@ export const HomePage: MeiosisComponent = () => {
                 m("h6", [
                   m(Icon, {
                     iconName: "lightbulb",
-                    style: "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
+                    style:
+                      "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
                   }),
                   t("solutions"),
                   sectionLink(t("continue"), Pages.SOLUTIONS),
@@ -413,7 +433,10 @@ export const HomePage: MeiosisComponent = () => {
                     m(".card-content", { style: "padding: 10px 14px;" }, [
                       m(
                         "div",
-                        { style: "display:flex; align-items:baseline; flex-wrap:wrap; gap:8px; margin-bottom:4px;" },
+                        {
+                          style:
+                            "display:flex; align-items:baseline; flex-wrap:wrap; gap:8px; margin-bottom:4px;",
+                        },
                         [
                           m("strong", sol.label),
                           sol.trl !== undefined &&
@@ -424,7 +447,10 @@ export const HomePage: MeiosisComponent = () => {
                       sol.desc &&
                         m(
                           "p",
-                          { style: "margin: 4px 0 6px; font-size:13px; color:var(--mm-text-muted, #666);" },
+                          {
+                            style:
+                              "margin: 4px 0 6px; font-size:13px; color:var(--mm-text-muted, #666);",
+                          },
                           sol.desc,
                         ),
                       (linkedHazards.length > 0 || linkedCaps.length > 0) &&
@@ -433,7 +459,10 @@ export const HomePage: MeiosisComponent = () => {
                             m("div", [
                               m(
                                 "span",
-                                { style: "font-size:11px; color:#888; margin-right:4px;" },
+                                {
+                                  style:
+                                    "font-size:11px; color:#888; margin-right:4px;",
+                                },
                                 t("drawer_relevant_hazards") + ":",
                               ),
                               linkedHazards.map((h) =>
@@ -444,7 +473,10 @@ export const HomePage: MeiosisComponent = () => {
                             m("div", { style: "margin-top:2px;" }, [
                               m(
                                 "span",
-                                { style: "font-size:11px; color:#888; margin-right:4px;" },
+                                {
+                                  style:
+                                    "font-size:11px; color:#888; margin-right:4px;",
+                                },
                                 t("capability_gaps") + ":",
                               ),
                               linkedCaps.map((c) =>
@@ -463,7 +495,8 @@ export const HomePage: MeiosisComponent = () => {
                 m("h6", [
                   m(Icon, {
                     iconName: "timeline",
-                    style: "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
+                    style:
+                      "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
                   }),
                   t("roadmap_step_title"),
                   sectionLink(t("continue"), Pages.ROADMAP),
@@ -510,7 +543,10 @@ export const HomePage: MeiosisComponent = () => {
                         m("td", item.targetDate || "-"),
                         m(
                           "td",
-                          { style: "max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" },
+                          {
+                            style:
+                              "max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;",
+                          },
                           item.commitment || "-",
                         ),
                       ]);
