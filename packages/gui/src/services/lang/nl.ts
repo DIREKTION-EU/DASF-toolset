@@ -217,6 +217,7 @@ export const messagesNL: Messages = {
   sh_types: "Typen organisaties",
   sh: "Betrokken organisatie",
   shs: "Betrokken organisaties",
+  other_stakeholder: "Beschrijf de andere betrokkene",
   spec_cap_instr:
     "1. Specificeer de belangrijkste doelstellingen binnen de betreffende context.\n2. Specificeer betrokken organisaties en hun rol binnen de betreffende context.\n3. Specificeer de hoofd- en subcategorieën van capaciteiten (1ste en 2de niveau).\n4. **Specificeer relevante capaciteiten binnen alle subcategorieën (3de niveau).**",
   spec_cap: "Capaciteiten",
@@ -446,7 +447,16 @@ export const messagesNL: Messages = {
   priority_low: "Laag",
   priority_medium: "Middel",
   priority_high: "Hoog",
-  sol_trl: "Technologisch Gereedheidsniveau (1-9)",
+  sol_trl: "Technologisch Gereedheidsniveau",
+  trl1: "Basisprincipes waargenomen",
+  trl2: "Technologieconcept geformuleerd",
+  trl3: "Experimenteel bewijs van concept",
+  trl4: "Technologie gevalideerd in laboratorium",
+  trl5: "Technologie gevalideerd in relevante omgeving",
+  trl6: "Technologie gedemonstreerd in relevante omgeving",
+  trl7: "Systeemprototype gedemonstreerd in operationele omgeving",
+  trl8: "Systeem volledig en gekwalificeerd",
+  trl9: "Daadwerkelijk systeem bewezen in operationele omgeving",
   sol_linked_caps: "Gekoppelde capaciteiten (met tekortkomingen)",
   sol_addressed_gaps: "Aangesproken capaciteitstekortkomingen",
   sol_no_gaps:
@@ -900,7 +910,9 @@ export const messagesNL: Messages = {
   "Rec-RS-02_desc":
     "Bepaling en uitvoering van herstelprogramma op basis van impactbeoordeling.",
   // Overview UI
-  manage_capabilities: "Capaciteiten beheren",
+  manage_capabilities: "Capaciteiten selecteren",
+  select_capabilities_instr:
+    "Selecteer de capaciteiten die u wilt beoordelen op tekortkomingen.",
   // Context drawer
   drawer_hazards: "Gevaren",
   drawer_gaps: "Tekortkomingen",
@@ -915,6 +927,16 @@ export const messagesNL: Messages = {
   drawer_go_to_roadmap: "Ga naar routekaart →",
   drawer_none: "Geen",
   drawer_relevant_hazards: "Relevante gevaren",
+  // Assessment action priority
+  action_priority: "Actieprioriteit",
+  action_priority_instr:
+    "Beoordeel uw bereidheid om aan de verbetering van deze capaciteit te werken (1 = laag, 5 = urgent)",
+  action_priority_label_1: "Nu niet",
+  action_priority_label_3: "Misschien",
+  action_priority_label_5: "Urgent",
+  // Assessment navigation
+  prev_cap: "Vorige",
+  next_cap: "Volgende",
   about_markdown: `#### DIREKTION Assessment & Screening Framework (DASF)
 
 De DASF-toolset ondersteunt het systematische beoordelings- en screeningproces voor rampenbestrijding. Het biedt een gestructureerde aanpak in 4 stappen:

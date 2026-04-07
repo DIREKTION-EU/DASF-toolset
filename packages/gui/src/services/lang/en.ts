@@ -214,6 +214,7 @@ export const messages = {
   sh_types: "Stakeholder types",
   sh: "Stakeholder",
   shs: "Stakeholders",
+  other_stakeholder: "Please describe the other stakeholder",
   spec_cap_instr:
     "1. Set the group goals that you want to achieve.\n2. Specify your stakeholders and specify their organizational goals.\n3. Specify capability categories to organize the capabilities.\n4. **Specify the capabilities that you need to achieve the group goals.**",
   spec_cap: "Specify capabilities",
@@ -443,7 +444,16 @@ export const messages = {
   priority_low: "Low",
   priority_medium: "Medium",
   priority_high: "High",
-  sol_trl: "Technology Readiness Level (1-9)",
+  sol_trl: "Technology Readiness Level",
+  trl1: "Basic principles observed",
+  trl2: "Technology concept formulated",
+  trl3: "Experimental proof of concept",
+  trl4: "Technology validated in lab",
+  trl5: "Technology validated in relevant environment",
+  trl6: "Technology demonstrated in relevant environment",
+  trl7: "System prototype demonstrated in operational environment",
+  trl8: "System complete and qualified",
+  trl9: "Actual system proven in operational environment",
   sol_linked_caps: "Linked capabilities (with gaps)",
   sol_addressed_gaps: "Addressed capability gaps",
   sol_no_gaps:
@@ -885,7 +895,9 @@ export const messages = {
   "Rec-RS-02_desc":
     "Determination and implementation of recovery programme based on impact assessment.",
   // Overview UI
-  manage_capabilities: "Manage capabilities",
+  manage_capabilities: "Select capabilities",
+  select_capabilities_instr:
+    "Select the capabilities that you want to assess for gaps.",
   // Context drawer
   drawer_hazards: "Hazards",
   drawer_gaps: "Gaps",
@@ -900,6 +912,16 @@ export const messages = {
   drawer_go_to_roadmap: "Go to roadmap →",
   drawer_none: "None",
   drawer_relevant_hazards: "Relevant hazards",
+  // Assessment action priority
+  action_priority: "Action priority",
+  action_priority_instr:
+    "Rate your willingness to act upon improving this capability (1 = low, 5 = urgent)",
+  action_priority_label_1: "Not now",
+  action_priority_label_3: "Maybe",
+  action_priority_label_5: "Urgent",
+  // Assessment navigation
+  prev_cap: "Previous",
+  next_cap: "Next",
   // test1234: {
   //   plural: {
   //     other: "{count} stakeholders",
