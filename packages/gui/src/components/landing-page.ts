@@ -8,7 +8,7 @@ import {
 } from "mithril-materialized";
 import background from "../assets/background.jpg";
 import tno from "../assets/tno.svg";
-import direktionLogo from "../assets/direktion-logo.avif";
+import direktionLogo from "../assets/direktion-logo.webp";
 import euLogo from "../assets/eu-logo.avif";
 import {
   type MeiosisComponent,

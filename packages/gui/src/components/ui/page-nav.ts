@@ -28,7 +28,7 @@ export const PageNav: MeiosisComponent = () => {
           const isActive   = page === item.id;
           const isDisabled = item.step !== undefined && !enabledSteps.includes(item.step);
           const title      = item.label ? item.label() : t("HOME", "TITLE");
-          const inner      = item.step
+          const inner      = item.step !== undefined
             ? m("span.dasf-page-nav__num", `${item.step}`)
             : m("i.material-icons.dasf-page-nav__home-icon", "home");
 
