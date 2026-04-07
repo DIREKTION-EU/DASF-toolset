@@ -1,5 +1,5 @@
 import m from "mithril";
-import { FlatButton, TooltipComponent } from "mithril-materialized";
+import { FlatButton, LikertScale, TooltipComponent } from "mithril-materialized";
 import { FormAttributes, LayoutForm, SlimdownView } from "mithril-ui-form";
 import { Pages, ICapability, CapabilityModel } from "../models";
 import { MeiosisComponent, t, i18n, actions } from "../services";
@@ -49,7 +49,7 @@ export const AssessmentPage: MeiosisComponent = () => {
         title = "cat",
       } = data;
       const capabilityId =
-        attrs.state.capabilityId || m.route.param("id").replace(":id", "");
+        m.route.param("id")?.replace(":id", "") || attrs.state.capabilityId || "";
       const cap = (capabilities
         .filter((cap) => cap.id === capabilityId)
         .shift() ||
@@ -59,6 +59,11 @@ export const AssessmentPage: MeiosisComponent = () => {
       if (!capabilityId && cap.id) {
         m.route.set(t("assessment_route"), { id: cap.id });
       }
+
+      const capIndex = capabilities.findIndex((c) => c.id === cap.id);
+      const prevCap = capIndex > 0 ? capabilities[capIndex - 1] : null;
+      const nextCap =
+        capIndex < capabilities.length - 1 ? capabilities[capIndex + 1] : null;
 
       if (capabilities.length === 0) {
         return m(
@@ -185,6 +190,69 @@ export const AssessmentPage: MeiosisComponent = () => {
               },
               // i18n: i18n,
             } as FormAttributes<Partial<ICapability>>),
+          ),
+          m(
+            ".row.assessment-cap-nav",
+            { style: "margin-top: 16px; padding: 0 12px;" },
+            [
+              m(
+                ".col.s12.right-align",
+                { style: "margin-bottom: 8px;" },
+                m(LikertScale, {
+                  label: t("action_priority"),
+                  value: cap.actionPriority,
+                  min: 1,
+                  max: 5,
+                  startLabel: t("action_priority_label_1"),
+                  middleLabel: t("action_priority_label_3"),
+                  endLabel: t("action_priority_label_5"),
+                  showNumbers: true,
+                  showTooltips: true,
+                  tooltipLabels: [
+                    t("action_priority_label_1"),
+                    "2",
+                    t("action_priority_label_3"),
+                    "4",
+                    t("action_priority_label_5"),
+                  ],
+                  layout: "horizontal",
+                  density: "compact",
+                  onchange: (v) => {
+                    cap.actionPriority = v;
+                    actions.saveModel(attrs, catModel);
+                  },
+                }),
+              ),
+              m(
+                ".col.s4",
+                prevCap &&
+                  m(FlatButton, {
+                    label: t("prev_cap"),
+                    iconName: "arrow_back",
+                    onclick: () =>
+                      m.route.set(t("assessment_route"), { id: prevCap.id }),
+                  }),
+              ),
+              m(
+                ".col.s4.center-align",
+                m(FlatButton, {
+                  label: t("overview"),
+                  iconName: "list",
+                  onclick: () => actions.changePage(attrs, Pages.OVERVIEW),
+                }),
+              ),
+              m(
+                ".col.s4.right-align",
+                nextCap &&
+                  m(FlatButton, {
+                    label: t("next_cap"),
+                    iconName: "arrow_forward",
+                    iconClass: "right",
+                    onclick: () =>
+                      m.route.set(t("assessment_route"), { id: nextCap.id }),
+                  }),
+              ),
+            ],
           ),
         ],
       );

@@ -23,6 +23,8 @@ import { colorPalette, formatDate, toWord } from "../utils";
 type ISubcategoryVM = ILabelled & { capabilities: ICapability[] };
 type ICategoryVM = ICategory & { subcategories: ISubcategoryVM[] };
 
+const priorityColors = ["grey", "blue", "yellow", "orange", "red"];
+
 const tLabel = (item: ILabelled) => t(item.id as any) || item.label;
 
 const createTextFilter = (txt: string) => {
@@ -34,6 +36,7 @@ const createTextFilter = (txt: string) => {
 
 export const OverviewPage: MeiosisComponent = () => {
   let showCapAccordion = false;
+  let userHasToggled = false;
   let editingCapId: string | null = null;
   let textFilter = "";
 
@@ -66,6 +69,7 @@ export const OverviewPage: MeiosisComponent = () => {
       } = data;
 
       const filterFn = createTextFilter(textFilter);
+      if (!userHasToggled && capabilities.length === 0) showCapAccordion = true;
       const filteredCapabilities = capabilities
         .filter((c) => !c.hide)
         .filter(filterFn);
@@ -130,6 +134,7 @@ export const OverviewPage: MeiosisComponent = () => {
                 iconName: showCapAccordion ? "expand_less" : "playlist_add",
                 onclick: () => {
                   showCapAccordion = !showCapAccordion;
+                  userHasToggled = true;
                 },
               }),
             ]),
@@ -152,6 +157,8 @@ export const OverviewPage: MeiosisComponent = () => {
                 ".card.dasf-cap-accordion",
                 m(".card-content", [
                   m("span.card-title", t("manage_capabilities")),
+                  capabilities.length === 0 &&
+                    m("p.blue-grey-text", t("select_capabilities_instr")),
                   availableCapabilities.length === 0
                     ? m("p.grey-text", t("cap_all_selected"))
                     : (() => {
@@ -177,7 +184,8 @@ export const OverviewPage: MeiosisComponent = () => {
                                     id: sc.id,
                                     label: tLabel(sc),
                                     children: capNodes,
-                                    expanded: hasSelected,
+                                    expanded:
+                                      hasSelected || capabilities.length === 0,
                                   });
                                 }
                                 return sacc;
@@ -192,7 +200,8 @@ export const OverviewPage: MeiosisComponent = () => {
                                 id: cat.id,
                                 label: tLabel(cat),
                                 children: scNodes,
-                                expanded: hasSelected,
+                                expanded:
+                                  hasSelected || capabilities.length === 0,
                               });
                             }
                             return acc;
@@ -313,15 +322,17 @@ export const OverviewPage: MeiosisComponent = () => {
                                                   },
                                                   [
                                                     m(".cap-status-dot", {
-                                                      title: cap.assessmentId
-                                                        ? assessment?.label
-                                                        : cap.taskAssessment
-                                                              ?.assessmentId ||
-                                                            cap
-                                                              .performanceAssessment
-                                                              ?.assessmentId
-                                                          ? t("partially")
-                                                          : t("not_assessed"),
+                                                      title: `${t("assessment")}: ${
+                                                        cap.assessmentId
+                                                          ? assessment?.label
+                                                          : cap.taskAssessment
+                                                                ?.assessmentId ||
+                                                              cap
+                                                                .performanceAssessment
+                                                                ?.assessmentId
+                                                            ? t("partially")
+                                                            : t("not_assessed")
+                                                      }`,
                                                       style: `background-color:${
                                                         cap.assessmentId
                                                           ? assessment?.color ||
@@ -379,10 +390,7 @@ export const OverviewPage: MeiosisComponent = () => {
                                                             ? m(
                                                                 Badge,
                                                                 {
-                                                                  title:
-                                                                    t(
-                                                                      "hazards",
-                                                                    ),
+                                                                  title: `${t("hazards")}: ${hazardCount}`,
                                                                   badgeContent:
                                                                     hazardCount,
                                                                   color: "blue",
@@ -397,8 +405,7 @@ export const OverviewPage: MeiosisComponent = () => {
                                                             ? m(
                                                                 Badge,
                                                                 {
-                                                                  title:
-                                                                    t("shs"),
+                                                                  title: `${t("shs")}: ${stakeholderCount}`,
                                                                   badgeContent:
                                                                     stakeholderCount,
                                                                   color: "blue",
@@ -413,10 +420,7 @@ export const OverviewPage: MeiosisComponent = () => {
                                                             ? m(
                                                                 Badge,
                                                                 {
-                                                                  title:
-                                                                    t(
-                                                                      "solutions",
-                                                                    ),
+                                                                  title: `${t("solutions")}: ${t("go")}`,
                                                                   variant:
                                                                     "dot",
                                                                   color:
@@ -432,10 +436,7 @@ export const OverviewPage: MeiosisComponent = () => {
                                                             ? m(
                                                                 Badge,
                                                                 {
-                                                                  title:
-                                                                    t(
-                                                                      "solutions",
-                                                                    ),
+                                                                  title: `${t("prop_new")}: ${pendingProposals}`,
                                                                   badgeContent:
                                                                     pendingProposals,
                                                                   max: 99,
@@ -450,6 +451,7 @@ export const OverviewPage: MeiosisComponent = () => {
                                                             ? m(
                                                                 Badge,
                                                                 {
+                                                                  title: `${t("solutions")}: ${approvedProposals}`,
                                                                   badgeContent:
                                                                     approvedProposals,
                                                                   max: 99,
@@ -464,6 +466,25 @@ export const OverviewPage: MeiosisComponent = () => {
                                                         ];
                                                       })(),
                                                     ),
+                                                    cap.actionPriority
+                                                      ? m(
+                                                          Badge,
+                                                          {
+                                                            title: `${t("action_priority")}: ${cap.actionPriority}`,
+                                                            badgeContent:
+                                                              cap.actionPriority,
+                                                            color:
+                                                              priorityColors[
+                                                                cap.actionPriority -
+                                                                  1
+                                                              ] as any,
+                                                          },
+                                                          m(Icon, {
+                                                            iconName:
+                                                              "thermostat",
+                                                          }),
+                                                        )
+                                                      : null,
                                                   ],
                                                 ),
                                                 m(
