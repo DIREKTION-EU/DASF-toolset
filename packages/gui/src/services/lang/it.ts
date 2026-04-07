@@ -217,10 +217,10 @@ export const messagesIT: typeof messages = {
   dashboard_subtitle:
     "Segui i passaggi seguenti per completare la valutazione della gestione delle catastrofi.",
   back_to_sessions: "Torna alle sessioni",
-  step1_title: "Avvio e Preparazione",
-  step2_title: "Valutazione dei bisogni e delle lacune",
-  step3_title: "Valutazione delle soluzioni",
-  step4_title: "Piano d'azione",
+  step0_title: "Avvio e Preparazione",
+  step1_title: "Valutazione dei bisogni e delle lacune",
+  step2_title: "Valutazione delle soluzioni",
+  step3_title: "Piano d'azione",
   summary: "Riepilogo",
   selected_hazards: "Rischi selezionati",
   capability_gaps: "Lacune di capacità",
@@ -231,16 +231,16 @@ export const messagesIT: typeof messages = {
   priority_medium: "Media",
   priority_high: "Alta",
   collapse: "Comprimi",
-  step1_abbr: "Passo 1: A&P",
-  step1_desc:
+  step0_abbr: "Passo 1: A&P",
+  step0_desc:
     "Identificare i tipi di rischio rilevanti per il contesto di valutazione.",
-  step2_abbr: "Passo 2: VBL",
-  step2_desc:
+  step1_abbr: "Passo 2: VBL",
+  step1_desc:
     "Valutare le capacità, identificare lacune e necessità di miglioramento.",
-  step3_abbr: "Passo 3: VS",
-  step3_desc: "Valutare le soluzioni per le lacune di capacità identificate.",
-  step4_abbr: "Passo 4: PA",
-  step4_desc:
+  step2_abbr: "Passo 3: VS",
+  step2_desc: "Valutare le soluzioni per le lacune di capacità identificate.",
+  step3_abbr: "Passo 4: PA",
+  step3_desc:
     "Pianificare la tabella di marcia dell'implementazione e gli impegni.",
   landing_attribution:
     "DIREKTION ha ricevuto finanziamenti dal programma di ricerca e innovazione Orizzonte Europa dell'Unione Europea nell'ambito dell'accordo di sovvenzione n. 101121249.",

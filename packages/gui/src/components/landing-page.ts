@@ -299,6 +299,19 @@ export const LandingPage: MeiosisComponent = () => {
                       ".landing-step-icon-wrap",
                       m(Icon, { iconName: "warning" }),
                     ),
+                    m(".landing-step-num", "Step 0"),
+                    m(".landing-step-title", t("step0_abbr")),
+                    m("p.landing-step-desc", t("step0_desc")),
+                  ]),
+                ),
+                m(
+                  ".col.s12.m3",
+                  { style: "display:flex; padding-bottom:16px;" },
+                  m(".landing-step-card", [
+                    m(
+                      ".landing-step-icon-wrap",
+                      m(Icon, { iconName: "assessment" }),
+                    ),
                     m(".landing-step-num", "Step 1"),
                     m(".landing-step-title", t("step1_abbr")),
                     m("p.landing-step-desc", t("step1_desc")),
@@ -310,7 +323,7 @@ export const LandingPage: MeiosisComponent = () => {
                   m(".landing-step-card", [
                     m(
                       ".landing-step-icon-wrap",
-                      m(Icon, { iconName: "assessment" }),
+                      m(Icon, { iconName: "lightbulb" }),
                     ),
                     m(".landing-step-num", "Step 2"),
                     m(".landing-step-title", t("step2_abbr")),
@@ -323,24 +336,11 @@ export const LandingPage: MeiosisComponent = () => {
                   m(".landing-step-card", [
                     m(
                       ".landing-step-icon-wrap",
-                      m(Icon, { iconName: "lightbulb" }),
+                      m(Icon, { iconName: "timeline" }),
                     ),
                     m(".landing-step-num", "Step 3"),
                     m(".landing-step-title", t("step3_abbr")),
                     m("p.landing-step-desc", t("step3_desc")),
-                  ]),
-                ),
-                m(
-                  ".col.s12.m3",
-                  { style: "display:flex; padding-bottom:16px;" },
-                  m(".landing-step-card", [
-                    m(
-                      ".landing-step-icon-wrap",
-                      m(Icon, { iconName: "timeline" }),
-                    ),
-                    m(".landing-step-num", "Step 4"),
-                    m(".landing-step-title", t("step4_abbr")),
-                    m("p.landing-step-desc", t("step4_desc")),
                   ]),
                 ),
               ]),

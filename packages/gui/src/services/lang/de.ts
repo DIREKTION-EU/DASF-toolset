@@ -217,10 +217,10 @@ export const messagesDE: typeof messages = {
   dashboard_subtitle:
     "Folgen Sie den untenstehenden Schritten für Ihre Katastrophenmanagement-Bewertung.",
   back_to_sessions: "Zurück zu den Sitzungen",
-  step1_title: "Initiierung & Vorbereitung",
-  step2_title: "Bedarfs- & Lückenbewertung",
-  step3_title: "Lösungsbewertung",
-  step4_title: "Fahrplanung",
+  step0_title: "Initiierung & Vorbereitung",
+  step1_title: "Bedarfs- & Lückenbewertung",
+  step2_title: "Lösungsbewertung",
+  step3_title: "Fahrplanung",
   summary: "Zusammenfassung",
   selected_hazards: "Ausgewählte Gefahren",
   capability_gaps: "Fähigkeitslücken",
@@ -231,16 +231,16 @@ export const messagesDE: typeof messages = {
   priority_medium: "Mittel",
   priority_high: "Hoch",
   collapse: "Einklappen",
-  step1_abbr: "Schritt 1: I&V",
-  step1_desc:
+  step0_abbr: "Schritt 1: I&V",
+  step0_desc:
     "Relevante Gefahrenarten für Ihren Bewertungskontext identifizieren.",
-  step2_abbr: "Schritt 2: BLB",
-  step2_desc:
+  step1_abbr: "Schritt 2: BLB",
+  step1_desc:
     "Fähigkeiten bewerten, Lücken und Verbesserungsbedarf identifizieren.",
-  step3_abbr: "Schritt 3: LB",
-  step3_desc: "Lösungen für identifizierte Fähigkeitslücken auswerten.",
-  step4_abbr: "Schritt 4: FP",
-  step4_desc: "Implementierungsfahrplan und Verpflichtungen planen.",
+  step2_abbr: "Schritt 3: LB",
+  step2_desc: "Lösungen für identifizierte Fähigkeitslücken auswerten.",
+  step3_abbr: "Schritt 4: FP",
+  step3_desc: "Implementierungsfahrplan und Verpflichtungen planen.",
   landing_attribution:
     "DIREKTION hat Fördermittel aus dem Forschungs- und Innovationsprogramm Horizon Europe der Europäischen Union gemäß Fördervereinbarung Nr. 101121249 erhalten.",
   landing_developed_by: "Entwickelt von",

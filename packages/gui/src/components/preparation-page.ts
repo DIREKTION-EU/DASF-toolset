@@ -5,10 +5,10 @@ import { Pages, ICapabilityDataModel, CapabilityModel } from "../models";
 import { actions, MeiosisComponent, t } from "../services";
 
 const ALL_STEPS = [
+  { step: 0, titleKey: 'step0_title' as const },
   { step: 1, titleKey: 'step1_title' as const },
   { step: 2, titleKey: 'step2_title' as const },
   { step: 3, titleKey: 'step3_title' as const },
-  { step: 4, titleKey: 'step4_title' as const },
 ];
 
 export const PreparationPage: MeiosisComponent = () => {
@@ -23,7 +23,7 @@ export const PreparationPage: MeiosisComponent = () => {
         } as CapabilityModel,
       } = attrs.state;
       const { data = {} } = catModel;
-      const enabledSteps = data.enabledSteps || [1, 2, 3, 4];
+      const enabledSteps = data.enabledSteps || [0, 1, 2, 3];
       const prepare = preparations.filter(
         (i) => i.type === "section",
       ) as UIForm<ICapabilityDataModel>;

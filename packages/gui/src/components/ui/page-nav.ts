@@ -10,10 +10,10 @@ interface NavItem {
 
 const NAV_ITEMS: NavItem[] = [
   { id: Pages.HOME },
-  { id: Pages.HAZARDS,   step: 1, label: () => t("HAZARDS",   "TITLE") },
-  { id: Pages.OVERVIEW,  step: 2, label: () => t("overview") },
-  { id: Pages.SOLUTIONS, step: 3, label: () => t("SOLUTIONS", "TITLE") },
-  { id: Pages.ROADMAP,   step: 4, label: () => t("ROADMAP",   "TITLE") },
+  { id: Pages.HAZARDS,   step: 0, label: () => t("HAZARDS",   "TITLE") },
+  { id: Pages.OVERVIEW,  step: 1, label: () => t("overview") },
+  { id: Pages.SOLUTIONS, step: 2, label: () => t("SOLUTIONS", "TITLE") },
+  { id: Pages.ROADMAP,   step: 3, label: () => t("ROADMAP",   "TITLE") },
 ];
 
 export const PageNav: MeiosisComponent = () => {
@@ -21,7 +21,7 @@ export const PageNav: MeiosisComponent = () => {
     view: ({ attrs }) => {
       const { page, catModel = {} as CapabilityModel } = attrs.state;
       const { data = {} } = catModel as CapabilityModel;
-      const { enabledSteps = [1, 2, 3, 4] } = data as { enabledSteps?: number[] };
+      const { enabledSteps = [0, 1, 2, 3] } = data as { enabledSteps?: number[] };
 
       return m("div.dasf-page-nav", { role: "navigation", "aria-label": "Page navigation" },
         NAV_ITEMS.map((item) => {

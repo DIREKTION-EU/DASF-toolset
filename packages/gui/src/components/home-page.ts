@@ -14,7 +14,7 @@ export const HomePage: MeiosisComponent = () => {
         attrs.state;
       const { data = {} } = catModel;
       const {
-        enabledSteps = [1, 2, 3, 4],
+        enabledSteps = [0, 1, 2, 3],
         hazardTypes = [],
         selectedHazardIds = [],
         capabilities = [],
@@ -37,32 +37,32 @@ export const HomePage: MeiosisComponent = () => {
 
       const steps = [
         {
-          step: 1,
-          title: t("step1_title"),
+          step: 0,
+          title: t("step0_title"),
           icon: "warning",
           page: Pages.HAZARDS,
           summary: `${selectedHazards.length} ${t("selected_hazards").toLowerCase()}`,
           color: selectedHazards.length > 0 ? "#4caf50" : "#ff9800",
         },
         {
-          step: 2,
-          title: t("step2_title"),
+          step: 1,
+          title: t("step1_title"),
           icon: "assessment",
           page: Pages.OVERVIEW,
           summary: `${assessedCapabilities.length}/${capabilities.length} ${t("caps").toLowerCase()}, ${capsWithGaps.length} ${t("gaps").toLowerCase()}`,
           color: assessedCapabilities.length > 0 ? "#4caf50" : "#ff9800",
         },
         {
-          step: 3,
-          title: t("step3_title"),
+          step: 2,
+          title: t("step2_title"),
           icon: "lightbulb",
           page: Pages.SOLUTIONS,
           summary: t("solution_count", solutions.length),
           color: solutions.length > 0 ? "#4caf50" : "#ff9800",
         },
         {
-          step: 4,
-          title: t("step4_title"),
+          step: 3,
+          title: t("step3_title"),
           icon: "timeline",
           page: Pages.ROADMAP,
           summary: t("roadmap_count", roadmapItems.length),

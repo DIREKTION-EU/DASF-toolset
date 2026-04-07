@@ -432,10 +432,10 @@ export const messagesNL: Messages = {
   dashboard_subtitle:
     "Volg de onderstaande stappen om uw rampenbestrijdingsbeoordeling te voltooien.",
   back_to_sessions: "Terug naar sessies",
-  step1_title: "Initiatie & Voorbereiding",
-  step2_title: "Behoeften & Lacunes Beoordeling",
-  step3_title: "Oplossingsbeoordeling",
-  step4_title: "Routekaart",
+  step0_title: "Initiatie & Voorbereiding",
+  step1_title: "Behoeften & Lacunes Beoordeling",
+  step2_title: "Oplossingsbeoordeling",
+  step3_title: "Routekaart",
   summary: "Samenvatting",
   selected_hazards: "Geselecteerde gevaren",
   capability_gaps: "Capaciteitstekorten",
@@ -518,16 +518,16 @@ export const messagesNL: Messages = {
   cap_add_selected: "Geselecteerde capaciteiten toevoegen",
   cap_ref_panel_title: "Beschikbare capaciteiten (DASF referentiemodel)",
   collapse: "Inklappen",
-  step1_abbr: "Stap 1: I&V",
-  step1_desc:
+  step0_abbr: "Stap 1: I&V",
+  step0_desc:
     "Identificeer relevante gevarentypen voor uw beoordelingscontext.",
-  step2_abbr: "Stap 2: BLA",
-  step2_desc:
+  step1_abbr: "Stap 2: BLA",
+  step1_desc:
     "Beoordeel capaciteiten, identificeer lacunes en verbeterbehoeften.",
-  step3_abbr: "Stap 3: OB",
-  step3_desc: "Evalueer oplossingen voor geïdentificeerde capaciteitstekorten.",
-  step4_abbr: "Stap 4: RK",
-  step4_desc: "Plan implementatieroutekaart en toezeggingen.",
+  step2_abbr: "Stap 3: OB",
+  step2_desc: "Evalueer oplossingen voor geïdentificeerde capaciteitstekorten.",
+  step3_abbr: "Stap 4: RK",
+  step3_desc: "Plan implementatieroutekaart en toezeggingen.",
   landing_attribution:
     "DIREKTION heeft financiering ontvangen van het Horizon Europe-onderzoeks- en innovatieprogramma van de Europese Unie onder subsidieovereenkomst nr. 101121249.",
   landing_developed_by: "Ontwikkeld door",

@@ -13,7 +13,7 @@ export interface IAssessmentQuestion extends ILabelled {
 export interface ISolution extends ILabelled {
   url?: string;
   trl?: number; // 1-9
-  capabilityIds?: string[]; // linked gaps from Step 2
+  capabilityIds?: string[]; // linked gaps from Step 1
   compliance?: IComplianceCheck[];
   userNeeds?: IAssessmentQuestion[];
   operationalNeeds?: IAssessmentQuestion[];

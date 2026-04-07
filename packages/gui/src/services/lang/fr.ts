@@ -216,10 +216,10 @@ export const messagesFR: typeof messages = {
   dashboard_subtitle:
     "Suivez les étapes ci-dessous pour compléter votre évaluation de gestion des catastrophes.",
   back_to_sessions: "Retour aux sessions",
-  step1_title: "Initiation & Préparation",
-  step2_title: "Évaluation des besoins & lacunes",
-  step3_title: "Évaluation des solutions",
-  step4_title: "Feuille de route",
+  step0_title: "Initiation & Préparation",
+  step1_title: "Évaluation des besoins & lacunes",
+  step2_title: "Évaluation des solutions",
+  step3_title: "Feuille de route",
   summary: "Résumé",
   selected_hazards: "Risques sélectionnés",
   capability_gaps: "Lacunes de capacités",
@@ -230,17 +230,17 @@ export const messagesFR: typeof messages = {
   priority_medium: "Moyen",
   priority_high: "Élevé",
   collapse: "Réduire",
-  step1_abbr: "Étape 1 : I&P",
-  step1_desc:
+  step0_abbr: "Étape 1 : I&P",
+  step0_desc:
     "Identifier les types de risques pertinents pour votre contexte d'évaluation.",
-  step2_abbr: "Étape 2 : EBL",
-  step2_desc:
+  step1_abbr: "Étape 2 : EBL",
+  step1_desc:
     "Évaluer les capacités, identifier les lacunes et les besoins d'amélioration.",
-  step3_abbr: "Étape 3 : ES",
-  step3_desc:
+  step2_abbr: "Étape 3 : ES",
+  step2_desc:
     "Évaluer les solutions pour les lacunes de capacités identifiées.",
-  step4_abbr: "Étape 4 : FR",
-  step4_desc: "Planifier la feuille de route de mise en œuvre.",
+  step3_abbr: "Étape 4 : FR",
+  step3_desc: "Planifier la feuille de route de mise en œuvre.",
   landing_attribution:
     "DIREKTION a reçu des financements du programme de recherche et d'innovation Horizon Europe de l'Union européenne dans le cadre de la convention de subvention n° 101121249.",
   landing_developed_by: "Développé par",

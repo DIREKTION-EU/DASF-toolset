@@ -217,10 +217,10 @@ export const messagesPT: typeof messages = {
   dashboard_subtitle:
     "Siga os passos abaixo para concluir a avaliação de gestão de catástrofes.",
   back_to_sessions: "Voltar às sessões",
-  step1_title: "Iniciação e Preparação",
-  step2_title: "Avaliação de necessidades e lacunas",
-  step3_title: "Avaliação de soluções",
-  step4_title: "Roteiro",
+  step0_title: "Iniciação e Preparação",
+  step1_title: "Avaliação de necessidades e lacunas",
+  step2_title: "Avaliação de soluções",
+  step3_title: "Roteiro",
   summary: "Resumo",
   selected_hazards: "Ameaças selecionadas",
   capability_gaps: "Lacunas de capacidade",
@@ -231,16 +231,16 @@ export const messagesPT: typeof messages = {
   priority_medium: "Médio",
   priority_high: "Alto",
   collapse: "Recolher",
-  step1_abbr: "Passo 1: I&P",
-  step1_desc:
+  step0_abbr: "Passo 1: I&P",
+  step0_desc:
     "Identificar os tipos de ameaças relevantes para o contexto de avaliação.",
-  step2_abbr: "Passo 2: ANL",
-  step2_desc:
+  step1_abbr: "Passo 2: ANL",
+  step1_desc:
     "Avaliar capacidades, identificar lacunas e necessidades de melhoria.",
-  step3_abbr: "Passo 3: AS",
-  step3_desc: "Avaliar soluções para as lacunas de capacidade identificadas.",
-  step4_abbr: "Passo 4: RT",
-  step4_desc: "Planear o roteiro de implementação e compromissos.",
+  step2_abbr: "Passo 3: AS",
+  step2_desc: "Avaliar soluções para as lacunas de capacidade identificadas.",
+  step3_abbr: "Passo 4: RT",
+  step3_desc: "Planear o roteiro de implementação e compromissos.",
   landing_attribution:
     "O DIREKTION recebeu financiamento do programa de investigação e inovação Horizonte Europa da União Europeia ao abrigo do acordo de subvenção n.º 101121249.",
   landing_developed_by: "Desenvolvido por",

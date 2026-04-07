@@ -217,10 +217,10 @@ export const messagesES: typeof messages = {
   dashboard_subtitle:
     "Siga los pasos a continuación para completar su evaluación de gestión de desastres.",
   back_to_sessions: "Volver a las sesiones",
-  step1_title: "Iniciación y Preparación",
-  step2_title: "Evaluación de necesidades y brechas",
-  step3_title: "Evaluación de soluciones",
-  step4_title: "Hoja de ruta",
+  step0_title: "Iniciación y Preparación",
+  step1_title: "Evaluación de necesidades y brechas",
+  step2_title: "Evaluación de soluciones",
+  step3_title: "Hoja de ruta",
   summary: "Resumen",
   selected_hazards: "Amenazas seleccionadas",
   capability_gaps: "Brechas de capacidad",
@@ -231,16 +231,16 @@ export const messagesES: typeof messages = {
   priority_medium: "Medio",
   priority_high: "Alto",
   collapse: "Contraer",
-  step1_abbr: "Paso 1: I&P",
-  step1_desc:
+  step0_abbr: "Paso 1: I&P",
+  step0_desc:
     "Identificar los tipos de amenazas relevantes para su contexto de evaluación.",
-  step2_abbr: "Paso 2: ENB",
-  step2_desc:
+  step1_abbr: "Paso 2: ENB",
+  step1_desc:
     "Evaluar capacidades, identificar brechas y necesidades de mejora.",
-  step3_abbr: "Paso 3: ES",
-  step3_desc: "Evaluar soluciones para las brechas de capacidad identificadas.",
-  step4_abbr: "Paso 4: HR",
-  step4_desc: "Planificar la hoja de ruta de implementación y compromisos.",
+  step2_abbr: "Paso 3: ES",
+  step2_desc: "Evaluar soluciones para las brechas de capacidad identificadas.",
+  step3_abbr: "Paso 4: HR",
+  step3_desc: "Planificar la hoja de ruta de implementación y compromisos.",
   landing_attribution:
     "DIREKTION ha recibido financiación del programa de investigación e innovación Horizonte Europa de la Unión Europea en virtud del acuerdo de subvención n.° 101121249.",
   landing_developed_by: "Desarrollado por",
