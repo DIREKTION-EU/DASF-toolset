@@ -512,14 +512,12 @@ export const messagesSV: Messages = {
   CC09: "Sektorsspecifika standarder",
   CC10: "Sektorsspecifika lagar och förordningar",
   cap_add_from_ref: "Lägg till förmågor från referens",
-  cap_all_selected:
-    "Alla referensförmågor har lagts till i din session.",
+  cap_all_selected: "Alla referensförmågor har lagts till i din session.",
   cap_add_selected: "Lägg till valda förmågor",
   cap_ref_panel_title: "Tillgängliga förmågor (DASF-referensmodell)",
   collapse: "Dölj",
   step0_abbr: "Steg 0: I&F",
-  step0_desc:
-    "Identifiera relevanta farotyper för ditt bedömningssammanhang.",
+  step0_desc: "Identifiera relevanta farotyper för ditt bedömningssammanhang.",
   step1_abbr: "Steg 1: BBB",
   step1_desc: "Bedöm förmågor, identifiera brister och förbättringsbehov.",
   step2_abbr: "Steg 2: LB",
@@ -715,7 +713,7 @@ export const messagesSV: Messages = {
   "Imp-5": "Mycket hög",
   // Performance aspects
   "PA-1": "Ändamålsenlighet",
-  "PA-1_desc": "- Kvalitet på resultaten\n- Tidsenlighet\n- Uthållighet",
+  "PA-1_desc": "Kvalitet på resultaten, tidsenlighet, uthållighet.",
   "PA-2": "Säkerhet för yrkesverksamma",
   "PA-2_desc": "Fysisk och mental säkerhet för involverad personal.",
   "PA-3": "Effektivitet",
@@ -778,14 +776,12 @@ export const messagesSV: Messages = {
     "Ordna tillgänglighet till och säkerhet i det drabbade området.",
   "Rsp-08_desc":
     "Försörjning och/eller återställning av grundläggande produkter och tjänster av vital betydelse.",
-  "Rsp-09_desc":
-    "Förmågor som möjliggör en eller flera andra insatsförmågor.",
+  "Rsp-09_desc": "Förmågor som möjliggör en eller flera andra insatsförmågor.",
   "Rec-01_desc":
     "Tillhandahållande av folkhälso- och säkerhetstjänster samt boende.",
   "Rec-02_desc": "Rensning av föroreningar och dekontaminering.",
   "Rec-03_desc": "Ekonomisk och affärsmässig återhämtning.",
-  "Rec-04_desc":
-    "Återupprättande av transportleder och viktiga tjänster.",
+  "Rec-04_desc": "Återupprättande av transportleder och viktiga tjänster.",
   "Rec-05_desc":
     "Förmågor som krävs för att återhämta sig på ett välsamordnat sätt.",
   // Capability descriptions
@@ -794,8 +790,7 @@ export const messagesSV: Messages = {
     "Process för att förstå riskens natur och fastställa risknivån.",
   "Mit-RA-03_desc":
     "Process för att jämföra resultaten av riskanalys med riskkriterier för att avgöra om risken och/eller dess omfattning är acceptabel eller tolerabel.",
-  "Mit-ER-01_desc":
-    "Egendomsskydd (inkl. kritiska infrastrukturer).",
+  "Mit-ER-01_desc": "Egendomsskydd (inkl. kritiska infrastrukturer).",
   "Mit-ER-02_desc":
     "Åtgärder som minimerar skador från faror och bevarar eller återställer naturliga systems funktioner.",
   "Mit-ER-03_desc":
@@ -809,8 +804,7 @@ export const messagesSV: Messages = {
     "Aktiviteter för att underlätta lärande och utveckling av kunskap, färdigheter och förmågor för katastrofinsats.",
   "Prep-CD-03_desc":
     "Kommunicera och instruera allmänheten om hur man är väl förberedd för en kris och hur man ska bete sig när den inträffar.",
-  "Prep-MO-01_desc":
-    "Detektion av förhållanden som avviker från det normala.",
+  "Prep-MO-01_desc": "Detektion av förhållanden som avviker från det normala.",
   "Prep-MO-02_desc":
     "Larma personal om förekomsten av en incident och möjliggöra att kontrollåtgärder initieras.",
   "Prep-PS-01_desc":
@@ -830,8 +824,7 @@ export const messagesSV: Messages = {
     "Stoppa spill av farliga material, inklusive inneslutning (CBRN-E-incidenter).",
   "Resp-RO-01_desc": "Sök- och räddningsoperationer.",
   "Resp-RO-02_desc": "Triage, dekontaminering och stabilisering av offer.",
-  "Resp-RO-03_desc":
-    "Ambulanstransport till säkra områden eller sjukhus.",
+  "Resp-RO-03_desc": "Ambulanstransport till säkra områden eller sjukhus.",
   "Resp-SL-01_desc":
     "Skydda områden, infrastrukturer och personer från obehöriga.",
   "Resp-SL-02_desc": "Identifiering av offer.",
@@ -901,8 +894,7 @@ export const messagesSV: Messages = {
     "Fastställande och implementering av återhämtningsprogram baserat på konsekvensbedömning.",
   // Overview UI
   manage_capabilities: "Välj förmågor",
-  select_capabilities_instr:
-    "Välj de förmågor du vill bedöma för brister.",
+  select_capabilities_instr: "Välj de förmågor du vill bedöma för brister.",
   // Context drawer
   drawer_hazards: "Faror",
   drawer_gaps: "Brister",

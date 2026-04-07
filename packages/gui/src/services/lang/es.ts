@@ -227,7 +227,8 @@ export const messagesES: Messages = {
   ass_perf_scale: "Rendimiento",
   taxonomy_route: "/taxonomy",
   taxonomy: "Taxonomía",
-  tax_def: "#### Taxonomía\n\nDefiniciones y abreviaturas de términos de uso común.",
+  tax_def:
+    "#### Taxonomía\n\nDefiniciones y abreviaturas de términos de uso común.",
   TAXONOMY: {
     HAZARD: "Amenaza",
     HAZARD_DEF:
@@ -529,10 +530,8 @@ export const messagesES: Messages = {
   dasf_purpose_title: "Propósito del DASF",
   dasf_purpose_p1:
     "El Marco de Evaluación y Selección DIREKTION (DASF) es un método central desarrollado dentro del proyecto DIREKTION para apoyar un proceso de selección y evaluación transparente e imparcial.",
-  dasf_purpose_offers:
-    "El marco DASF ofrece un método paso a paso para:",
-  dasf_purpose_item1:
-    "Identificar y abordar las brechas de capacidades",
+  dasf_purpose_offers: "El marco DASF ofrece un método paso a paso para:",
+  dasf_purpose_item1: "Identificar y abordar las brechas de capacidades",
   dasf_purpose_item2:
     "Implementar una selección sistemática de tecnologías y soluciones",
   dasf_purpose_item3: "Establecer una hoja de ruta",
@@ -702,7 +701,7 @@ export const messagesES: Messages = {
   "Imp-4": "Bastante alta",
   "Imp-5": "Muy alta",
   "PA-1": "Eficacia",
-  "PA-1_desc": "- Calidad de los resultados\n- Puntualidad\n- Resistencia",
+  "PA-1_desc": "Calidad de los resultados, puntualidad, resistencia.",
   "PA-2": "Seguridad de los profesionales",
   "PA-2_desc": "Seguridad física y mental del personal implicado.",
   "PA-3": "Eficiencia",
@@ -755,8 +754,7 @@ export const messagesES: Messages = {
   "Rsp-04_desc": "Actividades externas para salvar vidas.",
   "Rsp-05_desc": "Aviso y comunicación de crisis.",
   "Rsp-06_desc": "Evacuación controlada de personas y/o animales.",
-  "Rsp-07_desc":
-    "Garantizar accesibilidad y seguridad en la zona afectada.",
+  "Rsp-07_desc": "Garantizar accesibilidad y seguridad en la zona afectada.",
   "Rsp-08_desc":
     "Suministro y/o restablecimiento de productos básicos y servicios de vital importancia.",
   "Rsp-09_desc":
@@ -768,12 +766,14 @@ export const messagesES: Messages = {
   "Rec-04_desc": "Restauración de rutas de transporte y servicios esenciales.",
   "Rec-05_desc":
     "Capacidades necesarias para una recuperación bien coordinada.",
-  "Mit-RA-01_desc": "Proceso de búsqueda, reconocimiento y descripción de riesgos.",
+  "Mit-RA-01_desc":
+    "Proceso de búsqueda, reconocimiento y descripción de riesgos.",
   "Mit-RA-02_desc":
     "Proceso para comprender la naturaleza del riesgo y determinar el nivel de riesgo.",
   "Mit-RA-03_desc":
     "Proceso de comparación de resultados del análisis de riesgos con criterios de riesgo para determinar si el riesgo es aceptable o tolerable.",
-  "Mit-ER-01_desc": "Protección de bienes (incluidas infraestructuras críticas).",
+  "Mit-ER-01_desc":
+    "Protección de bienes (incluidas infraestructuras críticas).",
   "Mit-ER-02_desc":
     "Acciones que minimizan las pérdidas por amenazas y preservan o restauran las funciones de los sistemas naturales.",
   "Mit-ER-03_desc":
@@ -816,8 +816,10 @@ export const messagesES: Messages = {
   "Resp-SL-04_desc": "Control de disturbios, etc.",
   "Resp-SL-05_desc":
     "Control del tráfico entrante y saliente de la zona afectada.",
-  "Resp-EH-01_desc": "Servicio sanitario en hospitales regulares y/o de campaña.",
-  "Resp-EH-02_desc": "Aislamiento de personas/víctimas potencialmente infecciosas.",
+  "Resp-EH-01_desc":
+    "Servicio sanitario en hospitales regulares y/o de campaña.",
+  "Resp-EH-02_desc":
+    "Aislamiento de personas/víctimas potencialmente infecciosas.",
   "Resp-EH-03_desc":
     "Profilaxis masiva o vacunación en caso de incidente nuclear o pandemia.",
   "Resp-CS-01_desc":
@@ -832,8 +834,7 @@ export const messagesES: Messages = {
   "Resp-DA-01_desc": "Eliminación de escombros y/o material contaminado.",
   "Resp-DA-02_desc":
     "Descontaminación de zonas, infraestructuras y/o vehículos contaminados.",
-  "Resp-DA-03_desc":
-    "Drenaje y bombeo de zonas o infraestructuras inundadas.",
+  "Resp-DA-03_desc": "Drenaje y bombeo de zonas o infraestructuras inundadas.",
   "Resp-DA-04_desc": "Destrucción de animales posiblemente infectados.",
   "Resp-BN-01_desc": "Restauración o provisión temporal de agua potable.",
   "Resp-BN-02_desc": "Provisión temporal de alimentos.",
@@ -841,7 +842,8 @@ export const messagesES: Messages = {
     "Restauración del suministro de electricidad/gas o provisión de energía alternativa temporal.",
   "Resp-BN-04_desc":
     "Restauración o suministro temporal de TIC y telecomunicaciones.",
-  "Resp-BN-05_desc": "Restaurar el saneamiento o proporcionar soluciones temporales.",
+  "Resp-BN-05_desc":
+    "Restaurar el saneamiento o proporcionar soluciones temporales.",
   "Resp-RS-01_desc":
     "Toma de decisiones, planificación y asignación de tareas en niveles de coordinación y mando durante un evento de desastre.",
   "Resp-RS-02_desc":
@@ -856,7 +858,8 @@ export const messagesES: Messages = {
     "Transporte de personal y material para apoyar operaciones prolongadas de respuesta ante desastres.",
   "Rec-HR-01_desc":
     "Provisión de servicios de salud pública y seguridad para los desplazados.",
-  "Rec-HR-02_desc": "Provisión de alimentos y alojamiento para los desplazados.",
+  "Rec-HR-02_desc":
+    "Provisión de alimentos y alojamiento para los desplazados.",
   "Rec-ER-01_desc":
     "Eliminación de contaminación a gran escala y descontaminación, y gestión de residuos.",
   "Rec-ER-02_desc": "Restauración de recursos naturales y hábitats.",

@@ -227,7 +227,8 @@ export const messagesIT: Messages = {
   ass_perf_scale: "Prestazioni",
   taxonomy_route: "/taxonomy",
   taxonomy: "Tassonomia",
-  tax_def: "#### Tassonomia\n\nDefinizioni e abbreviazioni di termini comunemente usati.",
+  tax_def:
+    "#### Tassonomia\n\nDefinizioni e abbreviazioni di termini comunemente usati.",
   TAXONOMY: {
     HAZARD: "Rischio",
     HAZARD_DEF:
@@ -532,8 +533,7 @@ export const messagesIT: Messages = {
     "Il DIREKTION Assessment and Screening Framework (DASF) è un metodo fondamentale sviluppato nell'ambito del progetto DIREKTION per supportare un processo di selezione e valutazione trasparente e imparziale.",
   dasf_purpose_offers:
     "Il framework DASF offre un metodo passo dopo passo per:",
-  dasf_purpose_item1:
-    "Identificare e affrontare le lacune nelle capacità",
+  dasf_purpose_item1: "Identificare e affrontare le lacune nelle capacità",
   dasf_purpose_item2:
     "Implementare una selezione sistematica di tecnologie e soluzioni",
   dasf_purpose_item3: "Definire una roadmap",
@@ -703,7 +703,7 @@ export const messagesIT: Messages = {
   "Imp-4": "Abbastanza alta",
   "Imp-5": "Molto alta",
   "PA-1": "Efficacia",
-  "PA-1_desc": "- Qualità dei risultati\n- Tempestività\n- Resistenza",
+  "PA-1_desc": "Qualità dei risultati, tempestività, resistenza.",
   "PA-2": "Sicurezza dei professionisti",
   "PA-2_desc": "Sicurezza fisica e mentale del personale coinvolto.",
   "PA-3": "Efficienza",
@@ -756,20 +756,18 @@ export const messagesIT: Messages = {
   "Rsp-04_desc": "Attività esterne per salvare vite.",
   "Rsp-05_desc": "Avviso e comunicazione di crisi.",
   "Rsp-06_desc": "Evacuazione controllata di persone e/o animali.",
-  "Rsp-07_desc":
-    "Garantire accessibilità e sicurezza nell'area colpita.",
+  "Rsp-07_desc": "Garantire accessibilità e sicurezza nell'area colpita.",
   "Rsp-08_desc":
     "Fornitura e/o ripristino di prodotti di base e servizi di vitale importanza.",
-  "Rsp-09_desc":
-    "Capacità per abilitare una o più altre capacità di risposta.",
+  "Rsp-09_desc": "Capacità per abilitare una o più altre capacità di risposta.",
   "Rec-01_desc":
     "Fornitura di servizi di salute pubblica, sicurezza e rifugio.",
   "Rec-02_desc": "Rimozione dell'inquinamento e decontaminazione.",
   "Rec-03_desc": "Recupero economico e aziendale.",
   "Rec-04_desc": "Ripristino di percorsi di trasporto e servizi essenziali.",
-  "Rec-05_desc":
-    "Capacità necessarie per un recupero ben coordinato.",
-  "Mit-RA-01_desc": "Processo di ricerca, riconoscimento e descrizione del rischio.",
+  "Rec-05_desc": "Capacità necessarie per un recupero ben coordinato.",
+  "Mit-RA-01_desc":
+    "Processo di ricerca, riconoscimento e descrizione del rischio.",
   "Mit-RA-02_desc":
     "Processo per comprendere la natura del rischio e determinare il livello di rischio.",
   "Mit-RA-03_desc":
@@ -788,7 +786,8 @@ export const messagesIT: Messages = {
     "Attività per facilitare l'apprendimento e lo sviluppo di conoscenze, abilità e competenze per la risposta ai disastri.",
   "Prep-CD-03_desc":
     "Comunicare e istruire il pubblico su come essere ben preparati a una crisi e come comportarsi quando si verifica.",
-  "Prep-MO-01_desc": "Rilevamento di circostanze che si discostano dalla norma.",
+  "Prep-MO-01_desc":
+    "Rilevamento di circostanze che si discostano dalla norma.",
   "Prep-MO-02_desc":
     "Allertare il personale della presenza di un incidente e consentire l'avvio di azioni di controllo.",
   "Prep-PS-01_desc":
@@ -807,7 +806,8 @@ export const messagesIT: Messages = {
   "Resp-SI04_desc":
     "Fermare il rilascio di materiali pericolosi, incluso il contenimento (incidenti CBRN-E).",
   "Resp-RO-01_desc": "Operazioni di ricerca e soccorso.",
-  "Resp-RO-02_desc": "Triage, decontaminazione e stabilizzazione delle vittime.",
+  "Resp-RO-02_desc":
+    "Triage, decontaminazione e stabilizzazione delle vittime.",
   "Resp-RO-03_desc": "Trasporto in ambulanza verso aree sicure o ospedali.",
   "Resp-SL-01_desc":
     "Proteggere aree, infrastrutture e persone da parti non coinvolte.",
@@ -833,8 +833,7 @@ export const messagesIT: Messages = {
   "Resp-DA-01_desc": "Rimozione di macerie e/o materiale contaminato.",
   "Resp-DA-02_desc":
     "Decontaminazione di aree, infrastrutture e/o veicoli contaminati.",
-  "Resp-DA-03_desc":
-    "Drenaggio e pompaggio di aree o infrastrutture allagate.",
+  "Resp-DA-03_desc": "Drenaggio e pompaggio di aree o infrastrutture allagate.",
   "Resp-DA-04_desc": "Abbattimento di animali potenzialmente infetti.",
   "Resp-BN-01_desc": "Ripristino o fornitura temporanea di acqua potabile.",
   "Resp-BN-02_desc": "Fornitura temporanea di cibo.",
@@ -842,7 +841,8 @@ export const messagesIT: Messages = {
     "Ripristino della fornitura di elettricità/gas o fornitura di energia alternativa temporanea.",
   "Resp-BN-04_desc":
     "Ripristino o fornitura temporanea di ICT e telecomunicazioni.",
-  "Resp-BN-05_desc": "Ripristinare i servizi igienico-sanitari o fornire soluzioni temporanee.",
+  "Resp-BN-05_desc":
+    "Ripristinare i servizi igienico-sanitari o fornire soluzioni temporanee.",
   "Resp-RS-01_desc":
     "Processo decisionale, pianificazione e assegnazione compiti ai livelli di coordinamento e comando durante un evento disastroso.",
   "Resp-RS-02_desc":

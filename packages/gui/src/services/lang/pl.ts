@@ -224,7 +224,8 @@ export const messagesPL: Messages = {
   ass_perf_scale: "Wydajność",
   taxonomy_route: "/taxonomy",
   taxonomy: "Taksonomia",
-  tax_def: "#### Taksonomia\n\nDefinicje i skróty powszechnie używanych terminów.",
+  tax_def:
+    "#### Taksonomia\n\nDefinicje i skróty powszechnie używanych terminów.",
   TAXONOMY: {
     HAZARD: "Zagrożenie",
     HAZARD_DEF:
@@ -523,12 +524,9 @@ export const messagesPL: Messages = {
   dasf_purpose_title: "Cel DASF",
   dasf_purpose_p1:
     "DIREKTION Assessment and Screening Framework (DASF) to podstawowa metoda opracowana w ramach projektu DIREKTION, mająca na celu wspieranie przejrzystego i bezstronnego procesu selekcji i oceny.",
-  dasf_purpose_offers:
-    "Framework DASF oferuje metodę krok po kroku, aby:",
-  dasf_purpose_item1:
-    "Identyfikować i niwelować luki w zdolnościach",
-  dasf_purpose_item2:
-    "Wdrożyć systematyczną selekcję technologii i rozwiązań",
+  dasf_purpose_offers: "Framework DASF oferuje metodę krok po kroku, aby:",
+  dasf_purpose_item1: "Identyfikować i niwelować luki w zdolnościach",
+  dasf_purpose_item2: "Wdrożyć systematyczną selekcję technologii i rozwiązań",
   dasf_purpose_item3: "Opracować plan działania",
   dasf_purpose_p2:
     "DASF stanowi podstawę trwałego procesu programowania badań, zapewniając, że osoby reagujące i interesariusze mają dostęp do najbardziej efektywnych i aktualnych narzędzi do gotowości i reagowania na katastrofy. Kompletny zestaw ma być wykonywany regularnie — na przykład raz w roku lub raz na cztery lata — aby uzyskać zaktualizowany wgląd w najbardziej aktualne potrzeby w zakresie zdolności, luki w zdolnościach, potencjalne rozwiązania i regularnie aktualizować plan działania dla unijnych lub krajowych możliwości badawczych.",
@@ -696,7 +694,7 @@ export const messagesPL: Messages = {
   "Imp-4": "Dość wysokie",
   "Imp-5": "Bardzo wysokie",
   "PA-1": "Skuteczność",
-  "PA-1_desc": "- Jakość wyników\n- Terminowość\n- Wytrzymałość",
+  "PA-1_desc": "Jakość wyników, terminowość, wytrzymałość.",
   "PA-2": "Bezpieczeństwo/Ochrona profesjonalistów",
   "PA-2_desc": "Fizyczne i psychiczne bezpieczeństwo zaangażowanego personelu.",
   "PA-3": "Efektywność",
@@ -760,8 +758,7 @@ export const messagesPL: Messages = {
   "Rec-02_desc": "Usuwanie zanieczyszczeń i dekontaminacja.",
   "Rec-03_desc": "Odbudowa gospodarcza i biznesowa.",
   "Rec-04_desc": "Przywrócenie tras transportowych i niezbędnych usług.",
-  "Rec-05_desc":
-    "Zdolności wymagane do dobrze skoordynowanej odbudowy.",
+  "Rec-05_desc": "Zdolności wymagane do dobrze skoordynowanej odbudowy.",
   "Mit-RA-01_desc": "Proces wyszukiwania, rozpoznawania i opisywania ryzyka.",
   "Mit-RA-02_desc":
     "Proces rozumienia natury ryzyka i określania poziomu ryzyka.",
@@ -835,7 +832,8 @@ export const messagesPL: Messages = {
     "Przywrócenie dostaw energii elektrycznej/gazu lub zapewnienie tymczasowej alternatywnej energii.",
   "Resp-BN-04_desc":
     "Przywrócenie lub tymczasowe zapewnienie ICT i telekomunikacji.",
-  "Resp-BN-05_desc": "Przywrócenie sanitacji lub zapewnienie tymczasowych rozwiązań.",
+  "Resp-BN-05_desc":
+    "Przywrócenie sanitacji lub zapewnienie tymczasowych rozwiązań.",
   "Resp-RS-01_desc":
     "Podejmowanie decyzji, planowanie i wyznaczanie zadań na poziomach koordynacji i dowodzenia podczas zarządzania katastrofą.",
   "Resp-RS-02_desc":

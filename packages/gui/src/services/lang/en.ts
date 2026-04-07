@@ -721,7 +721,7 @@ export const messages = {
   "Imp-5": "Very high",
   // performanceAspects labels and descriptions
   "PA-1": "Effectiveness",
-  "PA-1_desc": "- Quality of the results\n- Timeliness\n- Endurance",
+  "PA-1_desc": "Quality of the results, timeliness, endurance.",
   "PA-2": "Safety/Security of professionals",
   "PA-2_desc": "Physical and mental safety of involved personnel.",
   "PA-3": "Efficiency",

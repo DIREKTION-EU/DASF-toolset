@@ -226,7 +226,8 @@ export const messagesDE: Messages = {
   ass_perf_scale: "Leistung",
   taxonomy_route: "/taxonomy",
   taxonomy: "Taxonomie",
-  tax_def: "#### Taxonomie\n\nDefinitionen und Abkürzungen häufig verwendeter Begriffe.",
+  tax_def:
+    "#### Taxonomie\n\nDefinitionen und Abkürzungen häufig verwendeter Begriffe.",
   TAXONOMY: {
     HAZARD: "Gefahr",
     HAZARD_DEF:
@@ -390,7 +391,8 @@ export const messagesDE: Messages = {
     1: "1 Fähigkeitslücke identifiziert",
     n: "{n} Fähigkeitslücken identifiziert",
   },
-  solution_empty: "Noch keine Lösungen hinzugefügt. Klicken Sie auf 'Lösung hinzufügen', um zu beginnen.",
+  solution_empty:
+    "Noch keine Lösungen hinzugefügt. Klicken Sie auf 'Lösung hinzufügen', um zu beginnen.",
   roadmap: "Fahrplan",
   roadmap_count: {
     1: "1 Fahrplanelement",
@@ -701,7 +703,7 @@ export const messagesDE: Messages = {
   "Imp-4": "Ziemlich hoch",
   "Imp-5": "Sehr hoch",
   "PA-1": "Effektivität",
-  "PA-1_desc": "- Qualität der Ergebnisse\n- Rechtzeitigkeit\n- Ausdauer",
+  "PA-1_desc": "Qualität der Ergebnisse, Rechtzeitigkeit, Ausdauer.",
   "PA-2": "Sicherheit/Schutz von Fachleuten",
   "PA-2_desc": "Physische und mentale Sicherheit des beteiligten Personals.",
   "PA-3": "Effizienz",
@@ -764,10 +766,12 @@ export const messagesDE: Messages = {
     "Bereitstellung von öffentlichen Gesundheits- und Sicherheitsdiensten sowie Unterkunft.",
   "Rec-02_desc": "Beseitigung von Verschmutzung und Dekontamination.",
   "Rec-03_desc": "Wirtschaftliche und geschäftliche Erholung.",
-  "Rec-04_desc": "Wiederherstellung von Transportwegen und wesentlichen Diensten.",
+  "Rec-04_desc":
+    "Wiederherstellung von Transportwegen und wesentlichen Diensten.",
   "Rec-05_desc":
     "Fähigkeiten, die für eine gut koordinierte Erholung erforderlich sind.",
-  "Mit-RA-01_desc": "Prozess der Suche, Erkennung und Beschreibung von Risiken.",
+  "Mit-RA-01_desc":
+    "Prozess der Suche, Erkennung und Beschreibung von Risiken.",
   "Mit-RA-02_desc":
     "Prozess zum Verständnis der Art des Risikos und zur Bestimmung des Risikoniveaus.",
   "Mit-RA-03_desc":
@@ -806,18 +810,18 @@ export const messagesDE: Messages = {
     "Eindämmung von Gefahrgutaustritten, einschließlich Containment (CBRN-E-Vorfälle).",
   "Resp-RO-01_desc": "Such- und Rettungsoperationen.",
   "Resp-RO-02_desc": "Triage, Dekontamination und Stabilisierung von Opfern.",
-  "Resp-RO-03_desc": "Krankentransport zu sicheren Bereichen oder Krankenhäusern.",
+  "Resp-RO-03_desc":
+    "Krankentransport zu sicheren Bereichen oder Krankenhäusern.",
   "Resp-SL-01_desc":
     "Gebiete, Infrastrukturen und Personen vor unbeteiligten Parteien schützen.",
   "Resp-SL-02_desc": "Identifikation von Opfern.",
   "Resp-SL-03_desc":
     "Forensische Aktivitäten zur Untersuchung der Ursache des Vorfalls und Sicherung von Beweisen.",
   "Resp-SL-04_desc": "Aufstandsbekämpfung usw.",
-  "Resp-SL-05_desc":
-    "Verkehrssteuerung in und aus dem betroffenen Gebiet.",
-  "Resp-EH-01_desc": "Gesundheitsdienst in regulären und/oder Feldkrankenhäusern.",
-  "Resp-EH-02_desc":
-    "Isolierung von potenziell infektiösen Personen/Opfern.",
+  "Resp-SL-05_desc": "Verkehrssteuerung in und aus dem betroffenen Gebiet.",
+  "Resp-EH-01_desc":
+    "Gesundheitsdienst in regulären und/oder Feldkrankenhäusern.",
+  "Resp-EH-02_desc": "Isolierung von potenziell infektiösen Personen/Opfern.",
   "Resp-EH-03_desc":
     "Massenimpfung oder -prophylaxe bei nuklearem Vorfall oder Pandemie.",
   "Resp-CS-01_desc":
@@ -829,19 +833,22 @@ export const messagesDE: Messages = {
   "Resp-SF-02_desc":
     "Unterkunft für Evakuierte, einschließlich Ernährung und Sanitär.",
   "Resp-SF-03_desc": "Zusammenführung von Evakuierten mit ihren Angehörigen.",
-  "Resp-DA-01_desc": "Entfernung von Trümmern und/oder kontaminiertem Material.",
+  "Resp-DA-01_desc":
+    "Entfernung von Trümmern und/oder kontaminiertem Material.",
   "Resp-DA-02_desc":
     "Dekontamination von kontaminierten Gebieten, Infrastrukturen und/oder Fahrzeugen.",
   "Resp-DA-03_desc":
     "Entwässerung und Abpumpen von überfluteten Gebieten oder Infrastrukturen.",
   "Resp-DA-04_desc": "Vernichtung von möglicherweise infizierten Tieren.",
-  "Resp-BN-01_desc": "Wiederherstellung oder vorübergehende Bereitstellung von Trinkwasser.",
+  "Resp-BN-01_desc":
+    "Wiederherstellung oder vorübergehende Bereitstellung von Trinkwasser.",
   "Resp-BN-02_desc": "Vorübergehende Nahrungsversorgung.",
   "Resp-BN-03_desc":
     "Wiederherstellung der Strom-/Gasversorgung oder Bereitstellung vorübergehender alternativer Energie.",
   "Resp-BN-04_desc":
     "Wiederherstellung oder vorübergehende Versorgung mit IKT und Telekommunikation.",
-  "Resp-BN-05_desc": "Sanitäranlagen wiederherstellen oder vorübergehende Lösungen bereitstellen.",
+  "Resp-BN-05_desc":
+    "Sanitäranlagen wiederherstellen oder vorübergehende Lösungen bereitstellen.",
   "Resp-RS-01_desc":
     "Entscheidungsfindung, Planung und Aufgabenstellung auf Koordinierungs- und Führungsebene beim Katastrophenmanagement.",
   "Resp-RS-02_desc":
@@ -856,7 +863,8 @@ export const messagesDE: Messages = {
     "Transport von Personal und Material zur Unterstützung anhaltender Katastrophenreaktionsoperationen.",
   "Rec-HR-01_desc":
     "Bereitstellung von öffentlichen Gesundheits- und Sicherheitsdiensten für Vertriebene.",
-  "Rec-HR-02_desc": "Bereitstellung von Nahrung und Unterkunft für Vertriebene.",
+  "Rec-HR-02_desc":
+    "Bereitstellung von Nahrung und Unterkunft für Vertriebene.",
   "Rec-ER-01_desc":
     "Beseitigung großflächiger Verschmutzung und Dekontamination sowie Abfallentsorgung.",
   "Rec-ER-02_desc": "Wiederherstellung natürlicher Ressourcen und Lebensräume.",

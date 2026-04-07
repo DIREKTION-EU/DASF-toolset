@@ -226,7 +226,8 @@ export const messagesFR: Messages = {
   ass_perf_scale: "Performance",
   taxonomy_route: "/taxonomy",
   taxonomy: "Taxonomie",
-  tax_def: "#### Taxonomie\n\nDéfinitions et abréviations des termes couramment utilisés.",
+  tax_def:
+    "#### Taxonomie\n\nDéfinitions et abréviations des termes couramment utilisés.",
   TAXONOMY: {
     HAZARD: "Risque",
     HAZARD_DEF:
@@ -399,7 +400,8 @@ export const messagesFR: Messages = {
   },
   roadmap_route: "/roadmap",
   roadmap_step_title: "Étape 3 : Feuille de route",
-  roadmap_step_desc: "Planifier les calendriers de mise en œuvre et les engagements.",
+  roadmap_step_desc:
+    "Planifier les calendriers de mise en œuvre et les engagements.",
   roadmap_add_solutions: "Ajouter {n} solution(s) à la feuille de route",
   roadmap_empty_solutions:
     "Complétez d'abord l'étape 2 (Évaluation des solutions) pour ajouter des solutions à la feuille de route.",
@@ -702,7 +704,7 @@ export const messagesFR: Messages = {
   "Imp-4": "Assez élevée",
   "Imp-5": "Très élevée",
   "PA-1": "Efficacité",
-  "PA-1_desc": "- Qualité des résultats\n- Ponctualité\n- Endurance",
+  "PA-1_desc": "Qualité des résultats, ponctualité, endurance.",
   "PA-2": "Sécurité/Sûreté des professionnels",
   "PA-2_desc": "Sécurité physique et mentale du personnel impliqué.",
   "PA-3": "Efficience",
@@ -765,15 +767,17 @@ export const messagesFR: Messages = {
     "Fourniture de services de santé publique, de sécurité et d'hébergement.",
   "Rec-02_desc": "Dépollution et décontamination.",
   "Rec-03_desc": "Rétablissement économique et des entreprises.",
-  "Rec-04_desc": "Restauration des voies de transport et des services essentiels.",
-  "Rec-05_desc":
-    "Capacités nécessaires à un rétablissement bien coordonné.",
-  "Mit-RA-01_desc": "Processus de recherche, de reconnaissance et de description des risques.",
+  "Rec-04_desc":
+    "Restauration des voies de transport et des services essentiels.",
+  "Rec-05_desc": "Capacités nécessaires à un rétablissement bien coordonné.",
+  "Mit-RA-01_desc":
+    "Processus de recherche, de reconnaissance et de description des risques.",
   "Mit-RA-02_desc":
     "Processus pour comprendre la nature du risque et déterminer le niveau de risque.",
   "Mit-RA-03_desc":
     "Processus de comparaison des résultats de l'analyse des risques avec des critères de risque pour déterminer si le risque est acceptable ou tolérable.",
-  "Mit-ER-01_desc": "Protection des biens (y compris les infrastructures critiques).",
+  "Mit-ER-01_desc":
+    "Protection des biens (y compris les infrastructures critiques).",
   "Mit-ER-02_desc":
     "Actions minimisant les pertes dues aux risques et préservant ou restaurant les fonctions des systèmes naturels.",
   "Mit-ER-03_desc":
@@ -807,7 +811,8 @@ export const messagesFR: Messages = {
     "Arrêt du déversement de matières dangereuses, y compris le confinement (incidents NRBC-E).",
   "Resp-RO-01_desc": "Opérations de recherche et sauvetage.",
   "Resp-RO-02_desc": "Triage, décontamination et stabilisation des victimes.",
-  "Resp-RO-03_desc": "Transport en ambulance vers des zones sûres ou des hôpitaux.",
+  "Resp-RO-03_desc":
+    "Transport en ambulance vers des zones sûres ou des hôpitaux.",
   "Resp-SL-01_desc":
     "Protéger les zones, infrastructures et personnes des parties non impliquées.",
   "Resp-SL-02_desc": "Identification des victimes.",
@@ -816,8 +821,10 @@ export const messagesFR: Messages = {
   "Resp-SL-04_desc": "Contrôle des émeutes, etc.",
   "Resp-SL-05_desc":
     "Contrôle de la circulation entrante et sortante de la zone sinistrée.",
-  "Resp-EH-01_desc": "Service de santé dans des hôpitaux réguliers et/ou de campagne.",
-  "Resp-EH-02_desc": "Isolement des personnes/victimes potentiellement infectieuses.",
+  "Resp-EH-01_desc":
+    "Service de santé dans des hôpitaux réguliers et/ou de campagne.",
+  "Resp-EH-02_desc":
+    "Isolement des personnes/victimes potentiellement infectieuses.",
   "Resp-EH-03_desc":
     "Prophylaxie de masse ou vaccination en cas d'incident nucléaire ou de pandémie.",
   "Resp-CS-01_desc":
@@ -841,7 +848,8 @@ export const messagesFR: Messages = {
     "Restauration de l'alimentation électrique/gaz ou fourniture d'énergie alternative temporaire.",
   "Resp-BN-04_desc":
     "Restauration ou fourniture temporaire de TIC et de télécommunications.",
-  "Resp-BN-05_desc": "Restaurer l'assainissement ou fournir des solutions temporaires.",
+  "Resp-BN-05_desc":
+    "Restaurer l'assainissement ou fournir des solutions temporaires.",
   "Resp-RS-01_desc":
     "Prise de décision, planification et tasking aux niveaux de coordination et de commandement lors d'un événement catastrophique.",
   "Resp-RS-02_desc":
@@ -856,7 +864,8 @@ export const messagesFR: Messages = {
     "Transport du personnel et du matériel pour soutenir les opérations prolongées de réponse aux catastrophes.",
   "Rec-HR-01_desc":
     "Fourniture de services de santé publique et de sécurité pour les personnes déplacées.",
-  "Rec-HR-02_desc": "Fourniture de nourriture et d'hébergement pour les personnes déplacées.",
+  "Rec-HR-02_desc":
+    "Fourniture de nourriture et d'hébergement pour les personnes déplacées.",
   "Rec-ER-01_desc":
     "Dépollution à grande échelle et décontamination, et traitement des déchets.",
   "Rec-ER-02_desc": "Restauration des ressources naturelles et des habitats.",

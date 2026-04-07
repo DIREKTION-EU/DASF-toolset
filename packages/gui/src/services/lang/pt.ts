@@ -529,10 +529,8 @@ export const messagesPT: Messages = {
   dasf_purpose_title: "Objetivo do DASF",
   dasf_purpose_p1:
     "O DIREKTION Assessment and Screening Framework (DASF) é um método central desenvolvido no âmbito do projeto DIREKTION para apoiar um processo de triagem e avaliação transparente e imparcial.",
-  dasf_purpose_offers:
-    "O framework DASF oferece um método passo a passo para:",
-  dasf_purpose_item1:
-    "Identificar e colmatar lacunas de capacidades",
+  dasf_purpose_offers: "O framework DASF oferece um método passo a passo para:",
+  dasf_purpose_item1: "Identificar e colmatar lacunas de capacidades",
   dasf_purpose_item2:
     "Implementar uma triagem sistemática de tecnologias e soluções",
   dasf_purpose_item3: "Estabelecer um roteiro",
@@ -702,7 +700,7 @@ export const messagesPT: Messages = {
   "Imp-4": "Bastante alta",
   "Imp-5": "Muito alta",
   "PA-1": "Eficácia",
-  "PA-1_desc": "- Qualidade dos resultados\n- Pontualidade\n- Resistência",
+  "PA-1_desc": "Qualidade dos resultados, pontualidade, resistência.",
   "PA-2": "Segurança dos profissionais",
   "PA-2_desc": "Segurança física e mental do pessoal envolvido.",
   "PA-3": "Eficiência",
@@ -755,8 +753,7 @@ export const messagesPT: Messages = {
   "Rsp-04_desc": "Atividades externas para salvar vidas.",
   "Rsp-05_desc": "Aviso e comunicação de crise.",
   "Rsp-06_desc": "Evacuação controlada de pessoas e/ou animais.",
-  "Rsp-07_desc":
-    "Garantir acessibilidade e segurança na zona afetada.",
+  "Rsp-07_desc": "Garantir acessibilidade e segurança na zona afetada.",
   "Rsp-08_desc":
     "Fornecimento e/ou restabelecimento de produtos básicos e serviços de vital importância.",
   "Rsp-09_desc":
@@ -766,9 +763,9 @@ export const messagesPT: Messages = {
   "Rec-02_desc": "Remoção de poluição e descontaminação.",
   "Rec-03_desc": "Recuperação económica e empresarial.",
   "Rec-04_desc": "Restauração de rotas de transporte e serviços essenciais.",
-  "Rec-05_desc":
-    "Capacidades necessárias para uma recuperação bem coordenada.",
-  "Mit-RA-01_desc": "Processo de pesquisa, reconhecimento e descrição de riscos.",
+  "Rec-05_desc": "Capacidades necessárias para uma recuperação bem coordenada.",
+  "Mit-RA-01_desc":
+    "Processo de pesquisa, reconhecimento e descrição de riscos.",
   "Mit-RA-02_desc":
     "Processo para compreender a natureza do risco e determinar o nível de risco.",
   "Mit-RA-03_desc":
@@ -807,17 +804,19 @@ export const messagesPT: Messages = {
     "Parar o derrame de materiais perigosos, incluindo contenção (incidentes QBRN-E).",
   "Resp-RO-01_desc": "Operações de busca e salvamento.",
   "Resp-RO-02_desc": "Triagem, descontaminação e estabilização de vítimas.",
-  "Resp-RO-03_desc": "Transporte de ambulância para zonas seguras ou hospitais.",
+  "Resp-RO-03_desc":
+    "Transporte de ambulância para zonas seguras ou hospitais.",
   "Resp-SL-01_desc":
     "Proteger áreas, infraestruturas e pessoas de partes não envolvidas.",
   "Resp-SL-02_desc": "Identificação de vítimas.",
   "Resp-SL-03_desc":
     "Atividades forenses para investigar a causa do incidente e salvaguardar evidências.",
   "Resp-SL-04_desc": "Controlo de motins, etc.",
-  "Resp-SL-05_desc":
-    "Controlo do tráfego de entrada e saída da zona afetada.",
-  "Resp-EH-01_desc": "Serviço de saúde em hospitais regulares e/ou de campanha.",
-  "Resp-EH-02_desc": "Isolamento de pessoas/vítimas potencialmente infecciosas.",
+  "Resp-SL-05_desc": "Controlo do tráfego de entrada e saída da zona afetada.",
+  "Resp-EH-01_desc":
+    "Serviço de saúde em hospitais regulares e/ou de campanha.",
+  "Resp-EH-02_desc":
+    "Isolamento de pessoas/vítimas potencialmente infecciosas.",
   "Resp-EH-03_desc":
     "Profilaxia em massa ou vacinação em caso de incidente nuclear ou pandemia.",
   "Resp-CS-01_desc":

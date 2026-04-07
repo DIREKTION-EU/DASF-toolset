@@ -1,5 +1,5 @@
 import m from "mithril";
-import { Icon, Select, TextArea, TextInput } from "mithril-materialized";
+import { Icon, Select, TextArea, TextInput, Tooltip } from "mithril-materialized";
 import { InputField, resolveExpression, render } from "mithril-ui-form";
 import { PluginType } from "mithril-ui-form";
 import { ILabelled } from "../../models/capability-model/capability-model";
@@ -177,8 +177,8 @@ export const assessmentPlugin: PluginType = () => {
                             /<ul/,
                             '<ul class="browser-default"',
                           )}</div>`,
-                          // oncreate: ({ dom }) => tooltip.init(dom as Element),
-                          // onremove: ({ dom }) => M.Tooltip.getInstance(dom as Element)?.destroy(),
+                          oncreate: ({ dom }) => new Tooltip(dom as HTMLElement),
+                          onremove: ({ dom }) => Tooltip.getInstance(dom as HTMLElement)?.destroy(),
                         },
                         m(Icon, { iconName: "info" }),
                       ),

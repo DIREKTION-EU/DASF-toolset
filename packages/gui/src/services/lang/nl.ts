@@ -546,8 +546,7 @@ export const messagesNL: Messages = {
   dasf_purpose_title: "Doel van het DASF",
   dasf_purpose_p1:
     "Het DIREKTION Assessment and Screening Framework (DASF) is een kernmethode ontwikkeld binnen het DIREKTION-project om een transparant en onpartijdig screenings- en beoordelingsproces te ondersteunen.",
-  dasf_purpose_offers:
-    "Het DASF-framework biedt een stapsgewijze methode om:",
+  dasf_purpose_offers: "Het DASF-framework biedt een stapsgewijze methode om:",
   dasf_purpose_item1: "Capaciteitstekorten te identificeren en aan te pakken",
   dasf_purpose_item2:
     "Systematische screening van technologieën en oplossingen te implementeren",
@@ -729,8 +728,7 @@ export const messagesNL: Messages = {
   "Imp-5": "Zeer hoog",
   // performanceAspects labels and descriptions
   "PA-1": "Effectiviteit",
-  "PA-1_desc":
-    "- Kwaliteit van de resultaten\n- Tijdigheid\n- Uithoudingsvermogen",
+  "PA-1_desc": "Kwaliteit van de resultaten, tijdigheid, uithoudingsvermogen.",
   "PA-2": "Veiligheid/Beveiliging van professionals",
   "PA-2_desc": "Fysieke en mentale veiligheid van betrokken personeel.",
   "PA-3": "Efficiëntie",
