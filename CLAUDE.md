@@ -72,6 +72,7 @@ npm run clean
 ### Styling
 - Uses Materialize CSS via `mithril-materialized`
 - Custom styles in `packages/gui/src/css/style.css`
+- Support dark and light theme, so use theme-aware colors (variables starting with --mm)
 - SCSS support available via sass-loader
 
 ## Build Configuration

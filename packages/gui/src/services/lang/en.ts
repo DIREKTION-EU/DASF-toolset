@@ -528,6 +528,16 @@ export const messages = {
   landing_developed_by: "Developed by",
   landing_as_part_of: "as part of the",
   landing_project: "project.",
+  dasf_purpose_title: "Purpose of the DASF",
+  dasf_purpose_p1:
+    "The DIREKTION Assessment and Screening Framework (DASF) is a core method developed within the DIREKTION project to support a transparent and impartial screening and assessment process.",
+  dasf_purpose_offers: "The DASF Framework offers a step-by-step method to:",
+  dasf_purpose_item1: "Identify and address capability gaps",
+  dasf_purpose_item2:
+    "Implement systematic screening of technologies and solutions",
+  dasf_purpose_item3: "Set up a roadmap",
+  dasf_purpose_p2:
+    "The DASF provides the basis for a sustainable process for research programming, ensuring that responders and stakeholders have access to the most effective and up-to-date tools for disaster preparedness and response. The complete set is meant to be executed regularly — for instance, once a year or once every four years — to get an updated insight into the most current capability needs, capability gaps, potential solutions, and to regularly update the roadmap for EU or national research opportunities.",
   landing_assessment_process: "Assessment Process",
   landing_funded_by: "Funded by the European Union",
   delete_session_confirm: "Delete session: {name}?",

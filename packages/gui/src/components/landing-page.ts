@@ -8,7 +8,6 @@ import {
 } from "mithril-materialized";
 import background from "../assets/background.jpg";
 import tno from "../assets/tno.svg";
-import logoWhite from "../assets/logo-white.svg";
 import direktionLogo from "../assets/direktion-logo.avif";
 import euLogo from "../assets/eu-logo.avif";
 import {
@@ -39,10 +38,13 @@ export const LandingPage: MeiosisComponent = () => {
         m(".landing-header", [
           m("img", {
             alt: "Logo",
-            src: logoWhite,
+            src: direktionLogo,
             height: 46,
           }),
-          m("h4.landing-header-title", "DIREKTION Assessment & Screening Framework"),
+          m(
+            "h4.landing-header-title",
+            "DIREKTION Assessment & Screening Framework",
+          ),
           m(
             "a",
             { target: "_blank", href: "https://www.tno.nl" },
@@ -114,12 +116,18 @@ export const LandingPage: MeiosisComponent = () => {
         // Main content
         m(".landing-content", [
           m(".container", [
-
             // Session management card
             m(".row", [
               m(".col.s12", [
                 m(".landing-sessions-card", [
-                  m("h5", [m(Icon, { iconName: "folder_open", style: "font-size: 1.1rem; vertical-align: middle; margin-right: 4px;" }), t("session_sessions")]),
+                  m("h5", [
+                    m(Icon, {
+                      iconName: "folder_open",
+                      style:
+                        "font-size: 1.1rem; vertical-align: middle; margin-right: 4px;",
+                    }),
+                    t("session_sessions"),
+                  ]),
 
                   // Session list
                   sessions.length > 0 &&
@@ -152,20 +160,23 @@ export const LandingPage: MeiosisComponent = () => {
                                   s.name,
                                 ),
                               ),
-                              m("td", new Date(s.updatedAt).toLocaleDateString()),
+                              m(
+                                "td",
+                                new Date(s.updatedAt).toLocaleDateString(),
+                              ),
                               m("td.right-align", [
                                 m(FlatButton, {
                                   iconName: "content_copy",
                                   title: t("session_clone"),
-                                  onclick: () => actions.cloneSession(attrs, s.id),
+                                  onclick: () =>
+                                    actions.cloneSession(attrs, s.id),
                                 }),
                                 m(FlatButton, {
                                   iconName: "download",
                                   title: t("session_download"),
                                   onclick: async () => {
-                                    const json = await sessionService.exportSession(
-                                      s.id,
-                                    );
+                                    const json =
+                                      await sessionService.exportSession(s.id);
                                     if (!json) return;
                                     const blob = new Blob([json], {
                                       type: "application/json",
@@ -182,7 +193,8 @@ export const LandingPage: MeiosisComponent = () => {
                                   iconName: "delete",
                                   confirmIconName: "check",
                                   title: t("session_delete"),
-                                  onclick: () => actions.deleteSession(attrs, s.id),
+                                  onclick: () =>
+                                    actions.deleteSession(attrs, s.id),
                                 }),
                               ]),
                             ]),
@@ -213,7 +225,10 @@ export const LandingPage: MeiosisComponent = () => {
                             disabled: !newSessionName.trim(),
                             onclick: () => {
                               if (newSessionName.trim()) {
-                                actions.createSession(attrs, newSessionName.trim());
+                                actions.createSession(
+                                  attrs,
+                                  newSessionName.trim(),
+                                );
                                 newSessionName = "";
                               }
                             },
@@ -259,6 +274,19 @@ export const LandingPage: MeiosisComponent = () => {
               ]),
             ]),
 
+            // DASF purpose
+            m(".landing-purpose-section", [
+              m("h5.landing-section-title", t("dasf_purpose_title")),
+              m("p", t("dasf_purpose_p1")),
+              m("p", t("dasf_purpose_offers")),
+              m("ul", [
+                m("li", t("dasf_purpose_item1")),
+                m("li", t("dasf_purpose_item2")),
+                m("li", t("dasf_purpose_item3")),
+              ]),
+              m("p", t("dasf_purpose_p2")),
+            ]),
+
             // DASF step cards
             m(".landing-steps-section", [
               m("div.landing-section-title", t("landing_assessment_process")),
@@ -267,7 +295,10 @@ export const LandingPage: MeiosisComponent = () => {
                   ".col.s12.m3",
                   { style: "display:flex; padding-bottom:16px;" },
                   m(".landing-step-card", [
-                    m(".landing-step-icon-wrap", m(Icon, { iconName: "warning" })),
+                    m(
+                      ".landing-step-icon-wrap",
+                      m(Icon, { iconName: "warning" }),
+                    ),
                     m(".landing-step-num", "Step 1"),
                     m(".landing-step-title", t("step1_abbr")),
                     m("p.landing-step-desc", t("step1_desc")),
@@ -277,7 +308,10 @@ export const LandingPage: MeiosisComponent = () => {
                   ".col.s12.m3",
                   { style: "display:flex; padding-bottom:16px;" },
                   m(".landing-step-card", [
-                    m(".landing-step-icon-wrap", m(Icon, { iconName: "assessment" })),
+                    m(
+                      ".landing-step-icon-wrap",
+                      m(Icon, { iconName: "assessment" }),
+                    ),
                     m(".landing-step-num", "Step 2"),
                     m(".landing-step-title", t("step2_abbr")),
                     m("p.landing-step-desc", t("step2_desc")),
@@ -287,7 +321,10 @@ export const LandingPage: MeiosisComponent = () => {
                   ".col.s12.m3",
                   { style: "display:flex; padding-bottom:16px;" },
                   m(".landing-step-card", [
-                    m(".landing-step-icon-wrap", m(Icon, { iconName: "lightbulb" })),
+                    m(
+                      ".landing-step-icon-wrap",
+                      m(Icon, { iconName: "lightbulb" }),
+                    ),
                     m(".landing-step-num", "Step 3"),
                     m(".landing-step-title", t("step3_abbr")),
                     m("p.landing-step-desc", t("step3_desc")),
@@ -297,7 +334,10 @@ export const LandingPage: MeiosisComponent = () => {
                   ".col.s12.m3",
                   { style: "display:flex; padding-bottom:16px;" },
                   m(".landing-step-card", [
-                    m(".landing-step-icon-wrap", m(Icon, { iconName: "timeline" })),
+                    m(
+                      ".landing-step-icon-wrap",
+                      m(Icon, { iconName: "timeline" }),
+                    ),
                     m(".landing-step-num", "Step 4"),
                     m(".landing-step-title", t("step4_abbr")),
                     m("p.landing-step-desc", t("step4_desc")),
@@ -322,11 +362,19 @@ export const LandingPage: MeiosisComponent = () => {
                   height: 56,
                 }),
                 m("div", [
-                  m("p", { style: "margin: 0 0 4px 0;" }, t("landing_attribution")),
+                  m(
+                    "p",
+                    { style: "margin: 0 0 4px 0;" },
+                    t("landing_attribution"),
+                  ),
                   m("p", { style: "margin: 0;" }, [
                     t("landing_developed_by"),
                     " ",
-                    m("a", { href: "https://www.tno.nl", target: "_blank" }, "TNO"),
+                    m(
+                      "a",
+                      { href: "https://www.tno.nl", target: "_blank" },
+                      "TNO",
+                    ),
                     " ",
                     t("landing_as_part_of"),
                     " ",

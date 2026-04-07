@@ -246,6 +246,18 @@ export const messagesES: typeof messages = {
   landing_developed_by: "Desarrollado por",
   landing_as_part_of: "como parte del",
   landing_project: "proyecto.",
+  dasf_purpose_title: "Propósito del DASF",
+  dasf_purpose_p1:
+    "El Marco de Evaluación y Selección DIREKTION (DASF) es un método central desarrollado dentro del proyecto DIREKTION para apoyar un proceso de selección y evaluación transparente e imparcial.",
+  dasf_purpose_offers:
+    "El marco DASF ofrece un método paso a paso para:",
+  dasf_purpose_item1:
+    "Identificar y abordar las brechas de capacidades",
+  dasf_purpose_item2:
+    "Implementar una selección sistemática de tecnologías y soluciones",
+  dasf_purpose_item3: "Establecer una hoja de ruta",
+  dasf_purpose_p2:
+    "El DASF proporciona la base para un proceso sostenible de programación de la investigación, garantizando que los equipos de respuesta y las partes interesadas tengan acceso a las herramientas más efectivas y actualizadas para la preparación y respuesta ante desastres. El conjunto completo está diseñado para ejecutarse regularmente — por ejemplo, una vez al año o una vez cada cuatro años — para obtener una visión actualizada de las necesidades de capacidades más actuales, las brechas de capacidades, las soluciones potenciales y para actualizar regularmente la hoja de ruta para las oportunidades de investigación de la UE o nacionales.",
   landing_assessment_process: "Proceso de evaluación",
   landing_funded_by: "Financiado por la Unión Europea",
   delete_session_confirm: "¿Eliminar sesión: {name}?",

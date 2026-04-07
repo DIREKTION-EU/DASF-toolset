@@ -533,6 +533,17 @@ export const messagesNL: Messages = {
   landing_developed_by: "Ontwikkeld door",
   landing_as_part_of: "als onderdeel van het",
   landing_project: "project.",
+  dasf_purpose_title: "Doel van het DASF",
+  dasf_purpose_p1:
+    "Het DIREKTION Assessment and Screening Framework (DASF) is een kernmethode ontwikkeld binnen het DIREKTION-project om een transparant en onpartijdig screenings- en beoordelingsproces te ondersteunen.",
+  dasf_purpose_offers:
+    "Het DASF-framework biedt een stapsgewijze methode om:",
+  dasf_purpose_item1: "Capaciteitstekorten te identificeren en aan te pakken",
+  dasf_purpose_item2:
+    "Systematische screening van technologieën en oplossingen te implementeren",
+  dasf_purpose_item3: "Een routekaart op te stellen",
+  dasf_purpose_p2:
+    "Het DASF biedt de basis voor een duurzaam proces voor onderzoeksprogrammering, zodat hulpverleners en belanghebbenden toegang hebben tot de meest effectieve en actuele hulpmiddelen voor rampenparaatheid en -respons. De complete set is bedoeld om regelmatig te worden uitgevoerd — bijvoorbeeld eens per jaar of eens per vier jaar — om een bijgewerkt inzicht te krijgen in de meest actuele capaciteitsbehoeften, capaciteitstekorten, potentiële oplossingen en om de routekaart voor bijvoorbeeld EU- of nationale onderzoeksmogelijkheden regelmatig bij te werken.",
   landing_assessment_process: "Beoordelingsproces",
   landing_funded_by: "Gefinancierd door de Europese Unie",
   delete_session_confirm: "Sessie verwijderen: {name}?",
