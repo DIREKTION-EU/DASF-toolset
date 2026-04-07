@@ -259,6 +259,19 @@ export const actions = {
   },
 };
 
+// Migrate model data to latest version
+const migrateModel = (model: CapabilityModel): CapabilityModel => {
+  // Migration: Update enabledSteps from [1,2,3,4] to [0,1,2,3]
+  if (model.data && Array.isArray(model.data.enabledSteps)) {
+    const steps = model.data.enabledSteps;
+    if (steps.every((s) => s >= 1 && s <= 4)) {
+      // Old numbering detected, migrate to new numbering
+      model.data.enabledSteps = steps.map((s) => s - 1);
+    }
+  }
+  return model;
+};
+
 // Helper to retrieve model data from localStorage
 const getModelData = (): Record<string, unknown> => {
   try {
@@ -409,6 +422,7 @@ export const loadData = async () => {
   if (ds) {
     try {
       model = JSON.parse(ds);
+      model = migrateModel(model);
     } catch (err) {
       console.warn(
         "Invalid model in localStorage, falling back to default",
@@ -435,6 +449,7 @@ export const loadData = async () => {
     : null;
   if (lastSession) {
     model = lastSession.model;
+    model = migrateModel(model);
     localStorage.setItem(MODEL_KEY, JSON.stringify(model));
   }
 
