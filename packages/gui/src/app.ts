@@ -4,6 +4,7 @@ import "mithril-materialized/index.min.css";
 import "./css/style.css";
 import { registerPlugin } from "mithril-ui-form";
 import { assessmentPlugin } from "./components/ui/assessment-plugin";
+import { trlPlugin } from "./components/ui/trl-plugin";
 import {
   lookupTable,
   lookupTableCreatorPlugin,
@@ -15,6 +16,7 @@ registerPlugin("assessment", assessmentPlugin);
 registerPlugin("lookup-table", lookupTable);
 registerPlugin("create-lookup-table", lookupTableCreatorPlugin);
 registerPlugin("table", tablePlugin);
+registerPlugin("trl", trlPlugin);
 import { LANGUAGE, SAVED } from "./utils";
 import { type Languages, i18n } from "./services";
 import { registerServiceWorker } from "./register-sw";

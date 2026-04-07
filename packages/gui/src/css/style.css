@@ -487,6 +487,109 @@ html {
   background: transparent !important;
 }
 
+/* TRL Plugin */
+.trl-plugin {
+  padding: 8px 0 16px;
+}
+
+.trl-label {
+  display: block;
+  font-size: 0.8rem;
+  color: var(--mm-text-secondary, #757575);
+  margin-bottom: 8px;
+}
+
+.trl-slider-wrapper {
+  position: relative;
+  padding-bottom: 20px;
+}
+
+.trl-range {
+  width: 100%;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 6px;
+  border-radius: 3px;
+  background: linear-gradient(to right, #d32f2f, #f57c00, #7cb342, #1976d2);
+  outline: none;
+  cursor: pointer;
+  margin: 8px 0;
+}
+
+.trl-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--mm-primary-color, #1976d2);
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.trl-range::-moz-range-thumb {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--mm-primary-color, #1976d2);
+  cursor: pointer;
+  border: 2px solid white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.trl-range:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.trl-markers {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 6px;
+}
+
+.trl-marker {
+  font-size: 11px;
+  color: var(--mm-text-secondary, #757575);
+  cursor: pointer;
+  width: 20px;
+  text-align: center;
+  transition: color 0.15s, font-weight 0.15s;
+  user-select: none;
+}
+
+.trl-marker.active {
+  color: var(--mm-primary-color, #1976d2);
+  font-weight: 700;
+}
+
+.trl-value-display {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+  padding: 8px 12px;
+  border-left: 4px solid;
+  background: var(--mm-surface-variant-color, rgba(0,0,0,0.04));
+  border-radius: 0 4px 4px 0;
+}
+
+.trl-badge {
+  display: inline-block;
+  color: white;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 12px;
+  white-space: nowrap;
+}
+
+.trl-desc {
+  font-size: 13px;
+  color: var(--mm-text-primary, #212121);
+}
+
 /* Addressed gaps selector on Solutions page */
 .sol-gaps-section {
   padding: 12px 0 8px;

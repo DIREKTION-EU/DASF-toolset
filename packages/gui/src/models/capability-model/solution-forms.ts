@@ -32,10 +32,8 @@ export const solutionForm = () =>
     {
       id: "trl",
       label: t("sol_trl"),
-      type: "number",
-      min: 1,
-      max: 9,
-      className: "col s12 m6",
+      type: "trl",
+      className: "col s12",
     },
     {
       id: "compliance-section",
