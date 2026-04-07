@@ -131,7 +131,7 @@ export interface IStakeholder extends ILabelled {
 // V60 capability model - DASF disaster management domain
 const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
   title: "DIREKTION Assessment and Screening Tool",
-  enabledSteps: [1, 2, 3, 4],
+  enabledSteps: [0, 1, 2, 3],
   stakeholderTypes: [
     { id: "TO-01", label: "Fire brigade / Civil protection" },
     { id: "TO-02", label: "Police" },
