@@ -146,20 +146,5 @@ export const assessmentModel = (model: Partial<ICapabilityDataModel>) => {
     },
     ,
   ] as UIForm<Assessment>;
-  if (model.enableSolutionAssessmentSupport) {
-    assessmentModel.push(
-      { type: "md", value: t("gng"), className: "right-align" },
-      {
-        id: "shouldDevelop",
-        type: "switch",
-        className: "right-align",
-        label: "",
-        options: [
-          { id: "NO GO", label: t("no_go") },
-          { id: "GO", label: t("go") },
-        ],
-      },
-    );
-  }
   return assessmentModel;
 };

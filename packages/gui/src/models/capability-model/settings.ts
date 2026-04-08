@@ -3,37 +3,27 @@ import { ICapabilityDataModel } from "./capability-model";
 import { t } from "../../services/translations";
 export const settingsModel = () =>
   [
-    { id: "general-settings", type: "section", label: t("general_settings") },
-    {
-      id: "enableSolutionAssessmentSupport",
-      label: t("enable_sol_ass_support"),
-      className: "col s12 m9",
-      type: "switch",
-      options: [
-        { id: "no", label: t("no") },
-        { id: "yes", label: t("yes") },
-      ],
-    },
-    {
-      id: "logo",
-      label: t("logo"),
-      type: "base64",
-      className: "col s12 m3",
-      options: [{ id: ".png" }, { id: ".jpg " }],
-    },
-    {
-      id: "attributionText",
-      label: t("attribution_text"),
-      type: "textarea",
-      className: "col s12 m9",
-    },
-    {
-      id: "attributionLogo",
-      label: t("attribution_logo"),
-      type: "base64",
-      className: "col s12 m3",
-      options: [{ id: ".png" }, { id: ".jpg " }],
-    },
+    // { id: "general-settings", type: "section", label: t("general_settings") },
+    // {
+    //   id: "logo",
+    //   label: t("logo"),
+    //   type: "base64",
+    //   className: "col s12 m6",
+    //   options: [{ id: ".png" }, { id: ".jpg " }],
+    // },
+    // {
+    //   id: "attributionLogo",
+    //   label: t("attribution_logo"),
+    //   type: "base64",
+    //   className: "col s12 m6",
+    //   options: [{ id: ".png" }, { id: ".jpg " }],
+    // },
+    // {
+    //   id: "attributionText",
+    //   label: t("attribution_text"),
+    //   type: "textarea",
+    //   className: "col s12",
+    // },
 
     { id: "task-settings", type: "section", label: t("tasks") },
     { type: "md", value: t("task_settings") },

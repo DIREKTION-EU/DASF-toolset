@@ -29,7 +29,6 @@ export type ProjectProposal = {
 };
 
 export interface ICapabilityDataModel {
-  enableSolutionAssessmentSupport?: boolean;
   title?: string;
   logo?: string;
   attributionLogo?: string;
