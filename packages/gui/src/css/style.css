@@ -17,6 +17,12 @@ html {
   padding-top: 56px;
 }
 
+@media only screen and (min-width: 993px) {
+  .container {
+    width: 90%;
+  }
+}
+
 .dasf-hamburger {
   position: fixed;
   top: 8px;

@@ -13,7 +13,7 @@ export const preparationModel = () =>
       id: "mainTasks",
       label: t("main_goals"),
       repeat: true,
-      pageSize: 1,
+      pageSize: 10,
       sortProperty: "id",
       type: [
         { id: "id", label: t("id"), type: "text", className: "col s3 m2" },
@@ -40,7 +40,7 @@ export const preparationModel = () =>
       id: "stakeholders",
       label: t("sh_org"),
       repeat: true,
-      pageSize: 12,
+      pageSize: 20,
       propertyFilter: "label",
       type: [
         { id: "id", type: "text", label: t("acronym"), className: "col s3 m2" },
@@ -126,7 +126,7 @@ export const preparationModel = () =>
       repeat: true,
       pageSize: 1,
       propertyFilter: "label",
-      // sortProperty: 'categoryId',
+      // sortProperty: "categoryId",
       filterLabel: t("filter_cap"),
       sortProperty: "order",
       type: [

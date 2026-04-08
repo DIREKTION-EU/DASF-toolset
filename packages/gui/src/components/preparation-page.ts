@@ -5,10 +5,10 @@ import { Pages, ICapabilityDataModel, CapabilityModel } from "../models";
 import { actions, MeiosisComponent, t } from "../services";
 
 const ALL_STEPS = [
-  { step: 0, titleKey: 'step0_title' as const },
-  { step: 1, titleKey: 'step1_title' as const },
-  { step: 2, titleKey: 'step2_title' as const },
-  { step: 3, titleKey: 'step3_title' as const },
+  { step: 0, titleKey: "step0_title" as const },
+  { step: 1, titleKey: "step1_title" as const },
+  { step: 2, titleKey: "step2_title" as const },
+  { step: 3, titleKey: "step3_title" as const },
 ];
 
 export const PreparationPage: MeiosisComponent = () => {
@@ -36,6 +36,7 @@ export const PreparationPage: MeiosisComponent = () => {
             vnode: m(LayoutForm, {
               form: preparations,
               obj: data,
+              // context: [data],
               section: s.id,
               onchange: () => {
                 actions.saveModel(attrs, catModel);
@@ -46,26 +47,36 @@ export const PreparationPage: MeiosisComponent = () => {
       return m(".row", { style: "height: 90vh" }, [
         m(".col.s12", m("h4", t("preparation"))),
         m(".col.s12", m("p", m.trust(render(t("prep_content"), true)))),
-        m(".col.s12", m(".card.dasf-steps-toggle", m(".card-content", [
-          m("span.card-title", t("enabled_steps")),
-          m(".row", ALL_STEPS.map(({ step, titleKey }) =>
-            m(".col.s6.m3", { key: step }, [
-              m("label", [
-                m("input[type=checkbox]", {
-                  checked: enabledSteps.includes(step),
-                  onchange: (e: Event) => {
-                    const checked = (e.target as HTMLInputElement).checked;
-                    data.enabledSteps = checked
-                      ? [...enabledSteps, step].sort()
-                      : enabledSteps.filter(s => s !== step);
-                    actions.saveModel(attrs, catModel);
-                  },
-                }),
-                m("span", `${step}. ${t(titleKey)}`),
-              ]),
+        m(
+          ".col.s12",
+          m(
+            ".card.dasf-steps-toggle",
+            m(".card-content", [
+              m("span.card-title", t("enabled_steps")),
+              m(
+                ".row",
+                ALL_STEPS.map(({ step, titleKey }) =>
+                  m(".col.s6.m3", { key: step }, [
+                    m("label", [
+                      m("input[type=checkbox]", {
+                        checked: enabledSteps.includes(step),
+                        onchange: (e: Event) => {
+                          const checked = (e.target as HTMLInputElement)
+                            .checked;
+                          data.enabledSteps = checked
+                            ? [...enabledSteps, step].sort()
+                            : enabledSteps.filter((s) => s !== step);
+                          actions.saveModel(attrs, catModel);
+                        },
+                      }),
+                      m("span", `${step}. ${t(titleKey)}`),
+                    ]),
+                  ]),
+                ),
+              ),
             ]),
-          )),
-        ]))),
+          ),
+        ),
         m(Tabs, { tabs, tabWidth: "fill" }),
       ]);
     },
