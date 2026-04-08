@@ -186,7 +186,7 @@ export const messages = {
   pick_one: "Pick one",
   prep_content:
     "_Define your organisation's goals, and your most important capabilities._",
-  preparation_route: "/settings",
+  preparation_route: "/preparation",
   preparation: "Settings",
   prepare_content:
     "Create or select the capabilities that are important for your organisation.",

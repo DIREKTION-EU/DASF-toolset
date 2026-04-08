@@ -179,7 +179,7 @@ export const messagesDE: Messages = {
   pick_more: "Eines oder mehrere auswählen",
   pick_one: "Eines auswählen",
   prep_content: "_Definieren Sie die Ziele Ihrer Organisation._",
-  preparation_route: "/settings",
+  preparation_route: "/ziele",
   preparation: "Einstellungen",
   prepare_content: "Erstellen oder wählen Sie die wichtigen Fähigkeiten.",
   prepare: "Vorbereiten",
