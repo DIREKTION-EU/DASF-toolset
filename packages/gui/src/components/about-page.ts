@@ -59,7 +59,7 @@ export const AboutPage: MeiosisComponent = () => ({
       m(".row", [
         m(Select<UserType>, {
           label: t("select_user"),
-          initialValue: curUser,
+          checkedId: curUser,
           options: [
             { id: "user", label: t("user") },
             { id: "moderator", label: t("moderator") },

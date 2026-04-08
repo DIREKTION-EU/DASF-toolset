@@ -131,7 +131,7 @@ class RoutingService {
         iconClass: "blue-text",
         title: t("SETTINGS", "TITLE"),
         route: t("SETTINGS", "ROUTE"),
-        visible: ({ role }) => role === "admin",
+        visible: (s) => hasSession(s) && s.curUser === "admin",
         component: SettingsPage,
       },
       {
