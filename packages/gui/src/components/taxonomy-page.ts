@@ -8,13 +8,18 @@ import {
 } from "../models/capability-model/capability-model";
 import { MeiosisComponent, t } from "../services";
 import { actions } from "../services/meiosis";
+import { translatedOrFallback } from "../utils";
 
 const createTextFilter = (txt: string) => {
   if (!txt) return () => true;
   const checker = new RegExp(txt, "i");
   return ({ label = "", id = "" }: { label: string; id?: string }) => {
-    const translatedId = t("TAXONOMY", id as any) || id;
-    const translatedLabel = t("TAXONOMY", label as any) || label;
+    const translatedId = translatedOrFallback(t("TAXONOMY", id as any), id, id);
+    const translatedLabel = translatedOrFallback(
+      t("TAXONOMY", label as any),
+      label,
+      label,
+    );
     return checker.test(translatedId) || checker.test(translatedLabel);
   };
 };
@@ -100,10 +105,28 @@ export const TaxonomyPage: MeiosisComponent = () => ({
               "tbody",
               filteredLexicon.map((l) =>
                 m("tr", [
-                  m("td", m("strong", t("TAXONOMY", l.id as any) || l.id)),
                   m(
                     "td",
-                    m.trust(render(t("TAXONOMY", l.label as any) || l.label)),
+                    m(
+                      "strong",
+                      translatedOrFallback(
+                        t("TAXONOMY", l.id as any),
+                        l.id,
+                        l.id,
+                      ),
+                    ),
+                  ),
+                  m(
+                    "td",
+                    m.trust(
+                      render(
+                        translatedOrFallback(
+                          t("TAXONOMY", l.label as any),
+                          l.label,
+                          l.label,
+                        ),
+                      ),
+                    ),
                   ),
                   // l.ref &&
                   //   m(

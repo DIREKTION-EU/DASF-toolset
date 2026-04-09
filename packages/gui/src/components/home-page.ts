@@ -3,6 +3,7 @@ import { Button, Icon } from "mithril-materialized";
 import { routingSvc, MeiosisComponent, actions, t } from "../services";
 import { type CapabilityModel, type ISolution, Pages } from "../models";
 import { PageNav } from "./ui";
+import { translatedOrFallback } from "../utils";
 
 const priorityColors: Record<string, string> = {
   low: "#4caf50",
@@ -100,14 +101,18 @@ export const HomePage: MeiosisComponent = () => {
         stakeholders.find((s) => s.id === id)?.label || id;
 
       const getCapLabel = (id: string) =>
-        (t(id as any) as string) ||
-        capabilities.find((c) => c.id === id)?.label ||
-        id;
+        translatedOrFallback(
+          t(id as any),
+          id,
+          capabilities.find((c) => c.id === id)?.label || id,
+        );
 
       const getHazardLabel = (id: string) =>
-        (t(id as any) as string) ||
-        hazardTypes.find((h) => h.id === id)?.label ||
-        id;
+        translatedOrFallback(
+          t(id as any),
+          id,
+          hazardTypes.find((h) => h.id === id)?.label || id,
+        );
 
       const steps = [
         {
@@ -238,7 +243,10 @@ export const HomePage: MeiosisComponent = () => {
                             "display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;",
                         },
                         [
-                          m("strong", (t(h.id as any) as string) || h.label),
+                          m(
+                            "strong",
+                            translatedOrFallback(t(h.id as any), h.id, h.label),
+                          ),
                           h.category && tag(h.category, "#607d8b"),
                         ],
                       ),

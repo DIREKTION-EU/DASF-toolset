@@ -373,7 +373,7 @@ export const messagesNL: Messages = {
   continue: "Ga verder",
   hazards: "Gevaren",
   hazards_route: "/gevaren",
-  hazard_step_title: "Stap 1: Initiatie & Voorbereiding",
+  hazard_step_title: "0: Initiatie & Voorbereiding",
   hazard_step_desc:
     "Selecteer de gevarentypen die relevant zijn voor uw beoordelingscontext.",
   hazard_category_all: "Alle",
@@ -392,7 +392,7 @@ export const messagesNL: Messages = {
     n: "{n} oplossingen",
   },
   solutions_route: "/oplossingen",
-  solutions_step_title: "Stap 3: Oplossingsbeoordeling",
+  solutions_step_title: "Stap 2: Oplossingsbeoordeling",
   solutions_step_desc:
     "Voeg oplossingen toe en beoordeel ze voor geïdentificeerde capaciteitstekorten.",
   solution_add: "Oplossing toevoegen",
@@ -409,7 +409,7 @@ export const messagesNL: Messages = {
     n: "{n} routekaarten",
   },
   roadmap_route: "/routekaart",
-  roadmap_step_title: "Stap 4: Routekaart",
+  roadmap_step_title: "Stap 3: Routekaart",
   roadmap_step_desc:
     "Plan implementatietijdlijnen en toezeggingen voor uw geselecteerde oplossingen.",
   roadmap_add_solutions: "Voeg {n} oplossing(en) toe aan routekaart",
@@ -460,7 +460,7 @@ export const messagesNL: Messages = {
   sol_linked_caps: "Gekoppelde capaciteiten (met tekortkomingen)",
   sol_addressed_gaps: "Aangesproken capaciteitstekortkomingen",
   sol_no_gaps:
-    "Er zijn nog geen capaciteitstekortkomingen vastgesteld. Ga naar Stap 2 om capaciteiten te beoordelen.",
+    "Er zijn nog geen capaciteitstekortkomingen vastgesteld. Ga naar Stap 1 om capaciteiten te beoordelen.",
   sol_compliance_title: "Compliancecontroles",
   sol_status: "Status",
   sol_pass: "Voldoet",
@@ -528,15 +528,15 @@ export const messagesNL: Messages = {
   cap_add_selected: "Geselecteerde capaciteiten toevoegen",
   cap_ref_panel_title: "Beschikbare capaciteiten (DASF referentiemodel)",
   collapse: "Inklappen",
-  step0_abbr: "Stap 1: I&V",
+  step0_abbr: "Stap 0: I&V",
   step0_desc:
     "Identificeer relevante gevarentypen voor uw beoordelingscontext.",
-  step1_abbr: "Stap 2: BLA",
+  step1_abbr: "Stap 1: BLA",
   step1_desc:
     "Beoordeel capaciteiten, identificeer lacunes en verbeterbehoeften.",
-  step2_abbr: "Stap 3: OB",
+  step2_abbr: "Stap 2: OB",
   step2_desc: "Evalueer oplossingen voor geïdentificeerde capaciteitstekorten.",
-  step3_abbr: "Stap 4: RK",
+  step3_abbr: "Stap 3: RK",
   step3_desc: "Plan implementatieroutekaart en toezeggingen.",
   landing_attribution:
     "DIREKTION heeft financiering ontvangen van het Horizon Europe-onderzoeks- en innovatieprogramma van de Europese Unie onder subsidieovereenkomst nr. 101121249.",

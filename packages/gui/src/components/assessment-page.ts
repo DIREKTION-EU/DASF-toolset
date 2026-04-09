@@ -8,7 +8,12 @@ import { FormAttributes, LayoutForm, SlimdownView } from "mithril-ui-form";
 import { Pages, ICapability, CapabilityModel } from "../models";
 import { MeiosisComponent, t, i18n, actions } from "../services";
 import { PageNav } from "./ui";
-import { formatDate, localizeCapabilityModelData, toWord } from "../utils";
+import {
+  formatDate,
+  localizeCapabilityModelData,
+  toWord,
+  translatedOrFallback,
+} from "../utils";
 
 export const AssessmentPage: MeiosisComponent = () => {
   return {
@@ -133,7 +138,7 @@ export const AssessmentPage: MeiosisComponent = () => {
                 },
               }),
               m("h5.col.s12.condensed", [
-                `${t("cap")} '${t(cap.id as any) || cap.label}'`,
+                `${t("cap")} '${translatedOrFallback(t(cap.id as any), cap.id, cap.label)}'`,
                 cap.desc &&
                   m(
                     TooltipComponent,
@@ -170,7 +175,7 @@ export const AssessmentPage: MeiosisComponent = () => {
                               actions.saveModel(attrs, catModel);
                             },
                           },
-                          (t(h.id as any) as string) || h.label,
+                          translatedOrFallback(t(h.id as any), h.id, h.label),
                         );
                       }),
                   ),

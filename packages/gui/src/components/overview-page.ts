@@ -18,14 +18,18 @@ import {
 import { actions, MeiosisComponent, t } from "../services";
 import { routingSvc } from "../services/routing-service";
 import { PageNav } from "./ui";
-import { colorPalette, formatDate, toWord } from "../utils";
+import {
+  colorPalette,
+  formatDate,
+  toWord,
+  translateLabelOrFallback,
+  translatedOrFallback,
+} from "../utils";
 
 type ISubcategoryVM = ILabelled & { capabilities: ICapability[] };
 type ICategoryVM = ICategory & { subcategories: ISubcategoryVM[] };
 
 const priorityColors = ["grey", "blue", "yellow", "orange", "red"];
-
-const tLabel = (item: ILabelled) => t(item.id as any) || item.label;
 
 const createTextFilter = (txt: string) => {
   if (!txt) return () => true;
@@ -175,14 +179,17 @@ export const OverviewPage: MeiosisComponent = () => {
                               (sacc, sc) => {
                                 const capNodes = availableCapabilities
                                   .filter((c) => c.subcategoryId === sc.id)
-                                  .map((c) => ({ id: c.id, label: tLabel(c) }));
+                                  .map((c) => ({
+                                    id: c.id,
+                                    label: translateLabelOrFallback(c),
+                                  }));
                                 if (capNodes.length) {
                                   const hasSelected = capNodes.some((n) =>
                                     selectedSet.has(n.id),
                                   );
                                   sacc.push({
                                     id: sc.id,
-                                    label: tLabel(sc),
+                                    label: translateLabelOrFallback(sc),
                                     children: capNodes,
                                     expanded:
                                       hasSelected || capabilities.length === 0,
@@ -198,7 +205,7 @@ export const OverviewPage: MeiosisComponent = () => {
                               );
                               acc.push({
                                 id: cat.id,
-                                label: tLabel(cat),
+                                label: translateLabelOrFallback(cat),
                                 children: scNodes,
                                 expanded:
                                   hasSelected || capabilities.length === 0,
@@ -246,7 +253,13 @@ export const OverviewPage: MeiosisComponent = () => {
               m(".category", [
                 i > 0 && m(".divider"),
                 m(i > 0 ? ".section.row" : ".row", [
-                  m(".col.s12", m("h5", t(catId as any) || label)),
+                  m(
+                    ".col.s12",
+                    m(
+                      "h5",
+                      translatedOrFallback(t(catId as any), catId, label),
+                    ),
+                  ),
                   subcategories &&
                     (subcategories as ISubcategoryVM[]).map((sc) =>
                       m(
@@ -267,7 +280,7 @@ export const OverviewPage: MeiosisComponent = () => {
                                     style:
                                       "display:block; padding:0.4rem; border:2px solid rgba(0,0,0,0.55);",
                                   },
-                                  m("strong", tLabel(sc)),
+                                  m("strong", translateLabelOrFallback(sc)),
                                 ),
                                 m(
                                   "ul.caps",
@@ -352,7 +365,9 @@ export const OverviewPage: MeiosisComponent = () => {
                                                         style:
                                                           "flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;",
                                                       },
-                                                      tLabel(cap),
+                                                      translateLabelOrFallback(
+                                                        cap,
+                                                      ),
                                                     ),
                                                     m(
                                                       ".badges",

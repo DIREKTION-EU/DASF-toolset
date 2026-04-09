@@ -1,7 +1,10 @@
 export * from "./word";
 import { padLeft } from "mithril-materialized";
 import { type Page, Pages } from "../models";
-import type { ICapabilityDataModel, ILabelled } from "../models/capability-model/capability-model";
+import type {
+  ICapabilityDataModel,
+  ILabelled,
+} from "../models/capability-model/capability-model";
 import { t } from "../services/translations";
 
 export const LANGUAGE = "SG_LANGUAGE";
@@ -18,6 +21,30 @@ export const subSup = (s: string) =>
 
 export const capitalize = (s?: string) =>
   s && s.charAt(0).toUpperCase() + s.slice(1);
+
+const stringifyTranslation = (value: unknown) =>
+  Array.isArray(value) ? value.join("") : value == null ? "" : `${value}`;
+
+export const hasTranslation = (translated: unknown, key: string) => {
+  const text = stringifyTranslation(translated);
+  return !!text && text !== key && text !== `@@${key}@@`;
+};
+
+export const translatedOrFallback = (
+  translated: unknown,
+  key: string,
+  fallback: string,
+) =>
+  hasTranslation(translated, key) ? stringifyTranslation(translated) : fallback;
+
+export const translateLabelOrFallback = <
+  T extends { id?: string; label: string },
+>(
+  item: T,
+) =>
+  item.id
+    ? translatedOrFallback(t(item.id as any), item.id, item.label)
+    : item.label;
 
 /**
  * Debounce function wrapper, i.e. between consecutive calls of the wrapped function,
@@ -461,14 +488,16 @@ export const list = (arr: string[] = [], prefix = "") =>
 
 /** Translate label and description of a model item using its ID as the translation key. Falls back to original values if no translation exists. */
 const translateItem = <T extends ILabelled>(item: T): T => {
-  const labelKey = item.id as any;
-  const descKey = `${item.id}_desc` as any;
-  const labelT = t(labelKey);
-  const descT = item.desc ? t(descKey) : undefined;
+  const labelKey = item.id;
+  const descKey = `${item.id}_desc`;
+  const labelT = t(labelKey as any);
+  const descT = item.desc ? t(descKey as any) : undefined;
   return {
     ...item,
-    label: labelT !== item.id ? labelT : item.label,
-    ...(item.desc !== undefined ? { desc: descT !== descKey ? descT : item.desc } : {}),
+    label: translatedOrFallback(labelT, labelKey, item.label),
+    ...(item.desc !== undefined
+      ? { desc: translatedOrFallback(descT, descKey, item.desc || "") }
+      : {}),
   };
 };
 
@@ -477,7 +506,9 @@ const translateItem = <T extends ILabelled>(item: T): T => {
  * translated using their IDs as translation keys. Call this at render time
  * (not at store time) to ensure translations reflect the current locale.
  */
-export const localizeCapabilityModelData = (data: Partial<ICapabilityDataModel>): Partial<ICapabilityDataModel> => ({
+export const localizeCapabilityModelData = (
+  data: Partial<ICapabilityDataModel>,
+): Partial<ICapabilityDataModel> => ({
   ...data,
   mainTasks: data.mainTasks?.map(translateItem),
   taskScale: data.taskScale?.map(translateItem),
@@ -486,7 +517,7 @@ export const localizeCapabilityModelData = (data: Partial<ICapabilityDataModel>)
   mainGaps: data.mainGaps?.map(translateItem),
   gapScale: data.gapScale?.map(translateItem),
   assessmentScale: data.assessmentScale?.map(translateItem),
-  categories: data.categories?.map(cat => ({
+  categories: data.categories?.map((cat) => ({
     ...translateItem(cat),
     subcategories: cat.subcategories?.map(translateItem),
   })),
@@ -497,22 +528,30 @@ export const localizeCapabilityModelData = (data: Partial<ICapabilityDataModel>)
 });
 
 /** Translate an assessment question (for solution assessments) using its ID as the translation key. */
-const translateAssessmentQuestion = <T extends { id?: string; label: string; value?: string }>(item: T): T => {
+const translateAssessmentQuestion = <
+  T extends { id?: string; label: string; value?: string },
+>(
+  item: T,
+): T => {
   if (!item.id) return item;
   const labelT = t(item.id as any);
   return {
     ...item,
-    label: labelT !== item.id ? labelT : item.label,
+    label: translatedOrFallback(labelT, item.id, item.label),
   };
 };
 
 /** Translate compliance check items using their ID as the translation key. */
-const translateComplianceCheck = <T extends { id?: string; label: string; value?: string }>(item: T): T => {
+const translateComplianceCheck = <
+  T extends { id?: string; label: string; value?: string },
+>(
+  item: T,
+): T => {
   if (!item.id) return item;
   const labelT = t(item.id as any);
   return {
     ...item,
-    label: labelT !== item.id ? labelT : item.label,
+    label: translatedOrFallback(labelT, item.id, item.label),
   };
 };
 
@@ -527,9 +566,15 @@ export const localizeSolutionData = <T>(solution: T): T => {
     ...solution,
     compliance: (solution as any).compliance?.map(translateComplianceCheck),
     userNeeds: (solution as any).userNeeds?.map(translateAssessmentQuestion),
-    operationalNeeds: (solution as any).operationalNeeds?.map(translateAssessmentQuestion),
-    organisationalNeeds: (solution as any).organisationalNeeds?.map(translateAssessmentQuestion),
-    expectedImpact: (solution as any).expectedImpact?.map(translateAssessmentQuestion),
+    operationalNeeds: (solution as any).operationalNeeds?.map(
+      translateAssessmentQuestion,
+    ),
+    organisationalNeeds: (solution as any).organisationalNeeds?.map(
+      translateAssessmentQuestion,
+    ),
+    expectedImpact: (solution as any).expectedImpact?.map(
+      translateAssessmentQuestion,
+    ),
   } as T;
 };
 

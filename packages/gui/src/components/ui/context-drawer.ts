@@ -2,6 +2,7 @@ import m from "mithril";
 import { Pages } from "../../models";
 import { actions, MeiosisComponent, t } from "../../services";
 import { routingSvc } from "../../services/routing-service";
+import { translatedOrFallback } from "../../utils";
 
 export const ContextDrawer: MeiosisComponent = () => {
   let _attrs: any = null;
@@ -79,7 +80,7 @@ export const ContextDrawer: MeiosisComponent = () => {
             content = [
               m(
                 ".context-drawer-title",
-                (t(cap.id as any) as string) || cap.label,
+                translatedOrFallback(t(cap.id as any), cap.id, cap.label),
               ),
 
               capHazards.length > 0 &&
@@ -93,7 +94,7 @@ export const ContextDrawer: MeiosisComponent = () => {
                         onclick: () =>
                           actions.openDrawer(attrs, "hazard", h.id),
                       },
-                      (t(h.id as any) as string) || h.label,
+                      translatedOrFallback(t(h.id as any), h.id, h.label),
                     ),
                   ),
                 ]),
@@ -164,7 +165,11 @@ export const ContextDrawer: MeiosisComponent = () => {
             content = [
               m(
                 ".context-drawer-title",
-                (t(hazard.id as any) as string) || hazard.label,
+                translatedOrFallback(
+                  t(hazard.id as any),
+                  hazard.id,
+                  hazard.label,
+                ),
               ),
               tag(t(`hazard_category_${hazard.category}` as any)),
 
@@ -176,8 +181,9 @@ export const ContextDrawer: MeiosisComponent = () => {
                       m(
                         "div",
                         { key: c.id },
-                        link((t(c.id as any) as string) || c.label, () =>
-                          navigate(Pages.ASSESSMENT, c.id),
+                        link(
+                          translatedOrFallback(t(c.id as any), c.id, c.label),
+                          () => navigate(Pages.ASSESSMENT, c.id),
                         ),
                       ),
                     ),
@@ -190,8 +196,9 @@ export const ContextDrawer: MeiosisComponent = () => {
                     m(
                       "div",
                       { key: c.id },
-                      link((t(c.id as any) as string) || c.label, () =>
-                        navigate(Pages.ASSESSMENT, c.id),
+                      link(
+                        translatedOrFallback(t(c.id as any), c.id, c.label),
+                        () => navigate(Pages.ASSESSMENT, c.id),
                       ),
                     ),
                   ),
@@ -228,8 +235,9 @@ export const ContextDrawer: MeiosisComponent = () => {
                       m(
                         "div",
                         { key: c.id },
-                        link((t(c.id as any) as string) || c.label, () =>
-                          navigate(Pages.ASSESSMENT, c.id),
+                        link(
+                          translatedOrFallback(t(c.id as any), c.id, c.label),
+                          () => navigate(Pages.ASSESSMENT, c.id),
                         ),
                       ),
                     )
@@ -240,11 +248,11 @@ export const ContextDrawer: MeiosisComponent = () => {
                 roadmapItem
                   ? m("div", [
                       tag(
-                        (t(
-                          `priority_${roadmapItem.priority}` as any,
-                        ) as string) ||
-                          roadmapItem.priority ||
-                          "",
+                        translatedOrFallback(
+                          t(`priority_${roadmapItem.priority}` as any),
+                          `priority_${roadmapItem.priority}`,
+                          roadmapItem.priority || "",
+                        ),
                         "#1565c0",
                       ),
                       roadmapItem.targetDate &&
@@ -294,8 +302,9 @@ export const ContextDrawer: MeiosisComponent = () => {
                       m(
                         "div",
                         { key: c.id },
-                        link((t(c.id as any) as string) || c.label, () =>
-                          navigate(Pages.ASSESSMENT, c.id),
+                        link(
+                          translatedOrFallback(t(c.id as any), c.id, c.label),
+                          () => navigate(Pages.ASSESSMENT, c.id),
                         ),
                       ),
                     )
@@ -304,9 +313,11 @@ export const ContextDrawer: MeiosisComponent = () => {
 
               section(t("importance"), [
                 tag(
-                  (t(`priority_${item.priority}` as any) as string) ||
-                    item.priority ||
-                    "",
+                  translatedOrFallback(
+                    t(`priority_${item.priority}` as any),
+                    `priority_${item.priority}`,
+                    item.priority || "",
+                  ),
                   "#1565c0",
                 ),
                 item.targetDate &&

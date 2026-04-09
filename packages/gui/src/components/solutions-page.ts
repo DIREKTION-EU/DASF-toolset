@@ -16,15 +16,16 @@ import {
 } from "../models/capability-model/solution";
 import { actions, MeiosisComponent, t } from "../services";
 import { PageNav } from "./ui";
-import { localizeSolutionData } from "../utils";
+import {
+  localizeSolutionData,
+  translateLabelOrFallback,
+  translatedOrFallback,
+} from "../utils";
 
 /** Translate item labels in-place using their IDs. Safe to call at render time since labels are readonly in the form. */
 const translateItemLabels = (items?: Array<{ id?: string; label: string }>) => {
   items?.forEach((item) => {
-    if (item.id) {
-      const translated = t(item.id as any);
-      if (translated !== item.id) item.label = translated as string;
-    }
+    item.label = translateLabelOrFallback(item);
   });
 };
 
@@ -150,7 +151,11 @@ export const SolutionsPage: MeiosisComponent = () => {
                               m(".sol-gap-item-body", [
                                 m(
                                   "span.sol-gap-cap-name",
-                                  (t(cap.id as any) as string) || cap.label,
+                                  translatedOrFallback(
+                                    t(cap.id as any),
+                                    cap.id,
+                                    cap.label,
+                                  ),
                                 ),
                                 capHazards.length > 0 &&
                                   m(
@@ -159,7 +164,11 @@ export const SolutionsPage: MeiosisComponent = () => {
                                       m(
                                         "span.sol-gap-hazard-tag",
                                         { key: h.id },
-                                        (t(h.id as any) as string) || h.label,
+                                        translatedOrFallback(
+                                          t(h.id as any),
+                                          h.id,
+                                          h.label,
+                                        ),
                                       ),
                                     ),
                                   ),
