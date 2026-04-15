@@ -16,7 +16,7 @@
   "author": "Erik Vullings <erik.vullings@tno.nl> (http://www.tno.nl)",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^25.5.1",
+    "@types/node": "^25.6.0",
     "pnpm": "^10.33.0"
   },
   "pnpm": {
