@@ -180,7 +180,7 @@ export const messagesSV: Messages = {
   prep_content:
     "_Definiera din organisations mål och dina viktigaste förmågor._",
   preparation_route: "/formagor",
-  preparation: "Inställningar",
+  preparation: "Förmågor",
   prepare_content: "Skapa eller välj de viktiga förmågorna.",
   prepare: "Förbered",
   prob_areas: "Problemområden",

@@ -187,7 +187,7 @@ export const messages = {
   prep_content:
     "_Define your organisation's goals, and your most important capabilities._",
   preparation_route: "/preparation",
-  preparation: "Settings",
+  preparation: "Preparation",
   prepare_content:
     "Create or select the capabilities that are important for your organisation.",
   prepare: "Prepare",

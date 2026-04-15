@@ -190,7 +190,7 @@ export const messagesNL: Messages = {
   prep_content:
     "Stel de capaciteiten vast die binnen de context van de problematiek relevant zijn.",
   preparation_route: "/capaciteiten",
-  preparation: "Instellingen",
+  preparation: "Capaciteiten",
   prepare_content:
     "Stel de capaciteiten vast die binnen de context van de problematiek relevant zijn.",
   prepare: "Voorbereiden",

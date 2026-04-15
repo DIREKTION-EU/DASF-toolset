@@ -181,7 +181,7 @@ export const messagesPT: Messages = {
   pick_one: "Escolher um",
   prep_content: "_Defina os objetivos da sua organização._",
   preparation_route: "/objetivos",
-  preparation: "Definições",
+  preparation: "Objetivos",
   prepare_content: "Crie ou selecione as capacidades importantes.",
   prepare: "Preparar",
   prob_areas: "Áreas problemáticas",

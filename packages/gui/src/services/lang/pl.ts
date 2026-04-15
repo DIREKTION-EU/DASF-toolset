@@ -178,7 +178,7 @@ export const messagesPL: Messages = {
   pick_one: "Wybierz jeden",
   prep_content: "_Zdefiniuj cele swojej organizacji._",
   preparation_route: "/swojej",
-  preparation: "Ustawienia",
+  preparation: "Swojej",
   prepare_content: "Utwórz lub wybierz ważne zdolności.",
   prepare: "Przygotuj",
   prob_areas: "Obszary problemowe",

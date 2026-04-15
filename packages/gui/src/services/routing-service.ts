@@ -118,7 +118,7 @@ class RoutingService {
       {
         id: Pages.PREPARATION,
         title: t("preparation"),
-        icon: "video_settings",
+        icon: "settings",
         iconClass: "blue-text",
         route: t("preparation_route"),
         visible: (s) =>
@@ -127,7 +127,7 @@ class RoutingService {
       },
       {
         id: Pages.SETTINGS,
-        icon: "settings",
+        icon: "settings_suggest",
         iconClass: "blue-text",
         title: t("SETTINGS", "TITLE"),
         route: t("SETTINGS", "ROUTE"),
