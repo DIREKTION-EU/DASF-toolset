@@ -519,12 +519,13 @@ export const localizeCapabilityModelData = (
   assessmentScale: data.assessmentScale?.map(translateItem),
   categories: data.categories?.map((cat) => ({
     ...translateItem(cat),
-    subcategories: cat.subcategories?.map(translateItem),
+    subcategories: cat.subcategories?.map((sc) => ({
+      ...translateItem(sc),
+      capabilities: sc.capabilities?.map(translateItem),
+    })),
   })),
   stakeholders: data.stakeholders?.map(translateItem),
   stakeholderTypes: data.stakeholderTypes?.map(translateItem),
-  capabilities: data.capabilities?.map(translateItem),
-  availableCapabilities: data.availableCapabilities?.map(translateItem),
 });
 
 /** Translate an assessment question (for solution assessments) using its ID as the translation key. */

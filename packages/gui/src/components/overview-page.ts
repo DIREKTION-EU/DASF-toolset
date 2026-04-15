@@ -14,6 +14,7 @@ import {
   CapabilityModel,
   ICategory,
   ILabelled,
+  getAllCapabilities,
 } from "../models/capability-model/capability-model";
 import { actions, MeiosisComponent, t } from "../services";
 import { routingSvc } from "../services/routing-service";
@@ -56,7 +57,6 @@ export const OverviewPage: MeiosisComponent = () => {
       const {
         data = {
           categories: [],
-          capabilities: [],
         } as Partial<ICapabilityDataModel>,
       } = catModel;
       catModel.data = data;
@@ -64,7 +64,6 @@ export const OverviewPage: MeiosisComponent = () => {
       const {
         categories = [],
         capabilities = [],
-        availableCapabilities = [],
         projectProposals = [],
         assessmentScale = [],
         selectedHazardIds = [],
@@ -72,12 +71,14 @@ export const OverviewPage: MeiosisComponent = () => {
         title = "cat",
       } = data;
 
+      const catalogCapabilities = getAllCapabilities(data);
       const filterFn = createTextFilter(textFilter);
       if (!userHasToggled && capabilities.length === 0) showCapAccordion = true;
       const filteredCapabilities = capabilities
         .filter((c) => !c.hide)
         .filter(filterFn);
 
+      const filteredCapabilityIds = new Set(filteredCapabilities.map((c) => c.id));
       const filteredCategories = categories.reduce((acc, cat) => {
         const { subcategories = [], ...params } = cat;
         const category = { ...params } as ICategoryVM;
@@ -85,7 +86,8 @@ export const OverviewPage: MeiosisComponent = () => {
           .map((sc) => ({
             ...sc,
             capabilities: filteredCapabilities.filter(
-              (cap) => cap.subcategoryId === sc.id,
+              (cap) => filteredCapabilityIds.has(cap.id) &&
+                (sc.capabilities ?? []).some((cc) => cc.id === cap.id),
             ),
           }))
           .filter((sc) => sc.capabilities.length > 0);
@@ -132,9 +134,7 @@ export const OverviewPage: MeiosisComponent = () => {
             ]),
             m(".col.s12.m4", [
               m(FlatButton, {
-                label: showCapAccordion
-                  ? t("collapse")
-                  : t("manage_capabilities"),
+                label: showCapAccordion ? t("collapse") : t("manage_capabilities"),
                 iconName: showCapAccordion ? "expand_less" : "playlist_add",
                 onclick: () => {
                   showCapAccordion = !showCapAccordion;
@@ -161,84 +161,79 @@ export const OverviewPage: MeiosisComponent = () => {
                 ".card.dasf-cap-accordion",
                 m(".card-content", [
                   m("span.card-title", t("manage_capabilities")),
-                  capabilities.length === 0 &&
+                  catalogCapabilities.length === 0 &&
                     m("p.blue-grey-text", t("select_capabilities_instr")),
-                  availableCapabilities.length === 0
-                    ? m("p.grey-text", t("cap_all_selected"))
-                    : (() => {
-                        const availableIds = new Set(
-                          availableCapabilities.map((c) => c.id),
-                        );
-                        const selectedAvailableIds = capabilities
-                          .map((c) => c.id)
-                          .filter((id) => availableIds.has(id));
-                        const selectedSet = new Set(selectedAvailableIds);
-                        const treeData: TreeNode[] = categories.reduce(
-                          (acc, cat) => {
-                            const scNodes = (cat.subcategories || []).reduce(
-                              (sacc, sc) => {
-                                const capNodes = availableCapabilities
-                                  .filter((c) => c.subcategoryId === sc.id)
-                                  .map((c) => ({
-                                    id: c.id,
-                                    label: translateLabelOrFallback(c),
-                                  }));
-                                if (capNodes.length) {
-                                  const hasSelected = capNodes.some((n) =>
-                                    selectedSet.has(n.id),
-                                  );
-                                  sacc.push({
-                                    id: sc.id,
-                                    label: translateLabelOrFallback(sc),
-                                    children: capNodes,
-                                    expanded:
-                                      hasSelected || capabilities.length === 0,
-                                  });
-                                }
-                                return sacc;
-                              },
-                              [] as TreeNode[],
-                            );
-                            if (scNodes.length) {
-                              const hasSelected = scNodes.some(
-                                (n) => n.expanded,
+                  (() => {
+                    const catalogIds = new Set(catalogCapabilities.map((c) => c.id));
+                    const selectedIds = capabilities
+                      .map((c) => c.id)
+                      .filter((id) => catalogIds.has(id));
+                    const selectedSet = new Set(selectedIds);
+                    const treeData: TreeNode[] = categories.reduce(
+                      (acc, cat) => {
+                        const scNodes = (cat.subcategories || []).reduce(
+                          (sacc, sc) => {
+                            const capNodes = (sc.capabilities ?? [])
+                              .filter((c) => !c.hide)
+                              .map((c) => ({
+                                id: c.id,
+                                label: translateLabelOrFallback(c),
+                              }));
+                            if (capNodes.length) {
+                              const hasSelected = capNodes.some((n) =>
+                                selectedSet.has(n.id),
                               );
-                              acc.push({
-                                id: cat.id,
-                                label: translateLabelOrFallback(cat),
-                                children: scNodes,
-                                expanded:
-                                  hasSelected || capabilities.length === 0,
+                              sacc.push({
+                                id: sc.id,
+                                label: translateLabelOrFallback(sc),
+                                children: capNodes,
+                                expanded: hasSelected || capabilities.length === 0,
                               });
                             }
-                            return acc;
+                            return sacc;
                           },
                           [] as TreeNode[],
                         );
-                        return m(TreeView, {
-                          data: treeData,
-                          selectionMode: "multiple",
-                          selectedIds: selectedAvailableIds,
-                          iconType: "caret",
-                          showConnectors: true,
-                          onselection: (newIds) => {
-                            const newCapIds = new Set(
-                              newIds.filter((id) => availableIds.has(id)),
-                            );
-                            const existingById = new Map(
-                              capabilities.map((c) => [c.id, c]),
-                            );
-                            const keptCaps = capabilities.filter(
-                              (c) => !availableIds.has(c.id),
-                            );
-                            const addedCaps = availableCapabilities
-                              .filter((c) => newCapIds.has(c.id))
-                              .map((c) => existingById.get(c.id) || c);
-                            data.capabilities = [...keptCaps, ...addedCaps];
-                            actions.saveModel(attrs, catModel);
-                          },
-                        });
-                      })(),
+                        if (scNodes.length) {
+                          const hasSelected = scNodes.some((n) => n.expanded);
+                          acc.push({
+                            id: cat.id,
+                            label: translateLabelOrFallback(cat),
+                            children: scNodes,
+                            expanded: hasSelected || capabilities.length === 0,
+                          });
+                        }
+                        return acc;
+                      },
+                      [] as TreeNode[],
+                    );
+                    const catalogById = new Map(
+                      catalogCapabilities.map((c) => [c.id, c]),
+                    );
+                    const existingById = new Map(
+                      capabilities.map((c) => [c.id, c]),
+                    );
+                    return m(TreeView, {
+                      data: treeData,
+                      selectionMode: "multiple",
+                      selectedIds: selectedIds,
+                      iconType: "caret",
+                      showConnectors: true,
+                      onselection: (newIds) => {
+                        const newCapIds = new Set(
+                          newIds.filter((id) => catalogIds.has(id)),
+                        );
+                        const keptCaps = capabilities.filter(
+                          (c) => !catalogIds.has(c.id),
+                        );
+                        const addedCaps = catalogCapabilities
+                          .filter((c) => newCapIds.has(c.id))
+                          .map((c) => existingById.get(c.id) || catalogById.get(c.id)!);
+                        data.capabilities = [...keptCaps, ...addedCaps];
+                        actions.saveModel(attrs, catModel);
+                      },
+                    });
+                  })(),
                 ]),
               ),
             ),

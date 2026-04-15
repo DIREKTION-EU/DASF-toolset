@@ -19,7 +19,7 @@ export const AssessmentPage: MeiosisComponent = () => {
   return {
     oninit: ({ attrs }) => {
       const id = m.route.param("id") || attrs.state.capabilityId;
-      const { capabilities = [] } = attrs.state.catModel?.data ?? {};
+      const capabilities = attrs.state.catModel?.data?.capabilities ?? [];
       if (id && attrs.state.catModel) {
         const capability =
           capabilities.filter((cap) => cap.id === id).shift() ||
@@ -51,12 +51,12 @@ export const AssessmentPage: MeiosisComponent = () => {
       const assessmentForm = af.filter((a) => a);
       const { data = {}, version = 0 } = catModel;
       const {
-        capabilities = [],
         assessmentScale = [],
         hazardTypes = [],
         selectedHazardIds = [],
         title = "cat",
       } = data;
+      const capabilities = data.capabilities ?? [];
       const capabilityId =
         m.route.param("id")?.replace(":id", "") ||
         attrs.state.capabilityId ||

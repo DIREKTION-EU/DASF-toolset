@@ -82,15 +82,17 @@ export const sessionService = {
     const cloned = JSON.parse(JSON.stringify(original.model)) as CapabilityModel;
     if (clearUserData) {
       const { data } = cloned;
-      if (data.capabilities) {
-        data.capabilities.forEach(c => {
-          delete c.taskAssessment;
-          delete c.performanceAssessment;
-          delete c.assessmentId;
-          delete c.shouldDevelop;
-          delete c.gaps;
-        });
-      }
+      (data.categories ?? []).forEach(cat =>
+        (cat.subcategories ?? []).forEach(sc =>
+          (sc.capabilities ?? []).forEach(c => {
+            delete c.taskAssessment;
+            delete c.performanceAssessment;
+            delete c.assessmentId;
+            delete c.shouldDevelop;
+            delete c.gaps;
+          })
+        )
+      );
       data.solutions = [];
       data.roadmapItems = [];
       data.selectedHazardIds = [];
