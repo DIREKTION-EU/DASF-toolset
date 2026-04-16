@@ -31,17 +31,20 @@ sequenceDiagram
         Facilitator ->> Toolset: Step 1c: Load assessment results and prioritise
     end
     par Step 2 and 3: Select solutions and set roadmap
-        Facilitator ->> Toolset: Step 2: Create solutions
-        Facilitator ->> Toolset: Step 3: Set roadmap
-        Facilitator ->> Toolset: Step 2b: Initiate a collaboration request
-        Facilitator ->> Toolset: Select solution assessment
+        alt Step 2a: Facilitator creates solutions
+            Facilitator ->> Toolset: Step 2a: Create solutions
+        end
+        Facilitator ->> Toolset: Initiate a collaboration request
         Toolset ->> Mail: Create email with permalink
         Facilitator ->> Mail: Send email with permalink to solution providers (in BCC)
         Mail ->> User: Receive email with permalink. Click to open
-        User ->> Toolset: Assess solutions until DONE
+        alt Step 2a: User creates solutions
+            User ->> Toolset: Step 2a: Create solutions
+        end
+        User ->> Toolset: Step 2b: Assess solutions until DONE
         Toolset ->> Mail: Done: create email with permalink to Facilitator
         Mail ->> Facilitator: Receive email with permalink. Click to open
         Facilitator ->> Toolset: Step 2c: Load assessment results and finalise roadmap
+        Facilitator ->> Toolset: Step 3: Set roadmap with workgroup users
     end
-    
 ```
