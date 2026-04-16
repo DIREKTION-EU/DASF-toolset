@@ -4,6 +4,7 @@ import { Layout } from "../components/layout";
 import {
   AboutPage,
   AssessmentPage,
+  CollaborationPage,
   HomePage,
   LandingPage,
   NotFoundPage,
@@ -133,6 +134,14 @@ class RoutingService {
         route: t("SETTINGS", "ROUTE"),
         visible: (s) => hasSession(s) && s.curUser === "admin",
         component: SettingsPage,
+      },
+      {
+        id: Pages.COLLABORATE,
+        title: t("COLLABORATE", "TITLE"),
+        icon: "group",
+        route: t("COLLABORATE", "ROUTE"),
+        visible: (s) => s.role === "facilitator",
+        component: CollaborationPage,
       },
       {
         id: Pages.NOT_FOUND,

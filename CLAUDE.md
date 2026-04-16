@@ -58,6 +58,11 @@ npm run clean
 - UI components in `packages/gui/src/components/ui/`
 - Follow Meiosis pattern: receive cell as prop, use actions to update state
 
+### Mithril vnode key rules
+- **Never add `key` to vnodes unless items in the array can be reordered or you need to force a component to remount.** Keys on static renders add no value and cause the "vnodes must either all have keys or none have keys" crash when a fragment mixes keyed and unkeyed items.
+- The most common crash pattern: `[m("h6"), ...items.map(i => m(".row", {key: i.id}, ...))]` — the `h6` is unkeyed but the mapped rows are keyed. Fix: remove the keys.
+- Conditional rendering with `condition && someVnode` is fine in a children array. Just ensure that no sibling in the same array uses a `key` attribute.
+
 ### Data Persistence
 - Model data saved to localStorage with key `MITHRIL_APP_MODEL`
 - User role saved to localStorage with key `USER_ROLE`

@@ -2,7 +2,7 @@ export * from "./page";
 export * from "./settings";
 export * from "./capability-model";
 
-export type UserType = "user" | "moderator" | "admin";
+export type UserType = "user" | "moderator" | "admin" | "facilitator";
 
 export interface ILokiObj {
   id: number;

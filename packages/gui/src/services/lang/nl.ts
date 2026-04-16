@@ -959,4 +959,58 @@ De DASF-toolset ondersteunt het systematische beoordelings- en screeningproces v
 ##### Achtergrond
 
 Dit project heeft financiering ontvangen van het Horizon 2020-programma voor onderzoek en innovatie van de Europese Unie. Ontwikkeld door TNO als onderdeel van het [DIREKTION](https://www.direktion-network.org)-project.`,
+
+  // ── Collaboration (EN fallback) ────────────────────────────────────────────
+  COLLABORATE: {
+    TITLE: "Collaborate",
+    ROUTE: "/collaborate",
+    PAGE: "Collaboration",
+  },
+  FACILITATOR: "Facilitator",
+  collab_page_title: "Collaboration",
+  collab_send_invite: "Send Invite",
+  collab_load_patch: "Load Patch",
+  collab_mode_ca: "Capability Assessment",
+  collab_mode_sc: "Solution Creation",
+  collab_mode_sa: "Solution Assessment",
+  collab_select_modes: "Select collaboration modes",
+  collab_your_name: "Your name",
+  collab_your_email: "Your email",
+  collab_facilitator_name: "Facilitator name",
+  collab_facilitator_email: "Facilitator email",
+  collab_custom_message: "Optional message",
+  collab_generate_link: "Send Invite by Email",
+  collab_done: "Done — Send Results",
+  collab_patch_loaded: "Patch loaded",
+  collab_patches_count: {
+    1: "1 patch received",
+    n: "{n} patches received",
+  },
+  collab_hash_mismatch:
+    "Warning: This patch was created from a different version of the model.",
+  collab_session_mismatch:
+    "This patch belongs to a different session and cannot be loaded.",
+  collab_duplicate_ignored: "Duplicate patch ignored (already loaded).",
+  collab_aggregated_results: "Aggregated Results",
+  collab_apply_results: "Apply to model",
+  collab_no_patches: "No patches received yet.",
+  collab_invited_by: "You have been invited by {name} ({email}) to contribute.",
+  collab_paste_patch: "Paste a patch link here",
+  collab_load_patch_btn: "Load",
+  collab_remove_patch: "Remove",
+  collab_contributor: "Contributor",
+  collab_received_at: "Received at",
+  collab_avg_action_priority: "Avg. action priority",
+  collab_task_items: "Task importance answers",
+  collab_perf_items: "Performance answers",
+  collab_gap_items: "Gap answers",
+  collab_all_values: "All values",
+  collab_avg_value: "Average",
+  collab_invite_subject: "Invitation to collaborate on capability assessment",
+  collab_invite_body:
+    "Dear colleague,\n\nYou are invited to contribute to a capability assessment for {facilitatorName}.\n\nPlease click the link below to open the assessment tool and fill in your responses. When you are done, click the 'Done' button to send your results back.\n\nThis link is valid for one-time use — please do not share it.\n\nKind regards,\n{facilitatorName}",
+  collab_patch_subject: "Capability assessment completed",
+  collab_patch_body:
+    "Dear {facilitatorName},\n\nI have completed the capability assessment you sent me.\n\nPlease click the link below to load my responses into the tool.\n\nKind regards,\n{userName}",
+  // ── End Collaboration ───────────────────────────────────────────────────────
 };

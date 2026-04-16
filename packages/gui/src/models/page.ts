@@ -16,6 +16,7 @@ export enum Pages {
   SETTINGS = "SETTINGS",
   ABOUT = "ABOUT",
   TAXONOMY = "TAXONOMY",
+  COLLABORATE = "COLLABORATE",
   NOT_FOUND = "NOT_FOUND",
 }
 

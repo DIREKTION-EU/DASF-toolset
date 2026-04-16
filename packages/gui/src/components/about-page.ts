@@ -64,8 +64,18 @@ export const AboutPage: MeiosisComponent = () => ({
             { id: "user", label: t("user") },
             { id: "moderator", label: t("moderator") },
             { id: "admin", label: t("admin") },
+            { id: "facilitator", label: t("FACILITATOR") },
           ],
-          onchange: (v) => v && actions.saveCurUser(attrs, v[0]),
+          onchange: (v) => {
+            if (!v) return;
+            const selected = v[0];
+            actions.saveCurUser(attrs, selected);
+            if (selected === "facilitator") {
+              actions.setRole(attrs, "facilitator");
+            } else {
+              actions.setRole(attrs, selected === "admin" ? "admin" : selected === "moderator" ? "editor" : "user");
+            }
+          },
           className: "col offset-s6 s6 offset-m9 m3",
         }),
         m(".col.s12.markdown", m.trust(render(t("about_markdown")))),

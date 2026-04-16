@@ -23,12 +23,17 @@ import { settingsModel } from "../models/capability-model/settings";
 import { Pages } from "../models/page";
 import { type SearchResultItem } from "@dasf-toolset/shared";
 import { type User, type UserRole } from "./login-service";
+import type {
+  CollaborationPatch,
+  InvitePayload,
+  CollabMode,
+} from "./collaboration-service";
 import { scrollToTop, LANGUAGE } from "../utils";
 import { UIForm } from "mithril-ui-form";
 import { sessionService } from "./session-service";
 
 // Inline types to avoid importing from barrel (circular dependency)
-type UserType = "user" | "moderator" | "admin";
+type UserType = "user" | "moderator" | "admin" | "facilitator";
 type SearchResults<T = SearchResultItem> = T[];
 
 export const EmptyDataModel = () =>
@@ -79,6 +84,16 @@ export interface State {
     updatedAt: number;
   }>;
   currentSessionId?: string;
+  // Collaboration
+  collaboration?: {
+    sessionId?: string;
+    baseModelHash?: string;
+    modes?: CollabMode[];
+    patches?: CollaborationPatch[];
+    userInfo?: { name?: string; email?: string };
+    facilitatorInfo?: { name?: string; email?: string };
+    invitePayload?: InvitePayload;
+  };
   // FORMS
   preparations?: UIForm<ICapabilityDataModel>;
   assessment?: UIForm<Assessment>;
@@ -187,6 +202,38 @@ export const actions = {
     cell.update({ role });
   },
   login: (_cell: MeiosisCell<State>) => {},
+
+  updateCollaboration: (
+    cell: MeiosisCell<State>,
+    partial: Partial<NonNullable<State["collaboration"]>>,
+  ) => {
+    const state = cell.getState();
+    cell.update({ collaboration: { ...(state.collaboration ?? {}), ...partial } });
+  },
+
+  addPatch: (cell: MeiosisCell<State>, patch: CollaborationPatch) => {
+    const state = cell.getState();
+    const existing = state.collaboration?.patches ?? [];
+    // Ignore duplicate patchIds
+    if (existing.some((p) => p.pid === patch.pid)) return;
+    cell.update({
+      collaboration: {
+        ...(state.collaboration ?? {}),
+        patches: [...existing, patch],
+      },
+    });
+  },
+
+  removePatch: (cell: MeiosisCell<State>, patchId: string) => {
+    const state = cell.getState();
+    const existing = state.collaboration?.patches ?? [];
+    cell.update({
+      collaboration: {
+        ...(state.collaboration ?? {}),
+        patches: existing.filter((p) => p.pid !== patchId),
+      },
+    });
+  },
 
   saveCurUser: (cell: MeiosisCell<State>, curUser: UserType) => {
     localStorage.setItem(CUR_USER_KEY, curUser);

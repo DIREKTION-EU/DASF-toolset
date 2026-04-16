@@ -1,21 +1,13 @@
 import m from "mithril";
-import { FlatButton, TextInput } from "mithril-materialized";
+import { TextInput } from "mithril-materialized";
 import { PageNav } from "./ui";
-import {
-  Pages,
-  type CapabilityModel,
-  type IHazardType,
-  type HazardCategory,
-} from "../models";
+import { Pages, type CapabilityModel, type HazardCategory } from "../models";
 import { defaultHazardTypes } from "../models/capability-model/hazard";
 import { actions, MeiosisComponent, t } from "../services";
 import { translatedOrFallback } from "../utils";
 
 export const HazardsPage: MeiosisComponent = () => {
   let categoryFilter: HazardCategory | "all" = "all";
-  let editMode = false;
-  let newLabel = "";
-  let newCategory: HazardCategory = "natural";
 
   return {
     oninit: ({ attrs }) => {
@@ -28,10 +20,9 @@ export const HazardsPage: MeiosisComponent = () => {
       }
     },
     view: ({ attrs }) => {
-      const { catModel = {} as CapabilityModel, curUser } = attrs.state;
+      const { catModel = {} as CapabilityModel } = attrs.state;
       const { data = {} } = catModel;
       const { hazardTypes = [], selectedHazardIds = [] } = data;
-      const isEditor = curUser !== "user";
 
       const categories: Array<{ id: HazardCategory | "all"; label: string }> = [
         { id: "all", label: t("hazard_category_all") },
@@ -60,7 +51,7 @@ export const HazardsPage: MeiosisComponent = () => {
           m(".col.s12", m("p", t("hazard_step_desc"))),
         ]),
 
-        // 2. Category filter chips + edit toggle
+        // 2. Category filter chips
         m(".row", [
           m(
             ".col.s12",
@@ -79,83 +70,9 @@ export const HazardsPage: MeiosisComponent = () => {
               ),
             ),
           ),
-          isEditor &&
-            m(".col.s12", { style: "margin-top: 10px;" }, [
-              m(FlatButton, {
-                iconName: editMode ? "check" : "edit",
-                label: editMode ? t("hazard_done") : t("hazard_edit"),
-                className: "blue-text",
-                onclick: () => {
-                  editMode = !editMode;
-                },
-              }),
-            ]),
         ]),
 
-        // 3. Add new hazard panel — above the list, only in edit mode
-        editMode &&
-          m(".row.dasf-add-panel", [
-            m(".col.s12", m("h6", t("hazard_add"))),
-            m(
-              ".col.s6.m4",
-              m(TextInput, {
-                id: "new-hazard-label",
-                label: t("hazard_name"),
-                value: newLabel,
-                onchange: (v) => {
-                  newLabel = v || "";
-                },
-              }),
-            ),
-            m(".col.s4.m3", [
-              m("label", t("TYPE")),
-              m(
-                "select.browser-default",
-                {
-                  value: newCategory,
-                  onchange: (e: Event) => {
-                    newCategory = (e.target as HTMLSelectElement)
-                      .value as HazardCategory;
-                  },
-                },
-                [
-                  m(
-                    "option",
-                    { value: "natural" },
-                    t("hazard_category_natural"),
-                  ),
-                  m(
-                    "option",
-                    { value: "technical" },
-                    t("hazard_category_technical"),
-                  ),
-                  m("option", { value: "attack" }, t("hazard_category_attack")),
-                ],
-              ),
-            ]),
-            m(
-              ".col.s2.m2",
-              m(FlatButton, {
-                iconName: "add",
-                label: t("add_term"),
-                disabled: !newLabel.trim(),
-                onclick: () => {
-                  if (!newLabel.trim()) return;
-                  const id = `${newCategory[0].toUpperCase()}${String(hazardTypes.length + 1).padStart(2, "0")}`;
-                  const newHazard: IHazardType = {
-                    id,
-                    label: newLabel.trim(),
-                    category: newCategory,
-                  };
-                  data.hazardTypes = [...hazardTypes, newHazard];
-                  actions.saveModel(attrs, catModel);
-                  newLabel = "";
-                },
-              }),
-            ),
-          ]),
-
-        // 4. Selected count summary — above the list
+        // 3. Selected count summary — above the list
         m(".row", [
           m(
             ".col.s12",
@@ -168,7 +85,7 @@ export const HazardsPage: MeiosisComponent = () => {
           ),
         ]),
 
-        // 5. Hazard table
+        // 4. Hazard table
         m(".row", [
           m(".col.s12", [
             m("table.striped", [
@@ -178,7 +95,6 @@ export const HazardsPage: MeiosisComponent = () => {
                   m("th", { style: "width: 40px;" }, ""),
                   m("th", t("NAME")),
                   m("th", t("TYPE")),
-                  editMode && m("th", ""),
                 ]),
               ),
               m(
@@ -212,16 +128,7 @@ export const HazardsPage: MeiosisComponent = () => {
                       ]),
                       m(
                         "td",
-                        editMode
-                          ? m(TextInput, {
-                              id: `hazard-${h.id}`,
-                              defaultValue: h.label,
-                              onchange: (v) => {
-                                h.label = v || h.label;
-                                actions.saveModel(attrs, catModel);
-                              },
-                            })
-                          : translatedOrFallback(t(h.id as any), h.id, h.label),
+                        translatedOrFallback(t(h.id as any), h.id, h.label),
                       ),
                       m(
                         "td",
@@ -233,23 +140,6 @@ export const HazardsPage: MeiosisComponent = () => {
                           t(`hazard_category_${h.category}`),
                         ),
                       ),
-                      editMode &&
-                        m(
-                          "td",
-                          m(FlatButton, {
-                            iconName: "delete",
-                            className: "red-text btn-small",
-                            onclick: () => {
-                              data.hazardTypes = hazardTypes.filter(
-                                (x) => x.id !== h.id,
-                              );
-                              data.selectedHazardIds = (
-                                data.selectedHazardIds || []
-                              ).filter((id) => id !== h.id);
-                              actions.saveModel(attrs, catModel);
-                            },
-                          }),
-                        ),
                     ],
                   ),
                   // Description row — always visible for selected hazards, regardless of editMode
@@ -264,7 +154,7 @@ export const HazardsPage: MeiosisComponent = () => {
                     },
                     [
                       m("td"),
-                      m("td", { colspan: editMode ? 3 : 2 }, [
+                      m("td", { colspan: 2 }, [
                         m(TextInput, {
                           id: `desc-${h.id}`,
                           label: t("hazard_description"),

@@ -6,7 +6,7 @@ import { actions, type MeiosisComponent } from './meiosis';
 const userId = 'userid';
 const userRole = 'userrole';
 
-export type UserRole = 'admin' | 'editor' | 'user';
+export type UserRole = 'facilitator' | 'admin' | 'editor' | 'user';
 
 export type User = {
   name: string;
