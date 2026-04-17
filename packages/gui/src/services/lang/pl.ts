@@ -932,7 +932,7 @@ Projekt ten otrzymał finansowanie z programu badań i innowacji Horizon 2020 Un
   collab_facilitator_email: "Facilitator email",
   collab_custom_message: "Optional message",
   collab_generate_link: "Send Invite by Email",
-  collab_done: "Done — Send Results",
+  collab_done: "Gotowe - Wyslij wyniki",
   collab_patch_loaded: "Patch loaded",
   collab_patches_count: {
     1: "1 patch received",

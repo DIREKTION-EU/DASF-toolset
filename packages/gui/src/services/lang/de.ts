@@ -948,7 +948,7 @@ Dieses Projekt wurde aus dem Horizon-2020-Programm der Europäischen Union für 
   collab_facilitator_email: "Facilitator email",
   collab_custom_message: "Optional message",
   collab_generate_link: "Send Invite by Email",
-  collab_done: "Done — Send Results",
+  collab_done: "Fertig - Ergebnisse senden",
   collab_patch_loaded: "Patch loaded",
   collab_patches_count: {
     1: "1 patch received",

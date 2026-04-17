@@ -9,7 +9,7 @@
  *   Fill in capability assessments and click Done to send patch back.
  */
 import m from "mithril";
-import { actions, MeiosisComponent, t } from "../services";
+import { actions, MeiosisComponent, sessionService, t } from "../services";
 import { Pages } from "../models/page";
 import type { ICapability } from "../models/capability-model/capability-model";
 import {
@@ -160,7 +160,7 @@ const PatchLoader: MeiosisComponent = () => {
   let pasteValue = "";
   let errorMsg = "";
 
-  const tryLoadPatch = (
+  const tryLoadPatch = async (
     attrs: Parameters<ReturnType<MeiosisComponent>["view"]>[0]["attrs"],
     encoded: string,
   ) => {
@@ -168,6 +168,18 @@ const PatchLoader: MeiosisComponent = () => {
       const patch = decodePayload<CollaborationPatch>(encoded);
       const { collaboration = {} } = attrs.state;
       const invite = collaboration.invitePayload;
+
+      // If the patch belongs to another saved session, restore that model first.
+      if (attrs.state.currentSessionId !== patch.sid) {
+        const matchingSession = await sessionService.getSession(patch.sid);
+        if (matchingSession?.model) {
+          actions.update(attrs, {
+            currentSessionId: matchingSession.id,
+            catModel: matchingSession.model,
+            model: matchingSession.model,
+          });
+        }
+      }
 
       if (invite && patch.sid !== invite.s) {
         errorMsg = t("collab_session_mismatch");
@@ -197,7 +209,7 @@ const PatchLoader: MeiosisComponent = () => {
     oninit: ({ attrs }) => {
       // Auto-load from URL ?p= param
       const pParam = m.route.param("p");
-      if (pParam) tryLoadPatch(attrs, pParam);
+      if (pParam) void tryLoadPatch(attrs, pParam);
     },
     view: ({ attrs }) => {
       const { collaboration = {} } = attrs.state;
@@ -223,10 +235,10 @@ const PatchLoader: MeiosisComponent = () => {
               "button.btn.waves-effect.waves-light",
               {
                 disabled: !pasteValue.trim(),
-                onclick: () => {
+                onclick: async () => {
                   // Extract encoded param from pasted URL or raw encoded string
                   const match = pasteValue.match(/[?&]p=([^&\s]+)/);
-                  tryLoadPatch(attrs, match ? match[1] : pasteValue.trim());
+                  await tryLoadPatch(attrs, match ? match[1] : pasteValue.trim());
                 },
               },
               t("collab_load_patch_btn"),
@@ -294,6 +306,7 @@ const AggregatedResults: MeiosisComponent = () => ({
           m("th", t("collab_avg_action_priority")),
           m("th", t("collab_task_items")),
           m("th", t("collab_perf_items")),
+          m("th", t("collab_gap_items")),
         ])),
         m("tbody", agg.map((a) =>
           m("tr", [
@@ -319,6 +332,23 @@ const AggregatedResults: MeiosisComponent = () => ({
                 ]),
               ),
             ),
+            m(
+              "td",
+              a.gaps.map((g) =>
+                m("div", { style: "margin-bottom:8px" }, [
+                  m(
+                    "small.grey-text",
+                    `${t("gap")} ${g.gapIndex + 1}${g.titles.length ? `: ${g.titles.join(" | ")}` : ""}`,
+                  ),
+                  ...g.items.map((gi) =>
+                    m("div", [
+                      m("small.grey-text", `${gi.id}: `),
+                      m("small", gi.allValues.join(", ") || "—"),
+                    ]),
+                  ),
+                ]),
+              ),
+            ),
           ]),
         )),
       ]),
@@ -331,6 +361,7 @@ const AggregatedResults: MeiosisComponent = () => ({
 const UserAssessmentView: MeiosisComponent = () => {
   // Local mutable answers keyed by capabilityId
   const answers = new Map<string, CapabilityAnswer>();
+  let pageIndex = 0;
 
   const getOrCreate = (capId: string): CapabilityAnswer => {
     if (!answers.has(capId)) answers.set(capId, { c: capId });
@@ -357,6 +388,58 @@ const UserAssessmentView: MeiosisComponent = () => {
     getOrCreate(capId).ap = val;
   };
 
+  const addGap = (capId: string) => {
+    const a = getOrCreate(capId);
+    a.g = a.g ?? [];
+    a.g.push({ a: "", i: [] });
+  };
+
+  const removeGap = (capId: string, gapIndex: number) => {
+    const a = getOrCreate(capId);
+    a.g = (a.g ?? []).filter((_, i) => i !== gapIndex);
+  };
+
+  const setGapTitle = (capId: string, gapIndex: number, title: string) => {
+    const a = getOrCreate(capId);
+    a.g = a.g ?? [];
+    a.g[gapIndex] = a.g[gapIndex] ?? { a: "", i: [] };
+    a.g[gapIndex].t = title;
+  };
+
+  const setGapDesc = (capId: string, gapIndex: number, desc: string) => {
+    const a = getOrCreate(capId);
+    a.g = a.g ?? [];
+    a.g[gapIndex] = a.g[gapIndex] ?? { a: "", i: [] };
+    a.g[gapIndex].d = desc;
+  };
+
+  const setGapItem = (
+    capId: string,
+    gapIndex: number,
+    itemId: string,
+    value: string,
+    gapScaleIds: string[],
+  ) => {
+    const a = getOrCreate(capId);
+    a.g = a.g ?? [];
+    a.g[gapIndex] = a.g[gapIndex] ?? { a: "", i: [] };
+    const gap = a.g[gapIndex];
+    const existing = gap.i.find((x) => x.id === itemId);
+    if (existing) {
+      existing.v = value;
+    } else {
+      gap.i.push({ id: itemId, v: value });
+    }
+
+    // Same as the main app: overall gap assessment reflects the highest rated item.
+    const maxIndex = gap.i.reduce((acc, cur) => {
+      if (!cur.v) return acc;
+      const idx = gapScaleIds.indexOf(cur.v);
+      return Math.max(acc, idx);
+    }, -1);
+    gap.a = maxIndex >= 0 ? gapScaleIds[maxIndex] : "";
+  };
+
   return {
     view: ({ attrs }) => {
       const { collaboration = {}, catModel } = attrs.state;
@@ -369,9 +452,16 @@ const UserAssessmentView: MeiosisComponent = () => {
       const performanceScale = data.performanceScale ?? [];
       const mainTasks = data.mainTasks ?? [];
       const performanceAspects = data.performanceAspects ?? [];
+      const mainGaps = data.mainGaps ?? [];
+      const gapScale = data.gapScale ?? [];
 
       const sendDone = () => {
-        const capAnswers = Array.from(answers.values());
+        const capAnswers = capRefs
+          .map((capRef) => answers.get(entityId(capRef)))
+          .filter((a): a is CapabilityAnswer => {
+            if (!a) return false;
+            return !!(a.ta || a.pa || a.ap || (a.g && a.g.length > 0));
+          });
         const patch = buildPatchPayload(
           invitePayload,
           userInfo.name,
@@ -389,6 +479,22 @@ const UserAssessmentView: MeiosisComponent = () => {
       };
 
       const capRefs = invitePayload.c;
+      const totalPages = capRefs.length;
+      if (pageIndex >= totalPages) pageIndex = Math.max(0, totalPages - 1);
+      const currentRef = totalPages > 0 ? capRefs[pageIndex] : undefined;
+      const currentCapId = currentRef ? entityId(currentRef) : undefined;
+      const currentCap =
+        currentRef && currentCapId
+          ? capabilityFromInvite(currentRef, allCaps)
+          : undefined;
+      const currentLabel =
+        currentRef && currentCapId
+          ? currentCap
+            ? (t(currentCap.id as any) || currentCap.label)
+            : entityLabel(currentRef, currentCapId)
+          : "";
+      const answer = currentCapId ? getOrCreate(currentCapId) : undefined;
+      const gapScaleIds = gapScale.map((s) => s.id);
 
       return m(".collab-user-view", [
         // Header
@@ -437,18 +543,39 @@ const UserAssessmentView: MeiosisComponent = () => {
         invitePayload.m.includes("ca") &&
           m(".ca-section", [
             m("h5", t("collab_mode_ca")),
-            ...capRefs.map((capRef) => {
-              const cap = capabilityFromInvite(capRef, allCaps);
-              const capId = entityId(capRef);
-              const capLabel = cap
-                ? (t(cap.id as any) || cap.label)
-                : entityLabel(capRef, capId);
-              const answer = getOrCreate(capId);
-
-              return m(".card.hoverable", [
+            totalPages > 0 &&
+              m(".row", [
+                m(".col.s12", [
+                  m("div", { style: "display:flex; align-items:center; justify-content:space-between; gap: 8px; margin-bottom: 8px;" }, [
+                    m(
+                      "button.btn-flat",
+                      {
+                        disabled: pageIndex === 0,
+                        onclick: () => {
+                          pageIndex = Math.max(0, pageIndex - 1);
+                        },
+                      },
+                      [m("i.material-icons.left", "chevron_left"), t("prev_cap")],
+                    ),
+                    m("strong", `${pageIndex + 1} / ${totalPages}`),
+                    m(
+                      "button.btn-flat",
+                      {
+                        disabled: pageIndex >= totalPages - 1,
+                        onclick: () => {
+                          pageIndex = Math.min(totalPages - 1, pageIndex + 1);
+                        },
+                      },
+                      [t("next_cap"), m("i.material-icons.right", "chevron_right")],
+                    ),
+                  ]),
+                ]),
+              ]),
+            currentCapId && answer &&
+              m(".card.hoverable", [
                 m(".card-content", [
-                  m("span.card-title", capLabel),
-                  cap?.desc && m("p.grey-text", cap.desc),
+                  m("span.card-title", currentLabel),
+                  currentCap?.desc && m("p.grey-text", currentCap.desc),
 
                   // Task importance per mainTask
                   mainTasks.length > 0 && [
@@ -460,21 +587,35 @@ const UserAssessmentView: MeiosisComponent = () => {
                         m(".col.s12.m5", [
                           m("label", t(task.id as any) || task.label),
                           task.desc &&
-                            m("small.grey-text.block", t(`${task.id}_desc` as any) || task.desc),
-                        ]),
-                        m(".col.s12.m7",
-                          m("select.browser-default", {
-                            value: currentVal,
-                            onchange: (e: Event) =>
-                              setTaskItem(capId, task.id, (e.target as HTMLSelectElement).value),
-                          }, [
-                            m("option[value='']", "—"),
-                            ...taskScale.map((s) =>
-                              m("option", { value: s.id, selected: currentVal === s.id },
-                                t(s.id as any) || s.label,
-                              ),
+                            m(
+                              "small.grey-text.block.collab-field-desc",
+                              t(`${task.id}_desc` as any) || task.desc,
                             ),
-                          ]),
+                        ]),
+                        m(
+                          ".col.s12.m7",
+                          m(
+                            "select.browser-default",
+                            {
+                              value: currentVal,
+                              onchange: (e: Event) =>
+                                setTaskItem(
+                                  currentCapId,
+                                  task.id,
+                                  (e.target as HTMLSelectElement).value,
+                                ),
+                            },
+                            [
+                              m("option[value='']", "—"),
+                              ...taskScale.map((s) =>
+                                m(
+                                  "option",
+                                  { value: s.id, selected: currentVal === s.id },
+                                  t(s.id as any) || s.label,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ]);
                     }),
@@ -490,47 +631,164 @@ const UserAssessmentView: MeiosisComponent = () => {
                         m(".col.s12.m5", [
                           m("label", t(aspect.id as any) || aspect.label),
                           aspect.desc &&
-                            m("small.grey-text.block", t(`${aspect.id}_desc` as any) || aspect.desc),
-                        ]),
-                        m(".col.s12.m7",
-                          m("select.browser-default", {
-                            value: currentVal,
-                            onchange: (e: Event) =>
-                              setPerfItem(capId, aspect.id, (e.target as HTMLSelectElement).value),
-                          }, [
-                            m("option[value='']", "—"),
-                            ...performanceScale.map((s) =>
-                              m("option", { value: s.id, selected: currentVal === s.id },
-                                t(s.id as any) || s.label,
-                              ),
+                            m(
+                              "small.grey-text.block.collab-field-desc",
+                              t(`${aspect.id}_desc` as any) || aspect.desc,
                             ),
-                          ]),
+                        ]),
+                        m(
+                          ".col.s12.m7",
+                          m(
+                            "select.browser-default",
+                            {
+                              value: currentVal,
+                              onchange: (e: Event) =>
+                                setPerfItem(
+                                  currentCapId,
+                                  aspect.id,
+                                  (e.target as HTMLSelectElement).value,
+                                ),
+                            },
+                            [
+                              m("option[value='']", "—"),
+                              ...performanceScale.map((s) =>
+                                m(
+                                  "option",
+                                  { value: s.id, selected: currentVal === s.id },
+                                  t(s.id as any) || s.label,
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
                       ]);
                     }),
                   ],
 
+                  // Gaps
+                  m("h6", t("gaps")),
+                  ...(answer.g?.map((gap, gapIndex) =>
+                    m(".card-panel", [
+                      m(".row", [
+                        m(".col.s12.m5", [
+                          m("label", t("title")),
+                          m("input[type=text]", {
+                            value: gap.t ?? "",
+                            oninput: (e: Event) =>
+                              setGapTitle(
+                                currentCapId,
+                                gapIndex,
+                                (e.target as HTMLInputElement).value,
+                              ),
+                          }),
+                        ]),
+                        m(".col.s12.m6", [
+                          m("label", t("desc")),
+                          m("textarea.materialize-textarea", {
+                            value: gap.d ?? "",
+                            oninput: (e: Event) =>
+                              setGapDesc(
+                                currentCapId,
+                                gapIndex,
+                                (e.target as HTMLTextAreaElement).value,
+                              ),
+                          }),
+                        ]),
+                        m(
+                          ".col.s12.m1",
+                          { style: "padding-top: 28px;" },
+                          m(
+                            "button.btn-flat.red-text",
+                            {
+                              onclick: () => removeGap(currentCapId, gapIndex),
+                            },
+                            m("i.material-icons", "delete"),
+                          ),
+                        ),
+                      ]),
+                      ...mainGaps.map((gapItem) => {
+                        const currentVal =
+                          gap.i.find((x) => x.id === gapItem.id)?.v ?? "";
+                        return m(".row.valign-wrapper", [
+                          m(".col.s12.m5", [
+                            m("label", t(gapItem.id as any) || gapItem.label),
+                            gapItem.desc &&
+                              m(
+                                "small.grey-text.block.collab-field-desc",
+                                t(`${gapItem.id}_desc` as any) || gapItem.desc,
+                              ),
+                          ]),
+                          m(
+                            ".col.s12.m7",
+                            m(
+                              "select.browser-default",
+                              {
+                                value: currentVal,
+                                onchange: (e: Event) =>
+                                  setGapItem(
+                                    currentCapId,
+                                    gapIndex,
+                                    gapItem.id,
+                                    (e.target as HTMLSelectElement).value,
+                                    gapScaleIds,
+                                  ),
+                              },
+                              [
+                                m("option[value='']", "—"),
+                                ...gapScale.map((s) =>
+                                  m(
+                                    "option",
+                                    { value: s.id, selected: currentVal === s.id },
+                                    t(s.id as any) || s.label,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ]);
+                      }),
+                    ]),
+                  ) ?? []),
+                  m(
+                    "button.btn-flat",
+                    { onclick: () => addGap(currentCapId) },
+                    [m("i.material-icons.left", "add"), t("add_gap")],
+                  ),
+
                   // Action priority
                   m(".row", [
                     m(".col.s12", [
                       m("label", t("action_priority")),
-                      m("p.range-field",
+                      m(
+                        "p.range-field",
                         m("input[type=range][min=1][max=5][step=1]", {
                           value: answer.ap ?? 3,
                           oninput: (e: Event) =>
-                            setActionPriority(capId, parseInt((e.target as HTMLInputElement).value, 10)),
+                            setActionPriority(
+                              currentCapId,
+                              parseInt(
+                                (e.target as HTMLInputElement).value,
+                                10,
+                              ),
+                            ),
                         }),
                       ),
-                      m(".flex-row", { style: "display:flex; justify-content:space-between" }, [
-                        m("small", t("action_priority_label_1")),
-                        m("small", t("action_priority_label_3")),
-                        m("small", t("action_priority_label_5")),
-                      ]),
+                      m(
+                        ".flex-row",
+                        {
+                          style:
+                            "display:flex; justify-content:space-between",
+                        },
+                        [
+                          m("small", t("action_priority_label_1")),
+                          m("small", t("action_priority_label_3")),
+                          m("small", t("action_priority_label_5")),
+                        ],
+                      ),
                     ]),
                   ]),
                 ]),
-              ]);
-            }),
+              ]),
           ]),
 
         // Done button
@@ -557,13 +815,18 @@ export const CollaborationPage: MeiosisComponent = () => {
 
       // Decode invite payload from URL ?i= param
       const iParam = m.route.param("i");
+      const pParam = m.route.param("p");
       if (iParam) {
         try {
           const invite = decodePayload<InvitePayload>(iParam);
           actions.updateCollaboration(attrs, { invitePayload: invite });
         } catch {
           console.warn("Failed to decode invite payload from URL");
+          actions.updateCollaboration(attrs, { invitePayload: undefined });
         }
+      } else if (pParam) {
+        // Ensure facilitator patch links do not inherit a stale user-invite view.
+        actions.updateCollaboration(attrs, { invitePayload: undefined });
       }
     },
     view: ({ attrs }) => {

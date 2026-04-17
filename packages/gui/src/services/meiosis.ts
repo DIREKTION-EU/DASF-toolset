@@ -48,6 +48,22 @@ const USER_ROLE = "DASF_USER_ROLE";
 const SETTINGS_KEY = "DASF_SETTINGS";
 const CUR_USER_KEY = "DASF_CUR_USER";
 const LAST_SESSION_KEY = "DASF_LAST_SESSION";
+const COLLAB_KEY = "DASF_COLLAB";
+
+type PersistedCollab = Pick<
+  NonNullable<State["collaboration"]>,
+  "patches" | "sessionId" | "baseModelHash" | "facilitatorInfo"
+>;
+
+const saveCollab = (collab: NonNullable<State["collaboration"]>) => {
+  const toSave: PersistedCollab = {
+    patches: collab.patches,
+    sessionId: collab.sessionId,
+    baseModelHash: collab.baseModelHash,
+    facilitatorInfo: collab.facilitatorInfo,
+  };
+  localStorage.setItem(COLLAB_KEY, JSON.stringify(toSave));
+};
 
 // Vite injects import.meta.env.APP_TITLE from .env files at build time
 export const APP_TITLE = import.meta.env.APP_TITLE || "Mithril App";
@@ -208,7 +224,9 @@ export const actions = {
     partial: Partial<NonNullable<State["collaboration"]>>,
   ) => {
     const state = cell.getState();
-    cell.update({ collaboration: { ...(state.collaboration ?? {}), ...partial } });
+    const next = { ...(state.collaboration ?? {}), ...partial };
+    saveCollab(next);
+    cell.update({ collaboration: next });
   },
 
   addPatch: (cell: MeiosisCell<State>, patch: CollaborationPatch) => {
@@ -216,23 +234,23 @@ export const actions = {
     const existing = state.collaboration?.patches ?? [];
     // Ignore duplicate patchIds
     if (existing.some((p) => p.pid === patch.pid)) return;
-    cell.update({
-      collaboration: {
-        ...(state.collaboration ?? {}),
-        patches: [...existing, patch],
-      },
-    });
+    const next = {
+      ...(state.collaboration ?? {}),
+      patches: [...existing, patch],
+    };
+    saveCollab(next);
+    cell.update({ collaboration: next });
   },
 
   removePatch: (cell: MeiosisCell<State>, patchId: string) => {
     const state = cell.getState();
     const existing = state.collaboration?.patches ?? [];
-    cell.update({
-      collaboration: {
-        ...(state.collaboration ?? {}),
-        patches: existing.filter((p) => p.pid !== patchId),
-      },
-    });
+    const next = {
+      ...(state.collaboration ?? {}),
+      patches: existing.filter((p) => p.pid !== patchId),
+    };
+    saveCollab(next);
+    cell.update({ collaboration: next });
   },
 
   saveCurUser: (cell: MeiosisCell<State>, curUser: UserType) => {
@@ -486,6 +504,16 @@ export const loadData = async () => {
     localStorage.getItem(SETTINGS_KEY) || "[]",
   ) as UIForm<ICapabilityDataModel>;
 
+  let collaboration: State["collaboration"];
+  const collabRaw = localStorage.getItem(COLLAB_KEY);
+  if (collabRaw) {
+    try {
+      collaboration = JSON.parse(collabRaw) as PersistedCollab;
+    } catch {
+      // ignore malformed data
+    }
+  }
+
   // Load sessions from IndexedDB
   const sessions = await sessionService.listSessions();
 
@@ -508,6 +536,7 @@ export const loadData = async () => {
     model: () => model,
     catModel: () => model,
     sessions: () => sessions,
+    ...(collaboration ? { collaboration } : {}),
     ...(lastSession ? { currentSessionId: lastSessionId! } : {}),
     assessment: () => forms.assessment!,
     development: () => forms.development!,

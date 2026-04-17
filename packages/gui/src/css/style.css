@@ -1227,3 +1227,7 @@ html {
   border-radius: 6px;
   line-height: 60%;
 }
+
+.collab-field-desc {
+  margin-top: 6px;
+}

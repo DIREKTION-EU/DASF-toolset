@@ -53,8 +53,8 @@ export interface CapabilityAnswer {
   pa?: { a: string; i: { id: string; v?: string }[] };
   /** actionPriority 1–5 */
   ap?: number;
-  /** gap assessments: per-gap { a: overallAssessmentId, i: per-item answers } */
-  g?: { a: string; i: { id: string; v?: string }[] }[];
+  /** gap assessments: per-gap { t/d + a: overallAssessmentId, i: per-item answers } */
+  g?: { t?: string; d?: string; a: string; i: { id: string; v?: string }[] }[];
 }
 
 // ─── Compact Patch Payload (User → Facilitator) ──────────────────────────────
@@ -93,7 +93,12 @@ export interface AggregatedCapability {
   /** per performance-item: averaged values */
   performanceItems: { id: string; avgValue: string; allValues: string[] }[];
   /** per gap: all gap assessment values collected */
-  gaps: { gapIndex: number; items: { id: string; allValues: string[] }[] }[];
+  gaps: {
+    gapIndex: number;
+    titles: string[];
+    descriptions: string[];
+    items: { id: string; allValues: string[] }[];
+  }[];
 }
 
 // ─── Encode / Decode ─────────────────────────────────────────────────────────
@@ -321,9 +326,13 @@ export const aggregateCapabilityPatches = (
     const gaps: AggregatedCapability["gaps"] = [];
     for (let gi = 0; gi < maxGaps; gi++) {
       const gapItemMap = new Map<string, string[]>();
+      const titleSet = new Set<string>();
+      const descriptionSet = new Set<string>();
       for (const a of answers) {
         const gapAss = a.g?.[gi];
         if (!gapAss) continue;
+        if (gapAss.t?.trim()) titleSet.add(gapAss.t.trim());
+        if (gapAss.d?.trim()) descriptionSet.add(gapAss.d.trim());
         for (const item of gapAss.i) {
           const list = gapItemMap.get(item.id) ?? [];
           if (item.v) list.push(item.v);
@@ -332,6 +341,8 @@ export const aggregateCapabilityPatches = (
       }
       gaps.push({
         gapIndex: gi,
+        titles: Array.from(titleSet.values()),
+        descriptions: Array.from(descriptionSet.values()),
         items: Array.from(gapItemMap.entries()).map(([id, allValues]) => ({
           id,
           allValues,
