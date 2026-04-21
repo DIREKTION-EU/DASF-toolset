@@ -27,7 +27,9 @@ import type {
   CollaborationPatch,
   InvitePayload,
   CollabMode,
+  CapabilityAnswer,
 } from "./collaboration-service";
+import { duplicatePatchReason } from "./collaboration-service";
 import { scrollToTop, LANGUAGE } from "../utils";
 import { UIForm } from "mithril-ui-form";
 import { sessionService } from "./session-service";
@@ -52,7 +54,14 @@ const COLLAB_KEY = "DASF_COLLAB";
 
 type PersistedCollab = Pick<
   NonNullable<State["collaboration"]>,
-  "patches" | "sessionId" | "baseModelHash" | "facilitatorInfo"
+  | "patches"
+  | "sessionId"
+  | "baseModelHash"
+  | "facilitatorInfo"
+  | "userInfo"
+  | "invitePayload"
+  | "modes"
+  | "userDrafts"
 >;
 
 const saveCollab = (collab: NonNullable<State["collaboration"]>) => {
@@ -61,6 +70,10 @@ const saveCollab = (collab: NonNullable<State["collaboration"]>) => {
     sessionId: collab.sessionId,
     baseModelHash: collab.baseModelHash,
     facilitatorInfo: collab.facilitatorInfo,
+    userInfo: collab.userInfo,
+    invitePayload: collab.invitePayload,
+    modes: collab.modes,
+    userDrafts: collab.userDrafts,
   };
   localStorage.setItem(COLLAB_KEY, JSON.stringify(toSave));
 };
@@ -102,6 +115,7 @@ export interface State {
   currentSessionId?: string;
   // Collaboration
   collaboration?: {
+    mode?: "facilitator" | "invitee";
     sessionId?: string;
     baseModelHash?: string;
     modes?: CollabMode[];
@@ -109,6 +123,14 @@ export interface State {
     userInfo?: { name?: string; email?: string };
     facilitatorInfo?: { name?: string; email?: string };
     invitePayload?: InvitePayload;
+    userDrafts?: Record<
+      string,
+      {
+        answers: CapabilityAnswer[];
+        pageIndex: number;
+        updatedAt: number;
+      }
+    >;
   };
   // FORMS
   preparations?: UIForm<ICapabilityDataModel>;
@@ -229,17 +251,21 @@ export const actions = {
     cell.update({ collaboration: next });
   },
 
-  addPatch: (cell: MeiosisCell<State>, patch: CollaborationPatch) => {
+  addPatch: (
+    cell: MeiosisCell<State>,
+    patch: CollaborationPatch,
+  ): { added: boolean; reason?: "id" | "content" } => {
     const state = cell.getState();
     const existing = state.collaboration?.patches ?? [];
-    // Ignore duplicate patchIds
-    if (existing.some((p) => p.pid === patch.pid)) return;
+    const reason = duplicatePatchReason(existing, patch);
+    if (reason) return { added: false, reason };
     const next = {
       ...(state.collaboration ?? {}),
       patches: [...existing, patch],
     };
     saveCollab(next);
     cell.update({ collaboration: next });
+    return { added: true };
   },
 
   removePatch: (cell: MeiosisCell<State>, patchId: string) => {

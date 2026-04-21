@@ -2,6 +2,7 @@ import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
 } from "lz-string";
+import type { CapabilityModel } from "../models/capability-model/capability-model";
 import type { ICapability } from "../models/capability-model/capability-model";
 import type { IHazardType } from "../models/capability-model/hazard";
 import type { ISolution } from "../models/capability-model/solution";
@@ -159,11 +160,47 @@ export const buildInvitePayload = async (
   const data = state.catModel?.data ?? {};
 
   // IDs present in the default/shared model – no label needed in the URL
-  const knownHazardIds = new Set<string>(
-    ["N01","N02","N03","N04","N05","N06","N07","N08","N09","N10","N11","N12","N13",
-     "T01","T02","T03","T04","T05","T06","T07","T08","T09","T10","T11","T12","T13",
-     "A01","A02","A03","A04","A05","A06","A07","A08","A09","A10","A11","A12","A13"],
-  );
+  const knownHazardIds = new Set<string>([
+    "N01",
+    "N02",
+    "N03",
+    "N04",
+    "N05",
+    "N06",
+    "N07",
+    "N08",
+    "N09",
+    "N10",
+    "N11",
+    "N12",
+    "N13",
+    "T01",
+    "T02",
+    "T03",
+    "T04",
+    "T05",
+    "T06",
+    "T07",
+    "T08",
+    "T09",
+    "T10",
+    "T11",
+    "T12",
+    "T13",
+    "A01",
+    "A02",
+    "A03",
+    "A04",
+    "A05",
+    "A06",
+    "A07",
+    "A08",
+    "A09",
+    "A10",
+    "A11",
+    "A12",
+    "A13",
+  ]);
 
   const selectedHazards: EntityRef[] = (data.hazardTypes ?? [])
     .filter((h: IHazardType) => h.selected)
@@ -174,9 +211,7 @@ export const buildInvitePayload = async (
   );
 
   const selectedSolutions: EntityRef[] | undefined = modes.includes("sa")
-    ? (data.solutions ?? []).map((s: ISolution) =>
-        [s.id, s.label] as EntityRef,
-      )
+    ? (data.solutions ?? []).map((s: ISolution) => [s.id, s.label] as EntityRef)
     : undefined;
 
   const sessionId = state.currentSessionId ?? generateUUID();
@@ -257,6 +292,43 @@ export const deduplicatePatches = (
   return { unique, duplicateCount };
 };
 
+const patchFingerprint = (patch: CollaborationPatch): string =>
+  JSON.stringify({
+    sid: patch.sid,
+    bh: patch.bh,
+    un: patch.un,
+    ue: patch.ue,
+    m: patch.m,
+    ca: patch.ca ?? [],
+    sc: patch.sc ?? [],
+    sa: patch.sa ?? [],
+  });
+
+export const hasDuplicatePatch = (
+  existingPatches: CollaborationPatch[],
+  candidate: CollaborationPatch,
+): boolean => {
+  if (existingPatches.some((p) => p.pid === candidate.pid)) return true;
+  const candidateFingerprint = patchFingerprint(candidate);
+  return existingPatches.some(
+    (p) => patchFingerprint(p) === candidateFingerprint,
+  );
+};
+
+export const duplicatePatchReason = (
+  existingPatches: CollaborationPatch[],
+  candidate: CollaborationPatch,
+): "id" | "content" | undefined => {
+  if (existingPatches.some((p) => p.pid === candidate.pid)) return "id";
+  const candidateFingerprint = patchFingerprint(candidate);
+  if (
+    existingPatches.some((p) => patchFingerprint(p) === candidateFingerprint)
+  ) {
+    return "content";
+  }
+  return undefined;
+};
+
 // ─── Aggregation ─────────────────────────────────────────────────────────────
 
 /** Convert a scale ID like "Imp-3" to a numeric index for averaging. */
@@ -285,9 +357,12 @@ export const aggregateCapabilityPatches = (
     const count = answers.length;
 
     // Average actionPriority
-    const priorities = answers.map((a) => a.ap).filter((v): v is number => v != null);
-    const avgActionPriority =
-      priorities.length ? priorities.reduce((s, v) => s + v, 0) / priorities.length : undefined;
+    const priorities = answers
+      .map((a) => a.ap)
+      .filter((v): v is number => v != null);
+    const avgActionPriority = priorities.length
+      ? priorities.reduce((s, v) => s + v, 0) / priorities.length
+      : undefined;
 
     // Task items
     const taskItemMap = new Map<string, string[]>();
@@ -300,7 +375,9 @@ export const aggregateCapabilityPatches = (
     }
     const taskItems = Array.from(taskItemMap.entries()).map(([id, vals]) => {
       const nums = vals.map(scaleIdToNum).filter((n) => n > 0);
-      const avg = nums.length ? nums.reduce((s, v) => s + v, 0) / nums.length : 0;
+      const avg = nums.length
+        ? nums.reduce((s, v) => s + v, 0) / nums.length
+        : 0;
       const prefix = vals[0]?.replace(/\d+$/, "").replace(/-$/, "") ?? "Imp";
       return { id, avgValue: numToScaleId(prefix, avg), allValues: vals };
     });
@@ -314,12 +391,16 @@ export const aggregateCapabilityPatches = (
         perfItemMap.set(item.id, list);
       }
     }
-    const performanceItems = Array.from(perfItemMap.entries()).map(([id, vals]) => {
-      const nums = vals.map(scaleIdToNum).filter((n) => n > 0);
-      const avg = nums.length ? nums.reduce((s, v) => s + v, 0) / nums.length : 0;
-      const prefix = vals[0]?.replace(/\d+$/, "").replace(/-$/, "") ?? "PSc";
-      return { id, avgValue: numToScaleId(prefix, avg), allValues: vals };
-    });
+    const performanceItems = Array.from(perfItemMap.entries()).map(
+      ([id, vals]) => {
+        const nums = vals.map(scaleIdToNum).filter((n) => n > 0);
+        const avg = nums.length
+          ? nums.reduce((s, v) => s + v, 0) / nums.length
+          : 0;
+        const prefix = vals[0]?.replace(/\d+$/, "").replace(/-$/, "") ?? "PSc";
+        return { id, avgValue: numToScaleId(prefix, avg), allValues: vals };
+      },
+    );
 
     // Gap assessments
     const maxGaps = Math.max(...answers.map((a) => a.g?.length ?? 0), 0);
@@ -350,8 +431,100 @@ export const aggregateCapabilityPatches = (
       });
     }
 
-    return { capabilityId: capId, count, avgActionPriority, taskItems, performanceItems, gaps };
+    return {
+      capabilityId: capId,
+      count,
+      avgActionPriority,
+      taskItems,
+      performanceItems,
+      gaps,
+    };
   });
+};
+
+const scaleValueToNumber = (value?: string): number => {
+  if (!value) return 0;
+  const m = value.match(/(\d+)$/);
+  return m ? parseInt(m[1], 10) : 0;
+};
+
+const overallTaskAssessmentId = (itemValues: string[]): string => {
+  const scored = itemValues
+    .map((v) => ({ v, n: scaleValueToNumber(v) }))
+    .filter((x) => x.n > 0);
+  if (!scored.length) return "";
+  return scored.reduce((max, cur) => (cur.n > max.n ? cur : max)).v;
+};
+
+const overallPerformanceAssessmentId = (itemValues: string[]): string => {
+  const scored = itemValues
+    .map((v) => ({ v, n: scaleValueToNumber(v) }))
+    .filter((x) => x.n > 0);
+  if (!scored.length) return "";
+  const avg =
+    scored.reduce((sum, cur) => sum + cur.n, 0) / Math.max(1, scored.length);
+  const rounded = Math.round(avg);
+  const prefix = scored[0].v.replace(/\d+$/, "").replace(/-$/, "");
+  return `${prefix}-${rounded}`;
+};
+
+export const mergeCapabilityAssessmentPatches = (
+  model: CapabilityModel,
+  patches: CollaborationPatch[],
+): CapabilityModel => {
+  const capabilities = model.data.capabilities ?? [];
+  if (!capabilities.length || !patches.length) return model;
+
+  const aggregated = aggregateCapabilityPatches(patches);
+  if (!aggregated.length) return model;
+
+  const byCapabilityId = new Map(aggregated.map((a) => [a.capabilityId, a]));
+
+  const nextCapabilities = capabilities.map((cap) => {
+    const agg = byCapabilityId.get(cap.id);
+    if (!agg) return cap;
+
+    const taskItems = agg.taskItems.map((i) => ({
+      id: i.id,
+      value: i.avgValue,
+    }));
+    const perfItems = agg.performanceItems.map((i) => ({
+      id: i.id,
+      value: i.avgValue,
+    }));
+    const taskAssessmentId = overallTaskAssessmentId(
+      taskItems.map((i) => i.value),
+    );
+    const performanceAssessmentId = overallPerformanceAssessmentId(
+      perfItems.map((i) => i.value),
+    );
+
+    return {
+      ...cap,
+      actionPriority:
+        agg.avgActionPriority != null
+          ? Math.max(1, Math.min(5, Math.round(agg.avgActionPriority)))
+          : cap.actionPriority,
+      taskAssessment: {
+        assessmentId: taskAssessmentId,
+        items: taskItems,
+      },
+      performanceAssessment: {
+        assessmentId: performanceAssessmentId,
+        items: perfItems,
+      },
+      // Gap entries are intentionally not auto-merged into model data.
+      // They remain available in aggregated collaboration results for manual action.
+    };
+  });
+
+  return {
+    ...model,
+    data: {
+      ...model.data,
+      capabilities: nextCapabilities,
+    },
+  };
 };
 
 // ─── Mailto Builders ─────────────────────────────────────────────────────────

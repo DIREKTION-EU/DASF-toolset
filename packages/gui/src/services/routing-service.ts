@@ -20,12 +20,17 @@ import { t } from "./translations";
 import { cells } from "./meiosis";
 
 const hasSession = (s: { currentSessionId?: string }) => !!s.currentSessionId;
+const isInviteeCollaborationMode = (s: {
+  collaboration?: { invitePayload?: unknown };
+}) => !!s.collaboration?.invitePayload;
 const hasSessionAndStep =
   (step: number) =>
   (s: {
     currentSessionId?: string;
     catModel?: { data?: { enabledSteps?: number[] } };
+    collaboration?: { invitePayload?: unknown };
   }) =>
+    !isInviteeCollaborationMode(s) &&
     !!s.currentSessionId &&
     (!s.catModel?.data?.enabledSteps ||
       s.catModel.data.enabledSteps.includes(step));
@@ -51,7 +56,7 @@ class RoutingService {
         icon: "dashboard",
         title: t("HOME", "TITLE"),
         route: "/dashboard",
-        visible: hasSession,
+        visible: (s) => !isInviteeCollaborationMode(s) && hasSession(s),
         component: HomePage,
       },
       {
@@ -105,7 +110,7 @@ class RoutingService {
         icon: "info",
         title: t("ABOUT", "TITLE"),
         route: t("ABOUT", "ROUTE"),
-        visible: true,
+        visible: (s) => !isInviteeCollaborationMode(s),
         component: AboutPage,
       },
       {
@@ -113,7 +118,7 @@ class RoutingService {
         title: t("taxonomy"),
         icon: "book",
         route: t("taxonomy_route"),
-        visible: hasSession,
+        visible: (s) => !isInviteeCollaborationMode(s) && hasSession(s),
         component: TaxonomyPage,
       },
       {
@@ -123,7 +128,10 @@ class RoutingService {
         iconClass: "blue-text",
         route: t("preparation_route"),
         visible: (s) =>
-          hasSession(s) && s.curUser !== undefined && s.curUser !== "user",
+          !isInviteeCollaborationMode(s) &&
+          hasSession(s) &&
+          s.curUser !== undefined &&
+          s.curUser !== "user",
         component: PreparationPage,
       },
       {
@@ -132,7 +140,10 @@ class RoutingService {
         iconClass: "blue-text",
         title: t("SETTINGS", "TITLE"),
         route: t("SETTINGS", "ROUTE"),
-        visible: (s) => hasSession(s) && s.curUser === "admin",
+        visible: (s) =>
+          !isInviteeCollaborationMode(s) &&
+          hasSession(s) &&
+          s.curUser === "admin",
         component: SettingsPage,
       },
       {
@@ -140,7 +151,8 @@ class RoutingService {
         title: t("COLLABORATE", "TITLE"),
         icon: "group",
         route: t("COLLABORATE", "ROUTE"),
-        visible: (s) => s.role === "facilitator",
+        visible: (s) =>
+          s.role === "facilitator" || isInviteeCollaborationMode(s),
         component: CollaborationPage,
       },
       {
@@ -209,6 +221,16 @@ class RoutingService {
           : {
               render: () => {
                 const cell = cells();
+                if (
+                  isInviteeCollaborationMode(cell.state) &&
+                  c.id !== Pages.COLLABORATE
+                ) {
+                  return m(
+                    Layout,
+                    { ...cell },
+                    m(CollaborationPage, { ...cell }),
+                  );
+                }
                 return m(Layout, { ...cell }, m(c.component, { ...cell }));
               },
             };

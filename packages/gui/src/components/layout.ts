@@ -50,6 +50,8 @@ export const Layout: MeiosisComponent = () => {
   return {
     view: ({ children, attrs }) => {
       const { page, searchFilter, searchResults = [] } = attrs.state;
+      const isInviteeCollaborationMode =
+        !!attrs.state.collaboration?.invitePayload;
       const sidenavLogo = isDarkThemeActive() ? logoWhite : logo;
       const curPage = routingSvc
         .getList()
@@ -71,7 +73,8 @@ export const Layout: MeiosisComponent = () => {
       return [
         m(".main", { style: "overflow-x: hidden" }, [
           // Show hamburger only while sidenav is closed.
-          !_sidenavOpen &&
+          !isInviteeCollaborationMode &&
+            !_sidenavOpen &&
             m(
               "button.dasf-hamburger",
               {
@@ -87,8 +90,9 @@ export const Layout: MeiosisComponent = () => {
           m(
             Sidenav,
             {
-              isOpen: _sidenavOpen,
+              isOpen: isInviteeCollaborationMode ? false : _sidenavOpen,
               onToggle: (open) => {
+                if (isInviteeCollaborationMode) return;
                 _sidenavOpen = open;
               },
               position: "left",
@@ -97,6 +101,7 @@ export const Layout: MeiosisComponent = () => {
               showBackdrop: true,
               closeOnBackdropClick: true,
               closeOnEscape: true,
+              className: isInviteeCollaborationMode ? "hide" : undefined,
               header: {
                 className: "dasf-sidenav-header",
                 text: APP_TITLE_SHORT,
@@ -154,7 +159,7 @@ export const Layout: MeiosisComponent = () => {
             ],
           ),
 
-          m(ContextDrawer, { ...attrs }),
+          !isInviteeCollaborationMode && m(ContextDrawer, { ...attrs }),
 
           m(
             ".container",
