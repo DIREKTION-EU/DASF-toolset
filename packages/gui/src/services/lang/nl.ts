@@ -135,6 +135,7 @@ export const messagesNL: Messages = {
   download: "Downloaden",
   duration: "Duur",
   edit: "Bewerken",
+  view: "Bekijken",
   evaluation_route: "/evaluatie/:id",
   evaluation: "Evaluatie",
   exp_perf: "Verwachte prestaties",

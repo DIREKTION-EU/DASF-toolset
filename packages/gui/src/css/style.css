@@ -177,6 +177,254 @@ html {
   }
 }
 
+.dasf-assessment-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.dasf-assessment-mode-toggle-btn.btn-floating {
+  background: var(--mm-primary-color, #1976d2);
+  width: 40px !important;
+  height: 40px !important;
+  line-height: 40px !important;
+}
+
+.dasf-assessment-mode-toggle-btn.btn-floating i {
+  font-size: 1.3rem;
+  line-height: 40px;
+}
+
+.dasf-micro-histogram {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(42px, 1fr));
+  gap: 6px;
+  margin: 0 0 8px;
+  align-items: end;
+}
+
+.dasf-micro-histogram--muted {
+  opacity: 0.6;
+}
+
+.dasf-micro-histogram__bar-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.dasf-micro-histogram__count {
+  font-size: 11px;
+  color: #616161;
+}
+
+.dasf-micro-histogram__rail {
+  width: 100%;
+  min-height: 44px;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+  padding: 0 2px;
+  background: rgba(25, 118, 210, 0.08);
+  border-radius: 8px;
+}
+
+.dasf-micro-histogram__bar {
+  width: 100%;
+  border-radius: 6px 6px 2px 2px;
+  background: rgba(25, 118, 210, 0.35);
+  transition: height 0.2s ease;
+}
+
+.dasf-micro-histogram__bar.is-mode {
+  background: #1976d2;
+}
+
+.dasf-micro-histogram__label {
+  font-size: 10px;
+  line-height: 1.2;
+  text-align: center;
+  color: #616161;
+}
+
+.dasf-comment-bubbles {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 144px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.dasf-comment-bubble {
+  display: flex;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.05);
+  color: #424242;
+}
+
+.dasf-comment-bubble__initials {
+  flex: 0 0 28px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(25, 118, 210, 0.12);
+  font-size: 11px;
+  font-weight: 700;
+  color: #0d47a1;
+}
+
+.dasf-comment-bubble__text {
+  font-size: 13px;
+  line-height: 1.4;
+}
+
+.dasf-consensus-override .select-wrapper input.select-dropdown,
+.dasf-consensus-override input {
+  border-bottom-color: #c89a1b !important;
+  box-shadow: 0 1px 0 0 #c89a1b !important;
+}
+
+.dasf-justification-required textarea,
+.dasf-justification-required input {
+  border-bottom-color: #c89a1b !important;
+  box-shadow: 0 1px 0 0 #c89a1b !important;
+}
+
+.dasf-gap-drafts {
+  margin: 12px 0 24px;
+}
+
+.dasf-gap-drafts__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.dasf-gap-card {
+  padding: 16px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #fff7bf 0%, #f7ec9a 100%);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
+  transform: rotate(-1deg);
+}
+
+.dasf-gap-card:nth-child(even) {
+  transform: rotate(1deg);
+}
+
+.dasf-gap-card__meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: #5d4037;
+}
+
+.dasf-gap-card__initials {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(93, 64, 55, 0.14);
+  font-weight: 700;
+}
+
+.dasf-gap-card__assessment {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.dasf-gap-card__items {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.dasf-assessment-view-mode {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.dasf-executive-summary,
+.dasf-report-section {
+  padding: 20px 24px;
+  border-radius: 16px;
+  background: var(--mm-background-color, #ffffff);
+  color: var(--mm-text-primary, #212121);
+  border: 1px solid var(--mm-surface-variant-color, rgba(0, 0, 0, 0.12));
+}
+
+.dasf-report-section hr,
+.dasf-report-item hr {
+  border: 0;
+  border-top: 1px solid var(--mm-surface-variant-color, rgba(0, 0, 0, 0.12));
+  margin: 16px 0 0;
+}
+
+.dasf-report-item {
+  padding: 4px 0 16px;
+}
+
+.dasf-report-item__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.dasf-report-item__desc,
+.dasf-report-item__consensus,
+.dasf-report-item__justification {
+  color: var(--mm-text-secondary, #616161);
+}
+
+.dasf-status-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  padding: 6px 12px;
+  border-radius: 999px;
+  background: rgba(25, 118, 210, 0.08);
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.dasf-report-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.dasf-report-tag {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: var(--mm-surface-variant-color, rgba(25, 118, 210, 0.08));
+}
+
+@media (max-width: 720px) {
+  .dasf-report-item__header {
+    flex-direction: column;
+  }
+
+  .dasf-executive-summary,
+  .dasf-report-section {
+    padding: 16px;
+  }
+}
+
 .row.condensed,
 .row.condensed .row,
 .row.condensed .input-field,

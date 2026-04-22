@@ -5,6 +5,10 @@ import { PluginType } from "mithril-ui-form";
 import { ILabelled } from "../../models/capability-model/capability-model";
 import { getTextColorFromBackground } from "../../utils";
 import { t } from "../../services/translations";
+import type {
+  CollaborationPatch,
+  CapabilityAssessmentResponseItem,
+} from "../../services/collaboration-service";
 
 // const range = (start: number, end: number) =>
 //   Array.from({ length: end - start + 1 }, (_, k) => k + start);
@@ -30,7 +34,148 @@ type AssessmentFieldType = InputField & {
   excludeLabel?: string;
 };
 
+type ConsensusGhost = {
+  capability?: {
+    id?: string;
+    gaps?: unknown[];
+    consensusJustifications?: Record<string, string>;
+  };
+  patches?: CollaborationPatch[];
+  viewMode?: boolean;
+};
+
+type ParticipantComment = {
+  initials: string;
+  text: string;
+};
+
 const EXCLUDE_ID = "__exclude__id__";
+
+const fallbackText = (key: string, fallback: string) => {
+  const translated = t(key as any);
+  const value = Array.isArray(translated)
+    ? translated.join("")
+    : translated == null
+      ? ""
+      : `${translated}`;
+  return value && value !== key && value !== `@@${key}@@` ? value : fallback;
+};
+
+const contributorInitials = (value: string) =>
+  value
+    .replace(/@.*$/, "")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase() || "")
+    .join("") || "?";
+
+const ghostFromContext = (context: unknown) =>
+  (context instanceof Array
+    ? context.find(
+        (entry) =>
+          !!entry && typeof entry === "object" && "__consensusGhost" in entry,
+      )
+    : undefined) as { __consensusGhost?: ConsensusGhost } | undefined;
+
+const justificationKey = (
+  fieldId: string,
+  itemId: string,
+  gapIndex?: number,
+) =>
+  fieldId === "taskAssessment"
+    ? `task:${itemId}`
+    : fieldId === "performanceAssessment"
+      ? `performance:${itemId}`
+      : `gap:${gapIndex ?? 0}:${itemId}`;
+
+const collectConsensus = (
+  patches: CollaborationPatch[] = [],
+  capabilityId: string,
+  fieldId: string,
+  itemId: string,
+  gapIndex?: number,
+): {
+  counts: Record<string, number>;
+  modeId?: string;
+  totalVotes: number;
+  comments: ParticipantComment[];
+} => {
+  const counts: Record<string, number> = {};
+  const comments: ParticipantComment[] = [];
+
+  patches.forEach((patch, index) => {
+    const answer = (patch.ca ?? []).find((entry) => entry.c === capabilityId);
+    if (!answer) return;
+    const items: CapabilityAssessmentResponseItem[] | undefined =
+      fieldId === "taskAssessment"
+        ? answer.ta?.i
+        : fieldId === "performanceAssessment"
+          ? answer.pa?.i
+          : answer.g?.[gapIndex ?? -1]?.i;
+    const item = items?.find((entry) => entry.id === itemId);
+    if (!item) return;
+    if (item.v) counts[item.v] = (counts[item.v] ?? 0) + 1;
+    if (item.d?.trim()) {
+      comments.push({
+        initials: contributorInitials(
+          patch.un?.trim() || patch.ue?.trim() || `${index + 1}`,
+        ),
+        text: item.d.trim(),
+      });
+    }
+  });
+
+  const modeId = Object.entries(counts)
+    .sort((left, right) => right[1] - left[1])
+    .shift()?.[0];
+
+  return {
+    counts,
+    modeId,
+    totalVotes: Object.values(counts).reduce((sum, value) => sum + value, 0),
+    comments,
+  };
+};
+
+const renderHistogram = (
+  score: ILabelled[],
+  counts: Record<string, number>,
+  modeId?: string,
+) => {
+  const totalVotes = Object.values(counts).reduce((sum, value) => sum + value, 0);
+  if (!score.length || totalVotes === 0) return null;
+  const maxCount = Math.max(1, ...score.map((item) => counts[item.id] ?? 0));
+  return m(
+    ".dasf-micro-histogram",
+    score.map((item) => {
+      const count = counts[item.id] ?? 0;
+      return m(".dasf-micro-histogram__bar-wrap", [
+        m("span.dasf-micro-histogram__count", count),
+        m("span.dasf-micro-histogram__rail", [
+          m("span.dasf-micro-histogram__bar", {
+            class: item.id === modeId ? "is-mode" : "",
+            style: `height: ${count ? Math.max(16, (count / maxCount) * 42) : 6}px`,
+          }),
+        ]),
+        m("span.dasf-micro-histogram__label", item.label),
+      ]);
+    }),
+  );
+};
+
+const renderComments = (comments: ParticipantComment[]) => {
+  if (!comments.length) return null;
+  return m(
+    ".dasf-comment-bubbles",
+    comments.map((comment) =>
+      m(".dasf-comment-bubble", [
+        m("span.dasf-comment-bubble__initials", comment.initials),
+        m("span.dasf-comment-bubble__text", comment.text),
+      ]),
+    ),
+  );
+};
 
 export const assessmentPlugin: PluginType = () => {
   let key = 1;
@@ -72,12 +217,19 @@ export const assessmentPlugin: PluginType = () => {
         readonly,
         excludeLabel,
       } = field as AssessmentFieldType;
+      const fieldId = `${id}`;
       if (obj instanceof Array) return;
       if (!obj.hasOwnProperty(id))
         obj[id] = { assessmentId: "", items: [] } as AssessmentType;
 
       const disabled = readonly;
       const ctx = context instanceof Array ? [obj, ...context] : [obj, context];
+      const ghost = ghostFromContext(context)?.__consensusGhost;
+      const capabilityId = ghost?.capability?.id;
+      const gapIndex =
+        fieldId === "gapAssessment" && ghost?.capability?.gaps instanceof Array
+          ? ghost.capability.gaps.indexOf(obj as unknown)
+          : undefined;
       const opt =
         typeof options === "string" &&
         (resolveExpression(options, ctx) as ILabelled[]);
@@ -155,122 +307,180 @@ export const assessmentPlugin: PluginType = () => {
               const existing = items.filter((i) => i.id === o.id).shift();
               if (!existing) items.push({ id: o.id });
               const item = existing || items[items.length - 1];
+              const consensus =
+                capabilityId && score
+                  ? collectConsensus(
+                      ghost?.patches,
+                      capabilityId,
+                          fieldId,
+                      o.id,
+                      gapIndex,
+                    )
+                  : {
+                      counts: {},
+                      modeId: undefined,
+                      totalVotes: 0,
+                      comments: [],
+                    };
+              const override =
+                !!item.value &&
+                !!consensus.modeId &&
+                item.value !== consensus.modeId &&
+                item.value !== EXCLUDE_ID;
+              const noteKey = justificationKey(fieldId, o.id, gapIndex);
+              const justification =
+                ghost?.capability?.consensusJustifications?.[noteKey] ?? "";
               return m(
                 ".col.s12",
-                m(".row.condensed", [
-                  m(
-                    ".col.s8.m6.l4.truncate",
-                    {
-                      style: "margin: 14px auto 0 auto;",
-                      className:
-                        item.value === EXCLUDE_ID ? "disabled-option" : "",
-                    },
-                    o.label,
-                    o.desc &&
-                      m(
-                        "span.tooltipped.grey-text.info-icon",
-                        {
-                          "data-position": "bottom",
-                          "data-tooltip": `<div class="left-align">${render(
-                            o.desc,
-                          ).replace(
-                            /<ul/,
-                            '<ul class="browser-default"',
-                          )}</div>`,
-                          oncreate: ({ dom }) => new Tooltip(dom as HTMLElement),
-                          onremove: ({ dom }) => Tooltip.getInstance(dom as HTMLElement)?.destroy(),
-                        },
-                        m(Icon, { iconName: "info" }),
-                      ),
-                  ),
-                  m(
-                    ".col.s4.m3.l3",
+                [
+                  m(".row.condensed", [
                     m(
-                      ".row",
+                      ".col.s8.m6.l4.truncate",
                       {
+                        style: "margin: 14px auto 0 auto;",
                         className:
-                          item.value === EXCLUDE_ID
-                            ? "disabled-option"
-                            : undefined,
+                          item.value === EXCLUDE_ID ? "disabled-option" : "",
                       },
-                      disabled
-                        ? m(TextInput, {
-                            disabled,
-                            value: score
-                              .filter((s) => s.id === item.value)
-                              .shift()?.label,
-                          })
-                        : [
-                            m(Select, {
-                              key: `select_${key}_${i}`,
-                              placeholder: t("pick_one"),
-                              options: score,
-                              className: "col s10",
-                              checkedId: item.value,
-                              onchange: (v) => {
-                                console.log(v);
-                                item.value = v[0] as string;
-                                const o = computeOutcome(
-                                  overallAssessment,
-                                  score,
-                                  items,
-                                );
-                                (obj[id] as AssessmentType).assessmentId =
-                                  typeof o === "number"
-                                    ? score[o].id
-                                    : undefined;
-                                onchange && onchange(obj[id]);
-                              },
-                            }),
-                            m(Icon, {
-                              key: "icon",
-                              iconName: "clear",
-                              className: "tiny left-align clickable",
-                              style: "line-height: 48px",
-                              onclick: () => {
-                                if (item.value) {
-                                  item.value = undefined;
-                                  key++;
-                                  const o = computeOutcome(
-                                    overallAssessment,
-                                    score,
-                                    items,
-                                  );
-                                  (obj[id] as AssessmentType).assessmentId =
-                                    typeof o === "number"
-                                      ? score[o].id
-                                      : undefined;
-                                  onchange && onchange(obj[id]);
-                                }
-                              },
-                            }),
-                          ],
+                      o.label,
+                      o.desc &&
+                        m(
+                          "span.tooltipped.grey-text.info-icon",
+                          {
+                            "data-position": "bottom",
+                            "data-tooltip": `<div class="left-align">${render(
+                              o.desc,
+                            ).replace(
+                              /<ul/,
+                              '<ul class="browser-default"',
+                            )}</div>`,
+                            oncreate: ({ dom }) => new Tooltip(dom as HTMLElement),
+                            onremove: ({ dom }) => Tooltip.getInstance(dom as HTMLElement)?.destroy(),
+                          },
+                          m(Icon, { iconName: "info" }),
+                        ),
                     ),
-                  ),
-                  m(
-                    ".col.s12.m3.l5",
                     m(
-                      ".row",
-                      m(TextArea, {
-                        disabled,
-                        placeholder: item.placeholder,
-                        value: item.desc,
-                        onchange: (v) => {
-                          item.desc = v;
-                          onchange && onchange(obj[id]);
-                          const o = computeOutcome(
-                            overallAssessment,
-                            score,
-                            items,
-                          );
-                          if (typeof o === "number")
-                            (obj[id] as AssessmentType).assessmentId =
-                              score[o].id;
-                        },
-                      }),
+                      ".col.s4.m3.l3",
+                      [
+                        renderHistogram(score, consensus.counts, consensus.modeId),
+                        m(
+                          ".row",
+                          {
+                            className: [
+                              item.value === EXCLUDE_ID ? "disabled-option" : "",
+                              override ? "dasf-consensus-override" : "",
+                            ]
+                              .filter(Boolean)
+                              .join(" "),
+                          },
+                          disabled
+                            ? m(TextInput, {
+                                disabled,
+                                value: score
+                                  .filter((s) => s.id === item.value)
+                                  .shift()?.label,
+                              })
+                            : [
+                                m(Select, {
+                                  key: `select_${key}_${i}`,
+                                  placeholder: t("pick_one"),
+                                  options: score,
+                                  className: "col s10",
+                                  checkedId: item.value,
+                                  onchange: (v) => {
+                                    item.value = v[0] as string;
+                                    const o = computeOutcome(
+                                      overallAssessment,
+                                      score,
+                                      items,
+                                    );
+                                    (obj[id] as AssessmentType).assessmentId =
+                                      typeof o === "number"
+                                        ? score[o].id
+                                        : undefined;
+                                    onchange && onchange(obj[id]);
+                                  },
+                                }),
+                                m(Icon, {
+                                  key: "icon",
+                                  iconName: "clear",
+                                  className: "tiny left-align clickable",
+                                  style: "line-height: 48px",
+                                  onclick: () => {
+                                    if (item.value) {
+                                      item.value = undefined;
+                                      key++;
+                                      const o = computeOutcome(
+                                        overallAssessment,
+                                        score,
+                                        items,
+                                      );
+                                      (obj[id] as AssessmentType).assessmentId =
+                                        typeof o === "number"
+                                          ? score[o].id
+                                          : undefined;
+                                      onchange && onchange(obj[id]);
+                                    }
+                                  },
+                                }),
+                              ],
+                        ),
+                      ],
                     ),
-                  ),
-                ]),
+                    m(
+                      ".col.s12.m3.l5",
+                      [
+                        m(
+                          ".row",
+                          m(TextArea, {
+                            disabled,
+                            placeholder: item.placeholder,
+                            value: item.desc,
+                            onchange: (v) => {
+                              item.desc = v;
+                              onchange && onchange(obj[id]);
+                              const o = computeOutcome(
+                                overallAssessment,
+                                score,
+                                items,
+                              );
+                              if (typeof o === "number")
+                                (obj[id] as AssessmentType).assessmentId =
+                                  score[o].id;
+                            },
+                          }),
+                        ),
+                        renderComments(consensus.comments),
+                      ],
+                    ),
+                  ]),
+                  override &&
+                    m(".row", [
+                      m(
+                        ".col.s12.l8.offset-l4",
+                        m(TextArea, {
+                          label: fallbackText(
+                            "facilitator_justification",
+                            "Facilitator justification",
+                          ),
+                          placeholder: fallbackText(
+                            "facilitator_justification_placeholder",
+                            "Explain why the final value differs from the participant consensus.",
+                          ),
+                          value: justification,
+                          className: justification ? "" : "dasf-justification-required",
+                          onchange: (v) => {
+                            if (!ghost?.capability) return;
+                            ghost.capability.consensusJustifications = {
+                              ...(ghost.capability.consensusJustifications ?? {}),
+                              [noteKey]: v,
+                            };
+                            onchange && onchange(obj[id]);
+                          },
+                        }),
+                      ),
+                    ]),
+                ],
               );
             }),
         ]),

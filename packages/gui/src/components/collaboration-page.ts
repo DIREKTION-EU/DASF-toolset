@@ -516,12 +516,28 @@ const UserAssessmentView: MeiosisComponent = () => {
     else a.ta.i.push({ id: itemId, v: value });
   };
 
+  const setTaskDesc = (capId: string, itemId: string, desc: string) => {
+    const a = getOrCreate(capId);
+    a.ta = a.ta ?? { a: "", i: [] };
+    const existing = a.ta.i.find((x) => x.id === itemId);
+    if (existing) existing.d = desc;
+    else a.ta.i.push({ id: itemId, d: desc });
+  };
+
   const setPerfItem = (capId: string, itemId: string, value: string) => {
     const a = getOrCreate(capId);
     a.pa = a.pa ?? { a: "", i: [] };
     const existing = a.pa.i.find((x) => x.id === itemId);
     if (existing) existing.v = value;
     else a.pa.i.push({ id: itemId, v: value });
+  };
+
+  const setPerfDesc = (capId: string, itemId: string, desc: string) => {
+    const a = getOrCreate(capId);
+    a.pa = a.pa ?? { a: "", i: [] };
+    const existing = a.pa.i.find((x) => x.id === itemId);
+    if (existing) existing.d = desc;
+    else a.pa.i.push({ id: itemId, d: desc });
   };
 
   const setActionPriority = (capId: string, val: number) => {
@@ -578,6 +594,24 @@ const UserAssessmentView: MeiosisComponent = () => {
       return Math.max(acc, idx);
     }, -1);
     gap.a = maxIndex >= 0 ? gapScaleIds[maxIndex] : "";
+  };
+
+  const setGapItemDesc = (
+    capId: string,
+    gapIndex: number,
+    itemId: string,
+    desc: string,
+  ) => {
+    const a = getOrCreate(capId);
+    a.g = a.g ?? [];
+    a.g[gapIndex] = a.g[gapIndex] ?? { a: "", i: [] };
+    const gap = a.g[gapIndex];
+    const existing = gap.i.find((x) => x.id === itemId);
+    if (existing) {
+      existing.d = desc;
+    } else {
+      gap.i.push({ id: itemId, d: desc });
+    }
   };
 
   return {
@@ -782,6 +816,8 @@ const UserAssessmentView: MeiosisComponent = () => {
                     ...mainTasks.map((task) => {
                       const currentVal =
                         answer.ta?.i.find((x) => x.id === task.id)?.v ?? "";
+                      const currentDesc =
+                        answer.ta?.i.find((x) => x.id === task.id)?.d ?? "";
                       return m(".row.valign-wrapper", [
                         m(".col.s12.m5", [
                           m("label", t(task.id as any) || task.label),
@@ -793,34 +829,49 @@ const UserAssessmentView: MeiosisComponent = () => {
                         ]),
                         m(
                           ".col.s12.m7",
-                          m(
-                            "select.browser-default",
-                            {
-                              value: currentVal,
-                              onchange: (e: Event) =>
+                          [
+                            m(
+                              "select.browser-default",
+                              {
+                                value: currentVal,
+                                onchange: (e: Event) =>
+                                  (() => {
+                                    setTaskItem(
+                                      currentCapId,
+                                      task.id,
+                                      (e.target as HTMLSelectElement).value,
+                                    );
+                                    saveCurrentDraft();
+                                  })(),
+                              },
+                              [
+                                m("option[value='']", "—"),
+                                ...taskScale.map((s) =>
+                                  m(
+                                    "option",
+                                    {
+                                      value: s.id,
+                                      selected: currentVal === s.id,
+                                    },
+                                    t(s.id as any) || s.label,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            m("label", t("expl")),
+                            m("textarea.materialize-textarea", {
+                              value: currentDesc,
+                              oninput: (e: Event) =>
                                 (() => {
-                                  setTaskItem(
+                                  setTaskDesc(
                                     currentCapId,
                                     task.id,
-                                    (e.target as HTMLSelectElement).value,
+                                    (e.target as HTMLTextAreaElement).value,
                                   );
                                   saveCurrentDraft();
                                 })(),
-                            },
-                            [
-                              m("option[value='']", "—"),
-                              ...taskScale.map((s) =>
-                                m(
-                                  "option",
-                                  {
-                                    value: s.id,
-                                    selected: currentVal === s.id,
-                                  },
-                                  t(s.id as any) || s.label,
-                                ),
-                              ),
-                            ],
-                          ),
+                            }),
+                          ],
                         ),
                       ]);
                     }),
@@ -832,6 +883,8 @@ const UserAssessmentView: MeiosisComponent = () => {
                     ...performanceAspects.map((aspect) => {
                       const currentVal =
                         answer.pa?.i.find((x) => x.id === aspect.id)?.v ?? "";
+                      const currentDesc =
+                        answer.pa?.i.find((x) => x.id === aspect.id)?.d ?? "";
                       return m(".row.valign-wrapper", [
                         m(".col.s12.m5", [
                           m("label", t(aspect.id as any) || aspect.label),
@@ -843,34 +896,49 @@ const UserAssessmentView: MeiosisComponent = () => {
                         ]),
                         m(
                           ".col.s12.m7",
-                          m(
-                            "select.browser-default",
-                            {
-                              value: currentVal,
-                              onchange: (e: Event) =>
+                          [
+                            m(
+                              "select.browser-default",
+                              {
+                                value: currentVal,
+                                onchange: (e: Event) =>
+                                  (() => {
+                                    setPerfItem(
+                                      currentCapId,
+                                      aspect.id,
+                                      (e.target as HTMLSelectElement).value,
+                                    );
+                                    saveCurrentDraft();
+                                  })(),
+                              },
+                              [
+                                m("option[value='']", "—"),
+                                ...performanceScale.map((s) =>
+                                  m(
+                                    "option",
+                                    {
+                                      value: s.id,
+                                      selected: currentVal === s.id,
+                                    },
+                                    t(s.id as any) || s.label,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            m("label", t("expl")),
+                            m("textarea.materialize-textarea", {
+                              value: currentDesc,
+                              oninput: (e: Event) =>
                                 (() => {
-                                  setPerfItem(
+                                  setPerfDesc(
                                     currentCapId,
                                     aspect.id,
-                                    (e.target as HTMLSelectElement).value,
+                                    (e.target as HTMLTextAreaElement).value,
                                   );
                                   saveCurrentDraft();
                                 })(),
-                            },
-                            [
-                              m("option[value='']", "—"),
-                              ...performanceScale.map((s) =>
-                                m(
-                                  "option",
-                                  {
-                                    value: s.id,
-                                    selected: currentVal === s.id,
-                                  },
-                                  t(s.id as any) || s.label,
-                                ),
-                              ),
-                            ],
-                          ),
+                            }),
+                          ],
                         ),
                       ]);
                     }),
@@ -929,6 +997,8 @@ const UserAssessmentView: MeiosisComponent = () => {
                       ...mainGaps.map((gapItem) => {
                         const currentVal =
                           gap.i.find((x) => x.id === gapItem.id)?.v ?? "";
+                        const currentDesc =
+                          gap.i.find((x) => x.id === gapItem.id)?.d ?? "";
                         return m(".row.valign-wrapper", [
                           m(".col.s12.m5", [
                             m("label", t(gapItem.id as any) || gapItem.label),
@@ -940,36 +1010,52 @@ const UserAssessmentView: MeiosisComponent = () => {
                           ]),
                           m(
                             ".col.s12.m7",
-                            m(
-                              "select.browser-default",
-                              {
-                                value: currentVal,
-                                onchange: (e: Event) =>
+                            [
+                              m(
+                                "select.browser-default",
+                                {
+                                  value: currentVal,
+                                  onchange: (e: Event) =>
+                                    (() => {
+                                      setGapItem(
+                                        currentCapId,
+                                        gapIndex,
+                                        gapItem.id,
+                                        (e.target as HTMLSelectElement).value,
+                                        gapScaleIds,
+                                      );
+                                      saveCurrentDraft();
+                                    })(),
+                                },
+                                [
+                                  m("option[value='']", "—"),
+                                  ...gapScale.map((s) =>
+                                    m(
+                                      "option",
+                                      {
+                                        value: s.id,
+                                        selected: currentVal === s.id,
+                                      },
+                                      t(s.id as any) || s.label,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              m("label", t("expl")),
+                              m("textarea.materialize-textarea", {
+                                value: currentDesc,
+                                oninput: (e: Event) =>
                                   (() => {
-                                    setGapItem(
+                                    setGapItemDesc(
                                       currentCapId,
                                       gapIndex,
                                       gapItem.id,
-                                      (e.target as HTMLSelectElement).value,
-                                      gapScaleIds,
+                                      (e.target as HTMLTextAreaElement).value,
                                     );
                                     saveCurrentDraft();
                                   })(),
-                              },
-                              [
-                                m("option[value='']", "—"),
-                                ...gapScale.map((s) =>
-                                  m(
-                                    "option",
-                                    {
-                                      value: s.id,
-                                      selected: currentVal === s.id,
-                                    },
-                                    t(s.id as any) || s.label,
-                                  ),
-                                ),
-                              ],
-                            ),
+                              }),
+                            ],
                           ),
                         ]);
                       }),

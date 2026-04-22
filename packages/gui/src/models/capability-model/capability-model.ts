@@ -128,6 +128,8 @@ export interface ICapability extends ILabelled {
   shouldDevelop?: boolean;
   /** User's willingness to act upon improving this capability (1 = low, 5 = urgent) */
   actionPriority?: number;
+  /** Facilitator notes when final values intentionally diverge from participant consensus. */
+  consensusJustifications?: Record<string, string>;
   taskAssessment?: AssessmentItem;
   performanceAssessment?: AssessmentItem;
   gaps?: {

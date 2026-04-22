@@ -126,6 +126,7 @@ export const messagesSV: Messages = {
   download: "Ladda ner",
   duration: "Varaktighet",
   edit: "Redigera",
+  view: "Visa",
   evaluation_route: "/evaluation/:id",
   evaluation: "Utvärdering",
   exp_perf: "Förväntad prestanda",

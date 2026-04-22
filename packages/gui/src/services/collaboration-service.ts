@@ -44,18 +44,24 @@ export interface InvitePayload {
   bh: string;
 }
 
+export interface CapabilityAssessmentResponseItem {
+  id: string;
+  v?: string;
+  d?: string;
+}
+
 // ─── Compact Capability Assessment Answer ────────────────────────────────────
 export interface CapabilityAnswer {
   /** capabilityId */
   c: string;
   /** taskAssessment: overall assessmentId + per-item {id, v} */
-  ta?: { a: string; i: { id: string; v?: string }[] };
+  ta?: { a: string; i: CapabilityAssessmentResponseItem[] };
   /** performanceAssessment: overall assessmentId + per-item {id, v} */
-  pa?: { a: string; i: { id: string; v?: string }[] };
+  pa?: { a: string; i: CapabilityAssessmentResponseItem[] };
   /** actionPriority 1–5 */
   ap?: number;
   /** gap assessments: per-gap { t/d + a: overallAssessmentId, i: per-item answers } */
-  g?: { t?: string; d?: string; a: string; i: { id: string; v?: string }[] }[];
+  g?: { t?: string; d?: string; a: string; i: CapabilityAssessmentResponseItem[] }[];
 }
 
 // ─── Compact Patch Payload (User → Facilitator) ──────────────────────────────

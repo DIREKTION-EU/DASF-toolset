@@ -128,6 +128,7 @@ export const messagesPT: Messages = {
   download: "Descarregar",
   duration: "Duração",
   edit: "Editar",
+  view: "Ver",
   evaluation_route: "/evaluation/:id",
   evaluation: "Avaliação",
   exp_perf: "Desempenho esperado",

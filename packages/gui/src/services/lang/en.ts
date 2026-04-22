@@ -139,6 +139,7 @@ export const messages = {
   download: "Download",
   duration: "Duration",
   edit: "Edit",
+  view: "View",
   evaluation_route: "/evaluation/:id",
   evaluation: "Evaluation",
   exp_perf: "Expected performance",
