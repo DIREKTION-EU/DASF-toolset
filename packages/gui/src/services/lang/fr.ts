@@ -161,6 +161,8 @@ export const messagesFR: Messages = {
   in_months: "En mois",
   loc: "Salle/emplacement",
   main_goals: "Objectifs",
+  assess_capability_importance_for_capability:
+    'Évaluez l\'importance de "{capability}" pour le périmètre choisi.',
   max_imp: "Contribution maximale",
   name: "Nom",
   no_go: "NO GO",
@@ -171,6 +173,13 @@ export const messagesFR: Messages = {
   level: "Niveau",
   perf_asp: "Aspect de performance",
   perf_asps: "Aspects de performance",
+  assess_performance_aspects_for_capability:
+    "Évaluez les aspects de performance de {capability}.",
+  perf_effectiveness_tooltip:
+    "Quel est le niveau d'efficacité de {capability} ?",
+  perf_safety_professionals_tooltip:
+    "Quel est le niveau de sécurité physique et mentale du personnel opérationnel travaillant sur {capability} ?",
+  perf_efficiency_tooltip: "Quel est le niveau d'efficience de {capability} ?",
   perf_scale: "Échelle pour le score de performance",
   perf_settings: "##### Paramètres d'évaluation",
   perf: "Performance",
@@ -185,6 +194,26 @@ export const messagesFR: Messages = {
   prepare_content: "Créez ou sélectionnez les capacités importantes.",
   prepare: "Préparer",
   prob_areas: "Zones problématiques",
+  gap_problem_categories_intro:
+    "Analysez cette lacune de capacité selon les catégories de problèmes suivantes.",
+  gap_likert_severity: "Gravité",
+  gap_likert_severity_start_label: "Très faible",
+  gap_likert_severity_middle_label: "Moyen",
+  gap_likert_severity_end_label: "Très élevé",
+  gap_likert_probability: "Probabilité",
+  gap_likert_probability_start_label: "Pas de changement",
+  gap_likert_probability_middle_label: "—",
+  gap_likert_probability_end_label: "Forte diminution",
+  gap_likert_impact: "Impact",
+  gap_likert_impact_start_label: "Pas de changement",
+  gap_likert_impact_middle_label: "—",
+  gap_likert_impact_end_label: "Forte diminution",
+  gap_likert_severity_tooltip:
+    "Comment évaluez-vous la gravité de cette lacune de capacité ?",
+  gap_likert_probability_tooltip:
+    "Supposons que la lacune soit résolue : qu'est-ce que cela impliquerait pour la probabilité d'occurrence de la lacune ?",
+  gap_likert_impact_tooltip:
+    "Supposons que la lacune soit résolue. Qu'est-ce que cela impliquerait pour la réduction de l'impact de la lacune initiale ?",
   prob: "Problème",
   proj_app: "###### PROJET APPROUVÉ<br>",
   proj_name: "Nom du projet",

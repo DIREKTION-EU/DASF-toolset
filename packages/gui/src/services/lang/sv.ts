@@ -160,6 +160,8 @@ export const messagesSV: Messages = {
   in_months: "I månader",
   loc: "Rum/plats",
   main_goals: "Mål",
+  assess_capability_importance_for_capability:
+    'Bedöm betydelsen av "{capability}" för den valda omfattningen.',
   max_imp: "Maximalt bidrag",
   name: "Namn",
   no_go: "GÅ EJ",
@@ -170,6 +172,12 @@ export const messagesSV: Messages = {
   level: "Nivå",
   perf_asp: "Prestandaaspekt",
   perf_asps: "Prestandaaspekter",
+  assess_performance_aspects_for_capability:
+    "Bedöm prestandaaspekterna för {capability}.",
+  perf_effectiveness_tooltip: "Hur effektiv är {capability}?",
+  perf_safety_professionals_tooltip:
+    "Vilken nivå av fysisk och mental säkerhet har operativ personal som arbetar med {capability}?",
+  perf_efficiency_tooltip: "Hur resurseffektiv är {capability}?",
   perf_scale: "Skala för prestandapoäng",
   perf_settings: "##### Bedömningsinställningar",
   perf: "Prestanda",
@@ -185,6 +193,26 @@ export const messagesSV: Messages = {
   prepare_content: "Skapa eller välj de viktiga förmågorna.",
   prepare: "Förbered",
   prob_areas: "Problemområden",
+  gap_problem_categories_intro:
+    "Analysera detta kapabilitetsgap inom följande problemkategorier.",
+  gap_likert_severity: "Allvarlighetsgrad",
+  gap_likert_severity_start_label: "Mycket låg",
+  gap_likert_severity_middle_label: "Medel",
+  gap_likert_severity_end_label: "Mycket högt",
+  gap_likert_probability: "Sannolikhet",
+  gap_likert_probability_start_label: "Ingen förändring",
+  gap_likert_probability_middle_label: "—",
+  gap_likert_probability_end_label: "Stor minskning",
+  gap_likert_impact: "Påverkan",
+  gap_likert_impact_start_label: "Ingen förändring",
+  gap_likert_impact_middle_label: "—",
+  gap_likert_impact_end_label: "Stor minskning",
+  gap_likert_severity_tooltip:
+    "Hur bedömer du allvarlighetsgraden för detta kapabilitetsgap?",
+  gap_likert_probability_tooltip:
+    "Anta att gapet är löst: vad skulle det innebära för sannolikheten att gapet uppstår?",
+  gap_likert_impact_tooltip:
+    "Anta att gapet är löst. Vad skulle det innebära för minskningen av påverkan från det ursprungliga gapet?",
   prob: "Problem",
   proj_app: "###### PROJEKT GODKÄNT<br>",
   proj_name: "Projektnamn",

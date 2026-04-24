@@ -173,6 +173,8 @@ export const messages = {
   in_months: "In months",
   loc: "Room/location",
   main_goals: "Goals",
+  assess_capability_importance_for_capability:
+    'Assess the importance of "{capability}" for the chosen scope.',
   max_imp: "Maximum contribution",
   name: "Name",
   no_go: "NO GO",
@@ -183,6 +185,12 @@ export const messages = {
   level: "Level",
   perf_asp: "Performance aspect",
   perf_asps: "Performance aspects",
+  assess_performance_aspects_for_capability:
+    "Assess the Performance Aspects of {capability}.",
+  perf_effectiveness_tooltip: "How effective is {capability}?",
+  perf_safety_professionals_tooltip:
+    "What is the level of the physical and mental safety of operational personnel working on {capability}?",
+  perf_efficiency_tooltip: "How efficient is {capability}?",
   perf_scale: "Scale for performance score",
   perf_settings: "##### Assessment settings",
   perf: "Performance",
@@ -199,6 +207,26 @@ export const messages = {
     "Create or select the capabilities that are important for your organisation.",
   prepare: "Prepare",
   prob_areas: "Problem areas",
+  gap_problem_categories_intro:
+    "Analyse this capability gap on the following problem categories.",
+  gap_likert_severity: "Severity",
+  gap_likert_severity_start_label: "Very low",
+  gap_likert_severity_middle_label: "Average",
+  gap_likert_severity_end_label: "Very high",
+  gap_likert_probability: "Probability",
+  gap_likert_probability_start_label: "No change",
+  gap_likert_probability_middle_label: "—",
+  gap_likert_probability_end_label: "Big decrease",
+  gap_likert_impact: "Impact",
+  gap_likert_impact_start_label: "No change",
+  gap_likert_impact_middle_label: "—",
+  gap_likert_impact_end_label: "Big decrease",
+  gap_likert_severity_tooltip:
+    "How do you rate the severity of this capability gap?",
+  gap_likert_probability_tooltip:
+    "Suppose the gap is solved: What would this mean for the probability of occurrence of the gap?",
+  gap_likert_impact_tooltip:
+    "Suppose the gap is solved. What would this mean for the reduction in impact of the original gap?",
   prob: "Problem",
   proj_app: "###### PROJECT APPROVED<br>",
   proj_name: "Project name",

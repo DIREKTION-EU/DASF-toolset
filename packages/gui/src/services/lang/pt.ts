@@ -162,6 +162,8 @@ export const messagesPT: Messages = {
   in_months: "Em meses",
   loc: "Sala/localização",
   main_goals: "Objetivos",
+  assess_capability_importance_for_capability:
+    'Avalie a importância de "{capability}" para o âmbito escolhido.',
   max_imp: "Contribuição máxima",
   name: "Nome",
   no_go: "NO GO",
@@ -172,6 +174,12 @@ export const messagesPT: Messages = {
   level: "Nível",
   perf_asp: "Aspeto de desempenho",
   perf_asps: "Aspetos de desempenho",
+  assess_performance_aspects_for_capability:
+    "Avalie os aspetos de desempenho de {capability}.",
+  perf_effectiveness_tooltip: "Quão eficaz é {capability}?",
+  perf_safety_professionals_tooltip:
+    "Qual é o nível de segurança física e mental do pessoal operacional que trabalha em {capability}?",
+  perf_efficiency_tooltip: "Quão eficiente é {capability}?",
   perf_scale: "Escala para pontuação de desempenho",
   perf_settings: "##### Definições de avaliação",
   perf: "Desempenho",
@@ -186,6 +194,26 @@ export const messagesPT: Messages = {
   prepare_content: "Crie ou selecione as capacidades importantes.",
   prepare: "Preparar",
   prob_areas: "Áreas problemáticas",
+  gap_problem_categories_intro:
+    "Analise esta lacuna de capacidade nas seguintes categorias de problemas.",
+  gap_likert_severity: "Severidade",
+  gap_likert_severity_start_label: "Muito baixa",
+  gap_likert_severity_middle_label: "Média",
+  gap_likert_severity_end_label: "Muito alta",
+  gap_likert_probability: "Probabilidade",
+  gap_likert_probability_start_label: "Sem alteração",
+  gap_likert_probability_middle_label: "—",
+  gap_likert_probability_end_label: "Grande redução",
+  gap_likert_impact: "Impacto",
+  gap_likert_impact_start_label: "Sem alteração",
+  gap_likert_impact_middle_label: "—",
+  gap_likert_impact_end_label: "Grande redução",
+  gap_likert_severity_tooltip:
+    "Como avalia a severidade desta lacuna de capacidade?",
+  gap_likert_probability_tooltip:
+    "Suponha que a lacuna seja resolvida: o que significaria isto para a probabilidade de ocorrência da lacuna?",
+  gap_likert_impact_tooltip:
+    "Suponha que a lacuna seja resolvida. O que significaria isto para a redução do impacto da lacuna original?",
   prob: "Problema",
   proj_app: "###### PROJETO APROVADO<br>",
   proj_name: "Nome do projeto",

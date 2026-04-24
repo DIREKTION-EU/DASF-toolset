@@ -169,6 +169,8 @@ export const messagesNL: Messages = {
   in_months: "In maanden",
   loc: "Fysieke locatie",
   main_goals: "Doelstellingen",
+  assess_capability_importance_for_capability:
+    'Beoordeel het belang van "{capability}" voor de gekozen scope.',
   max_imp: "Belang capaciteit",
   name: "Naam",
   no_go: "NO GO",
@@ -179,6 +181,12 @@ export const messagesNL: Messages = {
   level: "Niveau",
   perf_asp: "Prestatieaspect",
   perf_asps: "Prestatieaspecten",
+  assess_performance_aspects_for_capability:
+    "Beoordeel de prestatieaspecten van {capability}.",
+  perf_effectiveness_tooltip: "Hoe effectief is {capability}?",
+  perf_safety_professionals_tooltip:
+    "Wat is het niveau van de fysieke en mentale veiligheid van operationeel personeel dat werkt aan {capability}?",
+  perf_efficiency_tooltip: "Hoe efficiënt is {capability}?",
   perf_scale: "Schaal voor prestatiescore",
   perf_settings:
     "##### Aanduiding van de status (prestaties) van een capaciteit",
@@ -196,6 +204,26 @@ export const messagesNL: Messages = {
     "Stel de capaciteiten vast die binnen de context van de problematiek relevant zijn.",
   prepare: "Voorbereiden",
   prob_areas: "Probleemgebieden",
+  gap_problem_categories_intro:
+    "Analyseer deze capaciteitskloof op de volgende probleemcategorieën.",
+  gap_likert_severity: "Ernst",
+  gap_likert_severity_start_label: "Zeer laag",
+  gap_likert_severity_middle_label: "Gemiddeld",
+  gap_likert_severity_end_label: "Zeer hoog",
+  gap_likert_probability: "Waarschijnlijkheid",
+  gap_likert_probability_start_label: "Geen verandering",
+  gap_likert_probability_middle_label: "—",
+  gap_likert_probability_end_label: "Grote afname",
+  gap_likert_impact: "Impact",
+  gap_likert_impact_start_label: "Geen verandering",
+  gap_likert_impact_middle_label: "—",
+  gap_likert_impact_end_label: "Grote afname",
+  gap_likert_severity_tooltip:
+    "Hoe beoordeelt u de ernst van deze capaciteitskloof?",
+  gap_likert_probability_tooltip:
+    "Stel dat de kloof is opgelost: wat zou dit betekenen voor de kans op het optreden van de kloof?",
+  gap_likert_impact_tooltip:
+    "Stel dat de kloof is opgelost. Wat zou dit betekenen voor de vermindering van de impact van de oorspronkelijke kloof?",
   prob: "Probleem",
   proj_app: "###### GOEDKEURING<br>",
   proj_name: "Projectnaam",

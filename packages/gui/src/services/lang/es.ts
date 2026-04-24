@@ -162,6 +162,8 @@ export const messagesES: Messages = {
   in_months: "En meses",
   loc: "Sala/ubicación",
   main_goals: "Objetivos",
+  assess_capability_importance_for_capability:
+    'Evalúe la importancia de "{capability}" para el alcance elegido.',
   max_imp: "Contribución máxima",
   name: "Nombre",
   no_go: "NO GO",
@@ -172,6 +174,12 @@ export const messagesES: Messages = {
   level: "Nivel",
   perf_asp: "Aspecto de rendimiento",
   perf_asps: "Aspectos de rendimiento",
+  assess_performance_aspects_for_capability:
+    "Evalúe los aspectos de rendimiento de {capability}.",
+  perf_effectiveness_tooltip: "¿Qué tan efectiva es {capability}?",
+  perf_safety_professionals_tooltip:
+    "¿Cuál es el nivel de seguridad física y mental del personal operativo que trabaja en {capability}?",
+  perf_efficiency_tooltip: "¿Qué tan eficiente es {capability}?",
   perf_scale: "Escala para puntuación de rendimiento",
   perf_settings: "##### Configuración de evaluación",
   perf: "Rendimiento",
@@ -186,6 +194,26 @@ export const messagesES: Messages = {
   prepare_content: "Cree o seleccione las capacidades importantes.",
   prepare: "Preparar",
   prob_areas: "Áreas problemáticas",
+  gap_problem_categories_intro:
+    "Analice esta brecha de capacidad en las siguientes categorías de problemas.",
+  gap_likert_severity: "Severidad",
+  gap_likert_severity_start_label: "Muy baja",
+  gap_likert_severity_middle_label: "Promedio",
+  gap_likert_severity_end_label: "Muy alta",
+  gap_likert_probability: "Probabilidad",
+  gap_likert_probability_start_label: "Sin cambio",
+  gap_likert_probability_middle_label: "—",
+  gap_likert_probability_end_label: "Gran disminución",
+  gap_likert_impact: "Impacto",
+  gap_likert_impact_start_label: "Sin cambio",
+  gap_likert_impact_middle_label: "—",
+  gap_likert_impact_end_label: "Gran disminución",
+  gap_likert_severity_tooltip:
+    "¿Cómo valora la severidad de esta brecha de capacidad?",
+  gap_likert_probability_tooltip:
+    "Suponga que la brecha se resuelve: ¿qué significaría esto para la probabilidad de ocurrencia de la brecha?",
+  gap_likert_impact_tooltip:
+    "Suponga que la brecha se resuelve. ¿Qué significaría esto para la reducción del impacto de la brecha original?",
   prob: "Problema",
   proj_app: "###### PROYECTO APROBADO<br>",
   proj_name: "Nombre del proyecto",

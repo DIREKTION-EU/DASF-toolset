@@ -162,6 +162,8 @@ export const messagesIT: Messages = {
   in_months: "In mesi",
   loc: "Stanza/posizione",
   main_goals: "Obiettivi",
+  assess_capability_importance_for_capability:
+    "Valuta l'importanza di \"{capability}\" per l'ambito scelto.",
   max_imp: "Contributo massimo",
   name: "Nome",
   no_go: "NO GO",
@@ -172,6 +174,12 @@ export const messagesIT: Messages = {
   level: "Livello",
   perf_asp: "Aspetto prestazionale",
   perf_asps: "Aspetti prestazionali",
+  assess_performance_aspects_for_capability:
+    "Valuta gli aspetti prestazionali di {capability}.",
+  perf_effectiveness_tooltip: "Quanto è efficace {capability}?",
+  perf_safety_professionals_tooltip:
+    "Qual è il livello di sicurezza fisica e mentale del personale operativo che lavora su {capability}?",
+  perf_efficiency_tooltip: "Quanto è efficiente {capability}?",
   perf_scale: "Scala per il punteggio di prestazione",
   perf_settings: "##### Impostazioni di valutazione",
   perf: "Prestazioni",
@@ -186,6 +194,26 @@ export const messagesIT: Messages = {
   prepare_content: "Crea o seleziona le capacità importanti.",
   prepare: "Preparare",
   prob_areas: "Aree problematiche",
+  gap_problem_categories_intro:
+    "Analizza questo divario di capacità nelle seguenti categorie di problema.",
+  gap_likert_severity: "Gravità",
+  gap_likert_severity_start_label: "Molto bassa",
+  gap_likert_severity_middle_label: "Media",
+  gap_likert_severity_end_label: "Molto alta",
+  gap_likert_probability: "Probabilità",
+  gap_likert_probability_start_label: "Nessun cambiamento",
+  gap_likert_probability_middle_label: "—",
+  gap_likert_probability_end_label: "Grande diminuzione",
+  gap_likert_impact: "Impatto",
+  gap_likert_impact_start_label: "Nessun cambiamento",
+  gap_likert_impact_middle_label: "—",
+  gap_likert_impact_end_label: "Grande diminuzione",
+  gap_likert_severity_tooltip:
+    "Come valuti la gravità di questo divario di capacità?",
+  gap_likert_probability_tooltip:
+    "Supponendo che il divario sia risolto: cosa significherebbe per la probabilità di occorrenza del divario?",
+  gap_likert_impact_tooltip:
+    "Supponendo che il divario sia risolto. Cosa significherebbe per la riduzione dell'impatto del divario originale?",
   prob: "Problema",
   proj_app: "###### PROGETTO APPROVATO<br>",
   proj_name: "Nome del progetto",

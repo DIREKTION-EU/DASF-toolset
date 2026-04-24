@@ -159,6 +159,8 @@ export const messagesPL: Messages = {
   in_months: "W miesiącach",
   loc: "Pomieszczenie/lokalizacja",
   main_goals: "Cele",
+  assess_capability_importance_for_capability:
+    'Oceń znaczenie "{capability}" dla wybranego zakresu.',
   max_imp: "Maksymalny wkład",
   name: "Nazwa",
   no_go: "NO GO",
@@ -169,6 +171,12 @@ export const messagesPL: Messages = {
   level: "Poziom",
   perf_asp: "Aspekt wydajności",
   perf_asps: "Aspekty wydajności",
+  assess_performance_aspects_for_capability:
+    "Oceń aspekty wydajności dla {capability}.",
+  perf_effectiveness_tooltip: "Jak skuteczna jest {capability}?",
+  perf_safety_professionals_tooltip:
+    "Jaki jest poziom bezpieczeństwa fizycznego i psychicznego personelu operacyjnego pracującego nad {capability}?",
+  perf_efficiency_tooltip: "Jak wydajna jest {capability}?",
   perf_scale: "Skala dla punktacji wydajności",
   perf_settings: "##### Ustawienia oceny",
   perf: "Wydajność",
@@ -183,6 +191,25 @@ export const messagesPL: Messages = {
   prepare_content: "Utwórz lub wybierz ważne zdolności.",
   prepare: "Przygotuj",
   prob_areas: "Obszary problemowe",
+  gap_problem_categories_intro:
+    "Przeanalizuj tę lukę zdolności w następujących kategoriach problemów.",
+  gap_likert_severity: "Dotkliwość",
+  gap_likert_severity_start_label: "Bardzo niska",
+  gap_likert_severity_middle_label: "Średnia",
+  gap_likert_severity_end_label: "Bardzo wysoka",
+  gap_likert_probability: "Prawdopodobieństwo",
+  gap_likert_probability_start_label: "Brak zmian",
+  gap_likert_probability_middle_label: "—",
+  gap_likert_probability_end_label: "Duży spadek",
+  gap_likert_impact: "Wpływ",
+  gap_likert_impact_start_label: "Brak zmian",
+  gap_likert_impact_middle_label: "—",
+  gap_likert_impact_end_label: "Duży spadek",
+  gap_likert_severity_tooltip: "Jak oceniasz dotkliwość tej luki zdolności?",
+  gap_likert_probability_tooltip:
+    "Załóżmy, że luka została usunięta: co to oznaczałoby dla prawdopodobieństwa wystąpienia luki?",
+  gap_likert_impact_tooltip:
+    "Załóżmy, że luka została usunięta. Co to oznaczałoby dla zmniejszenia wpływu pierwotnej luki?",
   prob: "Problem",
   proj_app: "###### PROJEKT ZATWIERDZONY<br>",
   proj_name: "Nazwa projektu",

@@ -58,6 +58,20 @@ type ConsensusGhostContext = {
 const fallbackText = (key: string, fallback: string) =>
   translatedOrFallback(t(key as any), key, fallback);
 
+const fallbackTextWithVars = (
+  key: string,
+  fallback: string,
+  vars: Record<string, string>,
+) => {
+  const translated = t(key as any, vars as any);
+  const value = Array.isArray(translated)
+    ? translated.join("")
+    : translated == null
+      ? ""
+      : `${translated}`;
+  return value && value !== key && value !== `@@${key}@@` ? value : fallback;
+};
+
 const labelFor = (item?: { id?: string; label?: string }, fallback = "") =>
   item?.id
     ? translatedOrFallback(t(item.id as any), item.id, item.label || fallback)
@@ -510,9 +524,7 @@ export const AssessmentPage: MeiosisComponent = () => {
         assessmentScale = [],
         hazardTypes = [],
         selectedHazardIds = [],
-        mainTasks = [],
         taskScale = [],
-        performanceAspects = [],
         performanceScale = [],
         mainGaps = [],
         gapScale = [],
@@ -578,6 +590,57 @@ export const AssessmentPage: MeiosisComponent = () => {
         (cap.hazardIds || []).includes(h.id),
       );
       const gapDrafts = cap.id ? getGapDrafts(capPatches, cap.id) : [];
+      const capabilityLabel = translatedOrFallback(
+        t(cap.id as any),
+        cap.id,
+        cap.label || fallbackText("cap", "Capability"),
+      );
+      const localizedData = localizeCapabilityModelData(data);
+      const mainTasksForCapability: ILabelled[] = [
+        {
+          id: "capability-importance",
+          label: fallbackTextWithVars(
+            "assess_capability_importance_for_capability",
+            `Assess the importance of \"${capabilityLabel}\" for the chosen scope.`,
+            { capability: capabilityLabel },
+          ),
+        },
+      ];
+      const performanceAspectsForCapability = (
+        localizedData.performanceAspects ?? []
+      ).map((aspect) => {
+        if (aspect.id === "PA-1") {
+          return {
+            ...aspect,
+            desc: fallbackTextWithVars(
+              "perf_effectiveness_tooltip",
+              `How effective is ${capabilityLabel}?`,
+              { capability: capabilityLabel },
+            ),
+          };
+        }
+        if (aspect.id === "PA-2") {
+          return {
+            ...aspect,
+            desc: fallbackTextWithVars(
+              "perf_safety_professionals_tooltip",
+              `What is the level of the physical and mental safety of operational personnel working on ${capabilityLabel}?`,
+              { capability: capabilityLabel },
+            ),
+          };
+        }
+        if (aspect.id === "PA-3") {
+          return {
+            ...aspect,
+            desc: fallbackTextWithVars(
+              "perf_efficiency_tooltip",
+              `How efficient is ${capabilityLabel}?`,
+              { capability: capabilityLabel },
+            ),
+          };
+        }
+        return aspect;
+      });
       const ghostContext: ConsensusGhostContext = {
         __consensusGhost: {
           capability: cap,
@@ -697,8 +760,8 @@ export const AssessmentPage: MeiosisComponent = () => {
                 renderSummaryTable(
                   cap,
                   capPatches,
-                  mainTasks,
-                  performanceAspects,
+                  mainTasksForCapability,
+                  performanceAspectsForCapability,
                   mainGaps,
                   taskScale,
                   performanceScale,
@@ -731,7 +794,7 @@ export const AssessmentPage: MeiosisComponent = () => {
                   cap,
                   capPatches,
                   fallbackText("main_goals", "Goals"),
-                  mainTasks,
+                  mainTasksForCapability,
                   taskScale,
                   "task",
                   cap.taskAssessment,
@@ -740,7 +803,7 @@ export const AssessmentPage: MeiosisComponent = () => {
                   cap,
                   capPatches,
                   fallbackText("perf_asps", "Performance aspects"),
-                  performanceAspects,
+                  performanceAspectsForCapability,
                   performanceScale,
                   "performance",
                   cap.performanceAssessment,
@@ -800,7 +863,14 @@ export const AssessmentPage: MeiosisComponent = () => {
                   m(LayoutForm, {
                     form: assessmentForm,
                     obj: cap,
-                    context: [localizeCapabilityModelData(data), ghostContext],
+                    context: [
+                      {
+                        ...localizedData,
+                        mainTasks: mainTasksForCapability,
+                        performanceAspects: performanceAspectsForCapability,
+                      },
+                      ghostContext,
+                    ],
                     onchange: () => {
                       actions.saveModel(attrs, catModel);
                     },

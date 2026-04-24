@@ -161,6 +161,8 @@ export const messagesDE: Messages = {
   in_months: "In Monaten",
   loc: "Raum/Standort",
   main_goals: "Ziele",
+  assess_capability_importance_for_capability:
+    'Bewerten Sie die Bedeutung von "{capability}" für den gewählten Geltungsbereich.',
   max_imp: "Maximaler Beitrag",
   name: "Name",
   no_go: "NO GO",
@@ -171,6 +173,12 @@ export const messagesDE: Messages = {
   level: "Stufe",
   perf_asp: "Leistungsaspekt",
   perf_asps: "Leistungsaspekte",
+  assess_performance_aspects_for_capability:
+    "Bewerten Sie die Leistungsaspekte von {capability}.",
+  perf_effectiveness_tooltip: "Wie effektiv ist {capability}?",
+  perf_safety_professionals_tooltip:
+    "Wie hoch ist das Niveau der physischen und mentalen Sicherheit des operativen Personals, das an {capability} arbeitet?",
+  perf_efficiency_tooltip: "Wie effizient ist {capability}?",
   perf_scale: "Skala für Leistungspunkte",
   perf_settings: "##### Bewertungseinstellungen",
   perf: "Leistung",
@@ -185,6 +193,26 @@ export const messagesDE: Messages = {
   prepare_content: "Erstellen oder wählen Sie die wichtigen Fähigkeiten.",
   prepare: "Vorbereiten",
   prob_areas: "Problembereiche",
+  gap_problem_categories_intro:
+    "Analysieren Sie diese Fähigkeitslücke anhand der folgenden Problemkategorien.",
+  gap_likert_severity: "Schweregrad",
+  gap_likert_severity_start_label: "Sehr niedrig",
+  gap_likert_severity_middle_label: "Mittel",
+  gap_likert_severity_end_label: "Sehr hoch",
+  gap_likert_probability: "Wahrscheinlichkeit",
+  gap_likert_probability_start_label: "Keine Änderung",
+  gap_likert_probability_middle_label: "—",
+  gap_likert_probability_end_label: "Große Abnahme",
+  gap_likert_impact: "Auswirkung",
+  gap_likert_impact_start_label: "Keine Änderung",
+  gap_likert_impact_middle_label: "—",
+  gap_likert_impact_end_label: "Große Abnahme",
+  gap_likert_severity_tooltip:
+    "Wie bewerten Sie den Schweregrad dieser Fähigkeitslücke?",
+  gap_likert_probability_tooltip:
+    "Angenommen, die Lücke wird geschlossen: Was würde dies für die Eintrittswahrscheinlichkeit der Lücke bedeuten?",
+  gap_likert_impact_tooltip:
+    "Angenommen, die Lücke wird geschlossen. Was würde dies für die Verringerung der Auswirkungen der ursprünglichen Lücke bedeuten?",
   prob: "Problem",
   proj_app: "###### PROJEKT GENEHMIGT<br>",
   proj_name: "Projektname",

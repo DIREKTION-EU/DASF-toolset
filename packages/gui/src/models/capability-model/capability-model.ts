@@ -138,6 +138,9 @@ export interface ICapability extends ILabelled {
     title?: string;
     desc?: string;
     gapAssessment?: AssessmentItem;
+    gapSeverity?: number;
+    gapProbability?: number;
+    gapImpact?: number;
     documentation?: Documentation[];
   }[];
 }
@@ -190,9 +193,24 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Risk assessment",
           desc: "Identification, analysis and evaluation of risks.",
           capabilities: [
-            { id: "Mit-RA-01", label: "Risk identification", desc: "Process of finding, recognising and describing risk.", capabilityStakeholders: [] },
-            { id: "Mit-RA-02", label: "Risk analysis", desc: "Process to comprehend the nature of risk and to determine the level of risk.", capabilityStakeholders: [] },
-            { id: "Mit-RA-03", label: "Risk evaluation", desc: "Process of comparing the results of risk analysis with risk criteria to determine whether the risk and/or its magnitude is acceptable or tolerable.", capabilityStakeholders: [] },
+            {
+              id: "Mit-RA-01",
+              label: "Risk identification",
+              desc: "Process of finding, recognising and describing risk.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Mit-RA-02",
+              label: "Risk analysis",
+              desc: "Process to comprehend the nature of risk and to determine the level of risk.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Mit-RA-03",
+              label: "Risk evaluation",
+              desc: "Process of comparing the results of risk analysis with risk criteria to determine whether the risk and/or its magnitude is acceptable or tolerable.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -200,9 +218,24 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Exposure reduction",
           desc: "Protection of properties, natural resources and society in general from hazards.",
           capabilities: [
-            { id: "Mit-ER-01", label: "Property protection", desc: "Property protection (incl. critical infrastructures).", capabilityStakeholders: [] },
-            { id: "Mit-ER-02", label: "Natural resource protection", desc: "Actions that minimize hazard losses and preserve or restore the functions of natural systems.", capabilityStakeholders: [] },
-            { id: "Mit-ER-03", label: "Awareness raising", desc: "Public education and awareness raising about hazards and potential ways to mitigate them.", capabilityStakeholders: [] },
+            {
+              id: "Mit-ER-01",
+              label: "Property protection",
+              desc: "Property protection (incl. critical infrastructures).",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Mit-ER-02",
+              label: "Natural resource protection",
+              desc: "Actions that minimize hazard losses and preserve or restore the functions of natural systems.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Mit-ER-03",
+              label: "Awareness raising",
+              desc: "Public education and awareness raising about hazards and potential ways to mitigate them.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -210,8 +243,18 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Mitigation support",
           desc: "Capabilities in support of Mitigation / Prevention",
           capabilities: [
-            { id: "Mit-MS-01", label: "Trend analysis", desc: "Investigation of the evolution of risks.", capabilityStakeholders: [] },
-            { id: "Mit-MS-02", label: "Monitoring and review", desc: "Ensuring controls are effective and efficient, obtaining further information to improve risk assessment.", capabilityStakeholders: [] },
+            {
+              id: "Mit-MS-01",
+              label: "Trend analysis",
+              desc: "Investigation of the evolution of risks.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Mit-MS-02",
+              label: "Monitoring and review",
+              desc: "Ensuring controls are effective and efficient, obtaining further information to improve risk assessment.",
+              capabilityStakeholders: [],
+            },
           ],
         },
       ],
@@ -226,9 +269,24 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Capacity development",
           desc: "Process of developing and maintaining required crisis management capacities.",
           capabilities: [
-            { id: "Prep-CD-01", label: "Response and recovery planning", desc: "Develop, compile and maintain procedures and information in readiness for use in an incident.", capabilityStakeholders: [] },
-            { id: "Prep-CD-02", label: "Training", desc: "Activities to facilitate learning and development of knowledge, skills, and abilities for disaster response.", capabilityStakeholders: [] },
-            { id: "Prep-CD-03", label: "Risk communication", desc: "Communicating and instructing the public how to be well-prepared for a crisis and how to behave when it occurs.", capabilityStakeholders: [] },
+            {
+              id: "Prep-CD-01",
+              label: "Response and recovery planning",
+              desc: "Develop, compile and maintain procedures and information in readiness for use in an incident.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Prep-CD-02",
+              label: "Training",
+              desc: "Activities to facilitate learning and development of knowledge, skills, and abilities for disaster response.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Prep-CD-03",
+              label: "Risk communication",
+              desc: "Communicating and instructing the public how to be well-prepared for a crisis and how to behave when it occurs.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -236,8 +294,18 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Monitoring",
           desc: "Determine the status of an environment or situation to enable detection of incidents.",
           capabilities: [
-            { id: "Prep-MO-01", label: "Detection", desc: "Detection of circumstances deviating from normal.", capabilityStakeholders: [] },
-            { id: "Prep-MO-02", label: "Alert", desc: "Alert personnel to the presence of an incident and allow control actions to be initiated.", capabilityStakeholders: [] },
+            {
+              id: "Prep-MO-01",
+              label: "Detection",
+              desc: "Detection of circumstances deviating from normal.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Prep-MO-02",
+              label: "Alert",
+              desc: "Alert personnel to the presence of an incident and allow control actions to be initiated.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -245,9 +313,24 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Preparedness support",
           desc: "Capabilities in support of capacity development.",
           capabilities: [
-            { id: "Prep-PS-01", label: "Personnel management", desc: "Activities to provide enough and skilled personnel required to carry out response and recovery tasks.", capabilityStakeholders: [] },
-            { id: "Prep-PS-02", label: "Asset management", desc: "Activities to provide equipment, tools, ICT and other assets required to enable response and recovery.", capabilityStakeholders: [] },
-            { id: "Prep-PS-03", label: "Cooperation establishment", desc: "International cooperation establishment between emergency services and third parties.", capabilityStakeholders: [] },
+            {
+              id: "Prep-PS-01",
+              label: "Personnel management",
+              desc: "Activities to provide enough and skilled personnel required to carry out response and recovery tasks.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Prep-PS-02",
+              label: "Asset management",
+              desc: "Activities to provide equipment, tools, ICT and other assets required to enable response and recovery.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Prep-PS-03",
+              label: "Cooperation establishment",
+              desc: "International cooperation establishment between emergency services and third parties.",
+              capabilityStakeholders: [],
+            },
           ],
         },
       ],
@@ -262,10 +345,30 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Suppress incident",
           desc: "On-site activities to stop or to contain the cause of the disaster.",
           capabilities: [
-            { id: "Resp-SI-01", label: "Firefighting - Infrastructures", desc: "Fighting fires in buildings, built-up areas or at infrastructures.", capabilityStakeholders: [] },
-            { id: "Resp-SI-02", label: "Firefighting - Nature", desc: "Fighting fires in natural environments.", capabilityStakeholders: [] },
-            { id: "Resp-SI-03", label: "Flood control", desc: "Water management in case of a flooding due to a dike burst or heavy rainfall.", capabilityStakeholders: [] },
-            { id: "Resp-SI04", label: "Hazmat control (CBRN-E)", desc: "Stop spill of hazardous materials, including containment (CBRN-E incidents).", capabilityStakeholders: [] },
+            {
+              id: "Resp-SI-01",
+              label: "Firefighting - Infrastructures",
+              desc: "Fighting fires in buildings, built-up areas or at infrastructures.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-SI-02",
+              label: "Firefighting - Nature",
+              desc: "Fighting fires in natural environments.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-SI-03",
+              label: "Flood control",
+              desc: "Water management in case of a flooding due to a dike burst or heavy rainfall.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-SI04",
+              label: "Hazmat control (CBRN-E)",
+              desc: "Stop spill of hazardous materials, including containment (CBRN-E incidents).",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -273,9 +376,24 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Rescue operations",
           desc: "On-site activities to save lives.",
           capabilities: [
-            { id: "Resp-RO-01", label: "Search and Rescue (SAR)", desc: "Search and rescue operations.", capabilityStakeholders: [] },
-            { id: "Resp-RO-02", label: "On-site casualty treatment", desc: "Triage, decontamination and stabilisation of victims.", capabilityStakeholders: [] },
-            { id: "Resp-RO-03", label: "Transport of victims", desc: "Ambulance transport to safe areas or hospitals.", capabilityStakeholders: [] },
+            {
+              id: "Resp-RO-01",
+              label: "Search and Rescue (SAR)",
+              desc: "Search and rescue operations.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-RO-02",
+              label: "On-site casualty treatment",
+              desc: "Triage, decontamination and stabilisation of victims.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-RO-03",
+              label: "Transport of victims",
+              desc: "Ambulance transport to safe areas or hospitals.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -283,11 +401,36 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Security/Law enforcement",
           desc: "Securing areas/persons, Identification of persons, Forensics.",
           capabilities: [
-            { id: "Resp-SL-01", label: "Securing locations/persons", desc: "Protect areas, infrastructures, and persons from uninvolved parties.", capabilityStakeholders: [] },
-            { id: "Resp-SL-02", label: "Identification of persons", desc: "Identification of victims.", capabilityStakeholders: [] },
-            { id: "Resp-SL-03", label: "Forensics", desc: "Forensic activities to investigate the cause of the incident and safeguard evidence.", capabilityStakeholders: [] },
-            { id: "Resp-SL-04", label: "Maintain public order", desc: "Riot control, etc.", capabilityStakeholders: [] },
-            { id: "Resp-SL-05", label: "Traffic management", desc: "Traffic control both in-going and out-going the affected area.", capabilityStakeholders: [] },
+            {
+              id: "Resp-SL-01",
+              label: "Securing locations/persons",
+              desc: "Protect areas, infrastructures, and persons from uninvolved parties.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-SL-02",
+              label: "Identification of persons",
+              desc: "Identification of victims.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-SL-03",
+              label: "Forensics",
+              desc: "Forensic activities to investigate the cause of the incident and safeguard evidence.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-SL-04",
+              label: "Maintain public order",
+              desc: "Riot control, etc.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-SL-05",
+              label: "Traffic management",
+              desc: "Traffic control both in-going and out-going the affected area.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -295,10 +438,30 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Emergency Health Care",
           desc: "Off-site activities to save lives.",
           capabilities: [
-            { id: "Resp-EH-01", label: "Urgent care - Hospitals", desc: "Health service in regular and/or field hospitals.", capabilityStakeholders: [] },
-            { id: "Resp-EH-02", label: "Quarantine", desc: "Isolation of potentially infectious persons/victims.", capabilityStakeholders: [] },
-            { id: "Resp-EH-03", label: "Mass public health", desc: "Mass prophylaxis or vaccination in case of a nuclear incident or pandemic.", capabilityStakeholders: [] },
-            { id: "Prep-EH-04", label: "Psychological care", desc: "Psychological health care to victims, relatives and other people affected by the incident.", capabilityStakeholders: [] },
+            {
+              id: "Resp-EH-01",
+              label: "Urgent care - Hospitals",
+              desc: "Health service in regular and/or field hospitals.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-EH-02",
+              label: "Quarantine",
+              desc: "Isolation of potentially infectious persons/victims.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-EH-03",
+              label: "Mass public health",
+              desc: "Mass prophylaxis or vaccination in case of a nuclear incident or pandemic.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Prep-EH-04",
+              label: "Psychological care",
+              desc: "Psychological health care to victims, relatives and other people affected by the incident.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -306,8 +469,18 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Communicate to society",
           desc: "Warning and Crisis communication.",
           capabilities: [
-            { id: "Resp-CS-01", label: "Warning", desc: "Warn society in the threatened zone by providing timely and adequate information on the threat.", capabilityStakeholders: [] },
-            { id: "Resp-CS-02", label: "Crisis communication", desc: "Providing information on the disaster to the society including volunteer management and appeals.", capabilityStakeholders: [] },
+            {
+              id: "Resp-CS-01",
+              label: "Warning",
+              desc: "Warn society in the threatened zone by providing timely and adequate information on the threat.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-CS-02",
+              label: "Crisis communication",
+              desc: "Providing information on the disaster to the society including volunteer management and appeals.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -315,9 +488,24 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Safeguard population/animals",
           desc: "Controlled evacuation of persons and/or animals.",
           capabilities: [
-            { id: "Resp-SF-01", label: "Evacuate", desc: "Controlled evacuation of persons and animals from a certain area or building.", capabilityStakeholders: [] },
-            { id: "Resp-SF-02", label: "Shelter", desc: "Provision of shelter to evacuees, including nutrition and sanitation.", capabilityStakeholders: [] },
-            { id: "Resp-SF-03", label: "Reunification", desc: "Reunification of evacuees with their relatives.", capabilityStakeholders: [] },
+            {
+              id: "Resp-SF-01",
+              label: "Evacuate",
+              desc: "Controlled evacuation of persons and animals from a certain area or building.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-SF-02",
+              label: "Shelter",
+              desc: "Provision of shelter to evacuees, including nutrition and sanitation.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-SF-03",
+              label: "Reunification",
+              desc: "Reunification of evacuees with their relatives.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -325,10 +513,30 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Disaster area clearance",
           desc: "Arrange accessibility to and safety in the affected area.",
           capabilities: [
-            { id: "Resp-DA-01", label: "Debris clearance", desc: "Removal of debris and/or contaminated material.", capabilityStakeholders: [] },
-            { id: "Resp-DA-02", label: "Decontamination of objects", desc: "Decontamination of contaminated areas, infrastructures and/or vehicles.", capabilityStakeholders: [] },
-            { id: "Resp-DA-03", label: "Draining", desc: "Draining and pumping of inundated areas or infrastructures.", capabilityStakeholders: [] },
-            { id: "Resp-DA-04", label: "Animal destruction", desc: "Destruction of potentially infected animals.", capabilityStakeholders: [] },
+            {
+              id: "Resp-DA-01",
+              label: "Debris clearance",
+              desc: "Removal of debris and/or contaminated material.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-DA-02",
+              label: "Decontamination of objects",
+              desc: "Decontamination of contaminated areas, infrastructures and/or vehicles.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-DA-03",
+              label: "Draining",
+              desc: "Draining and pumping of inundated areas or infrastructures.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-DA-04",
+              label: "Animal destruction",
+              desc: "Destruction of potentially infected animals.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -336,11 +544,36 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Basic needs supply",
           desc: "Supply and/or restoration of basic products and services of vital importance.",
           capabilities: [
-            { id: "Resp-BN-01", label: "Drinking water supply", desc: "Restoration or temporary provision of drinking water.", capabilityStakeholders: [] },
-            { id: "Resp-BN-02", label: "Food supply", desc: "Temporary provision of food.", capabilityStakeholders: [] },
-            { id: "Resp-BN-03", label: "Energy supply", desc: "Restoration of electricity/gas supply or provision of temporary alternative energy.", capabilityStakeholders: [] },
-            { id: "Resp-BN-04", label: "Provision of ICT/Telecom", desc: "Restoration or temporary supply of ICT and Telecommunication.", capabilityStakeholders: [] },
-            { id: "Resp-BN-05", label: "Provide sanitation", desc: "Restore sanitation or provide temporary solutions.", capabilityStakeholders: [] },
+            {
+              id: "Resp-BN-01",
+              label: "Drinking water supply",
+              desc: "Restoration or temporary provision of drinking water.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-BN-02",
+              label: "Food supply",
+              desc: "Temporary provision of food.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-BN-03",
+              label: "Energy supply",
+              desc: "Restoration of electricity/gas supply or provision of temporary alternative energy.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-BN-04",
+              label: "Provision of ICT/Telecom",
+              desc: "Restoration or temporary supply of ICT and Telecommunication.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-BN-05",
+              label: "Provide sanitation",
+              desc: "Restore sanitation or provide temporary solutions.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -348,12 +581,42 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Response support",
           desc: "Capabilities to enable one or more other response capabilities.",
           capabilities: [
-            { id: "Resp-RS-01", label: "Command, Control and Coordination", desc: "Decision-making, planning and tasking at coordination and command levels managing a disaster event.", capabilityStakeholders: [] },
-            { id: "Resp-RS-02", label: "Situation assessment", desc: "Development of operational information through enrichment of collected data, including Common Operational Picture.", capabilityStakeholders: [] },
-            { id: "Resp-RS-03", label: "Information management", desc: "Storing and sharing of information such as collected data, assessments and decisions taken.", capabilityStakeholders: [] },
-            { id: "Resp-RS-04", label: "Monitoring/Data collection", desc: "Collection of data by physical monitoring (surveillance) and data-mining.", capabilityStakeholders: [] },
-            { id: "Resp-RS-05", label: "On-site operations support", desc: "Supply of basic services to first responders on-site to enable response activities.", capabilityStakeholders: [] },
-            { id: "Resp-RS-06", label: "Logistics", desc: "Transport of personnel and materiel to support sustained disaster response operations.", capabilityStakeholders: [] },
+            {
+              id: "Resp-RS-01",
+              label: "Command, Control and Coordination",
+              desc: "Decision-making, planning and tasking at coordination and command levels managing a disaster event.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-RS-02",
+              label: "Situation assessment",
+              desc: "Development of operational information through enrichment of collected data, including Common Operational Picture.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-RS-03",
+              label: "Information management",
+              desc: "Storing and sharing of information such as collected data, assessments and decisions taken.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-RS-04",
+              label: "Monitoring/Data collection",
+              desc: "Collection of data by physical monitoring (surveillance) and data-mining.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-RS-05",
+              label: "On-site operations support",
+              desc: "Supply of basic services to first responders on-site to enable response activities.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Resp-RS-06",
+              label: "Logistics",
+              desc: "Transport of personnel and materiel to support sustained disaster response operations.",
+              capabilityStakeholders: [],
+            },
           ],
         },
       ],
@@ -368,8 +631,18 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Humanitarian recovery",
           desc: "Provision of public health and safety services and shelter.",
           capabilities: [
-            { id: "Rec-HR-01", label: "Provide public health & safety", desc: "Provision of public health and safety services for those displaced.", capabilityStakeholders: [] },
-            { id: "Rec-HR-02", label: "Provide food and shelter", desc: "Provision of food and shelter for those displaced.", capabilityStakeholders: [] },
+            {
+              id: "Rec-HR-01",
+              label: "Provide public health & safety",
+              desc: "Provision of public health and safety services for those displaced.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Rec-HR-02",
+              label: "Provide food and shelter",
+              desc: "Provision of food and shelter for those displaced.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -377,8 +650,18 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Environmental recovery",
           desc: "Clearance of pollution and decontamination.",
           capabilities: [
-            { id: "Rec-ER-01", label: "Waste management", desc: "Clearance of large-scale pollution and decontamination, and dealing with waste.", capabilityStakeholders: [] },
-            { id: "Rec-ER-02", label: "Restoration habitats", desc: "Restoration of natural resources and habitats.", capabilityStakeholders: [] },
+            {
+              id: "Rec-ER-01",
+              label: "Waste management",
+              desc: "Clearance of large-scale pollution and decontamination, and dealing with waste.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Rec-ER-02",
+              label: "Restoration habitats",
+              desc: "Restoration of natural resources and habitats.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -386,8 +669,18 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Economic recovery",
           desc: "Economic and business recovery.",
           capabilities: [
-            { id: "Rec-EC-01", label: "Business recovery", desc: "Business recovery of shops and industry that suffered from the disaster.", capabilityStakeholders: [] },
-            { id: "Rec-EC-02", label: "Financial recovery", desc: "Recovery from financial impact on authorities.", capabilityStakeholders: [] },
+            {
+              id: "Rec-EC-01",
+              label: "Business recovery",
+              desc: "Business recovery of shops and industry that suffered from the disaster.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Rec-EC-02",
+              label: "Financial recovery",
+              desc: "Recovery from financial impact on authorities.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -395,8 +688,18 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Re-establishment of infrastructure",
           desc: "Restoration of transport routes and essential services.",
           capabilities: [
-            { id: "Rec-RI-01", label: "Re-establish transport", desc: "Re-establishment of transport routes (road, rail, water, air, pipelines).", capabilityStakeholders: [] },
-            { id: "Rec-RI-02", label: "Re-establish utilities", desc: "Restoration of interrupted utilities and other essential services.", capabilityStakeholders: [] },
+            {
+              id: "Rec-RI-01",
+              label: "Re-establish transport",
+              desc: "Re-establishment of transport routes (road, rail, water, air, pipelines).",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Rec-RI-02",
+              label: "Re-establish utilities",
+              desc: "Restoration of interrupted utilities and other essential services.",
+              capabilityStakeholders: [],
+            },
           ],
         },
         {
@@ -404,8 +707,18 @@ const DEFAULT_MODEL_DATA: Partial<ICapabilityDataModel> = {
           label: "Recovery support",
           desc: "Capabilities required to recover in a well-coordinated way.",
           capabilities: [
-            { id: "Rec-RS-01", label: "Establish recovery organisation", desc: "Establishment of recovery organisation structure for both short-term and long-term recovery.", capabilityStakeholders: [] },
-            { id: "Rec-RS-02", label: "Recovery programming", desc: "Determination and implementation of recovery programme based on impact assessment.", capabilityStakeholders: [] },
+            {
+              id: "Rec-RS-01",
+              label: "Establish recovery organisation",
+              desc: "Establishment of recovery organisation structure for both short-term and long-term recovery.",
+              capabilityStakeholders: [],
+            },
+            {
+              id: "Rec-RS-02",
+              label: "Recovery programming",
+              desc: "Determination and implementation of recovery programme based on impact assessment.",
+              capabilityStakeholders: [],
+            },
           ],
         },
       ],
