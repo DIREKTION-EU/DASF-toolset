@@ -488,6 +488,12 @@ html {
   z-index: 999;
   display: flex;
   gap: 20px;
+  background: var(--mm-background, rgba(255, 255, 255, 0.85));
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 24px;
+  padding: 6px 12px;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
 }
 
 .dasf-page-nav__item {
@@ -546,6 +552,11 @@ html {
   justify-content: center;
 }
 
+[data-theme="dark"] .dasf-page-nav {
+  background: rgba(30, 30, 30, 0.85);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+}
+
 [data-theme="dark"] .dasf-page-nav__item:hover {
   color: #64b5f6;
 }
@@ -558,6 +569,10 @@ html {
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+    .dasf-page-nav {
+      background: rgba(30, 30, 30, 0.85);
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
+    }
     .dasf-page-nav__item:hover {
       color: #64b5f6;
     }
