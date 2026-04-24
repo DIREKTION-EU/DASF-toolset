@@ -1479,3 +1479,12 @@ html {
 .collab-field-desc {
   margin-top: 6px;
 }
+
+/* Override dark-mode chip rules (added in mithril-materialized@3.16) which have higher
+   specificity than .teal alone. Using .collab-modes as an extra ancestor brings us to
+   specificity 0,3,0 — matching the :root:not([data-theme=light]) .chip rule — and since
+   style.css is loaded after mithril-materialized, the later declaration wins. */
+.collab-modes .chip.teal {
+  background-color: #009688 !important;
+  color: #fff !important;
+}
