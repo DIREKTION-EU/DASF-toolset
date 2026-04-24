@@ -380,7 +380,8 @@ export const messages = {
   hazards_route: "/hazards",
   hazard_step_title: "Step 0: Initiation & Preparation",
   hazard_step_desc:
-    "Select the hazard types relevant to your assessment context.",
+    "Select the hazard types relevant to the scope you want to address in this assessment workshop.",
+  workshop_scope: "Workshop scope",
   hazard_category_all: "All",
   hazard_category_natural: "Natural",
   hazard_category_technical: "Technical",

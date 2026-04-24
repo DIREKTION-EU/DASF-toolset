@@ -364,7 +364,8 @@ export const messagesPL: Messages = {
   hazards_route: "/hazards",
   hazard_step_title: "Krok 0: Inicjacja i Przygotowanie",
   hazard_step_desc:
-    "Wybierz typy zagrożeń istotne dla Twojego kontekstu oceny.",
+    "Wybierz typy zagrożeń istotne dla zakresu, który chcesz omówić na tym warsztacie oceny.",
+  workshop_scope: "Zakres warsztatu",
   hazard_category_all: "Wszystkie",
   hazard_category_natural: "Naturalne",
   hazard_category_technical: "Techniczne",

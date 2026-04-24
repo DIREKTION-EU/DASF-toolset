@@ -45,9 +45,18 @@ export const HazardsPage: MeiosisComponent = () => {
 
       return m(".hazards.page", [
         m(PageNav, { ...attrs }),
-        // 1. Title + description
+        // 1. Title + scope input + description
         m(".row", [
           m(".col.s12", m("h4", t("hazard_step_title"))),
+          m(TextInput, {
+            id: "workshop-scope",
+            label: t("workshop_scope"),
+            defaultValue: data.workshopScope || "",
+            onchange: (v) => {
+              data.workshopScope = v;
+              actions.saveModel(attrs, catModel);
+            },
+          }),
           m(".col.s12", m("p", t("hazard_step_desc"))),
         ]),
 

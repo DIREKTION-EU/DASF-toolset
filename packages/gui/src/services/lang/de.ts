@@ -366,7 +366,8 @@ export const messagesDE: Messages = {
   hazards_route: "/hazards",
   hazard_step_title: "Schritt 0: Initiierung & Vorbereitung",
   hazard_step_desc:
-    "Wählen Sie die für Ihren Bewertungskontext relevanten Gefahrenarten aus.",
+    "Wählen Sie die Gefahrenarten aus, die für den in diesem Assessment-Workshop zu behandelnden Umfang relevant sind.",
+  workshop_scope: "Workshop-Umfang",
   hazard_category_all: "Alle",
   hazard_category_natural: "Natürlich",
   hazard_category_technical: "Technisch",

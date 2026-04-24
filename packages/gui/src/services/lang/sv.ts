@@ -366,7 +366,8 @@ export const messagesSV: Messages = {
   hazards_route: "/hazards",
   hazard_step_title: "Steg 0: Initiering och Förberedelse",
   hazard_step_desc:
-    "Välj de farotyper som är relevanta för ditt bedömningssammanhang.",
+    "Välj de farotyper som är relevanta för den omfattning du vill adressera i detta bedömningsworkshop.",
+  workshop_scope: "Workshop-omfattning",
   hazard_category_all: "Alla",
   hazard_category_natural: "Naturlig",
   hazard_category_technical: "Teknisk",

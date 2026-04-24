@@ -376,7 +376,8 @@ export const messagesNL: Messages = {
   hazards_route: "/gevaren",
   hazard_step_title: "0: Initiatie & Voorbereiding",
   hazard_step_desc:
-    "Selecteer de gevarentypen die relevant zijn voor uw beoordelingscontext.",
+    "Selecteer de gevarentypen die relevant zijn voor het bereik dat u in dit beoordelingsworkshop wilt behandelen.",
+  workshop_scope: "Workshop bereik",
   hazard_category_all: "Alle",
   hazard_category_natural: "Natuurlijk",
   hazard_category_technical: "Technisch",

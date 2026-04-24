@@ -54,6 +54,8 @@ export interface ICapabilityDataModel {
   enabledSteps?: number[];
   /** Selected subset of the catalog (getAllCapabilities) chosen for assessment. */
   capabilities?: ICapability[];
+  /** Scope/context of the assessment workshop. */
+  workshopScope?: string;
 }
 
 export type Evaluation = {

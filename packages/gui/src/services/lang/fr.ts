@@ -366,7 +366,8 @@ export const messagesFR: Messages = {
   hazards_route: "/hazards",
   hazard_step_title: "Étape 0 : Initiation & Préparation",
   hazard_step_desc:
-    "Sélectionnez les types de risques pertinents pour votre contexte d'évaluation.",
+    "Sélectionnez les types de risques pertinents pour le périmètre que vous souhaitez aborder dans cet atelier d'évaluation.",
+  workshop_scope: "Périmètre de l'atelier",
   hazard_category_all: "Tous",
   hazard_category_natural: "Naturel",
   hazard_category_technical: "Technique",
