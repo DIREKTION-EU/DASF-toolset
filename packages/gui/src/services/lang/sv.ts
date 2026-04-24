@@ -447,6 +447,87 @@ export const messagesSV: Messages = {
   trl7: "Systemprototyp demonstrerad i operativ miljö",
   trl8: "System komplett och kvalificerat",
   trl9: "Faktiskt system bevisat i operativ miljö",
+  sol_integration_rl: "Integrationsberedskapsnivå",
+  sol_societal_rl: "Samhällelig beredskapsnivå",
+  sol_manufacturing_rl: "Tillverkningsberedskapsnivå",
+  sol_commercialisation_rl: "Kommersialiseringsberedskapsnivå",
+  sol_security_rl: "Säkerhetsberedskapsnivå",
+  sol_legal_privacy_ethical_rl:
+    "Juridisk, integritets- och etisk beredskapsnivå",
+  integration_rl1: "Ett övergripande koncept för integration har identifierats",
+  integration_rl2:
+    "Det finns en viss grad av specificerade krav för komponenternas interaktion",
+  integration_rl3:
+    "Den detaljerade integrationsdesignen har definierats för att omfatta alla gränssnittsdetaljer",
+  integration_rl4:
+    "Validering av integrerande komponentfunktioner i en laboratoriemiljö",
+  integration_rl5: "Validering av integrerade komponenter i en relevant miljö",
+  integration_rl6:
+    "Validering av integrerade komponenter i en relevant end-to-end-miljö",
+  integration_rl7:
+    "Demonstration av prototypintegration i en operativ högfidelitetsmiljö",
+  integration_rl8: "Test och demonstration i en operativ miljö",
+  integration_rl9:
+    "Bevisad systemintegration genom framgångsrik operativ missionsförmåga",
+  societal_rl1:
+    "Identifiering av det generella samhälleliga behovet, samhällsnyttan och tillhörande aspekter",
+  societal_rl2:
+    "Formulering av föreslaget lösningskoncept och potentiella effekter",
+  societal_rl3:
+    "En begränsad grupp i samhället känner till lösningen eller liknande initiativ",
+  societal_rl4:
+    "En begränsad grupp i samhället testar lösningen eller liknande initiativ",
+  societal_rl5:
+    "Samhället känner till lösningen eller liknande initiativ men är inte medvetet om deras fördelar",
+  societal_rl6:
+    "Samhället känner till lösningen och medvetenheten om dess fördelar ökar",
+  societal_rl7: "Samhället är helt medvetet om lösningens fördelar",
+  societal_rl8:
+    "Samhället är redo att anta lösningen och har använt liknande lösningar på marknaden",
+  societal_rl9:
+    "Samhället använder lösningen och den stöds av intressenter och allmänheten",
+  manufacturing_rl1: "Grundläggande tillverkningsimplikationer identifierade",
+  manufacturing_rl2: "Tillverkningskoncept identifierade",
+  manufacturing_rl3: "Tillverkningsmässigt konceptbevis utvecklat",
+  manufacturing_rl4: "Förmåga att producera tekniken i en laboratoriemiljö",
+  manufacturing_rl5:
+    "Förmåga att producera prototypkomponenter i en produktionsrelevant miljö",
+  manufacturing_rl6:
+    "Förmåga att producera ett prototypsystem eller delsystem i en produktionsrelevant miljö",
+  manufacturing_rl7:
+    "Förmåga att producera system, delsystem eller komponenter i en produktionsrepresentativ miljö",
+  manufacturing_rl8:
+    "Pilotlinjeförmåga demonstrerad. Redo att påbörja lågvolymsproduktion",
+  manufacturing_rl9:
+    "Lågvolymsproduktion demonstrerad. Förmåga finns att påbörja fullskalig produktion",
+  commercialisation_rl1: "Forskning och grundhypotes",
+  commercialisation_rl2: "Marknadsbedömning",
+  commercialisation_rl3: "Validering av tekniktillämpning och marknad",
+  commercialisation_rl4: "Värdeerbjudande",
+  commercialisation_rl5: "Produktutveckling och marknadsanpassning",
+  commercialisation_rl6:
+    "Optimering av produkt/lösning och skydd av immateriella rättigheter",
+  commercialisation_rl7: "Teknisk och kommersiell validering",
+  commercialisation_rl8: "Kommersialiseringsstrategi och marknadsintroduktion",
+  commercialisation_rl9: "Full lansering och licensintäkter",
+  security_rl1: "Säkerhetsövervägande",
+  security_rl2: "Utveckling av säkerhetskoncept",
+  security_rl3: "Säkerhet genom design",
+  security_rl4: "Förberedelse av säkerhetsåtgärder och funktioner",
+  security_rl5: "Enkel säkerhetsvalidering",
+  security_rl6: "Sekventiell säkerhetsdemonstration",
+  security_rl7: "Komplexa säkerhetsdemonstrationer",
+  security_rl8: "Slutlig säkerhetsvalidering och förberedelse före lansering",
+  security_rl9: "Inledande operativ säkerhet",
+  security_rl10: "Väl etablerad/tillförlitlig säkerhet",
+  legal_privacy_ethical_rl1:
+    "Kontroll över juridiska, etiska och integritetsrelaterade frågor: systemet har implementerat kontrollmekanismer för ansvarsskyldighet och har klarat standardiserade riktmärken och erhållit certifiering där så är tillämpligt",
+  legal_privacy_ethical_rl2:
+    "Etiska spänningar hanterade genom ethics-by-design: systemets juridiska, etiska och integritetsrelaterade överväganden har utformats så att de är förenliga med varandra. Etiska spänningar har hanterats så att förbättring av en aspekt inte påverkar en annan negativt",
+  legal_privacy_ethical_rl3:
+    "Karakteriserade juridiska, etiska och integritetsrelaterade interaktioner: interaktionerna mellan olika etiska och integritetsrelaterade överväganden har karakteriserats",
+  legal_privacy_ethical_rl4:
+    "Identifierade juridiska, etiska och integritetsrelaterade frågor: de etiska och integritetsrelaterade överväganden som systemet ger upphov till har identifierats och förutsetts",
   sol_linked_caps: "Länkade förmågor (med brister)",
   sol_addressed_gaps: "Hanterade förmågebrister",
   sol_no_gaps:

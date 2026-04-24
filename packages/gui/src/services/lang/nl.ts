@@ -458,6 +458,91 @@ export const messagesNL: Messages = {
   trl7: "Systeemprototype gedemonstreerd in operationele omgeving",
   trl8: "Systeem volledig en gekwalificeerd",
   trl9: "Daadwerkelijk systeem bewezen in operationele omgeving",
+  sol_integration_rl: "Integratiegereedheidsniveau",
+  sol_societal_rl: "Maatschappelijk gereedheidsniveau",
+  sol_manufacturing_rl: "Productiegereedheidsniveau",
+  sol_commercialisation_rl: "Commercialiseringsgereedheidsniveau",
+  sol_security_rl: "Beveiligingsgereedheidsniveau",
+  sol_legal_privacy_ethical_rl:
+    "Juridisch, privacy- en ethisch gereedheidsniveau",
+  integration_rl1:
+    "Er is een concept op hoofdlijnen voor integratie geïdentificeerd",
+  integration_rl2:
+    "Er is enige mate van specificatie van de eisen voor de interactie tussen componenten",
+  integration_rl3:
+    "Het gedetailleerde integratieontwerp is gedefinieerd en omvat alle interfacedetails",
+  integration_rl4:
+    "Validatie van integrerende componentfuncties in een laboratoriumomgeving",
+  integration_rl5:
+    "Validatie van integrerende componenten in een relevante omgeving",
+  integration_rl6:
+    "Validatie van integrerende componenten in een relevante end-to-end-omgeving",
+  integration_rl7:
+    "Demonstratie van prototype-integratie in een operationele omgeving met hoge getrouwheid",
+  integration_rl8: "Test en demonstratie in een operationele omgeving",
+  integration_rl9:
+    "Bewezen systeemintegratie door succesvolle operationele missiecapaciteiten",
+  societal_rl1:
+    "Identificatie van de algemene maatschappelijke behoefte, het maatschappelijk nut en de bijbehorende aspecten",
+  societal_rl2:
+    "Formulering van het voorgestelde oplossingsconcept en de mogelijke effecten",
+  societal_rl3:
+    "Een beperkte groep in de samenleving kent de oplossing of vergelijkbare initiatieven",
+  societal_rl4:
+    "Een beperkte groep in de samenleving test de oplossing of vergelijkbare initiatieven",
+  societal_rl5:
+    "De samenleving kent de oplossing of vergelijkbare initiatieven, maar is zich niet bewust van de voordelen ervan",
+  societal_rl6:
+    "De samenleving kent de oplossing en het bewustzijn van de voordelen neemt toe",
+  societal_rl7:
+    "De samenleving is volledig op de hoogte van de voordelen van de oplossing",
+  societal_rl8:
+    "De samenleving is klaar om de oplossing te adopteren en heeft vergelijkbare oplossingen op de markt gebruikt",
+  societal_rl9:
+    "De samenleving gebruikt de oplossing en deze wordt ondersteund door belanghebbenden en het publiek",
+  manufacturing_rl1: "Basale productie-implicaties geïdentificeerd",
+  manufacturing_rl2: "Productieconcepten geïdentificeerd",
+  manufacturing_rl3: "Productie-proof-of-concept ontwikkeld",
+  manufacturing_rl4:
+    "Vermogen om de technologie in een laboratoriumomgeving te produceren",
+  manufacturing_rl5:
+    "Vermogen om prototypecomponenten in een productie-relevante omgeving te produceren",
+  manufacturing_rl6:
+    "Vermogen om een prototypesysteem of subsysteem in een productie-relevante omgeving te produceren",
+  manufacturing_rl7:
+    "Vermogen om systemen, subsystemen of componenten in een productie-representatieve omgeving te produceren",
+  manufacturing_rl8:
+    "Pilotlijncapaciteit aangetoond. Klaar om te beginnen met productie op lage schaal",
+  manufacturing_rl9:
+    "Productie op lage schaal aangetoond. Capaciteit aanwezig om te beginnen met volledige productie",
+  commercialisation_rl1: "Onderzoek en basishypothese",
+  commercialisation_rl2: "Marktanalyse",
+  commercialisation_rl3: "Validatie van technologie-toepassing en markt",
+  commercialisation_rl4: "Waardepropositie",
+  commercialisation_rl5: "Productontwikkeling en marktafstemming",
+  commercialisation_rl6:
+    "Optimalisatie van product/oplossing en IP-bescherming",
+  commercialisation_rl7: "Technische en commerciële validatie",
+  commercialisation_rl8: "Commercialiseringsstrategie en marktintroductie",
+  commercialisation_rl9: "Volledige lancering en licentie-inkomsten",
+  security_rl1: "Beveiligingsoverweging",
+  security_rl2: "Ontwikkeling van beveiligingsconcept",
+  security_rl3: "Security by design",
+  security_rl4: "Voorbereiding van beveiligingsmaatregelen en -functies",
+  security_rl5: "Eenvoudige beveiligingsvalidatie",
+  security_rl6: "Sequentiële beveiligingsdemonstratie",
+  security_rl7: "Complexe beveiligingsdemonstraties",
+  security_rl8: "Laatste beveiligingsvalidatie en voorbereiding vóór release",
+  security_rl9: "Initiële operationele beveiliging",
+  security_rl10: "Goed gevestigde/betrouwbare beveiliging",
+  legal_privacy_ethical_rl1:
+    "Beheersing van juridische, ethische en privacykwesties: het systeem heeft beheersmechanismen voor verantwoording geïmplementeerd en, indien van toepassing, standaardbenchmarks doorstaan en certificering verkregen",
+  legal_privacy_ethical_rl2:
+    "Ethische spanningen aangepakt via ethics-by-design: de juridische, ethische en privacy-overwegingen van het systeem zijn zo ontworpen dat ze onderling verenigbaar zijn. Ethische spanningen zijn aangepakt, zodat verbetering van het ene aspect geen negatieve invloed heeft op een ander aspect",
+  legal_privacy_ethical_rl3:
+    "Gekarakteriseerde juridische, ethische en privacy-interacties: de interacties tussen verschillende ethische en privacy-overwegingen zijn gekarakteriseerd",
+  legal_privacy_ethical_rl4:
+    "Geïdentificeerde juridische, ethische en privacykwesties: de ethische en privacy-overwegingen die door het systeem worden opgeworpen, zijn geïdentificeerd en voorzien",
   sol_linked_caps: "Gekoppelde capaciteiten (met tekortkomingen)",
   sol_addressed_gaps: "Aangesproken capaciteitstekortkomingen",
   sol_no_gaps:

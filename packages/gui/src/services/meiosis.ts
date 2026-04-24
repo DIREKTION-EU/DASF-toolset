@@ -28,6 +28,7 @@ import type {
   InvitePayload,
   CollabMode,
   CapabilityAnswer,
+  SolutionAssessmentAnswer,
 } from "./collaboration-service";
 import { duplicatePatchReason } from "./collaboration-service";
 import { scrollToTop, LANGUAGE } from "../utils";
@@ -127,6 +128,7 @@ export interface State {
       string,
       {
         answers: CapabilityAnswer[];
+        solutionAssessments?: SolutionAssessmentAnswer[];
         pageIndex: number;
         updatedAt: number;
       }

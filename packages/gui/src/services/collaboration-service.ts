@@ -61,7 +61,35 @@ export interface CapabilityAnswer {
   /** actionPriority 1–5 */
   ap?: number;
   /** gap assessments: per-gap { t/d + a: overallAssessmentId, i: per-item answers } */
-  g?: { t?: string; d?: string; a: string; i: CapabilityAssessmentResponseItem[] }[];
+  g?: {
+    t?: string;
+    d?: string;
+    a: string;
+    i: CapabilityAssessmentResponseItem[];
+  }[];
+}
+
+export interface SolutionAssessmentAnswer {
+  /** solutionId */
+  i: string;
+  /** Technology readiness level */
+  trl?: number;
+  /** Integration readiness level */
+  integrationRl?: number;
+  /** Societal readiness level */
+  societalRl?: number;
+  /** Manufacturing readiness level */
+  manufacturingRl?: number;
+  /** Commercialisation readiness level */
+  commercialisationRl?: number;
+  /** Security readiness level */
+  securityRl?: number;
+  /** Legal, privacy & ethical readiness level */
+  legalPrivacyEthicalRl?: number;
+  /** impact score */
+  imp?: number;
+  /** note */
+  n?: string;
 }
 
 // ─── Compact Patch Payload (User → Facilitator) ──────────────────────────────
@@ -85,7 +113,7 @@ export interface CollaborationPatch {
   /** solution creation */
   sc?: { i: EntityRef; trl?: number; ci?: string[] }[];
   /** solution assessment */
-  sa?: { i: string; trl?: number; imp?: number; n?: string }[];
+  sa?: SolutionAssessmentAnswer[];
 }
 
 // ─── Aggregated Result ───────────────────────────────────────────────────────
@@ -472,6 +500,79 @@ const overallPerformanceAssessmentId = (itemValues: string[]): string => {
   const rounded = Math.round(avg);
   const prefix = scored[0].v.replace(/\d+$/, "").replace(/-$/, "");
   return `${prefix}-${rounded}`;
+};
+
+const roundAverage = (values: number[]) =>
+  Math.round(values.reduce((sum, v) => sum + v, 0) / values.length);
+
+export const mergeSolutionAssessmentPatches = (
+  model: CapabilityModel,
+  patches: CollaborationPatch[],
+): CapabilityModel => {
+  const solutions = model.data.solutions ?? [];
+  if (!solutions.length || !patches.length) return model;
+
+  const bySolutionId = new Map<string, SolutionAssessmentAnswer[]>();
+  for (const patch of patches) {
+    for (const assessment of patch.sa ?? []) {
+      const list = bySolutionId.get(assessment.i) ?? [];
+      list.push(assessment);
+      bySolutionId.set(assessment.i, list);
+    }
+  }
+
+  if (!bySolutionId.size) return model;
+
+  const averageField = (
+    entries: SolutionAssessmentAnswer[],
+    pick: (entry: SolutionAssessmentAnswer) => number | undefined,
+  ) => {
+    const values = entries
+      .map(pick)
+      .filter((v): v is number => typeof v === "number" && !Number.isNaN(v));
+    return values.length ? roundAverage(values) : undefined;
+  };
+
+  const nextSolutions: ISolution[] = solutions.map((solution) => {
+    const entries = bySolutionId.get(solution.id);
+    if (!entries?.length) return solution;
+
+    const trl = averageField(entries, (entry) => entry.trl);
+    const integrationRl = averageField(entries, (entry) => entry.integrationRl);
+    const societalRl = averageField(entries, (entry) => entry.societalRl);
+    const manufacturingRl = averageField(
+      entries,
+      (entry) => entry.manufacturingRl,
+    );
+    const commercialisationRl = averageField(
+      entries,
+      (entry) => entry.commercialisationRl,
+    );
+    const securityRl = averageField(entries, (entry) => entry.securityRl);
+    const legalPrivacyEthicalRl = averageField(
+      entries,
+      (entry) => entry.legalPrivacyEthicalRl,
+    );
+
+    return {
+      ...solution,
+      ...(trl != null ? { trl } : {}),
+      ...(integrationRl != null ? { integrationRl } : {}),
+      ...(societalRl != null ? { societalRl } : {}),
+      ...(manufacturingRl != null ? { manufacturingRl } : {}),
+      ...(commercialisationRl != null ? { commercialisationRl } : {}),
+      ...(securityRl != null ? { securityRl } : {}),
+      ...(legalPrivacyEthicalRl != null ? { legalPrivacyEthicalRl } : {}),
+    };
+  });
+
+  return {
+    ...model,
+    data: {
+      ...model.data,
+      solutions: nextSolutions,
+    },
+  };
 };
 
 export const mergeCapabilityAssessmentPatches = (

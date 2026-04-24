@@ -446,6 +446,92 @@ export const messagesPT: Messages = {
   trl7: "Protótipo de sistema demonstrado em ambiente operacional",
   trl8: "Sistema completo e qualificado",
   trl9: "Sistema real comprovado em ambiente operacional",
+  sol_integration_rl: "Nível de prontidão para integração",
+  sol_societal_rl: "Nível de prontidão societal",
+  sol_manufacturing_rl: "Nível de prontidão de fabrico",
+  sol_commercialisation_rl: "Nível de prontidão para comercialização",
+  sol_security_rl: "Nível de prontidão de segurança",
+  sol_legal_privacy_ethical_rl:
+    "Nível de prontidão jurídica, de privacidade e ética",
+  integration_rl1:
+    "Foi identificado um conceito de alto nível para a integração",
+  integration_rl2:
+    "Existe algum nível de especificidade dos requisitos para a interação entre componentes",
+  integration_rl3:
+    "O desenho detalhado de integração foi definido para incluir todos os detalhes da interface",
+  integration_rl4:
+    "Validação das funções dos componentes integrados em ambiente laboratorial",
+  integration_rl5: "Validação dos componentes integrados em ambiente relevante",
+  integration_rl6:
+    "Validação dos componentes integrados em ambiente relevante de ponta a ponta",
+  integration_rl7:
+    "Demonstração da integração do protótipo em ambiente operacional de alta fidelidade",
+  integration_rl8: "Teste e demonstração em ambiente operacional",
+  integration_rl9:
+    "Integração do sistema comprovada através de capacidades operacionais de missão bem-sucedidas",
+  societal_rl1:
+    "Identificação da necessidade societal genérica, do bem social e dos aspetos associados",
+  societal_rl2:
+    "Formulação do conceito de solução proposto e dos impactos potenciais",
+  societal_rl3:
+    "Um grupo limitado da sociedade conhece a solução ou iniciativas semelhantes",
+  societal_rl4:
+    "Um grupo limitado da sociedade testa a solução ou iniciativas semelhantes",
+  societal_rl5:
+    "A sociedade conhece a solução ou iniciativas semelhantes, mas não está consciente dos seus benefícios",
+  societal_rl6:
+    "A sociedade conhece a solução e aumenta a consciencialização para os seus benefícios",
+  societal_rl7:
+    "A sociedade está totalmente consciente dos benefícios da solução",
+  societal_rl8:
+    "A sociedade está pronta para adotar a solução e utilizou soluções semelhantes no mercado",
+  societal_rl9:
+    "A sociedade está a utilizar a solução e esta é apoiada pelas partes interessadas e pelo público",
+  manufacturing_rl1: "Implicações básicas de fabrico identificadas",
+  manufacturing_rl2: "Conceitos de fabrico identificados",
+  manufacturing_rl3: "Prova de conceito de fabrico desenvolvida",
+  manufacturing_rl4:
+    "Capacidade para produzir a tecnologia em ambiente laboratorial",
+  manufacturing_rl5:
+    "Capacidade para produzir os componentes protótipo em ambiente relevante para a produção",
+  manufacturing_rl6:
+    "Capacidade para produzir um protótipo de sistema ou subsistema em ambiente relevante para a produção",
+  manufacturing_rl7:
+    "Capacidade para produzir sistemas, subsistemas ou componentes em ambiente representativo da produção",
+  manufacturing_rl8:
+    "Capacidade de linha piloto demonstrada. Pronto para iniciar produção de baixo ritmo",
+  manufacturing_rl9:
+    "Produção de baixo ritmo demonstrada. Capacidade instalada para iniciar produção a ritmo total",
+  commercialisation_rl1: "Investigação e hipótese de base",
+  commercialisation_rl2: "Avaliação de mercado",
+  commercialisation_rl3: "Validação da aplicação tecnológica e do mercado",
+  commercialisation_rl4: "Proposta de valor",
+  commercialisation_rl5:
+    "Desenvolvimento do produto e alinhamento com o mercado",
+  commercialisation_rl6:
+    "Otimização do produto/solução e proteção da propriedade intelectual",
+  commercialisation_rl7: "Validação técnica e comercial",
+  commercialisation_rl8:
+    "Estratégia de comercialização e introdução no mercado",
+  commercialisation_rl9: "Lançamento completo e receitas de licenciamento",
+  security_rl1: "Consideração de segurança",
+  security_rl2: "Desenvolvimento do conceito de segurança",
+  security_rl3: "Segurança by design",
+  security_rl4: "Preparação de medidas e funcionalidades de segurança",
+  security_rl5: "Validação simples de segurança",
+  security_rl6: "Demonstração sequencial de segurança",
+  security_rl7: "Demonstrações complexas de segurança",
+  security_rl8: "Validação final de segurança pré-lançamento e preparação",
+  security_rl9: "Segurança operacional inicial",
+  security_rl10: "Segurança bem estabelecida/fiável",
+  legal_privacy_ethical_rl1:
+    "Controlo sobre questões legais, éticas e de privacidade: o sistema implementou mecanismos de controlo para responsabilização e passou referências padrão e obteve certificação, quando aplicável",
+  legal_privacy_ethical_rl2:
+    "Tensões éticas resolvidas através de ethics-by-design: as considerações legais, éticas e de privacidade do sistema foram concebidas para serem compatíveis entre si. As tensões éticas foram tratadas para que a melhoria de um aspeto não afete negativamente outro",
+  legal_privacy_ethical_rl3:
+    "Interações legais, éticas e de privacidade caracterizadas: as interações entre diferentes considerações éticas e de privacidade foram caracterizadas",
+  legal_privacy_ethical_rl4:
+    "Questões legais, éticas e de privacidade identificadas: as considerações éticas e de privacidade levantadas pelo sistema foram identificadas e antecipadas",
   sol_linked_caps: "Capacidades ligadas (com lacunas)",
   sol_addressed_gaps: "Lacunas de capacidade abordadas",
   sol_no_gaps:

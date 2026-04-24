@@ -443,6 +443,91 @@ export const messagesPL: Messages = {
   trl7: "Prototyp systemu zademonstrowany w środowisku operacyjnym",
   trl8: "System kompletny i kwalifikowany",
   trl9: "Rzeczywisty system sprawdzony w środowisku operacyjnym",
+  sol_integration_rl: "Poziom gotowości integracyjnej",
+  sol_societal_rl: "Poziom gotowości społecznej",
+  sol_manufacturing_rl: "Poziom gotowości produkcyjnej",
+  sol_commercialisation_rl: "Poziom gotowości komercjalizacyjnej",
+  sol_security_rl: "Poziom gotowości bezpieczeństwa",
+  sol_legal_privacy_ethical_rl:
+    "Poziom gotowości prawnej, prywatności i etycznej",
+  integration_rl1: "Zidentyfikowano ogólną koncepcję integracji",
+  integration_rl2:
+    "Istnieje pewien poziom uszczegółowienia wymagań dotyczących interakcji komponentów",
+  integration_rl3:
+    "Szczegółowy projekt integracji został zdefiniowany i obejmuje wszystkie szczegóły interfejsu",
+  integration_rl4:
+    "Walidacja funkcji integrowanych komponentów w środowisku laboratoryjnym",
+  integration_rl5:
+    "Walidacja integrowanych komponentów w odpowiednim środowisku",
+  integration_rl6:
+    "Walidacja integrowanych komponentów w odpowiednim środowisku end-to-end",
+  integration_rl7:
+    "Demonstracja integracji prototypu w operacyjnym środowisku o wysokiej wierności",
+  integration_rl8: "Test i demonstracja w środowisku operacyjnym",
+  integration_rl9:
+    "Potwierdzona integracja systemu poprzez pomyślne zdolności operacyjne podczas misji",
+  societal_rl1:
+    "Identyfikacja ogólnej potrzeby społecznej, dobra społecznego i powiązanych aspektów",
+  societal_rl2:
+    "Sformułowanie proponowanej koncepcji rozwiązania i potencjalnych oddziaływań",
+  societal_rl3:
+    "Ograniczona grupa społeczeństwa zna rozwiązanie lub podobne inicjatywy",
+  societal_rl4:
+    "Ograniczona grupa społeczeństwa testuje rozwiązanie lub podobne inicjatywy",
+  societal_rl5:
+    "Społeczeństwo zna rozwiązanie lub podobne inicjatywy, ale nie jest świadome ich korzyści",
+  societal_rl6:
+    "Społeczeństwo zna rozwiązanie, a świadomość jego korzyści wzrasta",
+  societal_rl7:
+    "Społeczeństwo jest w pełni świadome korzyści wynikających z rozwiązania",
+  societal_rl8:
+    "Społeczeństwo jest gotowe do przyjęcia rozwiązania i korzystało z podobnych rozwiązań na rynku",
+  societal_rl9:
+    "Społeczeństwo korzysta z rozwiązania, a rozwiązanie jest wspierane przez interesariuszy i opinię publiczną",
+  manufacturing_rl1: "Zidentyfikowano podstawowe implikacje produkcyjne",
+  manufacturing_rl2: "Zidentyfikowano koncepcje produkcyjne",
+  manufacturing_rl3: "Opracowano produkcyjny dowód słuszności koncepcji",
+  manufacturing_rl4:
+    "Zdolność do wytwarzania technologii w środowisku laboratoryjnym",
+  manufacturing_rl5:
+    "Zdolność do wytwarzania komponentów prototypowych w środowisku istotnym dla produkcji",
+  manufacturing_rl6:
+    "Zdolność do wytwarzania prototypu systemu lub podsystemu w środowisku istotnym dla produkcji",
+  manufacturing_rl7:
+    "Zdolność do wytwarzania systemów, podsystemów lub komponentów w środowisku reprezentatywnym dla produkcji",
+  manufacturing_rl8:
+    "Zademonstrowano zdolność linii pilotażowej. Gotowość do rozpoczęcia produkcji niskoseryjnej",
+  manufacturing_rl9:
+    "Zademonstrowano produkcję niskoseryjną. Istnieje zdolność do rozpoczęcia produkcji pełnoseryjnej",
+  commercialisation_rl1: "Badania i hipoteza bazowa",
+  commercialisation_rl2: "Ocena rynku",
+  commercialisation_rl3: "Walidacja zastosowania technologii i rynku",
+  commercialisation_rl4: "Propozycja wartości",
+  commercialisation_rl5: "Rozwój produktu i dopasowanie do rynku",
+  commercialisation_rl6:
+    "Optymalizacja produktu/rozwiązania i ochrona własności intelektualnej",
+  commercialisation_rl7: "Walidacja techniczna i komercyjna",
+  commercialisation_rl8: "Strategia komercjalizacji i wprowadzenie na rynek",
+  commercialisation_rl9: "Pełne uruchomienie i przychody licencyjne",
+  security_rl1: "Rozważenie bezpieczeństwa",
+  security_rl2: "Rozwój koncepcji bezpieczeństwa",
+  security_rl3: "Bezpieczeństwo wbudowane w projekt",
+  security_rl4: "Przygotowanie środków i funkcji bezpieczeństwa",
+  security_rl5: "Prosta walidacja bezpieczeństwa",
+  security_rl6: "Sekwencyjna demonstracja bezpieczeństwa",
+  security_rl7: "Złożone demonstracje bezpieczeństwa",
+  security_rl8:
+    "Końcowa walidacja bezpieczeństwa przed wydaniem i przygotowanie",
+  security_rl9: "Początkowe bezpieczeństwo operacyjne",
+  security_rl10: "Dobrze ugruntowane/niezawodne bezpieczeństwo",
+  legal_privacy_ethical_rl1:
+    "Kontrola kwestii prawnych, etycznych i prywatności: system wdrożył mechanizmy kontroli odpowiedzialności oraz przeszedł standardowe benchmarki i uzyskał certyfikację, jeśli dotyczy",
+  legal_privacy_ethical_rl2:
+    "Napięcia etyczne rozwiązane poprzez ethics-by-design: prawne, etyczne i prywatnościowe aspekty systemu zostały zaprojektowane tak, aby były ze sobą zgodne. Napięcia etyczne zostały rozwiązane, co oznacza, że poprawa jednego aspektu nie wpływa negatywnie na inny",
+  legal_privacy_ethical_rl3:
+    "Scharakteryzowane interakcje prawne, etyczne i prywatnościowe: scharakteryzowano interakcje między różnymi aspektami etycznymi i prywatnościowymi",
+  legal_privacy_ethical_rl4:
+    "Zidentyfikowane kwestie prawne, etyczne i prywatnościowe: zidentyfikowano i przewidziano kwestie etyczne i prywatnościowe podnoszone przez system",
   sol_linked_caps: "Powiązane zdolności (z lukami)",
   sol_addressed_gaps: "Zaadresowane luki zdolności",
   sol_no_gaps:

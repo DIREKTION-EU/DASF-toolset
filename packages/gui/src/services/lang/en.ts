@@ -461,6 +461,87 @@ export const messages = {
   trl7: "System prototype demonstrated in operational environment",
   trl8: "System complete and qualified",
   trl9: "Actual system proven in operational environment",
+  sol_integration_rl: "Integration Readiness Level",
+  sol_societal_rl: "Societal Readiness Level",
+  sol_manufacturing_rl: "Manufacturing Readiness Level",
+  sol_commercialisation_rl: "Commercialisation Readiness Level",
+  sol_security_rl: "Security Readiness Level",
+  sol_legal_privacy_ethical_rl: "Legal, Privacy & Ethical Readiness Level",
+  integration_rl1: "A high-level concept for integration has been identified",
+  integration_rl2:
+    "Some specificity level of requirements for the component interaction",
+  integration_rl3:
+    "The detailed integration design has been defined to include all interface details",
+  integration_rl4:
+    "Validation of integrating component functions in a laboratory environment",
+  integration_rl5:
+    "Validation of integrating components in a relevant environment",
+  integration_rl6:
+    "Validation of integrating components in a relevant end-to-end environment",
+  integration_rl7:
+    "Prototype integration demonstration in an operational high-fidelity environment",
+  integration_rl8: "Test and demonstration in an operational environment",
+  integration_rl9:
+    "Proven system integration through successful mission operations capabilities",
+  societal_rl1:
+    "Identification of the generic societal need, social good, and associated aspects",
+  societal_rl2:
+    "Formulation of proposed solution concept and potential impacts",
+  societal_rl3:
+    "A limited group of the society knows the solution or similar initiatives",
+  societal_rl4:
+    "A limited group of the society tests the solution or similar initiatives",
+  societal_rl5:
+    "Society knows the solution or similar initiatives but is not aware of their benefits",
+  societal_rl6:
+    "Society knows the solution and awareness of their benefits increases",
+  societal_rl7: "Society is completely aware of the solution's benefits",
+  societal_rl8:
+    "Society is ready to adopt the solution and have used similar solutions on the market",
+  societal_rl9:
+    "Society is using the solution and it is supported by stakeholders and the public",
+  manufacturing_rl1: "Basic manufacturing implications identified",
+  manufacturing_rl2: "Manufacturing concepts identified",
+  manufacturing_rl3: "Manufacturing proof of concept developed",
+  manufacturing_rl4:
+    "Capability to produce the technology in a laboratory environment",
+  manufacturing_rl5:
+    "Capability to produce the prototype components in a production relevant environment",
+  manufacturing_rl6:
+    "Capability to produce a prototype system or subsystem in a production relevant environment",
+  manufacturing_rl7:
+    "Capability to produce systems, subsystems or components in a production representative environment",
+  manufacturing_rl8:
+    "Pilot line capability demonstrated. Ready to begin low rate production",
+  manufacturing_rl9:
+    "Low rate production demonstrated. Capability in place to begin full rate production",
+  commercialisation_rl1: "Research and basis hypothesis",
+  commercialisation_rl2: "Market assessment",
+  commercialisation_rl3: "Technology application and market validation",
+  commercialisation_rl4: "Value proposition",
+  commercialisation_rl5: "Product development and market alignment",
+  commercialisation_rl6: "Product/solution optimisation and IP protection",
+  commercialisation_rl7: "Technical and commercial validation",
+  commercialisation_rl8: "Commercialisation strategy and market introduction",
+  commercialisation_rl9: "Full launch and license revenue",
+  security_rl1: "Security consideration",
+  security_rl2: "Security concept development",
+  security_rl3: "Security by design",
+  security_rl4: "Security measures and features preparation",
+  security_rl5: "Simple security validation",
+  security_rl6: "Sequential security demonstration",
+  security_rl7: "Complex security demonstrations",
+  security_rl8: "Final pre-release security validation and preparation",
+  security_rl9: "Initial operational security",
+  security_rl10: "Well-established/reliable security",
+  legal_privacy_ethical_rl1:
+    "Control over legal, ethical, and privacy issues: the system has implemented control mechanisms for accountability and has passed standard benchmarks and obtained certification, if applicable",
+  legal_privacy_ethical_rl2:
+    "Ethical tensions addressed via ethics-by-design: the system's legal, ethical, and privacy considerations have been designed to be compatible with each other. Ethics tensions have been addressed so improving one aspect does not negatively impact another",
+  legal_privacy_ethical_rl3:
+    "Characterised legal, ethical, and privacy interactions: the interactions between different ethical and privacy considerations have been characterised",
+  legal_privacy_ethical_rl4:
+    "Identified legal, ethical, and privacy issues: ethical and privacy considerations raised by the system have been identified and anticipated",
   sol_linked_caps: "Linked capabilities (with gaps)",
   sol_addressed_gaps: "Addressed capability gaps",
   sol_no_gaps:

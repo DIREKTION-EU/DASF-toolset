@@ -743,19 +743,25 @@ html {
 
 /* TRL Plugin */
 .trl-plugin {
-  padding: 8px 0 16px;
+  padding-top: 8px !important;
+  padding-bottom: 8px !important;
+  border-radius: 8px;
+  border: solid 1px black;
+}
+
+.trl-plugin + .trl-plugin {
+  margin-top: 28px;
 }
 
 .trl-label {
   display: block;
   font-size: 0.8rem;
   color: var(--mm-text-secondary, #757575);
-  margin-bottom: 8px;
 }
 
 .trl-slider-wrapper {
   position: relative;
-  padding-bottom: 20px;
+  padding-bottom: 0px;
 }
 
 .trl-range {

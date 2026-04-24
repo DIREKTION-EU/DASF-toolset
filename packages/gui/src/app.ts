@@ -17,6 +17,7 @@ registerPlugin("lookup-table", lookupTable);
 registerPlugin("create-lookup-table", lookupTableCreatorPlugin);
 registerPlugin("table", tablePlugin);
 registerPlugin("trl", trlPlugin);
+registerPlugin("readiness-level", trlPlugin);
 import { LANGUAGE, SAVED } from "./utils";
 import { type Languages, i18n } from "./services";
 import { registerServiceWorker } from "./register-sw";

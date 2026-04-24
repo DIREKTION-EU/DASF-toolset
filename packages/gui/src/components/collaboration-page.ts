@@ -15,11 +15,14 @@ import { Pages } from "../models/page";
 import { type Languages, i18n } from "../services";
 import { LanguageSwitcher } from "./ui/language-switcher";
 import type { ICapability } from "../models/capability-model/capability-model";
+import type { ISolution } from "../models/capability-model/solution";
+import { allSolutionReadinessConfigs } from "../models/capability-model/readiness-levels";
 import {
   type CollabMode,
   type CapabilityAnswer,
   type CollaborationPatch,
   type InvitePayload,
+  type SolutionAssessmentAnswer,
   buildInvitePayload,
   buildMailtoInvite,
   buildMailtoPatch,
@@ -27,6 +30,7 @@ import {
   decodePayload,
   aggregateCapabilityPatches,
   mergeCapabilityAssessmentPatches,
+  mergeSolutionAssessmentPatches,
   entityId,
   entityLabel,
 } from "../services/collaboration-service";
@@ -49,6 +53,80 @@ const capabilityFromInvite = (
 
 const inviteDraftKey = (invite: InvitePayload): string =>
   `${invite.s}:${invite.bh}`;
+
+const stringifyTranslation = (value: unknown) =>
+  Array.isArray(value) ? value.join("") : value == null ? "" : `${value}`;
+
+const translatedOrFallback = (key: string, fallback: string) => {
+  const translated = stringifyTranslation(t(key as any));
+  return translated && translated !== key && translated !== `@@${key}@@`
+    ? translated
+    : fallback;
+};
+
+const aggregateSolutionAssessments = (
+  patches: CollaborationPatch[],
+  solutions: ISolution[],
+) => {
+  const bySolutionId = new Map<string, SolutionAssessmentAnswer[]>();
+
+  for (const patch of patches) {
+    for (const assessment of patch.sa ?? []) {
+      const list = bySolutionId.get(assessment.i) ?? [];
+      list.push(assessment);
+      bySolutionId.set(assessment.i, list);
+    }
+  }
+
+  return Array.from(bySolutionId.entries()).map(([solutionId, entries]) => {
+    const solution = solutions.find((item) => item.id === solutionId);
+    const readiness = allSolutionReadinessConfigs
+      .map((config) => {
+        const values = entries
+          .map((entry) => entry[config.id as keyof SolutionAssessmentAnswer])
+          .filter(
+            (value): value is number =>
+              typeof value === "number" && !Number.isNaN(value),
+          );
+
+        if (!values.length) return undefined;
+
+        const average =
+          values.reduce((sum, value) => sum + value, 0) / values.length;
+        return {
+          id: config.id,
+          label: translatedOrFallback(config.labelKey, config.fallbackLabel),
+          prefix: config.prefix,
+          average,
+          values,
+        };
+      })
+      .filter((item): item is NonNullable<typeof item> => !!item);
+
+    const impactValues = entries
+      .map((entry) => entry.imp)
+      .filter(
+        (value): value is number =>
+          typeof value === "number" && !Number.isNaN(value),
+      );
+    const notes = entries
+      .map((entry) => entry.n?.trim())
+      .filter((note): note is string => !!note);
+
+    return {
+      solutionId,
+      label: solution?.label ?? solutionId,
+      count: entries.length,
+      readiness,
+      impactValues,
+      impactAverage: impactValues.length
+        ? impactValues.reduce((sum, value) => sum + value, 0) /
+          impactValues.length
+        : undefined,
+      notes,
+    };
+  });
+};
 
 // ─── Facilitator View ─────────────────────────────────────────────────────────
 
@@ -211,13 +289,21 @@ const PatchLoader: MeiosisComponent = () => {
       ignoredReason = undefined;
 
       const nextState = attrs.getState();
-      const mergedModel =
+      const mergedCapabilityModel =
         nextState.catModel && nextState.collaboration?.patches
           ? mergeCapabilityAssessmentPatches(
               nextState.catModel,
               nextState.collaboration.patches,
             )
           : undefined;
+
+      const mergedModel =
+        mergedCapabilityModel && nextState.collaboration?.patches
+          ? mergeSolutionAssessmentPatches(
+              mergedCapabilityModel,
+              nextState.collaboration.patches,
+            )
+          : mergedCapabilityModel;
 
       if (mergedModel) {
         actions.saveModel(attrs, mergedModel);
@@ -327,9 +413,14 @@ const PatchLoader: MeiosisComponent = () => {
                                 nextState.catModel &&
                                 nextState.collaboration?.patches
                               ) {
-                                const mergedModel =
+                                const mergedCapabilityModel =
                                   mergeCapabilityAssessmentPatches(
                                     nextState.catModel,
+                                    nextState.collaboration.patches,
+                                  );
+                                const mergedModel =
+                                  mergeSolutionAssessmentPatches(
+                                    mergedCapabilityModel,
                                     nextState.collaboration.patches,
                                   );
                                 actions.saveModel(attrs, mergedModel);
@@ -361,74 +452,134 @@ const AggregatedResults: MeiosisComponent = () => ({
     const patches = attrs.state.collaboration?.patches ?? [];
     if (!patches.length) return null;
 
-    const agg = aggregateCapabilityPatches(patches);
-    if (!agg.length) return null;
+    const capabilityAgg = aggregateCapabilityPatches(patches);
+    const allSolutions = attrs.state.catModel?.data?.solutions ?? [];
+    const solutionAgg = aggregateSolutionAssessments(patches, allSolutions);
+    if (!capabilityAgg.length && !solutionAgg.length) return null;
 
     return m(".collab-aggregated", [
       m("h6", t("collab_aggregated_results")),
-      m("table.striped.highlight", [
-        m(
-          "thead",
-          m("tr", [
-            m("th", t("cap")),
-            m("th", t("collab_avg_action_priority")),
-            m("th", t("collab_task_items")),
-            m("th", t("collab_perf_items")),
-            m("th", t("collab_gap_items")),
-          ]),
-        ),
-        m(
-          "tbody",
-          agg.map((a) =>
+      capabilityAgg.length > 0 &&
+        m("table.striped.highlight", [
+          m(
+            "thead",
             m("tr", [
-              m("td", m("code", a.capabilityId)),
-              m(
-                "td",
-                a.avgActionPriority != null
-                  ? a.avgActionPriority.toFixed(1)
-                  : "—",
-              ),
-              m(
-                "td",
-                a.taskItems.map((ti) =>
-                  m("div", [
-                    m("small.grey-text", `${ti.id}: `),
-                    m("strong", ti.avgValue),
-                    m("small.grey-text", ` (${ti.allValues.join(", ")})`),
-                  ]),
-                ),
-              ),
-              m(
-                "td",
-                a.performanceItems.map((pi) =>
-                  m("div", [
-                    m("small.grey-text", `${pi.id}: `),
-                    m("strong", pi.avgValue),
-                    m("small.grey-text", ` (${pi.allValues.join(", ")})`),
-                  ]),
-                ),
-              ),
-              m(
-                "td",
-                a.gaps.map((g) =>
-                  m("div", { style: "margin-bottom:8px" }, [
-                    m(
-                      "small.grey-text",
-                      `${t("gap")} ${g.gapIndex + 1}${g.titles.length ? `: ${g.titles.join(" | ")}` : ""}`,
-                    ),
-                    ...g.items.map((gi) =>
-                      m("div", [
-                        m("small.grey-text", `${gi.id}: `),
-                        m("small", gi.allValues.join(", ") || "—"),
-                      ]),
-                    ),
-                  ]),
-                ),
-              ),
+              m("th", t("cap")),
+              m("th", t("collab_avg_action_priority")),
+              m("th", t("collab_task_items")),
+              m("th", t("collab_perf_items")),
+              m("th", t("collab_gap_items")),
             ]),
           ),
-        ),
-      ]),
+          m(
+            "tbody",
+            capabilityAgg.map((a) =>
+              m("tr", [
+                m("td", m("code", a.capabilityId)),
+                m(
+                  "td",
+                  a.avgActionPriority != null
+                    ? a.avgActionPriority.toFixed(1)
+                    : "—",
+                ),
+                m(
+                  "td",
+                  a.taskItems.map((ti) =>
+                    m("div", [
+                      m("small.grey-text", `${ti.id}: `),
+                      m("strong", ti.avgValue),
+                      m("small.grey-text", ` (${ti.allValues.join(", ")})`),
+                    ]),
+                  ),
+                ),
+                m(
+                  "td",
+                  a.performanceItems.map((pi) =>
+                    m("div", [
+                      m("small.grey-text", `${pi.id}: `),
+                      m("strong", pi.avgValue),
+                      m("small.grey-text", ` (${pi.allValues.join(", ")})`),
+                    ]),
+                  ),
+                ),
+                m(
+                  "td",
+                  a.gaps.map((g) =>
+                    m("div", { style: "margin-bottom:8px" }, [
+                      m(
+                        "small.grey-text",
+                        `${t("gap")} ${g.gapIndex + 1}${g.titles.length ? `: ${g.titles.join(" | ")}` : ""}`,
+                      ),
+                      ...g.items.map((gi) =>
+                        m("div", [
+                          m("small.grey-text", `${gi.id}: `),
+                          m("small", gi.allValues.join(", ") || "—"),
+                        ]),
+                      ),
+                    ]),
+                  ),
+                ),
+              ]),
+            ),
+          ),
+        ]),
+      solutionAgg.length > 0 && [
+        m("h6", t("solutions")),
+        m("table.striped.highlight", [
+          m(
+            "thead",
+            m("tr", [
+              m("th", t("solution")),
+              m("th", t("collab_contributor")),
+              m("th", t("value")),
+              m("th", t("sol_expected_impact_title")),
+              m("th", t("desc")),
+            ]),
+          ),
+          m(
+            "tbody",
+            solutionAgg.map((solution) =>
+              m("tr", [
+                m("td", solution.label),
+                m("td", solution.count),
+                m(
+                  "td",
+                  solution.readiness.length > 0
+                    ? solution.readiness.map((item) =>
+                        m("div", [
+                          m("small.grey-text", `${item.label}: `),
+                          m(
+                            "strong",
+                            `${item.prefix} ${item.average.toFixed(1)}`,
+                          ),
+                          m("small.grey-text", ` (${item.values.join(", ")})`),
+                        ]),
+                      )
+                    : "—",
+                ),
+                m(
+                  "td",
+                  solution.impactAverage != null
+                    ? m("div", [
+                        m("strong", solution.impactAverage.toFixed(1)),
+                        m(
+                          "small.grey-text",
+                          ` (${solution.impactValues.join(", ")})`,
+                        ),
+                      ])
+                    : "—",
+                ),
+                m(
+                  "td",
+                  solution.notes.length > 0
+                    ? solution.notes.map((note) => m("div", note))
+                    : "—",
+                ),
+              ]),
+            ),
+          ),
+        ]),
+      ],
     ]);
   },
 });
@@ -438,6 +589,7 @@ const AggregatedResults: MeiosisComponent = () => ({
 const UserAssessmentView: MeiosisComponent = () => {
   // Local mutable answers keyed by capabilityId
   const answers = new Map<string, CapabilityAnswer>();
+  const solutionAssessments = new Map<string, SolutionAssessmentAnswer>();
   let pageIndex = 0;
   let loadedDraftKey = "";
 
@@ -456,6 +608,9 @@ const UserAssessmentView: MeiosisComponent = () => {
         : undefined,
     }));
 
+  const serializeSolutionAssessments = (): SolutionAssessmentAnswer[] =>
+    Array.from(solutionAssessments.values()).map((item) => ({ ...item }));
+
   const persistDraft = (
     attrs: Parameters<ReturnType<MeiosisComponent>["view"]>[0]["attrs"],
     invite: InvitePayload,
@@ -467,6 +622,7 @@ const UserAssessmentView: MeiosisComponent = () => {
         ...drafts,
         [key]: {
           answers: serializeAnswers(),
+          solutionAssessments: serializeSolutionAssessments(),
           pageIndex,
           updatedAt: Date.now(),
         },
@@ -482,6 +638,7 @@ const UserAssessmentView: MeiosisComponent = () => {
     if (loadedDraftKey === key) return;
     loadedDraftKey = key;
     answers.clear();
+    solutionAssessments.clear();
     pageIndex = 0;
     const draft = attrs.state.collaboration?.userDrafts?.[key];
     if (!draft) return;
@@ -499,6 +656,9 @@ const UserAssessmentView: MeiosisComponent = () => {
             }))
           : undefined,
       });
+    });
+    (draft.solutionAssessments ?? []).forEach((item) => {
+      solutionAssessments.set(item.i, { ...item });
     });
     pageIndex = Math.max(0, draft.pageIndex ?? 0);
   };
@@ -614,6 +774,29 @@ const UserAssessmentView: MeiosisComponent = () => {
     }
   };
 
+  const getOrCreateSolutionAssessment = (
+    solutionId: string,
+  ): SolutionAssessmentAnswer => {
+    if (!solutionAssessments.has(solutionId)) {
+      solutionAssessments.set(solutionId, { i: solutionId });
+    }
+    return solutionAssessments.get(solutionId)!;
+  };
+
+  const setSolutionAssessmentValue = (
+    solutionId: string,
+    field: Exclude<keyof SolutionAssessmentAnswer, "i" | "n">,
+    value: number,
+  ) => {
+    const assessment = getOrCreateSolutionAssessment(solutionId);
+    assessment[field] = value as any;
+  };
+
+  const setSolutionAssessmentNote = (solutionId: string, note: string) => {
+    const assessment = getOrCreateSolutionAssessment(solutionId);
+    assessment.n = note;
+  };
+
   return {
     view: ({ attrs }) => {
       const { collaboration = {}, catModel } = attrs.state;
@@ -623,6 +806,7 @@ const UserAssessmentView: MeiosisComponent = () => {
 
       const data = catModel?.data ?? {};
       const allCaps: ICapability[] = data.capabilities ?? [];
+      const allSolutions: ISolution[] = data.solutions ?? [];
       const taskScale = data.taskScale ?? [];
       const performanceScale = data.performanceScale ?? [];
       const mainTasks = data.mainTasks ?? [];
@@ -637,13 +821,29 @@ const UserAssessmentView: MeiosisComponent = () => {
             if (!a) return false;
             return !!(a.ta || a.pa || a.ap || (a.g && a.g.length > 0));
           });
+        const solutionAnswers = solutionRefs
+          .map((solutionRef) => solutionAssessments.get(entityId(solutionRef)))
+          .filter((assessment): assessment is SolutionAssessmentAnswer => {
+            if (!assessment) return false;
+            return !!(
+              assessment.trl != null ||
+              assessment.integrationRl != null ||
+              assessment.societalRl != null ||
+              assessment.manufacturingRl != null ||
+              assessment.commercialisationRl != null ||
+              assessment.securityRl != null ||
+              assessment.legalPrivacyEthicalRl != null ||
+              assessment.imp != null ||
+              (assessment.n && assessment.n.trim())
+            );
+          });
         const patch = buildPatchPayload(
           invitePayload,
           userInfo.name,
           userInfo.email,
           capAnswers,
           [],
-          [],
+          solutionAnswers,
         );
         const subject = t("collab_patch_subject");
         const body = t("collab_patch_body")
@@ -662,6 +862,7 @@ const UserAssessmentView: MeiosisComponent = () => {
         const drafts = { ...(attrs.state.collaboration?.userDrafts ?? {}) };
         delete drafts[key];
         answers.clear();
+        solutionAssessments.clear();
         pageIndex = 0;
         actions.updateCollaboration(attrs, {
           userDrafts: drafts,
@@ -670,6 +871,7 @@ const UserAssessmentView: MeiosisComponent = () => {
       };
 
       const capRefs = invitePayload.c;
+      const solutionRefs = invitePayload.sol ?? [];
       const totalPages = capRefs.length;
       if (pageIndex >= totalPages) pageIndex = Math.max(0, totalPages - 1);
       const currentRef = totalPages > 0 ? capRefs[pageIndex] : undefined;
@@ -827,52 +1029,49 @@ const UserAssessmentView: MeiosisComponent = () => {
                               t(`${task.id}_desc` as any) || task.desc,
                             ),
                         ]),
-                        m(
-                          ".col.s12.m7",
-                          [
-                            m(
-                              "select.browser-default",
-                              {
-                                value: currentVal,
-                                onchange: (e: Event) =>
-                                  (() => {
-                                    setTaskItem(
-                                      currentCapId,
-                                      task.id,
-                                      (e.target as HTMLSelectElement).value,
-                                    );
-                                    saveCurrentDraft();
-                                  })(),
-                              },
-                              [
-                                m("option[value='']", "—"),
-                                ...taskScale.map((s) =>
-                                  m(
-                                    "option",
-                                    {
-                                      value: s.id,
-                                      selected: currentVal === s.id,
-                                    },
-                                    t(s.id as any) || s.label,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            m("label", t("expl")),
-                            m("textarea.materialize-textarea", {
-                              value: currentDesc,
-                              oninput: (e: Event) =>
+                        m(".col.s12.m7", [
+                          m(
+                            "select.browser-default",
+                            {
+                              value: currentVal,
+                              onchange: (e: Event) =>
                                 (() => {
-                                  setTaskDesc(
+                                  setTaskItem(
                                     currentCapId,
                                     task.id,
-                                    (e.target as HTMLTextAreaElement).value,
+                                    (e.target as HTMLSelectElement).value,
                                   );
                                   saveCurrentDraft();
                                 })(),
-                            }),
-                          ],
-                        ),
+                            },
+                            [
+                              m("option[value='']", "—"),
+                              ...taskScale.map((s) =>
+                                m(
+                                  "option",
+                                  {
+                                    value: s.id,
+                                    selected: currentVal === s.id,
+                                  },
+                                  t(s.id as any) || s.label,
+                                ),
+                              ),
+                            ],
+                          ),
+                          m("label", t("expl")),
+                          m("textarea.materialize-textarea", {
+                            value: currentDesc,
+                            oninput: (e: Event) =>
+                              (() => {
+                                setTaskDesc(
+                                  currentCapId,
+                                  task.id,
+                                  (e.target as HTMLTextAreaElement).value,
+                                );
+                                saveCurrentDraft();
+                              })(),
+                          }),
+                        ]),
                       ]);
                     }),
                   ],
@@ -894,52 +1093,49 @@ const UserAssessmentView: MeiosisComponent = () => {
                               t(`${aspect.id}_desc` as any) || aspect.desc,
                             ),
                         ]),
-                        m(
-                          ".col.s12.m7",
-                          [
-                            m(
-                              "select.browser-default",
-                              {
-                                value: currentVal,
-                                onchange: (e: Event) =>
-                                  (() => {
-                                    setPerfItem(
-                                      currentCapId,
-                                      aspect.id,
-                                      (e.target as HTMLSelectElement).value,
-                                    );
-                                    saveCurrentDraft();
-                                  })(),
-                              },
-                              [
-                                m("option[value='']", "—"),
-                                ...performanceScale.map((s) =>
-                                  m(
-                                    "option",
-                                    {
-                                      value: s.id,
-                                      selected: currentVal === s.id,
-                                    },
-                                    t(s.id as any) || s.label,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            m("label", t("expl")),
-                            m("textarea.materialize-textarea", {
-                              value: currentDesc,
-                              oninput: (e: Event) =>
+                        m(".col.s12.m7", [
+                          m(
+                            "select.browser-default",
+                            {
+                              value: currentVal,
+                              onchange: (e: Event) =>
                                 (() => {
-                                  setPerfDesc(
+                                  setPerfItem(
                                     currentCapId,
                                     aspect.id,
-                                    (e.target as HTMLTextAreaElement).value,
+                                    (e.target as HTMLSelectElement).value,
                                   );
                                   saveCurrentDraft();
                                 })(),
-                            }),
-                          ],
-                        ),
+                            },
+                            [
+                              m("option[value='']", "—"),
+                              ...performanceScale.map((s) =>
+                                m(
+                                  "option",
+                                  {
+                                    value: s.id,
+                                    selected: currentVal === s.id,
+                                  },
+                                  t(s.id as any) || s.label,
+                                ),
+                              ),
+                            ],
+                          ),
+                          m("label", t("expl")),
+                          m("textarea.materialize-textarea", {
+                            value: currentDesc,
+                            oninput: (e: Event) =>
+                              (() => {
+                                setPerfDesc(
+                                  currentCapId,
+                                  aspect.id,
+                                  (e.target as HTMLTextAreaElement).value,
+                                );
+                                saveCurrentDraft();
+                              })(),
+                          }),
+                        ]),
                       ]);
                     }),
                   ],
@@ -1008,55 +1204,52 @@ const UserAssessmentView: MeiosisComponent = () => {
                                 t(`${gapItem.id}_desc` as any) || gapItem.desc,
                               ),
                           ]),
-                          m(
-                            ".col.s12.m7",
-                            [
-                              m(
-                                "select.browser-default",
-                                {
-                                  value: currentVal,
-                                  onchange: (e: Event) =>
-                                    (() => {
-                                      setGapItem(
-                                        currentCapId,
-                                        gapIndex,
-                                        gapItem.id,
-                                        (e.target as HTMLSelectElement).value,
-                                        gapScaleIds,
-                                      );
-                                      saveCurrentDraft();
-                                    })(),
-                                },
-                                [
-                                  m("option[value='']", "—"),
-                                  ...gapScale.map((s) =>
-                                    m(
-                                      "option",
-                                      {
-                                        value: s.id,
-                                        selected: currentVal === s.id,
-                                      },
-                                      t(s.id as any) || s.label,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              m("label", t("expl")),
-                              m("textarea.materialize-textarea", {
-                                value: currentDesc,
-                                oninput: (e: Event) =>
+                          m(".col.s12.m7", [
+                            m(
+                              "select.browser-default",
+                              {
+                                value: currentVal,
+                                onchange: (e: Event) =>
                                   (() => {
-                                    setGapItemDesc(
+                                    setGapItem(
                                       currentCapId,
                                       gapIndex,
                                       gapItem.id,
-                                      (e.target as HTMLTextAreaElement).value,
+                                      (e.target as HTMLSelectElement).value,
+                                      gapScaleIds,
                                     );
                                     saveCurrentDraft();
                                   })(),
-                              }),
-                            ],
-                          ),
+                              },
+                              [
+                                m("option[value='']", "—"),
+                                ...gapScale.map((s) =>
+                                  m(
+                                    "option",
+                                    {
+                                      value: s.id,
+                                      selected: currentVal === s.id,
+                                    },
+                                    t(s.id as any) || s.label,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            m("label", t("expl")),
+                            m("textarea.materialize-textarea", {
+                              value: currentDesc,
+                              oninput: (e: Event) =>
+                                (() => {
+                                  setGapItemDesc(
+                                    currentCapId,
+                                    gapIndex,
+                                    gapItem.id,
+                                    (e.target as HTMLTextAreaElement).value,
+                                  );
+                                  saveCurrentDraft();
+                                })(),
+                            }),
+                          ]),
                         ]);
                       }),
                     ]),
@@ -1108,6 +1301,119 @@ const UserAssessmentView: MeiosisComponent = () => {
                   ]),
                 ]),
               ]),
+          ]),
+
+        // Solution Assessment (sa mode)
+        invitePayload.m.includes("sa") &&
+          m(".sa-section", [
+            m("h5", t("collab_mode_sa")),
+            solutionRefs.length === 0
+              ? m("p.grey-text", t("solution_empty"))
+              : solutionRefs.map((solutionRef) => {
+                  const solutionId = entityId(solutionRef);
+                  const solution = allSolutions.find(
+                    (s) => s.id === solutionId,
+                  );
+                  const solutionLabel = solution
+                    ? solution.label
+                    : entityLabel(solutionRef, solutionId);
+                  const response = getOrCreateSolutionAssessment(solutionId);
+
+                  return m(".card.hoverable", [
+                    m(".card-content", [
+                      m("span.card-title", solutionLabel),
+                      ...(solution?.desc
+                        ? [m("p.grey-text", solution.desc)]
+                        : []),
+                      ...allSolutionReadinessConfigs.map((config) => {
+                        const currentValue =
+                          (response as any)[config.id] ??
+                          (solution as any)?.[config.id] ??
+                          config.min;
+                        const descIndex = currentValue - config.min;
+                        const description = translatedOrFallback(
+                          `${config.descriptionKeyPrefix}${currentValue}`,
+                          config.descriptions[descIndex] ?? "",
+                        );
+
+                        return m(".row", [
+                          m(".col.s12", [
+                            m(
+                              "label",
+                              translatedOrFallback(
+                                config.labelKey,
+                                config.fallbackLabel,
+                              ),
+                            ),
+                            m(
+                              "p.range-field",
+                              m("input[type=range]", {
+                                min: config.min,
+                                max: config.max,
+                                step: 1,
+                                value: currentValue,
+                                oninput: (e: Event) => {
+                                  setSolutionAssessmentValue(
+                                    solutionId,
+                                    config.id as any,
+                                    parseInt(
+                                      (e.target as HTMLInputElement).value,
+                                      10,
+                                    ),
+                                  );
+                                  saveCurrentDraft();
+                                },
+                              }),
+                            ),
+                            m("small", `${config.prefix} ${currentValue}`),
+                            m(
+                              "small.grey-text.block.collab-field-desc",
+                              description,
+                            ),
+                          ]),
+                        ]);
+                      }),
+                      m(".row", [
+                        m(".col.s12", [
+                          m("label", t("sol_expected_impact_title")),
+                          m(
+                            "p.range-field",
+                            m("input[type=range][min=1][max=5][step=1]", {
+                              value: response.imp ?? 3,
+                              oninput: (e: Event) => {
+                                setSolutionAssessmentValue(
+                                  solutionId,
+                                  "imp",
+                                  parseInt(
+                                    (e.target as HTMLInputElement).value,
+                                    10,
+                                  ),
+                                );
+                                saveCurrentDraft();
+                              },
+                            }),
+                          ),
+                          m("small", `${response.imp ?? 3}`),
+                        ]),
+                      ]),
+                      m(".row", [
+                        m(".col.s12", [
+                          m("label", t("desc")),
+                          m("textarea.materialize-textarea", {
+                            value: response.n ?? "",
+                            oninput: (e: Event) => {
+                              setSolutionAssessmentNote(
+                                solutionId,
+                                (e.target as HTMLTextAreaElement).value,
+                              );
+                              saveCurrentDraft();
+                            },
+                          }),
+                        ]),
+                      ]),
+                    ]),
+                  ]);
+                }),
           ]),
 
         // Done button
