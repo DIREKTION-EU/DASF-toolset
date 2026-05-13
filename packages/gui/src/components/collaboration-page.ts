@@ -9,7 +9,13 @@
  *   Fill in capability assessments and click Done to send patch back.
  */
 import m from "mithril";
-import { ConfirmButton, ThemeToggle } from "mithril-materialized";
+import {
+  ConfirmButton,
+  Icon,
+  LikertScale,
+  ThemeToggle,
+  Tooltip,
+} from "mithril-materialized";
 import { actions, MeiosisComponent, sessionService, t } from "../services";
 import { Pages } from "../models/page";
 import { type Languages, i18n } from "../services";
@@ -604,6 +610,7 @@ const UserAssessmentView: MeiosisComponent = () => {
             d: g.d,
             a: g.a,
             i: g.i.map((x) => ({ ...x })),
+            l: g.l ? g.l.map((x) => ({ ...x })) : undefined,
           }))
         : undefined,
     }));
@@ -653,6 +660,7 @@ const UserAssessmentView: MeiosisComponent = () => {
               d: g.d,
               a: g.a,
               i: g.i.map((x) => ({ ...x })),
+              l: g.l ? g.l.map((x) => ({ ...x })) : undefined,
             }))
           : undefined,
       });
@@ -814,6 +822,14 @@ const UserAssessmentView: MeiosisComponent = () => {
       const mainGaps = data.mainGaps ?? [];
       const gapScale = data.gapScale ?? [];
 
+      const exitToRegularTool = () => {
+        actions.exitInviteeCollaboration(attrs);
+        actions.changePage(
+          attrs,
+          attrs.state.currentSessionId ? Pages.HOME : Pages.LANDING,
+        );
+      };
+
       const sendDone = () => {
         const capAnswers = capRefs
           .map((capRef) => answers.get(entityId(capRef)))
@@ -850,6 +866,7 @@ const UserAssessmentView: MeiosisComponent = () => {
           .replace(/\{facilitatorName\}/g, invitePayload.fn)
           .replace(/\{userName\}/g, userInfo.name ?? "");
         const mailto = buildMailtoPatch(patch, invitePayload.fe, subject, body);
+        exitToRegularTool();
         window.location.href = mailto;
       };
 
@@ -1252,6 +1269,119 @@ const UserAssessmentView: MeiosisComponent = () => {
                           ]),
                         ]);
                       }),
+
+                      // Gap Likert scales (Severity, Probability, Impact)
+                      m(
+                        "h6",
+                        translatedOrFallback(
+                          "gap_problem_categories_intro" as any,
+                          "Analyse this capability gap on the following problem categories.",
+                        ),
+                      ),
+                      [
+                        {
+                          id: "gapSeverity",
+                          labelKey: "gap_likert_severity",
+                          fallbackLabel: "Severity",
+                          fallbackTooltip:
+                            "How do you rate the severity of this capability gap?",
+                          startLabel: "Very low",
+                          endLabel: "Very high",
+                          middleLabel: "Average",
+                        },
+                        {
+                          id: "gapProbability",
+                          labelKey: "gap_likert_probability",
+                          fallbackLabel: "Probability",
+                          fallbackTooltip:
+                            "Suppose the gap is solved: What would this mean for the probability of occurrence of the gap?",
+                          startLabel: "No change",
+                          endLabel: "Big decrease",
+                          middleLabel: "—",
+                        },
+                        {
+                          id: "gapImpact",
+                          labelKey: "gap_likert_impact",
+                          fallbackLabel: "Impact",
+                          fallbackTooltip:
+                            "Suppose the gap is solved. What would this mean for the reduction in impact of the original gap?",
+                          startLabel: "No change",
+                          endLabel: "Big decrease",
+                          middleLabel: "—",
+                        },
+                      ].map((likert) => {
+                        const likertItem = (gap.l ?? []).find(
+                          (x) => x.id === likert.id,
+                        );
+                        const value = likertItem?.v;
+                        return m(".col.s12.m6.l4.condensed", [
+                          m("label.dasf-field-label", [
+                            translatedOrFallback(
+                              likert.labelKey,
+                              likert.fallbackLabel,
+                            ),
+                            m(
+                              "span.tooltipped.grey-text.info-icon",
+                              {
+                                "data-position": "bottom",
+                                "data-tooltip": likert.fallbackTooltip,
+                                oncreate: ({ dom }) =>
+                                  new Tooltip(dom as HTMLElement),
+                                onremove: ({ dom }) =>
+                                  Tooltip.getInstance(
+                                    dom as HTMLElement,
+                                  )?.destroy(),
+                              },
+                              m(Icon, { iconName: "info" }),
+                            ),
+                          ]),
+                          m(LikertScale, {
+                            min: 1,
+                            max: 5,
+                            value,
+                            showNumbers: true,
+                            startLabel: translatedOrFallback(
+                              `${likert.id}_start_label`,
+                              likert.startLabel,
+                            ),
+                            middleLabel: translatedOrFallback(
+                              `${likert.id}_middle_label`,
+                              likert.middleLabel,
+                            ),
+                            endLabel: translatedOrFallback(
+                              `${likert.id}_end_label`,
+                              likert.endLabel,
+                            ),
+                            layout: "horizontal",
+                            density: "compact",
+                            onchange: (nextValue) => {
+                              const likertArray = gap.l ?? [];
+                              const existingIndex = likertArray.findIndex(
+                                (x) => x.id === likert.id,
+                              );
+                              if (existingIndex >= 0) {
+                                likertArray[existingIndex].v = nextValue;
+                              } else {
+                                likertArray.push({
+                                  id: likert.id,
+                                  v: nextValue,
+                                });
+                              }
+                              gap.l = likertArray;
+                              // Update in answers map
+                              const capAnswer = answers.get(currentCapId);
+                              if (
+                                capAnswer &&
+                                capAnswer.g &&
+                                capAnswer.g[gapIndex]
+                              ) {
+                                capAnswer.g[gapIndex].l = likertArray;
+                              }
+                              saveCurrentDraft();
+                            },
+                          }),
+                        ]);
+                      }),
                     ]),
                   ) ?? []),
                   m(
@@ -1268,35 +1398,31 @@ const UserAssessmentView: MeiosisComponent = () => {
                   // Action priority
                   m(".row", [
                     m(".col.s12", [
-                      m("label", t("action_priority")),
-                      m(
-                        "p.range-field",
-                        m("input[type=range][min=1][max=5][step=1]", {
-                          value: answer.ap ?? 3,
-                          oninput: (e: Event) =>
-                            (() => {
-                              setActionPriority(
-                                currentCapId,
-                                parseInt(
-                                  (e.target as HTMLInputElement).value,
-                                  10,
-                                ),
-                              );
-                              saveCurrentDraft();
-                            })(),
-                        }),
-                      ),
-                      m(
-                        ".flex-row",
-                        {
-                          style: "display:flex; justify-content:space-between",
+                      m("label", t("action_priority" as any)),
+                      m(LikertScale, {
+                        min: 1,
+                        max: 5,
+                        value: answer.ap,
+                        showNumbers: true,
+                        startLabel: translatedOrFallback(
+                          "action_priority_label_1",
+                          "Not now",
+                        ),
+                        middleLabel: translatedOrFallback(
+                          "action_priority_label_3",
+                          "Maybe",
+                        ),
+                        endLabel: translatedOrFallback(
+                          "action_priority_label_5",
+                          "Urgent",
+                        ),
+                        layout: "horizontal",
+                        density: "compact",
+                        onchange: (nextValue) => {
+                          setActionPriority(currentCapId, nextValue);
+                          saveCurrentDraft();
                         },
-                        [
-                          m("small", t("action_priority_label_1")),
-                          m("small", t("action_priority_label_3")),
-                          m("small", t("action_priority_label_5")),
-                        ],
-                      ),
+                      }),
                     ]),
                   ]),
                 ]),
@@ -1420,6 +1546,13 @@ const UserAssessmentView: MeiosisComponent = () => {
         m(".row", [
           m(
             ".col.s12",
+            m("button.btn-flat.waves-effect", { onclick: exitToRegularTool }, [
+              m("i.material-icons.left", "home"),
+              t("HOME", "TITLE"),
+            ]),
+          ),
+          m(
+            ".col.s12",
             m(
               "button.btn.btn-large.waves-effect.waves-light.teal",
               { onclick: sendDone },
@@ -1453,20 +1586,60 @@ export const CollaborationPage: MeiosisComponent = () => {
       } else if (pParam) {
         // Ensure facilitator patch links do not inherit a stale user-invite view.
         actions.updateCollaboration(attrs, { invitePayload: undefined });
+      } else {
+        // Entering collaboration route without invite params should not keep invitee mode.
+        actions.updateCollaboration(attrs, { invitePayload: undefined });
       }
     },
     view: ({ attrs }) => {
       const { collaboration = {} } = attrs.state;
       const isUserView = !!collaboration.invitePayload;
+      const canManageCollaborationState =
+        attrs.state.role === "facilitator" ||
+        attrs.state.role === "admin" ||
+        attrs.state.curUser === "facilitator" ||
+        attrs.state.curUser === "admin";
+
+      const goToRegularTool = () => {
+        actions.exitInviteeCollaboration(attrs);
+        actions.changePage(
+          attrs,
+          attrs.state.currentSessionId ? Pages.HOME : Pages.LANDING,
+        );
+      };
+
+      const resetCollaboration = () => {
+        actions.resetCollaboration(attrs);
+        actions.changePage(
+          attrs,
+          attrs.state.currentSessionId ? Pages.HOME : Pages.LANDING,
+        );
+      };
 
       return m(".collaboration-page.container", [
         m("h4", [m("i.material-icons.left", "group"), t("collab_page_title")]),
         isUserView
           ? m(UserAssessmentView, { ...attrs })
-          : m(".row", [
-              m(".col.s12.l6", m(FacilitatorSendInvite, { ...attrs })),
-              m(".col.s12.l6", m(PatchLoader, { ...attrs })),
-            ]),
+          : [
+              canManageCollaborationState &&
+                m(".card-panel", [
+                  m(
+                    "button.btn-flat.waves-effect",
+                    { onclick: goToRegularTool },
+                    [m("i.material-icons.left", "home"), t("HOME", "TITLE")],
+                  ),
+                  m(ConfirmButton, {
+                    iconName: "delete",
+                    confirmIconName: "check",
+                    title: t("clear"),
+                    onclick: resetCollaboration,
+                  }),
+                ]),
+              m(".row", [
+                m(".col.s12.l6", m(FacilitatorSendInvite, { ...attrs })),
+                m(".col.s12.l6", m(PatchLoader, { ...attrs })),
+              ]),
+            ],
       ]);
     },
   };

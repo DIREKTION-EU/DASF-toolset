@@ -60,12 +60,13 @@ export interface CapabilityAnswer {
   pa?: { a: string; i: CapabilityAssessmentResponseItem[] };
   /** actionPriority 1–5 */
   ap?: number;
-  /** gap assessments: per-gap { t/d + a: overallAssessmentId, i: per-item answers } */
+  /** gap assessments: per-gap { t/d + a: overallAssessmentId, i: per-item answers, l: likert scales } */
   g?: {
     t?: string;
     d?: string;
     a: string;
     i: CapabilityAssessmentResponseItem[];
+    l?: { id: string; v: number }[];
   }[];
 }
 

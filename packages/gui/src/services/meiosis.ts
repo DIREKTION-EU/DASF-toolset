@@ -253,6 +253,27 @@ export const actions = {
     cell.update({ collaboration: next });
   },
 
+  exitInviteeCollaboration: (cell: MeiosisCell<State>) => {
+    const state = cell.getState();
+    const collaboration = state.collaboration;
+    if (!collaboration) return;
+    if (!collaboration.invitePayload && collaboration.mode !== "invitee")
+      return;
+
+    const next = {
+      ...collaboration,
+      invitePayload: undefined,
+      mode: collaboration.mode === "invitee" ? undefined : collaboration.mode,
+    };
+    saveCollab(next);
+    cell.update({ collaboration: next });
+  },
+
+  resetCollaboration: (cell: MeiosisCell<State>) => {
+    localStorage.removeItem(COLLAB_KEY);
+    cell.update({ collaboration: undefined });
+  },
+
   addPatch: (
     cell: MeiosisCell<State>,
     patch: CollaborationPatch,

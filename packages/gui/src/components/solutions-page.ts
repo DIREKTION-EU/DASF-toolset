@@ -31,6 +31,30 @@ const translateItemLabels = (items?: Array<{ id?: string; label: string }>) => {
 
 export const SolutionsPage: MeiosisComponent = () => {
   const form = solutionForm();
+  const hiddenQuestionFieldIds = new Set([
+    "compliance-section",
+    "compliance",
+    "user-needs-section",
+    "userNeeds",
+    "operational-needs-section",
+    "operationalNeeds",
+    "organisational-needs-section",
+    "organisationalNeeds",
+    "expected-impact-section",
+    "expectedImpact",
+  ]);
+  const baseForm = form.filter(
+    (field) => !hiddenQuestionFieldIds.has(String(field.id || "")),
+  );
+  const questionForms = {
+    userNeeds: form.find((field) => field.id === "userNeeds"),
+    operationalNeeds: form.find((field) => field.id === "operationalNeeds"),
+    organisationalNeeds: form.find(
+      (field) => field.id === "organisationalNeeds",
+    ),
+    expectedImpact: form.find((field) => field.id === "expectedImpact"),
+    compliance: form.find((field) => field.id === "compliance"),
+  };
 
   return {
     oninit: ({ attrs }) => actions.setPage(attrs, Pages.SOLUTIONS),
@@ -188,7 +212,7 @@ export const SolutionsPage: MeiosisComponent = () => {
                         }),
                   ]),
                   m(LayoutForm, {
-                    form,
+                    form: baseForm,
                     obj: sol,
                     context: [localizeSolutionData(data)],
                     i18n: {
@@ -207,6 +231,58 @@ export const SolutionsPage: MeiosisComponent = () => {
                     },
                     onchange: () => actions.saveModel(attrs, catModel),
                   } as FormAttributes<ISolution>),
+                  m(Collapsible, {
+                    items: [
+                      {
+                        title: t("sol_user_needs_title"),
+                        form: questionForms.userNeeds,
+                      },
+                      {
+                        title: t("sol_operational_needs_title"),
+                        form: questionForms.operationalNeeds,
+                      },
+                      {
+                        title: t("sol_organisational_needs_title"),
+                        form: questionForms.organisationalNeeds,
+                      },
+                      {
+                        title: t("sol_expected_impact_title"),
+                        form: questionForms.expectedImpact,
+                      },
+                      {
+                        title: t("sol_compliance_title"),
+                        form: questionForms.compliance,
+                      },
+                    ]
+                      .filter((item) => !!item.form)
+                      .map((item) => ({
+                        header: item.title,
+                        iconName: "checklist",
+                        body: m(
+                          ".row",
+                          m(LayoutForm, {
+                            form: [item.form!],
+                            obj: sol,
+                            context: [localizeSolutionData(data)],
+                            i18n: {
+                              pickOne: t("pick_one"),
+                              pickOneOrMore: t("pick_more"),
+                              editRepeat: t("edit"),
+                              createRepeat: t("add_term"),
+                              deleteItem: t("DELETE"),
+                              agree: t("YES"),
+                              disagree: t("NO"),
+                              cancel: t("CANCEL"),
+                              save: t("SAVE_BUTTON", "LABEL"),
+                              raw: "Raw",
+                              view: "View",
+                              locales: ["en", "nl"],
+                            },
+                            onchange: () => actions.saveModel(attrs, catModel),
+                          } as FormAttributes<ISolution>),
+                        ),
+                      })),
+                  }),
                 ]),
               };
             }),
