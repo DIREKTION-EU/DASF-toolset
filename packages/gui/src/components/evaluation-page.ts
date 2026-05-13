@@ -1,3 +1,4 @@
+import { getFormI18nConfig } from "../services/translations";
 import m from "mithril";
 import { Select, Collapsible } from "mithril-materialized";
 import { FormAttributes, LayoutForm, render } from "mithril-ui-form";
@@ -108,6 +109,7 @@ export const EvaluationPage: MeiosisComponent = () => {
               form: evaluation,
               obj: cap,
               context: [data],
+              i18n: getFormI18nConfig(),
               onchange: () => {
                 actions.saveModel(attrs, catModel);
               },
@@ -124,6 +126,7 @@ export const EvaluationPage: MeiosisComponent = () => {
                   form: projectEvaluation,
                   obj: p,
                   context: [data],
+                  i18n: getFormI18nConfig(),
                   onchange: () => {
                     actions.saveModel(attrs, catModel);
                   },

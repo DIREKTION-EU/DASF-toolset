@@ -1,3 +1,22 @@
+/**
+ * Returns a standard i18n config object for mithril-ui-form LayoutForm, supporting all app locales.
+ */
+export function getFormI18nConfig(): Record<string, any> {
+  return {
+    pickOne: t("pick_one"),
+    pickOneOrMore: t("pick_more"),
+    editRepeat: t("edit"),
+    createRepeat: t("add_term"),
+    deleteItem: t("DELETE"),
+    agree: t("YES"),
+    disagree: t("NO"),
+    cancel: t("CANCEL"),
+    save: t("SAVE_BUTTON", "LABEL"),
+    raw: "Raw",
+    view: "View",
+    locales: ["en", "nl", "de", "fr", "es", "it", "pl", "pt", "sv"],
+  };
+}
 import translate, { type Options, type Translate } from "translate.js";
 import { plural_EN } from "translate.js/pluralize";
 import {

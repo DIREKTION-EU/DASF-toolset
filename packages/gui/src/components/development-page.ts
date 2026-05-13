@@ -1,3 +1,4 @@
+import { getFormI18nConfig } from "../services/translations";
 import m from "mithril";
 import {
   Select,
@@ -136,6 +137,7 @@ export const DevelopmentPage: MeiosisComponent = () => {
                   form: development,
                   obj: p,
                   context: [data],
+                  i18n: getFormI18nConfig(),
                   onchange: () => {
                     if (p.capabilityIds)
                       if (p.capabilityIds.indexOf(cap.id) < 0) {

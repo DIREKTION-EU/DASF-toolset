@@ -1,3 +1,4 @@
+import { getFormI18nConfig } from "../services/translations";
 import m from "mithril";
 import {
   FlatButton,
@@ -871,6 +872,7 @@ export const AssessmentPage: MeiosisComponent = () => {
                       },
                       ghostContext,
                     ],
+                    i18n: getFormI18nConfig(),
                     onchange: () => {
                       actions.saveModel(attrs, catModel);
                     },

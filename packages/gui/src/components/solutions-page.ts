@@ -1,3 +1,4 @@
+import { getFormI18nConfig } from "../services/translations";
 import m from "mithril";
 import { FlatButton, Collapsible } from "mithril-materialized";
 import { FormAttributes, LayoutForm } from "mithril-ui-form";
@@ -215,20 +216,7 @@ export const SolutionsPage: MeiosisComponent = () => {
                     form: baseForm,
                     obj: sol,
                     context: [localizeSolutionData(data)],
-                    i18n: {
-                      pickOne: t("pick_one"),
-                      pickOneOrMore: t("pick_more"),
-                      editRepeat: t("edit"),
-                      createRepeat: t("add_term"),
-                      deleteItem: t("DELETE"),
-                      agree: t("YES"),
-                      disagree: t("NO"),
-                      cancel: t("CANCEL"),
-                      save: t("SAVE_BUTTON", "LABEL"),
-                      raw: "Raw",
-                      view: "View",
-                      locales: ["en", "nl"],
-                    },
+                    i18n: getFormI18nConfig(),
                     onchange: () => actions.saveModel(attrs, catModel),
                   } as FormAttributes<ISolution>),
                   m(Collapsible, {
@@ -264,20 +252,7 @@ export const SolutionsPage: MeiosisComponent = () => {
                             form: [item.form!],
                             obj: sol,
                             context: [localizeSolutionData(data)],
-                            i18n: {
-                              pickOne: t("pick_one"),
-                              pickOneOrMore: t("pick_more"),
-                              editRepeat: t("edit"),
-                              createRepeat: t("add_term"),
-                              deleteItem: t("DELETE"),
-                              agree: t("YES"),
-                              disagree: t("NO"),
-                              cancel: t("CANCEL"),
-                              save: t("SAVE_BUTTON", "LABEL"),
-                              raw: "Raw",
-                              view: "View",
-                              locales: ["en", "nl"],
-                            },
+                            i18n: getFormI18nConfig(),
                             onchange: () => actions.saveModel(attrs, catModel),
                           } as FormAttributes<ISolution>),
                         ),

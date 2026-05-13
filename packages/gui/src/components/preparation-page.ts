@@ -1,3 +1,4 @@
+import { getFormI18nConfig } from "../services/translations";
 import m from "mithril";
 import { TabItem, Tabs } from "mithril-materialized";
 import { LayoutForm, UIForm, render, FormAttributes } from "mithril-ui-form";
@@ -55,6 +56,7 @@ export const PreparationPage: MeiosisComponent = () => {
               obj: data,
               // context: [data],
               section: s.id,
+              i18n: getFormI18nConfig(),
               onchange: () => {
                 data.selectedHazardIds = (data.hazardTypes ?? [])
                   .filter((h) => h.selected)

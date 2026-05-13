@@ -1,3 +1,4 @@
+import { getFormI18nConfig } from "../services/translations";
 import m from "mithril";
 import { TabItem, Tabs } from "mithril-materialized";
 import { FormAttributes, LayoutForm, UIForm } from "mithril-ui-form";
@@ -31,6 +32,7 @@ export const SettingsPage: MeiosisComponent = () => ({
             obj: data,
             section: s.id,
             context: [data],
+            i18n: getFormI18nConfig(),
             onchange: () => {
               actions.saveModel(attrs, catModel);
             },
