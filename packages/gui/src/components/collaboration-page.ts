@@ -70,6 +70,18 @@ const translatedOrFallback = (key: string, fallback: string) => {
     : fallback;
 };
 
+const routeQueryParam = (name: string): string | undefined => {
+  const routeValue = m.route.param(name);
+  if (routeValue) return routeValue;
+
+  const hash = window.location.hash;
+  const queryIndex = hash.indexOf("?");
+  if (queryIndex < 0) return undefined;
+
+  const value = new URLSearchParams(hash.slice(queryIndex + 1)).get(name);
+  return value || undefined;
+};
+
 const aggregateSolutionAssessments = (
   patches: CollaborationPatch[],
   solutions: ISolution[],
@@ -459,10 +471,17 @@ const AggregatedResults: MeiosisComponent = () => ({
     if (!patches.length) return null;
 
     const capabilityAgg = aggregateCapabilityPatches(patches);
-    const allSolutions = attrs.state.catModel?.data?.solutions ?? [];
+    // const allSolutions = attrs.state.catModel?.data?.solutions ?? [];
     const solutionAgg = aggregateSolutionAssessments(patches, allSolutions);
     if (!capabilityAgg.length && !solutionAgg.length) return null;
 
+    // Helper to resolve label for capability/task/performance/gap/solution
+    const getLabel = (id, arr) => arr?.find((x) => x.id === id)?.label || id;
+    const allCaps = attrs.state.catModel?.data?.capabilities ?? [];
+    const allTasks = attrs.state.catModel?.data?.mainTasks ?? [];
+    const allPerf = attrs.state.catModel?.data?.performanceAspects ?? [];
+    const allGaps = attrs.state.catModel?.data?.mainGaps ?? [];
+    const allSolutions = attrs.state.catModel?.data?.solutions ?? [];
     return m(".collab-aggregated", [
       m("h6", t("collab_aggregated_results")),
       capabilityAgg.length > 0 &&
@@ -481,7 +500,7 @@ const AggregatedResults: MeiosisComponent = () => ({
             "tbody",
             capabilityAgg.map((a) =>
               m("tr", [
-                m("td", m("code", a.capabilityId)),
+                m("td", m("code", getLabel(a.capabilityId, allCaps))),
                 m(
                   "td",
                   a.avgActionPriority != null
@@ -492,9 +511,9 @@ const AggregatedResults: MeiosisComponent = () => ({
                   "td",
                   a.taskItems.map((ti) =>
                     m("div", [
-                      m("small.grey-text", `${ti.id}: `),
-                      m("strong", ti.avgValue),
-                      m("small.grey-text", ` (${ti.allValues.join(", ")})`),
+                      m("small.grey-text", `${getLabel(ti.id, allTasks)}: `),
+                      m("strong", getLabel(ti.avgValue, attrs.state.catModel?.data?.taskScale)),
+                      m("small.grey-text", ` (${ti.allValues.map(v => getLabel(v, attrs.state.catModel?.data?.taskScale)).join(", ")})`),
                     ]),
                   ),
                 ),
@@ -502,9 +521,9 @@ const AggregatedResults: MeiosisComponent = () => ({
                   "td",
                   a.performanceItems.map((pi) =>
                     m("div", [
-                      m("small.grey-text", `${pi.id}: `),
-                      m("strong", pi.avgValue),
-                      m("small.grey-text", ` (${pi.allValues.join(", ")})`),
+                      m("small.grey-text", `${getLabel(pi.id, allPerf)}: `),
+                      m("strong", getLabel(pi.avgValue, attrs.state.catModel?.data?.performanceScale)),
+                      m("small.grey-text", ` (${pi.allValues.map(v => getLabel(v, attrs.state.catModel?.data?.performanceScale)).join(", ")})`),
                     ]),
                   ),
                 ),
@@ -518,8 +537,8 @@ const AggregatedResults: MeiosisComponent = () => ({
                       ),
                       ...g.items.map((gi) =>
                         m("div", [
-                          m("small.grey-text", `${gi.id}: `),
-                          m("small", gi.allValues.join(", ") || "—"),
+                          m("small.grey-text", `${getLabel(gi.id, allGaps)}: `),
+                          m("small", gi.allValues.map(v => getLabel(v, attrs.state.catModel?.data?.gapScale)).join(", ") || "—"),
                         ]),
                       ),
                     ]),
@@ -530,12 +549,12 @@ const AggregatedResults: MeiosisComponent = () => ({
           ),
         ]),
       solutionAgg.length > 0 && [
-        m("h6", t("solutions")),
+        m("h6", t("SOLUTION")),
         m("table.striped.highlight", [
           m(
             "thead",
             m("tr", [
-              m("th", t("solution")),
+              m("th", t("SOLUTION")),
               m("th", t("collab_contributor")),
               m("th", t("value")),
               m("th", t("sol_expected_impact_title")),
@@ -546,7 +565,7 @@ const AggregatedResults: MeiosisComponent = () => ({
             "tbody",
             solutionAgg.map((solution) =>
               m("tr", [
-                m("td", solution.label),
+                m("td", getLabel(solution.solutionId, allSolutions)),
                 m("td", solution.count),
                 m(
                   "td",
@@ -1573,8 +1592,8 @@ export const CollaborationPage: MeiosisComponent = () => {
       actions.setPage(attrs, Pages.COLLABORATE);
 
       // Decode invite payload from URL ?i= param
-      const iParam = m.route.param("i");
-      const pParam = m.route.param("p");
+      const iParam = routeQueryParam("i");
+      const pParam = routeQueryParam("p");
       if (iParam) {
         try {
           const invite = decodePayload<InvitePayload>(iParam);

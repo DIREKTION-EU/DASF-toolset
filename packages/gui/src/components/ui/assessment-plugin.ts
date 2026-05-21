@@ -97,6 +97,19 @@ const translatedOrLiteral = (
   return fallback || key;
 };
 
+const textValueFromEvent = (valueOrEvent: unknown) => {
+  if (typeof valueOrEvent === "string") return valueOrEvent;
+  if (
+    valueOrEvent &&
+    typeof valueOrEvent === "object" &&
+    "target" in valueOrEvent
+  ) {
+    const target = (valueOrEvent as { target?: { value?: unknown } }).target;
+    return typeof target?.value === "string" ? target.value : "";
+  }
+  return "";
+};
+
 const contributorInitials = (value: string) =>
   value
     .replace(/@.*$/, "")
@@ -326,7 +339,6 @@ export const assessmentPlugin: PluginType = () => {
       const color =
         assessmentStarted && outcome.color ? outcome.color : "#f0f8ff";
 
-      const now = Date.now();
       const gapLikertFields = [
         {
           id: "gapSeverity",
@@ -354,7 +366,7 @@ export const assessmentPlugin: PluginType = () => {
         },
       ] as const;
 
-      return m(".assessment-plugin.section", { key: now }, [
+      return m(".assessment-plugin.section", [
         // m('.divider'),
         overallAssessmentLabel &&
           m(
@@ -555,26 +567,30 @@ export const assessmentPlugin: PluginType = () => {
                     ),
                   ]),
                   m(".col.s12.m3.l5", [
-                    m(
-                      ".row",
-                      m(TextArea, {
-                        disabled,
-                        placeholder: item.placeholder,
-                        value: item.desc,
-                        onchange: (v) => {
-                          item.desc = v;
-                          onchange && onchange(obj[id]);
-                          const o = computeOutcome(
-                            overallAssessment,
-                            score,
-                            items,
-                          );
-                          if (typeof o === "number")
-                            (obj[id] as AssessmentType).assessmentId =
-                              score[o].id;
-                        },
-                      }),
-                    ),
+                    (() => {
+                      const updateDescription = (valueOrEvent: unknown) => {
+                        item.desc = textValueFromEvent(valueOrEvent);
+                        onchange && onchange(obj[id]);
+                        const o = computeOutcome(
+                          overallAssessment,
+                          score,
+                          items,
+                        );
+                        if (typeof o === "number")
+                          (obj[id] as AssessmentType).assessmentId =
+                            score[o].id;
+                      };
+                      return m(
+                        ".row",
+                        m(TextArea, {
+                          disabled,
+                          placeholder: item.placeholder,
+                          value: item.desc,
+                          oninput: updateDescription,
+                          onchange: updateDescription,
+                        }),
+                      );
+                    })(),
                     renderComments(consensus.comments),
                   ]),
                 ]),
@@ -582,28 +598,32 @@ export const assessmentPlugin: PluginType = () => {
                   m(".row", [
                     m(
                       ".col.s12.l8.offset-l4",
-                      m(TextArea, {
-                        label: fallbackText(
-                          "facilitator_justification",
-                          "Facilitator justification",
-                        ),
-                        placeholder: fallbackText(
-                          "facilitator_justification_placeholder",
-                          "Explain why the final value differs from the participant consensus.",
-                        ),
-                        value: justification,
-                        className: justification
-                          ? ""
-                          : "dasf-justification-required",
-                        onchange: (v) => {
+                      (() => {
+                        const updateJustification = (valueOrEvent: unknown) => {
                           if (!ghost?.capability) return;
                           ghost.capability.consensusJustifications = {
                             ...(ghost.capability.consensusJustifications ?? {}),
-                            [noteKey]: v,
+                            [noteKey]: textValueFromEvent(valueOrEvent),
                           };
                           onchange && onchange(obj[id]);
-                        },
-                      }),
+                        };
+                        return m(TextArea, {
+                          label: fallbackText(
+                            "facilitator_justification",
+                            "Facilitator justification",
+                          ),
+                          placeholder: fallbackText(
+                            "facilitator_justification_placeholder",
+                            "Explain why the final value differs from the participant consensus.",
+                          ),
+                          value: justification,
+                          className: justification
+                            ? ""
+                            : "dasf-justification-required",
+                          oninput: updateJustification,
+                          onchange: updateJustification,
+                        });
+                      })(),
                     ),
                   ]),
               ]);

@@ -45,6 +45,44 @@ The toolset supports collaborative use in facilitated sessions. Facilitators can
 
 ![DASF Collaboration](./collaboration.svg)
 
+## Collaboration Testing
+
+Real-world collaboration test scripts are available in `e2e/collaboration` using Bun + TypeScript.
+
+The generated scenario covers two facilitator-led sessions:
+
+- Facilitator Alpha runs one session with 3 users.
+- Facilitator Bravo runs one session with 7 users.
+- Both facilitators select multiple hazards and multiple capabilities.
+- Users submit capability assessment feedback for selected capabilities.
+- Facilitators can inspect accumulated and merged scores.
+- Facilitator Alpha provides several prepared solutions and users assess them.
+- Facilitator Bravo provides several prepared solutions and also invites users to suggest new solutions.
+- The generated output includes a facilitator override example where a final score differs from participant consensus, plus a recorded justification note.
+
+Run the scenario generator:
+
+```bash
+cd e2e/collaboration
+bun run roundtrip
+```
+
+Use `inviteUrl` and per-user `patchUrl` entries from the generated JSON to drive collaboration workflow tests in the browser.
+
+## Collaboration Screenshots
+
+Capture milestone screenshots in:
+
+- `e2e/collaboration/screenshots`
+
+Recommended milestones:
+
+- Facilitator filling out collaboration setup (modes, name, email)
+- Invitee page opened from `inviteUrl`
+- Merged results after loading patches (editable facilitator screen)
+- Merged results in capability assessment view mode
+- Facilitator override with justification note visible
+
 ## Project Structure
 
 This repository is a pnpm workspace. The main application is located in:
