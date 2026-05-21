@@ -396,6 +396,7 @@ export const messagesNL: Messages = {
   moderator: "Moderator",
   doc_title: "Capability Assessment Report",
   export_to_word: "Exporteer naar Word",
+  export_all_to_word: "Exporteer volledig rapport naar Word",
   admin: "Administrator",
   ignore: "Niet van toepassing",
   add_gap: "Voeg tekortkoming toe",

@@ -384,6 +384,7 @@ export const messagesPL: Messages = {
   admin: "Administrator",
   doc_title: "Raport oceny zdolności",
   export_to_word: "Eksportuj do Word",
+  export_all_to_word: "Eksportuj pełny raport do Word",
   add_gap: "Dodaj lukę zdolności",
   ignore: "Nie dotyczy",
   continue: "Kontynuuj",

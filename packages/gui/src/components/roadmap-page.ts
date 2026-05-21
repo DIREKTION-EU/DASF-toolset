@@ -77,7 +77,7 @@ export const RoadmapPage: MeiosisComponent = () => {
                   m(
                     "thead",
                     m("tr", [
-                      m("th", t("cap")),
+                      m("th", t("solutions")),
                       m("th", "TRL"),
                       m("th", t("importance")),
                       m("th", t("start_time")),

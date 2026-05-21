@@ -99,12 +99,19 @@ export interface ICategory extends ILabelled {
   subcategories: ISubcategory[];
 }
 
-/** Flatten all capabilities from subcategories across all categories. */
+/** Flatten all capabilities from subcategories across all categories, enriching each with categoryId and subcategoryId. */
 export const getAllCapabilities = (
   data: Partial<ICapabilityDataModel>,
 ): ICapability[] =>
   data.categories?.flatMap(
-    (c) => c.subcategories?.flatMap((s) => s.capabilities ?? []) ?? [],
+    (c) =>
+      c.subcategories?.flatMap((s) =>
+        (s.capabilities ?? []).map((cap) => ({
+          ...cap,
+          categoryId: cap.categoryId ?? c.id,
+          subcategoryId: cap.subcategoryId ?? s.id,
+        })),
+      ) ?? [],
   ) ?? [];
 
 export type Documentation = {

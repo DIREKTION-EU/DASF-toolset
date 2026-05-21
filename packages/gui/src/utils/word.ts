@@ -16,6 +16,8 @@ import {
 } from "docx";
 import { saveAs } from "file-saver";
 import { ICapability, ICapabilityDataModel } from "../models";
+import type { ISolution } from "../models/capability-model/solution";
+import type { IRoadmapItem } from "../models/capability-model/roadmap";
 import { t } from "../services";
 
 const blue = "2F5496";
@@ -64,29 +66,28 @@ export const toWord = async (
   data: Partial<ICapabilityDataModel>,
   cap: ICapability | ICapability[],
 ) => {
-  const { assessmentScale = [] } = data;
-  const caps = (cap instanceof Array ? cap : [cap]).filter(
-    (cap) =>
-      cap.assessmentId &&
-      assessmentScale.find((s) => s.id === cap.assessmentId),
-  );
+  const caps = (cap instanceof Array ? cap : [cap]);
 
   const { title = "cat", categories: allCategories = [] } = data;
   const [catIds, subIds] = caps.reduce(
     (acc, cur) => {
-      acc[0].add(cur.categoryId);
-      acc[1].add(cur.subcategoryId);
+      if (cur.categoryId) acc[0].add(cur.categoryId);
+      if (cur.subcategoryId) acc[1].add(cur.subcategoryId);
       return acc;
     },
     [new Set<string>(), new Set<string>()],
   );
 
-  const categories = allCategories
-    .filter((c) => catIds.has(c.id))
-    .map((c) => ({
-      ...c,
-      subcategories: c.subcategories?.filter((s) => subIds.has(s.id)),
-    }));
+  // Build hierarchical structure if categoryId/subcategoryId are available;
+  // otherwise fall back to a flat "uncategorized" section.
+  const categories = catIds.size > 0
+    ? allCategories
+        .filter((c) => catIds.has(c.id))
+        .map((c) => ({
+          ...c,
+          subcategories: c.subcategories?.filter((s) => subIds.has(s.id)),
+        }))
+    : [];
 
   const doc = new Document({
     creator: "TNO",
@@ -282,26 +283,28 @@ export const toWord = async (
             text: t("doc_title"),
             heading: HeadingLevel.TITLE,
           }),
-          ...categories.reduce((acc, category) => {
-            acc.push(
-              new Paragraph({
-                text: category.label,
-                heading: HeadingLevel.HEADING_1,
-              }),
-            );
-            category.subcategories?.forEach((subcategory) => {
-              acc.push(
-                new Paragraph({
-                  text: subcategory.label,
-                  heading: HeadingLevel.HEADING_2,
-                }),
-              );
-              caps
-                .filter((cap) => cap.subcategoryId === subcategory.id)
-                .forEach((cap) => acc.push(...capabilityToWord(data, cap)));
-            });
-            return acc;
-          }, [] as FileChild[]),
+          ...(categories.length > 0
+            ? categories.reduce((acc, category) => {
+                acc.push(
+                  new Paragraph({
+                    text: category.label,
+                    heading: HeadingLevel.HEADING_1,
+                  }),
+                );
+                category.subcategories?.forEach((subcategory) => {
+                  acc.push(
+                    new Paragraph({
+                      text: subcategory.label,
+                      heading: HeadingLevel.HEADING_2,
+                    }),
+                  );
+                  caps
+                    .filter((cap) => cap.subcategoryId === subcategory.id)
+                    .forEach((cap) => acc.push(...capabilityToWord(data, cap)));
+                });
+                return acc;
+              }, [] as FileChild[])
+            : caps.flatMap((cap) => capabilityToWord(data, cap) as FileChild[])),
         ].filter((i) => i) as readonly FileChild[],
       },
     ],
@@ -311,6 +314,294 @@ export const toWord = async (
     // saveAs from FileSaver will download the blob
     saveAs(blob, filename);
   });
+};
+
+// ── Helpers for full export ───────────────────────────────────────────────────
+
+const trlLabel = (trl?: number) =>
+  trl !== undefined ? `TRL ${trl}: ${t(`trl${trl}` as any) || trl}` : "—";
+
+const priorityLabel = (priority?: string) => {
+  if (!priority) return "—";
+  const key = `priority_${priority}` as any;
+  return t(key) || priority;
+};
+
+const complianceValueLabel = (value?: string) => {
+  if (!value || value === "na") return "N/A";
+  if (value === "pass") return "✓ Pass";
+  if (value === "partial") return "~ Partial";
+  if (value === "fail") return "✗ Fail";
+  return value;
+};
+
+const solutionToWord = (
+  sol: ISolution,
+  caps: ICapability[],
+): FileChild[] => {
+  const children: FileChild[] = [
+    new Paragraph({
+      text: sol.label,
+      heading: HeadingLevel.HEADING_3,
+    }),
+  ];
+
+  if (sol.desc) {
+    children.push(new Paragraph({ text: sol.desc }));
+  }
+
+  if (sol.url) {
+    children.push(
+      new Paragraph({
+        children: [
+          new TextRun(`${t("sol_trl" as any) || "URL"}: `),
+          new ExternalHyperlink({
+            children: [new TextRun({ text: sol.url, style: "Hyperlink" })],
+            link: sol.url,
+          }),
+        ],
+      }),
+    );
+  }
+
+  // Readiness levels table
+  const rlRows: string[][] = [
+    [t("sol_trl" as any) || "TRL", trlLabel(sol.trl)],
+  ];
+  if (sol.integrationRl !== undefined)
+    rlRows.push(["Integration RL", trlLabel(sol.integrationRl)]);
+  if (sol.societalRl !== undefined)
+    rlRows.push(["Societal RL", trlLabel(sol.societalRl)]);
+  if (sol.manufacturingRl !== undefined)
+    rlRows.push(["Manufacturing RL", trlLabel(sol.manufacturingRl)]);
+  if (sol.commercialisationRl !== undefined)
+    rlRows.push(["Commercialisation RL", trlLabel(sol.commercialisationRl)]);
+  if (sol.securityRl !== undefined)
+    rlRows.push(["Security RL", trlLabel(sol.securityRl)]);
+  if (sol.legalPrivacyEthicalRl !== undefined)
+    rlRows.push(["Legal/Privacy/Ethical RL", trlLabel(sol.legalPrivacyEthicalRl)]);
+  children.push(toTable(rlRows));
+
+  // Linked capabilities
+  const linkedCaps = caps.filter((c) => (sol.capabilityIds ?? []).includes(c.id));
+  if (linkedCaps.length > 0) {
+    children.push(
+      new Paragraph({
+        text: t("capability_gaps" as any) || "Linked capability gaps",
+        heading: HeadingLevel.HEADING_4,
+      }),
+      ...linkedCaps.map(
+        (c) =>
+          new Paragraph({
+            text: c.label,
+            numbering: { reference: "my-numbering-reference", level: 0 },
+            contextualSpacing: true,
+          }),
+      ),
+    );
+  }
+
+  // Assessment question sections
+  const questionSections: Array<{ titleKey: string; fallback: string; items?: Array<{ id: string; label: string; value?: string }> }> = [
+    { titleKey: "sol_compliance_title", fallback: "Compliance Checks", items: sol.compliance },
+    { titleKey: "sol_user_needs_title", fallback: "User Needs", items: sol.userNeeds },
+    { titleKey: "sol_operational_needs_title", fallback: "Operational Needs", items: sol.operationalNeeds },
+    { titleKey: "sol_organisational_needs_title", fallback: "Organisational Needs", items: sol.organisationalNeeds },
+    { titleKey: "sol_expected_impact_title", fallback: "Expected Impact", items: sol.expectedImpact },
+  ];
+
+  for (const section of questionSections) {
+    const answered = (section.items ?? []).filter(
+      (item) => item.value && item.value !== "na",
+    );
+    if (!answered.length) continue;
+    const sectionLabel = t(section.titleKey as any) || section.fallback;
+    const rows = [
+      [sectionLabel, t("level" as any) || "Value"],
+      ...answered.map((item) => [
+        item.label,
+        section.titleKey === "sol_compliance_title"
+          ? complianceValueLabel(item.value)
+          : item.value || "—",
+      ]),
+    ];
+    children.push(
+      new Paragraph({ text: sectionLabel, heading: HeadingLevel.HEADING_4 }),
+      toTable(rows),
+    );
+  }
+
+  return children;
+};
+
+const roadmapToWord = (
+  items: IRoadmapItem[],
+  solutions: ISolution[],
+): FileChild[] => {
+  if (!items.length) return [];
+
+  const rows = [
+    [
+      t("solutions" as any) || "Solution",
+      t("sol_trl" as any) || "TRL",
+      t("importance" as any) || "Priority",
+      t("start_time" as any) || "Target date",
+      t("proj_sum" as any) || "Commitment",
+    ],
+    ...items.map((item) => {
+      const sol = solutions.find((s) => s.id === item.solutionId);
+      return [
+        sol?.label ?? item.solutionId,
+        sol?.trl !== undefined ? `TRL ${sol.trl}` : "—",
+        priorityLabel(item.priority),
+        item.targetDate || "—",
+        item.commitment || "—",
+      ];
+    }),
+  ];
+
+  return [
+    new Paragraph({
+      text: t("roadmap_step_title" as any) || "Roadmap",
+      heading: HeadingLevel.HEADING_2,
+    }),
+    toTable(rows),
+  ];
+};
+
+/**
+ * Export the full assessment report: all capabilities (organised by
+ * category/subcategory), all solutions, and the roadmap/milestones.
+ */
+export const toWordFull = async (
+  filename: string,
+  data: Partial<ICapabilityDataModel>,
+) => {
+  const {
+    title = "cat",
+    capabilities = [],
+    solutions = [],
+    roadmapItems = [],
+    categories: allCategories = [],
+  } = data;
+
+  const [catIds, subIds] = capabilities.reduce(
+    (acc, cur) => {
+      if (cur.categoryId) acc[0].add(cur.categoryId);
+      if (cur.subcategoryId) acc[1].add(cur.subcategoryId);
+      return acc;
+    },
+    [new Set<string>(), new Set<string>()],
+  );
+
+  const categories =
+    catIds.size > 0
+      ? allCategories
+          .filter((c) => catIds.has(c.id))
+          .map((c) => ({
+            ...c,
+            subcategories: c.subcategories?.filter((s) => subIds.has(s.id)),
+          }))
+      : [];
+
+  const capabilityChildren: FileChild[] =
+    categories.length > 0
+      ? categories.reduce((acc, category) => {
+          acc.push(
+            new Paragraph({
+              text: category.label,
+              heading: HeadingLevel.HEADING_1,
+            }),
+          );
+          category.subcategories?.forEach((subcategory) => {
+            acc.push(
+              new Paragraph({
+                text: subcategory.label,
+                heading: HeadingLevel.HEADING_2,
+              }),
+            );
+            capabilities
+              .filter((cap) => cap.subcategoryId === subcategory.id)
+              .forEach((cap) => acc.push(...capabilityToWord(data, cap)));
+          });
+          return acc;
+        }, [] as FileChild[])
+      : capabilities.flatMap((cap) => capabilityToWord(data, cap) as FileChild[]);
+
+  const solutionChildren: FileChild[] =
+    solutions.length > 0
+      ? [
+          new Paragraph({
+            text: t("solutions" as any) || "Solutions",
+            heading: HeadingLevel.HEADING_1,
+          }),
+          ...solutions.flatMap((sol) => solutionToWord(sol, capabilities)),
+        ]
+      : [];
+
+  const roadmapChildren: FileChild[] = roadmapToWord(roadmapItems, solutions);
+
+  // Shared document styles/numbering identical to toWord — extracted inline
+  const doc = new Document({
+    creator: "TNO",
+    title: `${title} Full Assessment Report`,
+    description: "A full capability, solution, and roadmap assessment.",
+    styles: {
+      default: {
+        document: {
+          run: { font: "Arial", color: "000000", language: { value: "en-UK" } },
+        },
+      },
+      paragraphStyles: [
+        { id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true, run: { color: blue, size: "18pt", bold: true }, paragraph: { spacing: { before: 240, after: 120 } } },
+        { id: "Heading2", name: "Heading 2", basedOn: "Normal", next: "Normal", quickFormat: true, run: { color: blue, size: "16pt", bold: true }, paragraph: { spacing: { before: 240, after: 120 } } },
+        { id: "Heading3", name: "Heading 3", basedOn: "Normal", next: "Normal", quickFormat: true, run: { color: blue, size: "14pt", bold: true }, paragraph: { spacing: { before: 240, after: 120 } } },
+        { id: "Heading4", name: "Heading 4", basedOn: "Normal", next: "Normal", quickFormat: true, run: { color: blue, size: "12pt", bold: true }, paragraph: { spacing: { before: 240, after: 120 } } },
+        { id: "Heading5", name: "Heading 5", basedOn: "Normal", next: "Normal", quickFormat: true, run: { color: blue, bold: true }, paragraph: { spacing: { before: 120, after: 60 } } },
+        { id: "Heading6", name: "Heading 6", basedOn: "Normal", next: "Normal", quickFormat: true, run: { bold: true }, paragraph: { spacing: { before: 120, after: 60 } } },
+        { id: "ListParagraph", name: "List Paragraph", basedOn: "Normal", quickFormat: true },
+      ],
+    },
+    numbering: {
+      config: [
+        {
+          levels: [
+            {
+              level: 0,
+              format: LevelFormat.DECIMAL,
+              text: "%1",
+              alignment: AlignmentType.START,
+              style: {
+                paragraph: {
+                  indent: {
+                    left: convertInchesToTwip(0.5),
+                    hanging: convertInchesToTwip(0.18),
+                  },
+                },
+              },
+            },
+          ],
+          reference: "my-numbering-reference",
+        },
+      ],
+    },
+    sections: [
+      {
+        children: [
+          new Paragraph({
+            text: t("doc_title" as any) || `${title} Assessment Report`,
+            heading: HeadingLevel.TITLE,
+          }),
+          ...capabilityChildren,
+          ...solutionChildren,
+          ...roadmapChildren,
+        ].filter(Boolean) as readonly FileChild[],
+      },
+    ],
+  });
+
+  const blob = await Packer.toBlob(doc);
+  saveAs(blob, filename);
 };
 
 const capabilityToWord = (
@@ -402,6 +693,14 @@ const capabilityToWord = (
                   text: gap.desc,
                 }),
               );
+            const gapStateRows: string[][] = [];
+            if (gap.gapSeverity !== undefined)
+              gapStateRows.push([t("gap_likert_severity"), `${gap.gapSeverity}/5`]);
+            if (gap.gapProbability !== undefined)
+              gapStateRows.push([t("gap_likert_probability"), `${gap.gapProbability}/5`]);
+            if (gap.gapImpact !== undefined)
+              gapStateRows.push([t("gap_likert_impact"), `${gap.gapImpact}/5`]);
+            if (gapStateRows.length > 0) acc.push(toTable(gapStateRows));
             acc.push(toTable(gapRows));
             if (doc) {
               acc.push(
@@ -439,11 +738,16 @@ const capabilityToWord = (
       })
     : [];
 
+  const actionPriorityText =
+    cap.actionPriority !== undefined
+      ? ` | ${t("action_priority")}: ${cap.actionPriority}/5`
+      : "";
+
   return [
     new Paragraph({
       text: `${t("cap")} "${cap.label}" - ${t("ass_overall")}: ${
         assessmentScale.find((ts) => ts.id === cap.assessmentId)?.label || ""
-      }`,
+      }${actionPriorityText}`,
       heading: HeadingLevel.HEADING_3,
     }),
     new Paragraph({

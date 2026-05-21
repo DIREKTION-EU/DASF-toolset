@@ -401,6 +401,7 @@ export const messages = {
   admin: "Administrator",
   doc_title: "Capability Assessment Report",
   export_to_word: "Export to Word",
+  export_all_to_word: "Export full report to Word",
   add_gap: "Add capability gap",
   ignore: "Not applicable",
   continue: "Continue",

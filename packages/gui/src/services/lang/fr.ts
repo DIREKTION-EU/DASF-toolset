@@ -388,6 +388,7 @@ export const messagesFR: Messages = {
   admin: "Administrateur",
   doc_title: "Rapport d'évaluation des capacités",
   export_to_word: "Exporter en Word",
+  export_all_to_word: "Exporter le rapport complet en Word",
   add_gap: "Ajouter une lacune de capacité",
   ignore: "Non applicable",
   continue: "Continuer",

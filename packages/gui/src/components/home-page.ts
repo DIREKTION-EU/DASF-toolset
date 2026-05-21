@@ -1,9 +1,9 @@
 import m from "mithril";
-import { Button, Icon } from "mithril-materialized";
+import { Button, FlatButton, Icon } from "mithril-materialized";
 import { routingSvc, MeiosisComponent, actions, t } from "../services";
 import { type CapabilityModel, type ISolution, Pages } from "../models";
 import { PageNav } from "./ui";
-import { translatedOrFallback } from "../utils";
+import { formatDate, toWordFull, translatedOrFallback } from "../utils";
 
 const priorityColors: Record<string, string> = {
   low: "#4caf50",
@@ -564,15 +564,24 @@ export const HomePage: MeiosisComponent = () => {
               ]),
           ]),
 
-        // Back to sessions
+        // Back to sessions + export
         m(".row", { style: "margin-top: 30px;" }, [
-          m(".col.s12", [
+          m(".col.s12", { style: "display:flex; align-items:center; gap:8px; flex-wrap:wrap;" }, [
             m(Button, {
               iconName: "arrow_back",
               label: t("back_to_sessions"),
               className: "btn-flat",
               onclick: () => routingSvc.switchTo(Pages.LANDING),
             }),
+            capabilities.length > 0 &&
+              m(FlatButton, {
+                iconName: "download",
+                label: t("export_all_to_word"),
+                onclick: () => {
+                  const filename = `${formatDate(Date.now())}_${data.title || "assessment"}_full_report.docx`;
+                  toWordFull(filename, data);
+                },
+              }),
           ]),
         ]),
       ]);

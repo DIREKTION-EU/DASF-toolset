@@ -387,6 +387,7 @@ export const messagesDE: Messages = {
   admin: "Administrator",
   doc_title: "Fähigkeitsbewertungsbericht",
   export_to_word: "Als Word exportieren",
+  export_all_to_word: "Vollständigen Bericht als Word exportieren",
   add_gap: "Fähigkeitslücke hinzufügen",
   ignore: "Nicht anwendbar",
   continue: "Weiter",

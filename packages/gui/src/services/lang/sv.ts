@@ -387,6 +387,7 @@ export const messagesSV: Messages = {
   admin: "Administratör",
   doc_title: "Förmågebedömningsrapport",
   export_to_word: "Exportera till Word",
+  export_all_to_word: "Exportera fullständig rapport till Word",
   add_gap: "Lägg till förmågebrist",
   ignore: "Inte tillämpligt",
   continue: "Fortsätt",
