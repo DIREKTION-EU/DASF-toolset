@@ -138,9 +138,6 @@ dist
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
-# GitHub Pages build output
-docs
-
 # pnpm store and lockfiles
 .pnpm-store
 

@@ -48,6 +48,7 @@ jobs:
           path: docs
 
   deploy:
+    if: false # Temporarily disabled: using Pages 'Deploy from branch' with /docs.
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
