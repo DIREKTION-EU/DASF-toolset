@@ -1,28 +1,44 @@
 // Service Worker with cache-first strategy for offline support
-const CACHE_VERSION = 'v1';
+//
+// Paths below are relative to this script's own location, which the
+// browser resolves against wherever the app is actually hosted (e.g.
+// GitHub Pages project sites serve from a /<repo>/ subpath rather than
+// domain root).
+const CACHE_VERSION = 'v2';
 const CACHE_NAME = `dasf-toolset-${CACHE_VERSION}`;
 
-// Core assets to cache - will be filled by precacheManifest
+// Core assets to cache
 const CORE_ASSETS = [
-  '/',
-  '/index.html',
-  '/src/app.ts',
+  './',
+  './index.html',
+  './index.bundle.js',
 ];
 
 // Images and icons
 const IMAGES = [
-  '/assets/logo.svg',
+  './favicon.ico',
+  './background.jpg',
+  './direktion-logo.webp',
+  './tno_txt.svg',
+  './assets/icons/icon-192.png',
+  './assets/icons/icon-512.png',
+  './assets/icons/apple-touch-icon.png',
 ];
 
 // Fonts
 const FONTS = [
-  '/node_modules/material-icons/iconfont/filled.woff2',
-  '/node_modules/material-icons/iconfont/filled.woff',
+  './material-icons.woff2',
+  './material-icons.woff',
 ];
 
 // Stylesheets
 const STYLESHEETS = [
-  '/src/css/style.css',
+  './index.css',
+];
+
+// Other
+const OTHER = [
+  './manifest.json',
 ];
 
 // All assets to cache
@@ -31,6 +47,7 @@ const ASSETS_TO_CACHE = [
   ...IMAGES,
   ...FONTS,
   ...STYLESHEETS,
+  ...OTHER,
 ];
 
 // Install event - cache all assets
@@ -110,7 +127,7 @@ self.addEventListener('fetch', (event) => {
           .catch(() => {
             // If both cache and network fail, return offline page
             if (event.request.headers.get('accept')?.includes('text/html')) {
-              return caches.match('/index.html');
+              return caches.match('./index.html');
             }
             throw new Error('Network request failed');
           });

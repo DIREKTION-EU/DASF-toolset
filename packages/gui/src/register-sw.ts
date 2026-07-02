@@ -26,9 +26,10 @@ export async function registerServiceWorker() {
   }
 
   try {
-    const registration = await navigator.serviceWorker.register('/sw-precache.js', {
-      type: 'module',
-    });
+    const registration = await navigator.serviceWorker.register(
+      `${import.meta.env.BASE_URL}sw-precache.js`,
+      { type: 'module' },
+    );
 
     swRegistration = registration;
     console.log('[SW] Service worker registered with scope:', registration.scope);
