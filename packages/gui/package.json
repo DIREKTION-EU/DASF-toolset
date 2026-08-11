@@ -27,7 +27,7 @@
     "meiosis-setup": "^6.2.3",
     "mithril": "^2.3.8",
     "mithril-materialized": "3.17.9",
-    "mithril-ui-form": "^2.1.2",
+    "mithril-ui-form": "^2.3.0",
     "translate.js": "^1.3.2"
   },
   "devDependencies": {
