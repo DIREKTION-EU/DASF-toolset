@@ -668,6 +668,8 @@ export const messages = {
     "The DASF provides the basis for a sustainable process for research programming, ensuring that responders and stakeholders have access to the most effective and up-to-date tools for disaster preparedness and response. The complete set is meant to be executed regularly — for instance, once a year or once every four years — to get an updated insight into the most current capability needs, capability gaps, potential solutions, and to regularly update the roadmap for EU or national research opportunities.",
   landing_assessment_process: "Assessment Process",
   landing_funded_by: "Funded by the European Union",
+  landing_trilateral_attribution:
+    "For the creation of this tool, essential contributions of Trilateral Research as developed in DIREKTION D1.2 were used.",
   delete_session_confirm: "Delete session: {name}?",
   delete_session_warning: "This cannot be undone. Are you sure?",
   // Hazard types (keys = hazard IDs)

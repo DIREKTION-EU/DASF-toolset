@@ -10,6 +10,7 @@ import background from "../assets/background.jpg";
 import tno from "../assets/tno.svg";
 import direktionLogo from "../assets/direktion-logo.webp";
 import euLogo from "../assets/eu-logo.avif";
+import trilateralLogo from "../assets/trilateral.svg?raw";
 import {
   type MeiosisComponent,
   t,
@@ -353,6 +354,21 @@ export const LandingPage: MeiosisComponent = () => {
               m(".landing-footer-block", [
                 m("img", { src: euLogo, alt: "EU Logo", height: 56 }),
                 m("div", [m("strong", t("landing_funded_by"))]),
+              ]),
+              m(".landing-footer-divider"),
+              m(".landing-footer-block", [
+                m(
+                  "span.trilateral-logo",
+                  { role: "img", "aria-label": "Trilateral Research Logo" },
+                  m.trust(trilateralLogo),
+                ),
+                m("div", [
+                  m(
+                    "p",
+                    { style: "margin: 0;" },
+                    t("landing_trilateral_attribution"),
+                  ),
+                ]),
               ]),
               m(".landing-footer-divider"),
               m(".landing-footer-block", [

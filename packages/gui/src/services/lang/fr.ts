@@ -662,6 +662,8 @@ export const messagesFR: Messages = {
     "Le DASF fournit la base d'un processus durable de programmation de la recherche, garantissant que les intervenants et les parties prenantes ont accès aux outils les plus efficaces et les plus récents pour la préparation aux catastrophes et la réponse à celles-ci. L'ensemble complet est conçu pour être exécuté régulièrement — par exemple, une fois par an ou une fois tous les quatre ans — afin d'obtenir une vision actualisée des besoins en capacités les plus récents, des lacunes en matière de capacités, des solutions potentielles et de mettre régulièrement à jour la feuille de route pour les opportunités de recherche de l'UE ou nationales.",
   landing_assessment_process: "Processus d'évaluation",
   landing_funded_by: "Financé par l'Union européenne",
+  landing_trilateral_attribution:
+    "Pour la création de cet outil, des contributions essentielles de Trilateral Research, telles que développées dans le cadre de DIREKTION D1.2, ont été utilisées.",
   delete_session_confirm: "Supprimer la session : {name} ?",
   delete_session_warning: "Cette action est irréversible. Êtes-vous sûr ?",
   N01: "Séisme",

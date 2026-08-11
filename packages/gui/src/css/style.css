@@ -1458,6 +1458,18 @@ html {
   opacity: 0.85;
 }
 
+.landing-footer-block .trilateral-logo {
+  display: inline-flex;
+  align-items: center;
+  color: var(--lp-footer-text);
+  opacity: 0.85;
+}
+
+.landing-footer-block .trilateral-logo svg {
+  height: 56px;
+  width: auto;
+}
+
 .landing-footer-block div {
   text-align: left;
   max-width: 280px;
