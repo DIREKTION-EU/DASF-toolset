@@ -20,13 +20,13 @@
   "target": "web",
   "dependencies": {
     "@dasf-toolset/shared": "workspace: *",
-    "docx": "^9.6.1",
+    "docx": "^9.7.1",
     "file-saver": "^2.0.5",
     "lz-string": "^1.5.0",
     "material-icons": "^1.13.14",
     "meiosis-setup": "^6.2.3",
     "mithril": "^2.3.8",
-    "mithril-materialized": "3.16.0",
+    "mithril-materialized": "3.17.9",
     "mithril-ui-form": "^2.1.2",
     "translate.js": "^1.3.2"
   },
@@ -36,8 +36,8 @@
     "@types/mithril": "^2.2.8",
     "dotenv": "17.4.2",
     "rimraf": "^6.1.3",
-    "sass": "^1.99.0",
-    "typescript": "^6.0.3",
-    "vite": "^8.0.12"
+    "sass": "^1.102.0",
+    "typescript": "^7.0.2",
+    "vite": "^8.2.1"
   }
 }
