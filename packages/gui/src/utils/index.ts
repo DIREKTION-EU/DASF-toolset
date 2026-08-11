@@ -1,11 +1,12 @@
 export * from "./word";
+
 import { padLeft } from "mithril-materialized";
-import { type Page, Pages } from "../models";
+import type { Page, Pages } from "../models";
 import type {
   ICapabilityDataModel,
   ILabelled,
 } from "../models/capability-model/capability-model";
-import { t } from "../services/translations";
+import { tDynamic } from "../services/translations";
 
 export const LANGUAGE = "SG_LANGUAGE";
 export const SAVED = "SG_MODEL_SAVED";
@@ -43,7 +44,7 @@ export const translateLabelOrFallback = <
   item: T,
 ) =>
   item.id
-    ? translatedOrFallback(t(item.id as any), item.id, item.label)
+    ? translatedOrFallback(tDynamic(item.id), item.id, item.label)
     : item.label;
 
 /**
@@ -140,14 +141,14 @@ export const joinListWithAnd = (
   return terms.length === 0
     ? ""
     : prefix +
-        (terms.length === 1
-          ? terms[0]
-          : `${terms
-              .slice(0, terms.length - 1)
-              .map((t, i) =>
-                i === 0 || typeof t === "undefined" ? t : t.toLowerCase(),
-              )
-              .join(", ")} ${and} ${terms[terms.length - 1].toLowerCase()}`);
+    (terms.length === 1
+      ? terms[0]
+      : `${terms
+        .slice(0, terms.length - 1)
+        .map((t, i) =>
+          i === 0 || typeof t === "undefined" ? t : t.toLowerCase(),
+        )
+        .join(", ")} ${and} ${terms[terms.length - 1].toLowerCase()}`);
 };
 
 /** Convert markdown text to HTML */
@@ -482,16 +483,16 @@ export const list = (arr: string[] = [], prefix = "") =>
   arr.length === 0
     ? ""
     : prefix +
-      (arr.length === 1
-        ? arr[0]
-        : `${arr.slice(0, arr.length - 1).join(", ")} en ${arr[arr.length - 1]}`);
+    (arr.length === 1
+      ? arr[0]
+      : `${arr.slice(0, arr.length - 1).join(", ")} en ${arr[arr.length - 1]}`);
 
 /** Translate label and description of a model item using its ID as the translation key. Falls back to original values if no translation exists. */
 const translateItem = <T extends ILabelled>(item: T): T => {
   const labelKey = item.id;
   const descKey = `${item.id}_desc`;
-  const labelT = t(labelKey as any);
-  const descT = item.desc ? t(descKey as any) : undefined;
+  const labelT = tDynamic(labelKey);
+  const descT = item.desc ? tDynamic(descKey) : undefined;
   return {
     ...item,
     label: translatedOrFallback(labelT, labelKey, item.label),
@@ -535,7 +536,7 @@ const translateAssessmentQuestion = <
   item: T,
 ): T => {
   if (!item.id) return item;
-  const labelT = t(item.id as any);
+  const labelT = tDynamic(item.id);
   return {
     ...item,
     label: translatedOrFallback(labelT, item.id, item.label),
@@ -549,7 +550,7 @@ const translateComplianceCheck = <
   item: T,
 ): T => {
   if (!item.id) return item;
-  const labelT = t(item.id as any);
+  const labelT = tDynamic(item.id);
   return {
     ...item,
     label: translatedOrFallback(labelT, item.id, item.label),

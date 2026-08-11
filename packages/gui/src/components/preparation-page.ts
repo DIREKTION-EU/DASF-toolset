@@ -1,10 +1,10 @@
-import { getFormI18nConfig } from "../services/translations";
 import m from "mithril";
-import { TabItem, Tabs } from "mithril-materialized";
-import { LayoutForm, UIForm, render, FormAttributes } from "mithril-ui-form";
-import { Pages, ICapabilityDataModel, CapabilityModel } from "../models";
+import { type TabItem, Tabs } from "mithril-materialized";
+import { type FormAttributes, LayoutForm, render, type UIForm } from "mithril-ui-form";
+import { type CapabilityModel, type ICapabilityDataModel, Pages } from "../models";
 import { defaultHazardTypes } from "../models/capability-model/hazard";
-import { actions, MeiosisComponent, t } from "../services";
+import { actions, type MeiosisComponent, t, tDynamic } from "../services";
+import { getFormI18nConfig } from "../services/translations";
 import { translatedOrFallback } from "../utils";
 
 const ALL_STEPS = [
@@ -38,7 +38,7 @@ export const PreparationPage: MeiosisComponent = () => {
       // Refresh hazard labels from the current locale so each user sees their own language.
       // Only overwrites if a translation key exists (custom hazards without a known ID keep their stored label).
       (data.hazardTypes ?? []).forEach((h) => {
-        h.label = translatedOrFallback(t(h.id as any), h.id, h.label);
+        h.label = translatedOrFallback(tDynamic(h.id), h.id, h.label);
       });
 
       const enabledSteps = data.enabledSteps || [0, 1, 2, 3];

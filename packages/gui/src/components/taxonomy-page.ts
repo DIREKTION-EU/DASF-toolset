@@ -1,12 +1,12 @@
 import m from "mithril";
 import { FlatButton, ModalPanel, TextInput } from "mithril-materialized";
-import { FormAttributes, LayoutForm, UIForm, render } from "mithril-ui-form";
+import { type FormAttributes, LayoutForm, render, type UIForm } from "mithril-ui-form";
 import { Pages } from "../models";
-import {
-  ICapabilityDataModel,
+import type {
   CapabilityModel,
+  ICapabilityDataModel,
 } from "../models/capability-model/capability-model";
-import { MeiosisComponent, t } from "../services";
+import { type MeiosisComponent, t, tDynamic } from "../services";
 import { actions } from "../services/meiosis";
 import { translatedOrFallback } from "../utils";
 
@@ -14,9 +14,9 @@ const createTextFilter = (txt: string) => {
   if (!txt) return () => true;
   const checker = new RegExp(txt, "i");
   return ({ label = "", id = "" }: { label: string; id?: string }) => {
-    const translatedId = translatedOrFallback(t("TAXONOMY", id as any), id, id);
+    const translatedId = translatedOrFallback(tDynamic("TAXONOMY", id), id, id);
     const translatedLabel = translatedOrFallback(
-      t("TAXONOMY", label as any),
+      tDynamic("TAXONOMY", label),
       label,
       label,
     );
@@ -92,61 +92,61 @@ export const TaxonomyPage: MeiosisComponent = () => ({
         }),
         m(".intro.col.s12", m.trust(render(t("tax_def"), false))),
         filteredLexicon &&
-          m("table.highlight", { style: "margin-bottom: 3rem" }, [
-            m(
-              "thead",
+        m("table.highlight", { style: "margin-bottom: 3rem" }, [
+          m(
+            "thead",
+            m("tr", [
+              m("th", t("term")),
+              m("th", t("desc")),
+              // m('th.hide-on-med-and-down', t('ref')),
+            ]),
+          ),
+          m(
+            "tbody",
+            filteredLexicon.map((l) =>
               m("tr", [
-                m("th", t("term")),
-                m("th", t("desc")),
-                // m('th.hide-on-med-and-down', t('ref')),
+                m(
+                  "td",
+                  m(
+                    "strong",
+                    translatedOrFallback(
+                      tDynamic("TAXONOMY", l.id),
+                      l.id,
+                      l.id,
+                    ),
+                  ),
+                ),
+                m(
+                  "td",
+                  m.trust(
+                    render(
+                      translatedOrFallback(
+                        tDynamic("TAXONOMY", l.label),
+                        l.label,
+                        l.label,
+                      ),
+                    ),
+                  ),
+                ),
+                // l.ref &&
+                //   m(
+                //     'td.hide-on-med-and-down',
+                //     l.url
+                //       ? m(
+                //           'a',
+                //           {
+                //             target: '_',
+                //             alt: l.ref,
+                //             href: l.url,
+                //           },
+                //           l.ref
+                //         )
+                //       : l.ref
+                //   ),
               ]),
             ),
-            m(
-              "tbody",
-              filteredLexicon.map((l) =>
-                m("tr", [
-                  m(
-                    "td",
-                    m(
-                      "strong",
-                      translatedOrFallback(
-                        t("TAXONOMY", l.id as any),
-                        l.id,
-                        l.id,
-                      ),
-                    ),
-                  ),
-                  m(
-                    "td",
-                    m.trust(
-                      render(
-                        translatedOrFallback(
-                          t("TAXONOMY", l.label as any),
-                          l.label,
-                          l.label,
-                        ),
-                      ),
-                    ),
-                  ),
-                  // l.ref &&
-                  //   m(
-                  //     'td.hide-on-med-and-down',
-                  //     l.url
-                  //       ? m(
-                  //           'a',
-                  //           {
-                  //             target: '_',
-                  //             alt: l.ref,
-                  //             href: l.url,
-                  //           },
-                  //           l.ref
-                  //         )
-                  //       : l.ref
-                  //   ),
-                ]),
-              ),
-            ),
-          ]),
+          ),
+        ]),
         m(ModalPanel, {
           id: "add-term",
           title: t("add_term"),

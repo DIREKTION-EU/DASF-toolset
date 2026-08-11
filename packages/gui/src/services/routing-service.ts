@@ -1,23 +1,23 @@
 import m, { type RouteDefs } from "mithril";
-import { Pages, type Page } from "../models/page";
-import { Layout } from "../components/layout";
 import {
   AboutPage,
   AssessmentPage,
   CollaborationPage,
+  HazardsPage,
   HomePage,
   LandingPage,
   NotFoundPage,
   OverviewPage,
   PreparationPage,
-  SettingsPage,
-  TaxonomyPage,
-  HazardsPage,
-  SolutionsPage,
   RoadmapPage,
+  SettingsPage,
+  SolutionsPage,
+  TaxonomyPage,
 } from "../components";
-import { t } from "./translations";
+import { Layout } from "../components/layout";
+import { type Page, Pages } from "../models/page";
 import { cells } from "./meiosis";
+import { t } from "./translations";
 
 const hasSession = (s: { currentSessionId?: string }) => !!s.currentSessionId;
 const isInviteeCollaborationMode = (s: {
@@ -25,20 +25,20 @@ const isInviteeCollaborationMode = (s: {
 }) => !!s.collaboration?.invitePayload;
 const hasSessionAndStep =
   (step: number) =>
-  (s: {
-    currentSessionId?: string;
-    catModel?: { data?: { enabledSteps?: number[] } };
-    collaboration?: { invitePayload?: unknown };
-  }) =>
-    !isInviteeCollaborationMode(s) &&
-    !!s.currentSessionId &&
-    (!s.catModel?.data?.enabledSteps ||
-      s.catModel.data.enabledSteps.includes(step));
+    (s: {
+      currentSessionId?: string;
+      catModel?: { data?: { enabledSteps?: number[] } };
+      collaboration?: { invitePayload?: unknown };
+    }) =>
+      !isInviteeCollaborationMode(s) &&
+      !!s.currentSessionId &&
+      (!s.catModel?.data?.enabledSteps ||
+        s.catModel.data.enabledSteps.includes(step));
 
 class RoutingService {
   private pages!: ReadonlyArray<Page>;
 
-  constructor() {}
+  constructor() { }
 
   public init() {
     const routes: Page[] = [
@@ -214,26 +214,26 @@ class RoutingService {
       p[c.route] =
         c.hasNavBar === false
           ? {
-              render: () => {
-                return m(c.component, { ...cells() });
-              },
-            }
+            render: () => {
+              return m(c.component, { ...cells() });
+            },
+          }
           : {
-              render: () => {
-                const cell = cells();
-                if (
-                  isInviteeCollaborationMode(cell.state) &&
-                  c.id !== Pages.COLLABORATE
-                ) {
-                  return m(
-                    Layout,
-                    { ...cell },
-                    m(CollaborationPage, { ...cell }),
-                  );
-                }
-                return m(Layout, { ...cell }, m(c.component, { ...cell }));
-              },
-            };
+            render: () => {
+              const cell = cells();
+              if (
+                isInviteeCollaborationMode(cell.state) &&
+                c.id !== Pages.COLLABORATE
+              ) {
+                return m(
+                  Layout,
+                  { ...cell },
+                  m(CollaborationPage, { ...cell }),
+                );
+              }
+              return m(Layout, { ...cell }, m(c.component, { ...cell }));
+            },
+          };
       return p;
     }, {} as RouteDefs);
   }

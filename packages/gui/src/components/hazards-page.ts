@@ -1,10 +1,10 @@
 import m from "mithril";
 import { TextInput } from "mithril-materialized";
-import { PageNav } from "./ui";
-import { Pages, type CapabilityModel, type HazardCategory } from "../models";
+import { type CapabilityModel, type HazardCategory, Pages } from "../models";
 import { defaultHazardTypes } from "../models/capability-model/hazard";
-import { actions, MeiosisComponent, t } from "../services";
+import { actions, type MeiosisComponent, t, tDynamic } from "../services";
 import { translatedOrFallback } from "../utils";
+import { PageNav } from "./ui";
 
 export const HazardsPage: MeiosisComponent = () => {
   let categoryFilter: HazardCategory | "all" = "all";
@@ -137,7 +137,7 @@ export const HazardsPage: MeiosisComponent = () => {
                       ]),
                       m(
                         "td",
-                        translatedOrFallback(t(h.id as any), h.id, h.label),
+                        translatedOrFallback(tDynamic(h.id), h.id, h.label),
                       ),
                       m(
                         "td",

@@ -1,6 +1,6 @@
 import m from "mithril";
 import { Pages } from "../../models";
-import { actions, MeiosisComponent, t } from "../../services";
+import { actions, type MeiosisComponent, t, tDynamic } from "../../services";
 import { routingSvc } from "../../services/routing-service";
 import { translatedOrFallback } from "../../utils";
 
@@ -80,45 +80,45 @@ export const ContextDrawer: MeiosisComponent = () => {
             content = [
               m(
                 ".context-drawer-title",
-                translatedOrFallback(t(cap.id as any), cap.id, cap.label),
+                translatedOrFallback(tDynamic(cap.id), cap.id, cap.label),
               ),
 
               capHazards.length > 0 &&
-                section(`${t("drawer_hazards")} (${capHazards.length})`, [
-                  capHazards.map((h) =>
-                    m(
-                      "span.context-drawer-tag.clickable",
-                      {
-                        key: h.id,
-                        style: "cursor:pointer",
-                        onclick: () =>
-                          actions.openDrawer(attrs, "hazard", h.id),
-                      },
-                      translatedOrFallback(t(h.id as any), h.id, h.label),
-                    ),
+              section(`${t("drawer_hazards")} (${capHazards.length})`, [
+                capHazards.map((h) =>
+                  m(
+                    "span.context-drawer-tag.clickable",
+                    {
+                      key: h.id,
+                      style: "cursor:pointer",
+                      onclick: () =>
+                        actions.openDrawer(attrs, "hazard", h.id),
+                    },
+                    translatedOrFallback(tDynamic(h.id), h.id, h.label),
                   ),
-                ]),
+                ),
+              ]),
 
               cap.gaps &&
-                cap.gaps.length > 0 &&
-                section(`${t("drawer_gaps")} (${cap.gaps.length})`, [
-                  cap.gaps.map((g, i) =>
-                    m(
-                      "div",
-                      { key: i },
-                      tag(g.title || `Gap ${i + 1}`, "#e65100"),
-                    ),
+              cap.gaps.length > 0 &&
+              section(`${t("drawer_gaps")} (${cap.gaps.length})`, [
+                cap.gaps.map((g, i) =>
+                  m(
+                    "div",
+                    { key: i },
+                    tag(g.title || `Gap ${i + 1}`, "#e65100"),
                   ),
-                ]),
+                ),
+              ]),
 
               section(`${t("drawer_solutions")} (${capSolutions.length})`, [
                 capSolutions.length > 0
                   ? capSolutions.map((s) =>
-                      m("div", { key: s.id }, [
-                        link(s.label, () => navigate(Pages.SOLUTIONS)),
-                        s.trl != null && tag(`TRL ${s.trl}`, "#2e7d32"),
-                      ]),
-                    )
+                    m("div", { key: s.id }, [
+                      link(s.label, () => navigate(Pages.SOLUTIONS)),
+                      s.trl != null && tag(`TRL ${s.trl}`, "#2e7d32"),
+                    ]),
+                  )
                   : m("span.grey-text", t("drawer_none")),
                 m(
                   "div.context-drawer-action",
@@ -131,21 +131,21 @@ export const ContextDrawer: MeiosisComponent = () => {
               section(`${t("drawer_roadmap")} (${capRoadmapItems.length})`, [
                 capRoadmapItems.length > 0
                   ? capRoadmapItems.map((r) => {
-                      const sol = solutions.find((s) => s.id === r.solutionId);
-                      return sol
-                        ? m(
-                            "div",
-                            { key: r.solutionId },
-                            link(sol.label, () => navigate(Pages.ROADMAP)),
-                          )
-                        : null;
-                    })
+                    const sol = solutions.find((s) => s.id === r.solutionId);
+                    return sol
+                      ? m(
+                        "div",
+                        { key: r.solutionId },
+                        link(sol.label, () => navigate(Pages.ROADMAP)),
+                      )
+                      : null;
+                  })
                   : m(
-                      "div.context-drawer-action",
-                      link(t("drawer_add_to_roadmap"), () =>
-                        navigate(Pages.ROADMAP),
-                      ),
+                    "div.context-drawer-action",
+                    link(t("drawer_add_to_roadmap"), () =>
+                      navigate(Pages.ROADMAP),
                     ),
+                  ),
               ]),
             ];
           }
@@ -166,46 +166,46 @@ export const ContextDrawer: MeiosisComponent = () => {
               m(
                 ".context-drawer-title",
                 translatedOrFallback(
-                  t(hazard.id as any),
+                  tDynamic(hazard.id),
                   hazard.id,
                   hazard.label,
                 ),
               ),
-              tag(t(`hazard_category_${hazard.category}` as any)),
+              tag(tDynamic(`hazard_category_${hazard.category}`)),
 
               withGaps.length > 0 &&
-                section(
-                  `${t("drawer_capabilities")} ${t("drawer_with_gaps")} (${withGaps.length})`,
-                  [
-                    withGaps.map((c) =>
-                      m(
-                        "div",
-                        { key: c.id },
-                        link(
-                          translatedOrFallback(t(c.id as any), c.id, c.label),
-                          () => navigate(Pages.ASSESSMENT, c.id),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
-              withoutGaps.length > 0 &&
-                section(`${t("drawer_capabilities")} (${withoutGaps.length})`, [
-                  withoutGaps.map((c) =>
+              section(
+                `${t("drawer_capabilities")} ${t("drawer_with_gaps")} (${withGaps.length})`,
+                [
+                  withGaps.map((c) =>
                     m(
                       "div",
                       { key: c.id },
                       link(
-                        translatedOrFallback(t(c.id as any), c.id, c.label),
+                        translatedOrFallback(tDynamic(c.id), c.id, c.label),
                         () => navigate(Pages.ASSESSMENT, c.id),
                       ),
                     ),
                   ),
-                ]),
+                ],
+              ),
+
+              withoutGaps.length > 0 &&
+              section(`${t("drawer_capabilities")} (${withoutGaps.length})`, [
+                withoutGaps.map((c) =>
+                  m(
+                    "div",
+                    { key: c.id },
+                    link(
+                      translatedOrFallback(tDynamic(c.id), c.id, c.label),
+                      () => navigate(Pages.ASSESSMENT, c.id),
+                    ),
+                  ),
+                ),
+              ]),
 
               linkedCaps.length === 0 &&
-                m("p.grey-text", t("drawer_no_linked_caps")),
+              m("p.grey-text", t("drawer_no_linked_caps")),
               m(
                 "div.context-drawer-action",
                 link(`${t("manage_capabilities")} →`, () =>
@@ -227,53 +227,53 @@ export const ContextDrawer: MeiosisComponent = () => {
             content = [
               m(".context-drawer-title", sol.label),
               sol.trl != null &&
-                section("TRL", tag(`TRL ${sol.trl}`, "#2e7d32")),
+              section("TRL", tag(`TRL ${sol.trl}`, "#2e7d32")),
 
               section(`${t("drawer_capabilities")} (${solCaps.length})`, [
                 solCaps.length > 0
                   ? solCaps.map((c) =>
-                      m(
-                        "div",
-                        { key: c.id },
-                        link(
-                          translatedOrFallback(t(c.id as any), c.id, c.label),
-                          () => navigate(Pages.ASSESSMENT, c.id),
-                        ),
+                    m(
+                      "div",
+                      { key: c.id },
+                      link(
+                        translatedOrFallback(tDynamic(c.id), c.id, c.label),
+                        () => navigate(Pages.ASSESSMENT, c.id),
                       ),
-                    )
+                    ),
+                  )
                   : m("span.grey-text", t("drawer_none")),
               ]),
 
               section(t("drawer_roadmap"), [
                 roadmapItem
                   ? m("div", [
-                      tag(
-                        translatedOrFallback(
-                          t(`priority_${roadmapItem.priority}` as any),
-                          `priority_${roadmapItem.priority}`,
-                          roadmapItem.priority || "",
-                        ),
-                        "#1565c0",
+                    tag(
+                      translatedOrFallback(
+                        tDynamic(`priority_${roadmapItem.priority}`),
+                        `priority_${roadmapItem.priority}`,
+                        roadmapItem.priority || "",
                       ),
-                      roadmapItem.targetDate &&
-                        m(
-                          "span.grey-text",
-                          { style: "margin-left:6px;font-size:12px" },
-                          roadmapItem.targetDate!,
-                        ),
-                      m(
-                        "div.context-drawer-action",
-                        link(t("drawer_go_to_roadmap"), () =>
-                          navigate(Pages.ROADMAP),
-                        ),
-                      ),
-                    ])
-                  : m(
+                      "#1565c0",
+                    ),
+                    roadmapItem.targetDate &&
+                    m(
+                      "span.grey-text",
+                      { style: "margin-left:6px;font-size:12px" },
+                      roadmapItem.targetDate!,
+                    ),
+                    m(
                       "div.context-drawer-action",
-                      link(t("drawer_add_to_roadmap"), () =>
+                      link(t("drawer_go_to_roadmap"), () =>
                         navigate(Pages.ROADMAP),
                       ),
                     ),
+                  ])
+                  : m(
+                    "div.context-drawer-action",
+                    link(t("drawer_add_to_roadmap"), () =>
+                      navigate(Pages.ROADMAP),
+                    ),
+                  ),
               ]),
             ];
           }
@@ -283,49 +283,49 @@ export const ContextDrawer: MeiosisComponent = () => {
             const sol = solutions.find((s) => s.id === item.solutionId);
             const solCaps = sol
               ? capabilities.filter((c) =>
-                  (sol.capabilityIds || []).includes(c.id),
-                )
+                (sol.capabilityIds || []).includes(c.id),
+              )
               : [];
 
             content = [
               m(".context-drawer-title", sol?.label || t("drawer_roadmap")),
 
               sol &&
-                section(t("drawer_solution"), [
-                  link(sol.label, () => navigate(Pages.SOLUTIONS)),
-                  sol.trl != null && tag(`TRL ${sol.trl}`, "#2e7d32"),
-                ]),
+              section(t("drawer_solution"), [
+                link(sol.label, () => navigate(Pages.SOLUTIONS)),
+                sol.trl != null && tag(`TRL ${sol.trl}`, "#2e7d32"),
+              ]),
 
               section(`${t("drawer_capabilities")} (${solCaps.length})`, [
                 solCaps.length > 0
                   ? solCaps.map((c) =>
-                      m(
-                        "div",
-                        { key: c.id },
-                        link(
-                          translatedOrFallback(t(c.id as any), c.id, c.label),
-                          () => navigate(Pages.ASSESSMENT, c.id),
-                        ),
+                    m(
+                      "div",
+                      { key: c.id },
+                      link(
+                        translatedOrFallback(tDynamic(c.id), c.id, c.label),
+                        () => navigate(Pages.ASSESSMENT, c.id),
                       ),
-                    )
+                    ),
+                  )
                   : m("span.grey-text", t("drawer_none")),
               ]),
 
               section(t("importance"), [
                 tag(
                   translatedOrFallback(
-                    t(`priority_${item.priority}` as any),
+                    tDynamic(`priority_${item.priority}`),
                     `priority_${item.priority}`,
                     item.priority || "",
                   ),
                   "#1565c0",
                 ),
                 item.targetDate &&
-                  m(
-                    "span.grey-text",
-                    { style: "margin-left:6px;font-size:12px" },
-                    item.targetDate!,
-                  ),
+                m(
+                  "span.grey-text",
+                  { style: "margin-left:6px;font-size:12px" },
+                  item.targetDate!,
+                ),
               ]),
             ];
           }
@@ -334,9 +334,9 @@ export const ContextDrawer: MeiosisComponent = () => {
 
       return m("", [
         isOpen &&
-          m(".context-drawer-backdrop", {
-            onclick: () => actions.closeDrawer(attrs),
-          }),
+        m(".context-drawer-backdrop", {
+          onclick: () => actions.closeDrawer(attrs),
+        }),
         m(".context-drawer", { class: isOpen ? "open" : "" }, [
           m(".context-drawer-header", [
             m(

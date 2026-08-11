@@ -1,9 +1,9 @@
 import m from "mithril";
 import { Button, FlatButton, Icon } from "mithril-materialized";
-import { routingSvc, MeiosisComponent, actions, t } from "../services";
 import { type CapabilityModel, type ISolution, Pages } from "../models";
-import { PageNav } from "./ui";
+import { actions, type MeiosisComponent, routingSvc, t, tDynamic } from "../services";
 import { formatDate, toWordFull, translatedOrFallback } from "../utils";
+import { PageNav } from "./ui";
 
 const priorityColors: Record<string, string> = {
   low: "#4caf50",
@@ -102,14 +102,14 @@ export const HomePage: MeiosisComponent = () => {
 
       const getCapLabel = (id: string) =>
         translatedOrFallback(
-          t(id as any),
+          tDynamic(id),
           id,
           capabilities.find((c) => c.id === id)?.label || id,
         );
 
       const getHazardLabel = (id: string) =>
         translatedOrFallback(
-          t(id as any),
+          tDynamic(id),
           id,
           hazardTypes.find((h) => h.id === id)?.label || id,
         );
@@ -210,261 +210,175 @@ export const HomePage: MeiosisComponent = () => {
 
         // Summary section
         hasSummary &&
-          m(".row", { style: "margin-top: 20px;" }, [
-            m(".col.s12", m("h5", t("summary"))),
+        m(".row", { style: "margin-top: 20px;" }, [
+          m(".col.s12", m("h5", t("summary"))),
 
-            // Hazards
-            selectedHazards.length > 0 &&
-              m(".col.s12", { style: "margin-bottom: 16px;" }, [
-                m("h6", [
-                  m(Icon, {
-                    iconName: "warning",
-                    style:
-                      "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
-                  }),
-                  t("selected_hazards"),
-                  sectionLink(t("continue"), Pages.HAZARDS),
-                ]),
-                selectedHazards.map((h) => {
-                  const relatedCaps = capsWithGaps.filter((c) =>
-                    (c.hazardIds || []).includes(h.id),
-                  );
-                  return m(
-                    ".card",
+          // Hazards
+          selectedHazards.length > 0 &&
+          m(".col.s12", { style: "margin-bottom: 16px;" }, [
+            m("h6", [
+              m(Icon, {
+                iconName: "warning",
+                style:
+                  "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
+              }),
+              t("selected_hazards"),
+              sectionLink(t("continue"), Pages.HAZARDS),
+            ]),
+            selectedHazards.map((h) => {
+              const relatedCaps = capsWithGaps.filter((c) =>
+                (c.hazardIds || []).includes(h.id),
+              );
+              return m(
+                ".card",
+                {
+                  key: h.id,
+                  style: "margin: 4px 0; padding: 10px 14px;",
+                },
+                [
+                  m(
+                    "div",
                     {
-                      key: h.id,
-                      style: "margin: 4px 0; padding: 10px 14px;",
+                      style:
+                        "display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;",
                     },
                     [
                       m(
-                        "div",
-                        {
-                          style:
-                            "display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;",
-                        },
-                        [
-                          m(
-                            "strong",
-                            translatedOrFallback(t(h.id as any), h.id, h.label),
-                          ),
-                          h.category && tag(h.category, "#607d8b"),
-                        ],
+                        "strong",
+                        translatedOrFallback(tDynamic(h.id), h.id, h.label),
                       ),
-                      h.description &&
+                      h.category && tag(h.category, "#607d8b"),
+                    ],
+                  ),
+                  h.description &&
+                  m(
+                    "p",
+                    {
+                      style:
+                        "margin: 4px 0 6px; font-size:13px; color:var(--mm-text-muted, #666);",
+                    },
+                    h.description,
+                  ),
+                  relatedCaps.length > 0 &&
+                  m("div", { style: "margin-top:4px;" }, [
+                    m(
+                      "span",
+                      {
+                        style:
+                          "font-size:11px; color:#888; margin-right:4px;",
+                      },
+                      t("capability_gaps") + ":",
+                    ),
+                    relatedCaps.map((c) =>
+                      tag(getCapLabel(c.id), "#e65100"),
+                    ),
+                  ]),
+                ],
+              );
+            }),
+          ]),
+
+          // Capability gaps
+          capsWithGaps.length > 0 &&
+          m(".col.s12", { style: "margin-bottom: 16px;" }, [
+            m("h6", [
+              m(Icon, {
+                iconName: "report_problem",
+                style:
+                  "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
+              }),
+              t("capability_gaps"),
+              sectionLink(t("continue"), Pages.OVERVIEW),
+            ]),
+            capsWithGaps.map((cap) => {
+              const capAssessment = assessmentScale.find(
+                (a) => a.id === cap.assessmentId,
+              );
+              const capStakeholders = Array.isArray(
+                cap.capabilityStakeholders,
+              )
+                ? cap.capabilityStakeholders
+                : cap.capabilityStakeholders
+                  ? [cap.capabilityStakeholders]
+                  : [];
+              const capHazards = hazardTypes.filter((h) =>
+                (cap.hazardIds || []).includes(h.id),
+              );
+              const capSolutions = solutions.filter((s) =>
+                (s.capabilityIds || []).includes(cap.id),
+              );
+
+              return m(
+                ".card",
+                { key: cap.id, style: "margin: 4px 0;" },
+                m(".card-content", { style: "padding: 10px 14px;" }, [
+                  m(
+                    "div",
+                    {
+                      style:
+                        "display:flex; align-items:center; margin-bottom:6px;",
+                    },
+                    [
+                      statusDot(capAssessment?.color, capAssessment?.label),
+                      m("strong", getCapLabel(cap.id)),
+                    ],
+                  ),
+                  (cap.gaps || []).map((gap, i) => {
+                    const gapStatus = gapScale.find(
+                      (g) => g.id === gap.gapAssessment?.assessmentId,
+                    );
+                    return m(
+                      "div",
+                      {
+                        key: i,
+                        style:
+                          "border-left: 3px solid #e0e0e0; padding-left: 10px; margin: 6px 0;",
+                      },
+                      [
+                        m(
+                          "div",
+                          { style: "display:flex; align-items:center;" },
+                          [
+                            statusDot(gapStatus?.color, gapStatus?.label),
+                            m(
+                              "span",
+                              { style: "font-weight:500; font-size:13px;" },
+                              gap.title || `Gap ${i + 1}`,
+                            ),
+                          ],
+                        ),
+                        gap.desc &&
                         m(
                           "p",
                           {
                             style:
-                              "margin: 4px 0 6px; font-size:13px; color:var(--mm-text-muted, #666);",
+                              "margin: 3px 0 4px 16px; font-size:12px; color:var(--mm-text-muted, #666);",
                           },
-                          h.description,
+                          gap.desc,
                         ),
-                      relatedCaps.length > 0 &&
-                        m("div", { style: "margin-top:4px;" }, [
-                          m(
-                            "span",
-                            {
-                              style:
-                                "font-size:11px; color:#888; margin-right:4px;",
-                            },
-                            t("capability_gaps") + ":",
-                          ),
-                          relatedCaps.map((c) =>
-                            tag(getCapLabel(c.id), "#e65100"),
-                          ),
-                        ]),
-                    ],
-                  );
-                }),
-              ]),
-
-            // Capability gaps
-            capsWithGaps.length > 0 &&
-              m(".col.s12", { style: "margin-bottom: 16px;" }, [
-                m("h6", [
-                  m(Icon, {
-                    iconName: "report_problem",
-                    style:
-                      "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
-                  }),
-                  t("capability_gaps"),
-                  sectionLink(t("continue"), Pages.OVERVIEW),
-                ]),
-                capsWithGaps.map((cap) => {
-                  const capAssessment = assessmentScale.find(
-                    (a) => a.id === cap.assessmentId,
-                  );
-                  const capStakeholders = Array.isArray(
-                    cap.capabilityStakeholders,
-                  )
-                    ? cap.capabilityStakeholders
-                    : cap.capabilityStakeholders
-                      ? [cap.capabilityStakeholders]
-                      : [];
-                  const capHazards = hazardTypes.filter((h) =>
-                    (cap.hazardIds || []).includes(h.id),
-                  );
-                  const capSolutions = solutions.filter((s) =>
-                    (s.capabilityIds || []).includes(cap.id),
-                  );
-
-                  return m(
-                    ".card",
-                    { key: cap.id, style: "margin: 4px 0;" },
-                    m(".card-content", { style: "padding: 10px 14px;" }, [
-                      m(
-                        "div",
-                        {
-                          style:
-                            "display:flex; align-items:center; margin-bottom:6px;",
-                        },
-                        [
-                          statusDot(capAssessment?.color, capAssessment?.label),
-                          m("strong", getCapLabel(cap.id)),
-                        ],
-                      ),
-                      (cap.gaps || []).map((gap, i) => {
-                        const gapStatus = gapScale.find(
-                          (g) => g.id === gap.gapAssessment?.assessmentId,
-                        );
-                        return m(
+                        (capStakeholders.length > 0 ||
+                          capHazards.length > 0 ||
+                          capSolutions.length > 0) &&
+                        m(
                           "div",
-                          {
-                            key: i,
-                            style:
-                              "border-left: 3px solid #e0e0e0; padding-left: 10px; margin: 6px 0;",
-                          },
+                          { style: "margin-left:16px; margin-top:4px;" },
                           [
-                            m(
-                              "div",
-                              { style: "display:flex; align-items:center;" },
-                              [
-                                statusDot(gapStatus?.color, gapStatus?.label),
-                                m(
-                                  "span",
-                                  { style: "font-weight:500; font-size:13px;" },
-                                  gap.title || `Gap ${i + 1}`,
-                                ),
-                              ],
-                            ),
-                            gap.desc &&
+                            capStakeholders.length > 0 &&
+                            m("div", [
                               m(
-                                "p",
+                                "span",
                                 {
                                   style:
-                                    "margin: 3px 0 4px 16px; font-size:12px; color:var(--mm-text-muted, #666);",
+                                    "font-size:11px; color:#888; margin-right:4px;",
                                 },
-                                gap.desc,
+                                t("shs") + ":",
                               ),
-                            (capStakeholders.length > 0 ||
-                              capHazards.length > 0 ||
-                              capSolutions.length > 0) &&
-                              m(
-                                "div",
-                                { style: "margin-left:16px; margin-top:4px;" },
-                                [
-                                  capStakeholders.length > 0 &&
-                                    m("div", [
-                                      m(
-                                        "span",
-                                        {
-                                          style:
-                                            "font-size:11px; color:#888; margin-right:4px;",
-                                        },
-                                        t("shs") + ":",
-                                      ),
-                                      capStakeholders.map((id) =>
-                                        tag(getStakeholderLabel(id), "#1565c0"),
-                                      ),
-                                    ]),
-                                  capHazards.length > 0 &&
-                                    m("div", { style: "margin-top:2px;" }, [
-                                      m(
-                                        "span",
-                                        {
-                                          style:
-                                            "font-size:11px; color:#888; margin-right:4px;",
-                                        },
-                                        t("drawer_relevant_hazards") + ":",
-                                      ),
-                                      capHazards.map((h) =>
-                                        tag(getHazardLabel(h.id), "#bf360c"),
-                                      ),
-                                    ]),
-                                  capSolutions.length > 0 &&
-                                    m("div", { style: "margin-top:2px;" }, [
-                                      m(
-                                        "span",
-                                        {
-                                          style:
-                                            "font-size:11px; color:#888; margin-right:4px;",
-                                        },
-                                        t("solutions") + ":",
-                                      ),
-                                      capSolutions.map((s) =>
-                                        tag(s.label, "#1b5e20"),
-                                      ),
-                                    ]),
-                                ],
+                              capStakeholders.map((id) =>
+                                tag(getStakeholderLabel(id), "#1565c0"),
                               ),
-                          ],
-                        );
-                      }),
-                    ]),
-                  );
-                }),
-              ]),
-
-            // Solutions
-            solutions.length > 0 &&
-              m(".col.s12", { style: "margin-bottom: 16px;" }, [
-                m("h6", [
-                  m(Icon, {
-                    iconName: "lightbulb",
-                    style:
-                      "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
-                  }),
-                  t("solutions"),
-                  sectionLink(t("continue"), Pages.SOLUTIONS),
-                ]),
-                solutions.map((sol) => {
-                  const linkedCaps = capabilities.filter((c) =>
-                    (sol.capabilityIds || []).includes(c.id),
-                  );
-                  const linkedHazards = hazardTypes.filter((h) =>
-                    linkedCaps.some((c) => (c.hazardIds || []).includes(h.id)),
-                  );
-
-                  return m(
-                    ".card",
-                    { key: sol.id, style: "margin: 4px 0;" },
-                    m(".card-content", { style: "padding: 10px 14px;" }, [
-                      m(
-                        "div",
-                        {
-                          style:
-                            "display:flex; align-items:baseline; flex-wrap:wrap; gap:8px; margin-bottom:4px;",
-                        },
-                        [
-                          m("strong", sol.label),
-                          sol.trl !== undefined &&
-                            tag(`TRL ${sol.trl}`, "#1565c0"),
-                          complianceScore(sol),
-                        ],
-                      ),
-                      sol.desc &&
-                        m(
-                          "p",
-                          {
-                            style:
-                              "margin: 4px 0 6px; font-size:13px; color:var(--mm-text-muted, #666);",
-                          },
-                          sol.desc,
-                        ),
-                      (linkedHazards.length > 0 || linkedCaps.length > 0) &&
-                        m("div", { style: "margin-top:4px;" }, [
-                          linkedHazards.length > 0 &&
-                            m("div", [
+                            ]),
+                            capHazards.length > 0 &&
+                            m("div", { style: "margin-top:2px;" }, [
                               m(
                                 "span",
                                 {
@@ -473,11 +387,11 @@ export const HomePage: MeiosisComponent = () => {
                                 },
                                 t("drawer_relevant_hazards") + ":",
                               ),
-                              linkedHazards.map((h) =>
+                              capHazards.map((h) =>
                                 tag(getHazardLabel(h.id), "#bf360c"),
                               ),
                             ]),
-                          linkedCaps.length > 0 &&
+                            capSolutions.length > 0 &&
                             m("div", { style: "margin-top:2px;" }, [
                               m(
                                 "span",
@@ -485,84 +399,170 @@ export const HomePage: MeiosisComponent = () => {
                                   style:
                                     "font-size:11px; color:#888; margin-right:4px;",
                                 },
-                                t("capability_gaps") + ":",
+                                t("solutions") + ":",
                               ),
-                              linkedCaps.map((c) =>
-                                tag(getCapLabel(c.id), "#e65100"),
+                              capSolutions.map((s) =>
+                                tag(s.label, "#1b5e20"),
                               ),
                             ]),
-                        ]),
-                    ]),
-                  );
-                }),
-              ]),
-
-            // Roadmap
-            roadmapItems.length > 0 &&
-              m(".col.s12", { style: "margin-bottom: 16px;" }, [
-                m("h6", [
-                  m(Icon, {
-                    iconName: "timeline",
-                    style:
-                      "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
+                          ],
+                        ),
+                      ],
+                    );
                   }),
-                  t("roadmap_step_title"),
-                  sectionLink(t("continue"), Pages.ROADMAP),
                 ]),
-                m("table.striped.highlight", [
-                  m(
-                    "thead",
-                    m("tr", [
-                      m("th", t("cap")),
-                      m("th", "TRL"),
-                      m("th", t("importance")),
-                      m("th", t("start_time")),
-                      m("th", t("proj_sum")),
-                    ]),
-                  ),
-                  m(
-                    "tbody",
-                    roadmapItems.map((item) => {
-                      const sol = solutions.find(
-                        (s) => s.id === item.solutionId,
-                      );
-                      if (!sol) return null;
-                      const prio = item.priority || "medium";
-                      return m("tr", { key: item.solutionId }, [
-                        m(
-                          "td",
-                          {
-                            style: "cursor:pointer",
-                            onclick: () => routingSvc.switchTo(Pages.ROADMAP),
-                          },
-                          m("strong", sol.label),
-                        ),
-                        m("td", sol.trl !== undefined ? `${sol.trl}` : "-"),
-                        m("td", [
-                          m(
-                            "span",
-                            {
-                              style: `background:${priorityColors[prio]}20; color:${priorityColors[prio]};
-                                      padding:2px 8px; border-radius:10px; font-size:11px; font-weight:600;`,
-                            },
-                            prio,
-                          ),
-                        ]),
-                        m("td", item.targetDate || "-"),
-                        m(
-                          "td",
-                          {
-                            style:
-                              "max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;",
-                          },
-                          item.commitment || "-",
-                        ),
-                      ]);
-                    }),
-                  ),
-                ]),
-              ]),
+              );
+            }),
           ]),
+
+          // Solutions
+          solutions.length > 0 &&
+          m(".col.s12", { style: "margin-bottom: 16px;" }, [
+            m("h6", [
+              m(Icon, {
+                iconName: "lightbulb",
+                style:
+                  "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
+              }),
+              t("solutions"),
+              sectionLink(t("continue"), Pages.SOLUTIONS),
+            ]),
+            solutions.map((sol) => {
+              const linkedCaps = capabilities.filter((c) =>
+                (sol.capabilityIds || []).includes(c.id),
+              );
+              const linkedHazards = hazardTypes.filter((h) =>
+                linkedCaps.some((c) => (c.hazardIds || []).includes(h.id)),
+              );
+
+              return m(
+                ".card",
+                { key: sol.id, style: "margin: 4px 0;" },
+                m(".card-content", { style: "padding: 10px 14px;" }, [
+                  m(
+                    "div",
+                    {
+                      style:
+                        "display:flex; align-items:baseline; flex-wrap:wrap; gap:8px; margin-bottom:4px;",
+                    },
+                    [
+                      m("strong", sol.label),
+                      sol.trl !== undefined &&
+                      tag(`TRL ${sol.trl}`, "#1565c0"),
+                      complianceScore(sol),
+                    ],
+                  ),
+                  sol.desc &&
+                  m(
+                    "p",
+                    {
+                      style:
+                        "margin: 4px 0 6px; font-size:13px; color:var(--mm-text-muted, #666);",
+                    },
+                    sol.desc,
+                  ),
+                  (linkedHazards.length > 0 || linkedCaps.length > 0) &&
+                  m("div", { style: "margin-top:4px;" }, [
+                    linkedHazards.length > 0 &&
+                    m("div", [
+                      m(
+                        "span",
+                        {
+                          style:
+                            "font-size:11px; color:#888; margin-right:4px;",
+                        },
+                        t("drawer_relevant_hazards") + ":",
+                      ),
+                      linkedHazards.map((h) =>
+                        tag(getHazardLabel(h.id), "#bf360c"),
+                      ),
+                    ]),
+                    linkedCaps.length > 0 &&
+                    m("div", { style: "margin-top:2px;" }, [
+                      m(
+                        "span",
+                        {
+                          style:
+                            "font-size:11px; color:#888; margin-right:4px;",
+                        },
+                        t("capability_gaps") + ":",
+                      ),
+                      linkedCaps.map((c) =>
+                        tag(getCapLabel(c.id), "#e65100"),
+                      ),
+                    ]),
+                  ]),
+                ]),
+              );
+            }),
+          ]),
+
+          // Roadmap
+          roadmapItems.length > 0 &&
+          m(".col.s12", { style: "margin-bottom: 16px;" }, [
+            m("h6", [
+              m(Icon, {
+                iconName: "timeline",
+                style:
+                  "font-size:1.1rem; vertical-align:middle; margin-right:4px;",
+              }),
+              t("roadmap_step_title"),
+              sectionLink(t("continue"), Pages.ROADMAP),
+            ]),
+            m("table.striped.highlight", [
+              m(
+                "thead",
+                m("tr", [
+                  m("th", t("cap")),
+                  m("th", "TRL"),
+                  m("th", t("importance")),
+                  m("th", t("start_time")),
+                  m("th", t("proj_sum")),
+                ]),
+              ),
+              m(
+                "tbody",
+                roadmapItems.map((item) => {
+                  const sol = solutions.find(
+                    (s) => s.id === item.solutionId,
+                  );
+                  if (!sol) return null;
+                  const prio = item.priority || "medium";
+                  return m("tr", { key: item.solutionId }, [
+                    m(
+                      "td",
+                      {
+                        style: "cursor:pointer",
+                        onclick: () => routingSvc.switchTo(Pages.ROADMAP),
+                      },
+                      m("strong", sol.label),
+                    ),
+                    m("td", sol.trl !== undefined ? `${sol.trl}` : "-"),
+                    m("td", [
+                      m(
+                        "span",
+                        {
+                          style: `background:${priorityColors[prio]}20; color:${priorityColors[prio]};
+                                      padding:2px 8px; border-radius:10px; font-size:11px; font-weight:600;`,
+                        },
+                        prio,
+                      ),
+                    ]),
+                    m("td", item.targetDate || "-"),
+                    m(
+                      "td",
+                      {
+                        style:
+                          "max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;",
+                      },
+                      item.commitment || "-",
+                    ),
+                  ]);
+                }),
+              ),
+            ]),
+          ]),
+        ]),
 
         // Back to sessions + export
         m(".row", { style: "margin-top: 30px;" }, [
@@ -574,14 +574,14 @@ export const HomePage: MeiosisComponent = () => {
               onclick: () => routingSvc.switchTo(Pages.LANDING),
             }),
             capabilities.length > 0 &&
-              m(FlatButton, {
-                iconName: "download",
-                label: t("export_all_to_word"),
-                onclick: () => {
-                  const filename = `${formatDate(Date.now())}_${data.title || "assessment"}_full_report.docx`;
-                  toWordFull(filename, data);
-                },
-              }),
+            m(FlatButton, {
+              iconName: "download",
+              label: t("export_all_to_word"),
+              onclick: () => {
+                const filename = `${formatDate(Date.now())}_${data.title || "assessment"}_full_report.docx`;
+                toWordFull(filename, data);
+              },
+            }),
           ]),
         ]),
       ]);

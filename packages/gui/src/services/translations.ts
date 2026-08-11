@@ -17,18 +17,20 @@ export function getFormI18nConfig(): Record<string, any> {
     locales: ["en", "nl", "de", "fr", "es", "it", "pl", "pt", "sv"],
   };
 }
+
 import translate, { type Options, type Translate } from "translate.js";
 import { plural_EN } from "translate.js/pluralize";
 import {
   messages,
-  messagesNL,
   messagesDE,
-  messagesFR,
   messagesES,
+  messagesFR,
   messagesIT,
+  messagesNL,
   messagesPL,
   messagesPT,
   messagesSV,
+  type TranslationKey,
 } from "./lang";
 
 export type Languages =
@@ -68,6 +70,23 @@ const setGuiLanguage = (language: Languages) => {
     Options
   >;
 };
+
+export const isTranslationKey = (s: string): s is TranslationKey => s in t.keys;
+
+type LooseTranslate = (key: string, arg1?: unknown, arg2?: unknown) => unknown;
+
+/**
+ * Runtime translation helper for dynamic keys/subkeys that cannot be statically typed.
+ */
+export const tDynamic = (key: string, arg1?: unknown, arg2?: unknown) =>
+  (() => {
+    const translated = (t as unknown as LooseTranslate)(key, arg1, arg2);
+    return Array.isArray(translated)
+      ? translated.join("")
+      : translated == null
+        ? ""
+        : `${translated}`;
+  })();
 
 export type TextDirection = "rtl" | "ltr";
 
@@ -145,7 +164,7 @@ async function loadAndSetLocale(newLocale: Languages) {
   // I18N.deleteItem = t('I18n', 'deleteItem');
   // I18N.pickOne = t('I18n', 'pickOne');
   // I18N.pickOneOrMore = t('I18n', 'pickOneOrMore');
-  onChangeLocale.forEach((listener) => listener(i18n.currentLocale, dir()));
+  onChangeLocale.forEach((listener) => { listener(i18n.currentLocale, dir()); });
 }
 
 function supported(locale: Languages) {

@@ -1,4 +1,3 @@
-import { getFormI18nConfig } from "../services/translations";
 import m from "mithril";
 import {
   FlatButton,
@@ -6,23 +5,24 @@ import {
   RoundIconButton,
   TooltipComponent,
 } from "mithril-materialized";
-import { FormAttributes, LayoutForm, SlimdownView } from "mithril-ui-form";
-import { Pages, ICapability, CapabilityModel } from "../models";
-import { MeiosisComponent, t, i18n, actions } from "../services";
-import { PageNav } from "./ui";
-import type {
-  CollaborationPatch,
-  CapabilityAssessmentResponseItem,
-} from "../services/collaboration-service";
+import { type FormAttributes, LayoutForm, SlimdownView } from "mithril-ui-form";
+import { type CapabilityModel, type ICapability, Pages } from "../models";
 import type { ILabelled } from "../models/capability-model/capability-model";
+import { actions, i18n, type MeiosisComponent, t, tDynamic } from "../services";
+import type {
+  CapabilityAssessmentResponseItem,
+  CollaborationPatch,
+} from "../services/collaboration-service";
+import { getFormI18nConfig } from "../services/translations";
 import {
   formatDate,
-  getTextColorFromBackground,
   getOptionsLabel,
+  getTextColorFromBackground,
   localizeCapabilityModelData,
   toWord,
   translatedOrFallback,
 } from "../utils";
+import { PageNav } from "./ui";
 
 type AssessmentGroup = "task" | "performance" | "gap";
 
@@ -57,14 +57,14 @@ type ConsensusGhostContext = {
 };
 
 const fallbackText = (key: string, fallback: string) =>
-  translatedOrFallback(t(key as any), key, fallback);
+  translatedOrFallback(tDynamic(key), key, fallback);
 
 const fallbackTextWithVars = (
   key: string,
   fallback: string,
   vars: Record<string, string>,
 ) => {
-  const translated = t(key as any, vars as any);
+  const translated = tDynamic(key, vars);
   const value = Array.isArray(translated)
     ? translated.join("")
     : translated == null
@@ -75,7 +75,7 @@ const fallbackTextWithVars = (
 
 const labelFor = (item?: { id?: string; label?: string }, fallback = "") =>
   item?.id
-    ? translatedOrFallback(t(item.id as any), item.id, item.label || fallback)
+    ? translatedOrFallback(tDynamic(item.id), item.id, item.label || fallback)
     : item?.label || fallback;
 
 const valueLabel = (options: ILabelled[] = [], id?: string, fallback = "—") => {
@@ -109,8 +109,8 @@ const getCapabilityPatches = (
 ) =>
   capabilityId
     ? patches.filter((patch) =>
-        (patch.ca ?? []).some((answer) => answer.c === capabilityId),
-      )
+      (patch.ca ?? []).some((answer) => answer.c === capabilityId),
+    )
     : [];
 
 const getConsensusSummary = (
@@ -289,35 +289,35 @@ const renderParticipantGapCards = (
           m("h6", draft.title || fallbackText("gap", "Gap")),
           draft.desc && m("p", draft.desc),
           draft.assessmentId &&
-            m("p.dasf-gap-card__assessment", [
-              fallbackText(
-                "participant_consensus_mode",
-                "Participant consensus",
-              ),
-              ": ",
-              valueLabel(gapOptions, draft.assessmentId),
-            ]),
-          draft.items.some((item) => item.v || item.d?.trim()) &&
-            m(
-              ".dasf-gap-card__items",
-              draft.items
-                .filter((item) => item.v || item.d?.trim())
-                .map((item) =>
-                  m("div", [
-                    m("strong", item.id),
-                    item.v ? `: ${valueLabel(gapOptions, item.v)}` : "",
-                    item.d?.trim()
-                      ? m("div.small.grey-text", item.d.trim())
-                      : null,
-                  ]),
-                ),
+          m("p.dasf-gap-card__assessment", [
+            fallbackText(
+              "participant_consensus_mode",
+              "Participant consensus",
             ),
+            ": ",
+            valueLabel(gapOptions, draft.assessmentId),
+          ]),
+          draft.items.some((item) => item.v || item.d?.trim()) &&
+          m(
+            ".dasf-gap-card__items",
+            draft.items
+              .filter((item) => item.v || item.d?.trim())
+              .map((item) =>
+                m("div", [
+                  m("strong", item.id),
+                  item.v ? `: ${valueLabel(gapOptions, item.v)}` : "",
+                  item.d?.trim()
+                    ? m("div.small.grey-text", item.d.trim())
+                    : null,
+                ]),
+              ),
+          ),
           promote &&
-            m(FlatButton, {
-              label: fallbackText("promote_to_final", "Promote to final"),
-              iconName: "north_east",
-              onclick: () => promote(draft),
-            }),
+          m(FlatButton, {
+            label: fallbackText("promote_to_final", "Promote to final"),
+            iconName: "north_east",
+            onclick: () => promote(draft),
+          }),
         ]),
       ),
     ),
@@ -445,7 +445,7 @@ const renderViewModeSection = (
       );
       const justification =
         cap.consensusJustifications?.[
-          justificationKey(group, item.id, gapIndex)
+        justificationKey(group, item.id, gapIndex)
         ];
       return m(".dasf-report-item", [
         m("div.dasf-report-item__header", [
@@ -453,14 +453,14 @@ const renderViewModeSection = (
           renderStatusPill(scale, finalItem?.value),
         ]),
         item.desc &&
-          m(
-            "p.dasf-report-item__desc",
-            translatedOrFallback(
-              t(`${item.id}_desc` as any),
-              `${item.id}_desc`,
-              item.desc,
-            ),
+        m(
+          "p.dasf-report-item__desc",
+          translatedOrFallback(
+            tDynamic(`${item.id}_desc`),
+            `${item.id}_desc`,
+            item.desc,
           ),
+        ),
         renderHistogram(scale, consensus, true),
         m("p.dasf-report-item__consensus", [
           fallbackText("participant_consensus_mode", "Participant consensus"),
@@ -470,14 +470,14 @@ const renderViewModeSection = (
         finalItem?.desc && m("p", finalItem.desc),
         renderCommentBubbles(consensus.comments),
         justification &&
-          m("p.dasf-report-item__justification", [
-            fallbackText(
-              "facilitator_justification",
-              "Facilitator justification",
-            ),
-            ": ",
-            justification,
-          ]),
+        m("p.dasf-report-item__justification", [
+          fallbackText(
+            "facilitator_justification",
+            "Facilitator justification",
+          ),
+          ": ",
+          justification,
+        ]),
         m("hr"),
       ]);
     }),
@@ -592,7 +592,7 @@ export const AssessmentPage: MeiosisComponent = () => {
       );
       const gapDrafts = cap.id ? getGapDrafts(capPatches, cap.id) : [];
       const capabilityLabel = translatedOrFallback(
-        t(cap.id as any),
+        tDynamic(cap.id),
         cap.id,
         cap.label || fallbackText("cap", "Capability"),
       );
@@ -686,199 +686,198 @@ export const AssessmentPage: MeiosisComponent = () => {
             m("i.material-icons", "info"),
           ),
           cap &&
-            m(".row", [
-              m(".right.dasf-assessment-toolbar", [
-                m(FlatButton, {
-                  title: "Save to Word",
-                  iconName: "download",
-                  onclick: () => {
-                    const filename = `${formatDate(Date.now())}_${
-                      cap.label || title
+          m(".row", [
+            m(".right.dasf-assessment-toolbar", [
+              m(FlatButton, {
+                title: "Save to Word",
+                iconName: "download",
+                onclick: () => {
+                  const filename = `${formatDate(Date.now())}_${cap.label || title
                     }_v${version}.docx`;
-                    toWord(filename, data, cap);
-                  },
-                }),
-                m(RoundIconButton, {
-                  className: "dasf-assessment-mode-toggle-btn",
-                  iconName: viewMode ? "edit" : "visibility",
-                  tooltip: viewMode ? t("edit") : t("view"),
-                  title: viewMode ? t("edit") : t("view"),
-                  tooltipPosition: "left",
-                  onclick: () => {
-                    viewMode = !viewMode;
-                  },
-                }),
-                color &&
-                  m("div.square", {
-                    style: `background-color: ${color}; border: 4px solid var(--mm-text-primary, #111); width: 40px; height: 40px; border-radius: 20px`,
-                  }),
-              ]),
-              m("h5.col.s12.condensed", [
-                `${t("cap")} '${translatedOrFallback(t(cap.id as any), cap.id, cap.label)}'`,
-                cap.desc &&
-                  m(
-                    TooltipComponent,
-                    {
-                      position: "bottom",
-                      html: cap.desc,
-                      margin: 12,
-                      inDuration: 100,
-                      outDuration: 100,
-                    },
-                    m("i.material-icons.info-icon", "info"),
-                  ),
-              ]),
+                  toWord(filename, data, cap);
+                },
+              }),
+              m(RoundIconButton, {
+                className: "dasf-assessment-mode-toggle-btn",
+                iconName: viewMode ? "edit" : "visibility",
+                tooltip: viewMode ? t("edit") : t("view"),
+                title: viewMode ? t("edit") : t("view"),
+                tooltipPosition: "left",
+                onclick: () => {
+                  viewMode = !viewMode;
+                },
+              }),
+              color &&
+              m("div.square", {
+                style: `background-color: ${color}; border: 4px solid var(--mm-text-primary, #111); width: 40px; height: 40px; border-radius: 20px`,
+              }),
+            ]),
+            m("h5.col.s12.condensed", [
+              `${t("cap")} '${translatedOrFallback(tDynamic(cap.id), cap.id, cap.label)}'`,
+              cap.desc &&
               m(
-                ".col.s12",
-                m(SlimdownView, { md: t("ass_instr"), removeParagraphs: true }),
+                TooltipComponent,
+                {
+                  position: "bottom",
+                  html: cap.desc,
+                  margin: 12,
+                  inDuration: 100,
+                  outDuration: 100,
+                },
+                m("i.material-icons.info-icon", "info"),
               ),
             ]),
+            m(
+              ".col.s12",
+              m(SlimdownView, { md: t("ass_instr"), removeParagraphs: true }),
+            ),
+          ]),
         ],
         cap && [
           !viewMode &&
-            renderParticipantGapCards(gapDrafts, gapScale, promoteGapDraft),
+          renderParticipantGapCards(gapDrafts, gapScale, promoteGapDraft),
           viewMode
             ? m(".dasf-assessment-view-mode", [
-                m(".dasf-report-section", [
-                  m("h4", t("drawer_relevant_hazards")),
-                  relevantHazards.length > 0
-                    ? m(
-                        ".dasf-report-tags",
-                        relevantHazards.map((hazard) =>
-                          m(
-                            "span.dasf-report-tag",
-                            translatedOrFallback(
-                              t(hazard.id as any),
-                              hazard.id,
-                              hazard.label,
-                            ),
-                          ),
-                        ),
-                      )
-                    : m("p.grey-text", fallbackText("none", "None")),
-                  m("hr"),
-                ]),
-                renderSummaryTable(
-                  cap,
-                  capPatches,
-                  mainTasksForCapability,
-                  performanceAspectsForCapability,
-                  mainGaps,
-                  taskScale,
-                  performanceScale,
-                  gapScale,
-                ),
-                cap.desc &&
-                  m(".dasf-report-section", [
-                    m("h4", fallbackText("desc", "Description")),
-                    m("p", cap.desc),
-                    m("hr"),
-                  ]),
-                Array.isArray(cap.capabilityStakeholders) &&
-                  cap.capabilityStakeholders.length > 0 &&
-                  m(".dasf-report-section", [
-                    m("h4", fallbackText("shs", "Stakeholders")),
-                    m(
-                      ".dasf-report-tags",
-                      cap.capabilityStakeholders.map((stakeholderId) =>
-                        m(
-                          "span.dasf-report-tag",
-                          getOptionsLabel(stakeholders, stakeholderId, false) ||
-                            stakeholderId,
+              m(".dasf-report-section", [
+                m("h4", t("drawer_relevant_hazards")),
+                relevantHazards.length > 0
+                  ? m(
+                    ".dasf-report-tags",
+                    relevantHazards.map((hazard) =>
+                      m(
+                        "span.dasf-report-tag",
+                        translatedOrFallback(
+                          tDynamic(hazard.id),
+                          hazard.id,
+                          hazard.label,
                         ),
                       ),
                     ),
-                    cap.otherStakeholder && m("p", cap.otherStakeholder),
-                    m("hr"),
-                  ]),
-                renderViewModeSection(
-                  cap,
-                  capPatches,
-                  fallbackText("main_goals", "Goals"),
-                  mainTasksForCapability,
-                  taskScale,
-                  "task",
-                  cap.taskAssessment,
-                ),
-                renderViewModeSection(
-                  cap,
-                  capPatches,
-                  fallbackText("perf_asps", "Performance aspects"),
-                  performanceAspectsForCapability,
-                  performanceScale,
-                  "performance",
-                  cap.performanceAssessment,
-                ),
-                gapDrafts.length > 0 &&
-                  renderParticipantGapCards(gapDrafts, gapScale),
-                ...(cap.gaps ?? []).map((gap, gapIndex) =>
-                  m(".dasf-report-section", [
-                    m(
-                      "h4",
-                      `${fallbackText("gap", "Gap")} ${gapIndex + 1}: ${gap.title || fallbackText("untitled_gap", "Untitled gap")}`,
-                    ),
-                    gap.desc && m("p", gap.desc),
-                    renderViewModeSection(
-                      cap,
-                      capPatches,
-                      fallbackText("prob_areas", "Problem areas"),
-                      mainGaps,
-                      gapScale,
-                      "gap",
-                      gap.gapAssessment,
-                      gapIndex,
-                    ),
-                  ]),
-                ),
-              ])
-            : m(".row", [
-                selectedHazards.length > 0 &&
-                  m(".col.s12", { style: "margin-bottom: 8px;" }, [
-                    m("label.dasf-field-label", t("drawer_relevant_hazards")),
-                    m(
-                      ".dasf-hazard-chips",
-                      selectedHazards.map((h) => {
-                        const selected = (cap.hazardIds || []).includes(h.id);
-                        return m(
-                          "span.dasf-hazard-chip",
-                          {
-                            key: h.id,
-                            class: selected ? "active" : "",
-                            onclick: () => {
-                              cap.hazardIds = selected
-                                ? (cap.hazardIds || []).filter(
-                                    (id) => id !== h.id,
-                                  )
-                                : [...(cap.hazardIds || []), h.id];
-                              actions.saveModel(attrs, catModel);
-                            },
-                          },
-                          translatedOrFallback(t(h.id as any), h.id, h.label),
-                        );
-                      }),
-                    ),
-                  ]),
+                  )
+                  : m("p.grey-text", fallbackText("none", "None")),
+                m("hr"),
+              ]),
+              renderSummaryTable(
+                cap,
+                capPatches,
+                mainTasksForCapability,
+                performanceAspectsForCapability,
+                mainGaps,
+                taskScale,
+                performanceScale,
+                gapScale,
+              ),
+              cap.desc &&
+              m(".dasf-report-section", [
+                m("h4", fallbackText("desc", "Description")),
+                m("p", cap.desc),
+                m("hr"),
+              ]),
+              Array.isArray(cap.capabilityStakeholders) &&
+              cap.capabilityStakeholders.length > 0 &&
+              m(".dasf-report-section", [
+                m("h4", fallbackText("shs", "Stakeholders")),
                 m(
-                  "form.col.s12",
-                  { lang: i18n.currentLocale, spellcheck: false },
-                  m(LayoutForm, {
-                    form: assessmentForm,
-                    obj: cap,
-                    context: [
+                  ".dasf-report-tags",
+                  cap.capabilityStakeholders.map((stakeholderId) =>
+                    m(
+                      "span.dasf-report-tag",
+                      getOptionsLabel(stakeholders, stakeholderId, false) ||
+                      stakeholderId,
+                    ),
+                  ),
+                ),
+                cap.otherStakeholder && m("p", cap.otherStakeholder),
+                m("hr"),
+              ]),
+              renderViewModeSection(
+                cap,
+                capPatches,
+                fallbackText("main_goals", "Goals"),
+                mainTasksForCapability,
+                taskScale,
+                "task",
+                cap.taskAssessment,
+              ),
+              renderViewModeSection(
+                cap,
+                capPatches,
+                fallbackText("perf_asps", "Performance aspects"),
+                performanceAspectsForCapability,
+                performanceScale,
+                "performance",
+                cap.performanceAssessment,
+              ),
+              gapDrafts.length > 0 &&
+              renderParticipantGapCards(gapDrafts, gapScale),
+              ...(cap.gaps ?? []).map((gap, gapIndex) =>
+                m(".dasf-report-section", [
+                  m(
+                    "h4",
+                    `${fallbackText("gap", "Gap")} ${gapIndex + 1}: ${gap.title || fallbackText("untitled_gap", "Untitled gap")}`,
+                  ),
+                  gap.desc && m("p", gap.desc),
+                  renderViewModeSection(
+                    cap,
+                    capPatches,
+                    fallbackText("prob_areas", "Problem areas"),
+                    mainGaps,
+                    gapScale,
+                    "gap",
+                    gap.gapAssessment,
+                    gapIndex,
+                  ),
+                ]),
+              ),
+            ])
+            : m(".row", [
+              selectedHazards.length > 0 &&
+              m(".col.s12", { style: "margin-bottom: 8px;" }, [
+                m("label.dasf-field-label", t("drawer_relevant_hazards")),
+                m(
+                  ".dasf-hazard-chips",
+                  selectedHazards.map((h) => {
+                    const selected = (cap.hazardIds || []).includes(h.id);
+                    return m(
+                      "span.dasf-hazard-chip",
                       {
-                        ...localizedData,
-                        mainTasks: mainTasksForCapability,
-                        performanceAspects: performanceAspectsForCapability,
+                        key: h.id,
+                        class: selected ? "active" : "",
+                        onclick: () => {
+                          cap.hazardIds = selected
+                            ? (cap.hazardIds || []).filter(
+                              (id) => id !== h.id,
+                            )
+                            : [...(cap.hazardIds || []), h.id];
+                          actions.saveModel(attrs, catModel);
+                        },
                       },
-                      ghostContext,
-                    ],
-                    i18n: getFormI18nConfig(),
-                    onchange: () => {
-                      actions.saveModel(attrs, catModel);
-                    },
-                  } as FormAttributes<Partial<ICapability>>),
+                      translatedOrFallback(tDynamic(h.id), h.id, h.label),
+                    );
+                  }),
                 ),
               ]),
+              m(
+                "form.col.s12",
+                { lang: i18n.currentLocale, spellcheck: false },
+                m(LayoutForm, {
+                  form: assessmentForm,
+                  obj: cap,
+                  context: [
+                    {
+                      ...localizedData,
+                      mainTasks: mainTasksForCapability,
+                      performanceAspects: performanceAspectsForCapability,
+                    },
+                    ghostContext,
+                  ],
+                  i18n: getFormI18nConfig(),
+                  onchange: () => {
+                    actions.saveModel(attrs, catModel);
+                  },
+                } as FormAttributes<Partial<ICapability>>),
+              ),
+            ]),
           m(
             ".row.assessment-cap-nav",
             { style: "margin-top: 16px; padding: 0 12px;" },
@@ -914,12 +913,12 @@ export const AssessmentPage: MeiosisComponent = () => {
               m(
                 ".col.s4",
                 prevCap &&
-                  m(FlatButton, {
-                    label: t("prev_cap"),
-                    iconName: "arrow_back",
-                    onclick: () =>
-                      m.route.set(t("assessment_route"), { id: prevCap.id }),
-                  }),
+                m(FlatButton, {
+                  label: t("prev_cap"),
+                  iconName: "arrow_back",
+                  onclick: () =>
+                    m.route.set(t("assessment_route"), { id: prevCap.id }),
+                }),
               ),
               m(
                 ".col.s4.center-align",
@@ -932,13 +931,13 @@ export const AssessmentPage: MeiosisComponent = () => {
               m(
                 ".col.s4.right-align",
                 nextCap &&
-                  m(FlatButton, {
-                    label: t("next_cap"),
-                    iconName: "arrow_forward",
-                    iconClass: "right",
-                    onclick: () =>
-                      m.route.set(t("assessment_route"), { id: nextCap.id }),
-                  }),
+                m(FlatButton, {
+                  label: t("next_cap"),
+                  iconName: "arrow_forward",
+                  iconClass: "right",
+                  onclick: () =>
+                    m.route.set(t("assessment_route"), { id: nextCap.id }),
+                }),
               ),
             ],
           ),

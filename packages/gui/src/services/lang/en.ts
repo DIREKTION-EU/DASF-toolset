@@ -1122,3 +1122,8 @@ This project has received funding from the European Union's Horizon 2020 researc
 };
 
 export type Messages = typeof messages;
+type StringMessageKey<M> = {
+  [K in keyof M]-?: M[K] extends string ? K : never;
+}[keyof M];
+
+export type TranslationKey = StringMessageKey<Messages>;
