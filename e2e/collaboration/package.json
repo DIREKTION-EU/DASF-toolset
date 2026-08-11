@@ -1,0 +1,15 @@
+{
+  "name": "dasf-collaboration-e2e",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "facilitator": "bun run src/facilitator.ts",
+    "invitee": "bun run src/invitee.ts",
+    "roundtrip": "bun run src/roundtrip.ts",
+    "real-world": "bun run src/roundtrip.ts",
+    "record-demo": "bun run src/record-demo.ts"
+  },
+  "devDependencies": {
+    "playwright": "^1.60.0"
+  }
+}
