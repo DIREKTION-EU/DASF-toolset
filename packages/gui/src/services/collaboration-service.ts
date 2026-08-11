@@ -2,8 +2,7 @@ import {
   compressToEncodedURIComponent,
   decompressFromEncodedURIComponent,
 } from "lz-string";
-import type { CapabilityModel } from "../models/capability-model/capability-model";
-import type { ICapability } from "../models/capability-model/capability-model";
+import type { CapabilityModel, ICapability } from "../models/capability-model/capability-model";
 import type { IHazardType } from "../models/capability-model/hazard";
 import type { ISolution } from "../models/capability-model/solution";
 import type { State } from "./meiosis";
@@ -75,18 +74,32 @@ export interface SolutionAssessmentAnswer {
   i: string;
   /** Technology readiness level */
   trl?: number;
+  /** Technology readiness description */
+  trlDesc?: string;
   /** Integration readiness level */
   integrationRl?: number;
+  /** Integration readiness description */
+  integrationRlDesc?: string;
   /** Societal readiness level */
   societalRl?: number;
+  /** Societal readiness description */
+  societalRlDesc?: string;
   /** Manufacturing readiness level */
   manufacturingRl?: number;
+  /** Manufacturing readiness description */
+  manufacturingRlDesc?: string;
   /** Commercialisation readiness level */
   commercialisationRl?: number;
+  /** Commercialisation readiness description */
+  commercialisationRlDesc?: string;
   /** Security readiness level */
   securityRl?: number;
+  /** Security readiness description */
+  securityRlDesc?: string;
   /** Legal, privacy & ethical readiness level */
   legalPrivacyEthicalRl?: number;
+  /** Legal, privacy & ethical readiness description */
+  legalPrivacyEthicalRlDesc?: string;
   /** impact score */
   imp?: number;
   /** note */
@@ -112,7 +125,7 @@ export interface CollaborationPatch {
   /** capability assessment answers */
   ca?: CapabilityAnswer[];
   /** solution creation */
-  sc?: { i: EntityRef; trl?: number; ci?: string[] }[];
+  sc?: { i: EntityRef; trl?: number; trlDesc?: string; ci?: string[] }[];
   /** solution assessment */
   sa?: SolutionAssessmentAnswer[];
 }
@@ -506,6 +519,23 @@ const overallPerformanceAssessmentId = (itemValues: string[]): string => {
 const roundAverage = (values: number[]) =>
   Math.round(values.reduce((sum, v) => sum + v, 0) / values.length);
 
+const mergeMostCommonText = (values: Array<string | undefined>) => {
+  const normalized = values
+    .map((value) => value?.trim())
+    .filter((value): value is string => !!value);
+  if (!normalized.length) return undefined;
+
+  const counts = new Map<string, number>();
+  normalized.forEach((value) => {
+    counts.set(value, (counts.get(value) ?? 0) + 1);
+  });
+
+  return Array.from(counts.entries()).sort((a, b) => {
+    if (b[1] !== a[1]) return b[1] - a[1];
+    return b[0].length - a[0].length;
+  })[0][0];
+};
+
 export const mergeSolutionAssessmentPatches = (
   model: CapabilityModel,
   patches: CollaborationPatch[],
@@ -554,16 +584,42 @@ export const mergeSolutionAssessmentPatches = (
       entries,
       (entry) => entry.legalPrivacyEthicalRl,
     );
+    const trlDesc = mergeMostCommonText(entries.map((entry) => entry.trlDesc));
+    const integrationRlDesc = mergeMostCommonText(
+      entries.map((entry) => entry.integrationRlDesc),
+    );
+    const societalRlDesc = mergeMostCommonText(
+      entries.map((entry) => entry.societalRlDesc),
+    );
+    const manufacturingRlDesc = mergeMostCommonText(
+      entries.map((entry) => entry.manufacturingRlDesc),
+    );
+    const commercialisationRlDesc = mergeMostCommonText(
+      entries.map((entry) => entry.commercialisationRlDesc),
+    );
+    const securityRlDesc = mergeMostCommonText(
+      entries.map((entry) => entry.securityRlDesc),
+    );
+    const legalPrivacyEthicalRlDesc = mergeMostCommonText(
+      entries.map((entry) => entry.legalPrivacyEthicalRlDesc),
+    );
 
     return {
       ...solution,
       ...(trl != null ? { trl } : {}),
+      ...(trlDesc ? { trlDesc } : {}),
       ...(integrationRl != null ? { integrationRl } : {}),
+      ...(integrationRlDesc ? { integrationRlDesc } : {}),
       ...(societalRl != null ? { societalRl } : {}),
+      ...(societalRlDesc ? { societalRlDesc } : {}),
       ...(manufacturingRl != null ? { manufacturingRl } : {}),
+      ...(manufacturingRlDesc ? { manufacturingRlDesc } : {}),
       ...(commercialisationRl != null ? { commercialisationRl } : {}),
+      ...(commercialisationRlDesc ? { commercialisationRlDesc } : {}),
       ...(securityRl != null ? { securityRl } : {}),
+      ...(securityRlDesc ? { securityRlDesc } : {}),
       ...(legalPrivacyEthicalRl != null ? { legalPrivacyEthicalRl } : {}),
+      ...(legalPrivacyEthicalRlDesc ? { legalPrivacyEthicalRlDesc } : {}),
     };
   });
 

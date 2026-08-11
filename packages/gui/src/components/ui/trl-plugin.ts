@@ -1,6 +1,6 @@
 import m from "mithril";
-import { InputField, PluginType } from "mithril-ui-form";
-import { t } from "../../services/translations";
+import type { InputField, PluginType } from "mithril-ui-form";
+import { t, tDynamic } from "../../services/translations";
 
 type TrlFieldType = InputField & {
   label?: string;
@@ -10,6 +10,8 @@ type TrlFieldType = InputField & {
   descriptionKeys?: string[];
   descriptions?: string[];
   colors?: string[];
+  descriptionFieldId?: string;
+  descriptionLabel?: string;
 };
 
 const DEFAULT_COLORS = [
@@ -29,7 +31,7 @@ const stringifyTranslation = (value: unknown) =>
   Array.isArray(value) ? value.join("") : value == null ? "" : `${value}`;
 
 const translatedOrFallback = (key: string, fallback = "") => {
-  const translated = stringifyTranslation(t(key as any));
+  const translated = stringifyTranslation(tDynamic(key));
   return translated && translated !== key && translated !== `@@${key}@@`
     ? translated
     : fallback;
@@ -48,15 +50,17 @@ export const trlPlugin: PluginType = () => {
         descriptionKeys,
         descriptions,
         colors,
+        descriptionFieldId,
+        descriptionLabel,
       } = field as TrlFieldType;
-      if (obj instanceof Array) return;
+      if (Array.isArray(obj)) return;
 
       const levels = Array.from({ length: max - min + 1 }, (_, i) => min + i);
       const value: number = (obj[id] as number) || min;
 
       const updateValue = (v: number) => {
         obj[id] = v;
-        onchange && onchange(v);
+        onchange?.(v);
       };
 
       const valueIndex = value - min;
@@ -73,6 +77,10 @@ export const trlPlugin: PluginType = () => {
         value >= min && value <= max
           ? sliderColors[Math.min(valueIndex, sliderColors.length - 1)]
           : "#9e9e9e";
+
+      const currentDescription = descriptionFieldId
+        ? String(obj[descriptionFieldId] ?? "")
+        : "";
 
       return m(".trl-plugin.col.s12", [
         label && m("label.trl-label", label),
@@ -102,14 +110,29 @@ export const trlPlugin: PluginType = () => {
           ),
         ]),
         value >= min &&
-          m(".trl-value-display", { style: { borderLeftColor: color } }, [
-            m(
-              "span.trl-badge",
-              { style: { background: color } },
-              `${prefix} ${value}`,
-            ),
-            m("span.trl-desc", desc),
-          ]),
+        m(".trl-value-display", { style: { borderLeftColor: color } }, [
+          m(
+            "span.trl-badge",
+            { style: { background: color } },
+            `${prefix} ${value}`,
+          ),
+          m("span.trl-desc", desc),
+        ]),
+        descriptionFieldId &&
+        m(".trl-description-field", [
+          m("label.trl-description-label", descriptionLabel || t("desc")),
+          m("textarea.materialize-textarea", {
+            disabled: readonly,
+            value: currentDescription,
+            rows: 2,
+            oninput: (e: Event) => {
+              obj[descriptionFieldId] = (
+                e.target as HTMLTextAreaElement
+              ).value;
+              onchange?.(obj[id]);
+            },
+          }),
+        ]),
       ]);
     },
   };

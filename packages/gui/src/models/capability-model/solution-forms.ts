@@ -1,11 +1,12 @@
-import { UIForm } from "mithril-ui-form";
-import type { ISolution } from "./solution";
-import { t } from "../../services/translations";
+import type { UIForm } from "mithril-ui-form";
+import { t, tDynamic } from "../../services/translations";
 import {
   additionalSolutionReadinessConfigs,
-  trlReadinessConfig,
   type ReadinessLevelConfig,
+  readinessDescriptionFieldId,
+  trlReadinessConfig,
 } from "./readiness-levels";
+import type { ISolution } from "./solution";
 
 const yesNoOptions = () => [
   { id: "yes", label: t("yes") },
@@ -18,7 +19,7 @@ const stringifyTranslation = (value: unknown) =>
   Array.isArray(value) ? value.join("") : value == null ? "" : `${value}`;
 
 const translatedOrFallback = (key: string, fallback: string) => {
-  const translated = stringifyTranslation(t(key as any));
+  const translated = stringifyTranslation(tDynamic(key));
   return translated && translated !== key && translated !== `@@${key}@@`
     ? translated
     : fallback;
@@ -39,8 +40,15 @@ const readinessField = (config: ReadinessLevelConfig) => {
     prefix: config.prefix,
     descriptionKeys,
     descriptions: config.descriptions,
-  } as any;
+    descriptionFieldId: readinessDescriptionFieldId(config.id),
+    descriptionLabel: `${config.prefix} ${t("desc")}`,
+  } as UIForm<ISolution>[number];
 };
+
+const allReadinessConfigs = [
+  trlReadinessConfig,
+  ...additionalSolutionReadinessConfigs,
+];
 
 export const solutionForm = () =>
   [
@@ -62,8 +70,7 @@ export const solutionForm = () =>
       type: "textarea",
       className: "col s12",
     },
-    readinessField(trlReadinessConfig),
-    ...additionalSolutionReadinessConfigs.map(readinessField),
+    ...allReadinessConfigs.map(readinessField),
     {
       id: "compliance-section",
       type: "section",

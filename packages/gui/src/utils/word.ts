@@ -16,9 +16,13 @@ import {
 } from "docx";
 import { saveAs } from "file-saver";
 import { ICapability, ICapabilityDataModel } from "../models";
-import type { ISolution } from "../models/capability-model/solution";
+import {
+  allSolutionReadinessConfigs,
+  readinessDescriptionFieldId,
+} from "../models/capability-model/readiness-levels";
 import type { IRoadmapItem } from "../models/capability-model/roadmap";
-import { t } from "../services";
+import type { ISolution } from "../models/capability-model/solution";
+import { t, tDynamic } from "../services";
 
 const blue = "2F5496";
 
@@ -37,10 +41,10 @@ const toTable = (rows: string[][]) => {
                 shading:
                   i === 0
                     ? {
-                        // fill: '880aa8',
-                        type: ShadingType.SOLID,
-                        color: blue,
-                      }
+                      // fill: '880aa8',
+                      type: ShadingType.SOLID,
+                      color: blue,
+                    }
                     : undefined,
                 children: [
                   new Paragraph({
@@ -82,11 +86,11 @@ export const toWord = async (
   // otherwise fall back to a flat "uncategorized" section.
   const categories = catIds.size > 0
     ? allCategories
-        .filter((c) => catIds.has(c.id))
-        .map((c) => ({
-          ...c,
-          subcategories: c.subcategories?.filter((s) => subIds.has(s.id)),
-        }))
+      .filter((c) => catIds.has(c.id))
+      .map((c) => ({
+        ...c,
+        subcategories: c.subcategories?.filter((s) => subIds.has(s.id)),
+      }))
     : [];
 
   const doc = new Document({
@@ -285,25 +289,25 @@ export const toWord = async (
           }),
           ...(categories.length > 0
             ? categories.reduce((acc, category) => {
+              acc.push(
+                new Paragraph({
+                  text: category.label,
+                  heading: HeadingLevel.HEADING_1,
+                }),
+              );
+              category.subcategories?.forEach((subcategory) => {
                 acc.push(
                   new Paragraph({
-                    text: category.label,
-                    heading: HeadingLevel.HEADING_1,
+                    text: subcategory.label,
+                    heading: HeadingLevel.HEADING_2,
                   }),
                 );
-                category.subcategories?.forEach((subcategory) => {
-                  acc.push(
-                    new Paragraph({
-                      text: subcategory.label,
-                      heading: HeadingLevel.HEADING_2,
-                    }),
-                  );
-                  caps
-                    .filter((cap) => cap.subcategoryId === subcategory.id)
-                    .forEach((cap) => acc.push(...capabilityToWord(data, cap)));
-                });
-                return acc;
-              }, [] as FileChild[])
+                caps
+                  .filter((cap) => cap.subcategoryId === subcategory.id)
+                  .forEach((cap) => acc.push(...capabilityToWord(data, cap)));
+              });
+              return acc;
+            }, [] as FileChild[])
             : caps.flatMap((cap) => capabilityToWord(data, cap) as FileChild[])),
         ].filter((i) => i) as readonly FileChild[],
       },
@@ -318,8 +322,12 @@ export const toWord = async (
 
 // ── Helpers for full export ───────────────────────────────────────────────────
 
-const trlLabel = (trl?: number) =>
-  trl !== undefined ? `TRL ${trl}: ${t(`trl${trl}` as any) || trl}` : "—";
+const translatedOrFallback = (key: string, fallback: string) => {
+  const translated = tDynamic(key);
+  return translated && translated !== key && translated !== `@@${key}@@`
+    ? translated
+    : fallback;
+};
 
 const priorityLabel = (priority?: string) => {
   if (!priority) return "—";
@@ -354,7 +362,7 @@ const solutionToWord = (
     children.push(
       new Paragraph({
         children: [
-          new TextRun(`${t("sol_trl" as any) || "URL"}: `),
+          new TextRun(`${tDynamic("sol_trl") || "URL"}: `),
           new ExternalHyperlink({
             children: [new TextRun({ text: sol.url, style: "Hyperlink" })],
             link: sol.url,
@@ -366,28 +374,46 @@ const solutionToWord = (
 
   // Readiness levels table
   const rlRows: string[][] = [
-    [t("sol_trl" as any) || "TRL", trlLabel(sol.trl)],
+    [
+      tDynamic("level") || "Readiness level",
+      tDynamic("summary") || "Selected level",
+      tDynamic("desc") || "Description",
+    ],
   ];
-  if (sol.integrationRl !== undefined)
-    rlRows.push(["Integration RL", trlLabel(sol.integrationRl)]);
-  if (sol.societalRl !== undefined)
-    rlRows.push(["Societal RL", trlLabel(sol.societalRl)]);
-  if (sol.manufacturingRl !== undefined)
-    rlRows.push(["Manufacturing RL", trlLabel(sol.manufacturingRl)]);
-  if (sol.commercialisationRl !== undefined)
-    rlRows.push(["Commercialisation RL", trlLabel(sol.commercialisationRl)]);
-  if (sol.securityRl !== undefined)
-    rlRows.push(["Security RL", trlLabel(sol.securityRl)]);
-  if (sol.legalPrivacyEthicalRl !== undefined)
-    rlRows.push(["Legal/Privacy/Ethical RL", trlLabel(sol.legalPrivacyEthicalRl)]);
-  children.push(toTable(rlRows));
+
+  allSolutionReadinessConfigs.forEach((config) => {
+    const level = (sol[config.id as keyof ISolution] as number | undefined) ??
+      undefined;
+    if (typeof level !== "number") return;
+
+    const levelIndex = level - config.min;
+    const selectedLevelText = translatedOrFallback(
+      `${config.descriptionKeyPrefix}${level}`,
+      config.descriptions[levelIndex] ?? "",
+    );
+    const descriptionField = readinessDescriptionFieldId(
+      config.id,
+    ) as keyof ISolution;
+    const customDescription =
+      (sol[descriptionField] as string | undefined)?.trim() || "—";
+
+    rlRows.push([
+      translatedOrFallback(config.labelKey, config.fallbackLabel),
+      `${config.prefix} ${level}: ${selectedLevelText}`,
+      customDescription,
+    ]);
+  });
+
+  if (rlRows.length > 1) {
+    children.push(toTable(rlRows));
+  }
 
   // Linked capabilities
   const linkedCaps = caps.filter((c) => (sol.capabilityIds ?? []).includes(c.id));
   if (linkedCaps.length > 0) {
     children.push(
       new Paragraph({
-        text: t("capability_gaps" as any) || "Linked capability gaps",
+        text: tDynamic("capability_gaps") || "Linked capability gaps",
         heading: HeadingLevel.HEADING_4,
       }),
       ...linkedCaps.map(
@@ -415,9 +441,9 @@ const solutionToWord = (
       (item) => item.value && item.value !== "na",
     );
     if (!answered.length) continue;
-    const sectionLabel = t(section.titleKey as any) || section.fallback;
+    const sectionLabel = tDynamic(section.titleKey) || section.fallback;
     const rows = [
-      [sectionLabel, t("level" as any) || "Value"],
+      [sectionLabel, tDynamic("level") || "Value"],
       ...answered.map((item) => [
         item.label,
         section.titleKey === "sol_compliance_title"
@@ -442,11 +468,11 @@ const roadmapToWord = (
 
   const rows = [
     [
-      t("solutions" as any) || "Solution",
-      t("sol_trl" as any) || "TRL",
-      t("importance" as any) || "Priority",
-      t("start_time" as any) || "Target date",
-      t("proj_sum" as any) || "Commitment",
+      tDynamic("solutions") || "Solution",
+      tDynamic("sol_trl") || "TRL",
+      tDynamic("importance") || "Priority",
+      tDynamic("start_time") || "Target date",
+      tDynamic("proj_sum") || "Commitment",
     ],
     ...items.map((item) => {
       const sol = solutions.find((s) => s.id === item.solutionId);
@@ -462,7 +488,7 @@ const roadmapToWord = (
 
   return [
     new Paragraph({
-      text: t("roadmap_step_title" as any) || "Roadmap",
+      text: tDynamic("roadmap_step_title") || "Roadmap",
       heading: HeadingLevel.HEADING_2,
     }),
     toTable(rows),
@@ -497,46 +523,46 @@ export const toWordFull = async (
   const categories =
     catIds.size > 0
       ? allCategories
-          .filter((c) => catIds.has(c.id))
-          .map((c) => ({
-            ...c,
-            subcategories: c.subcategories?.filter((s) => subIds.has(s.id)),
-          }))
+        .filter((c) => catIds.has(c.id))
+        .map((c) => ({
+          ...c,
+          subcategories: c.subcategories?.filter((s) => subIds.has(s.id)),
+        }))
       : [];
 
   const capabilityChildren: FileChild[] =
     categories.length > 0
       ? categories.reduce((acc, category) => {
+        acc.push(
+          new Paragraph({
+            text: category.label,
+            heading: HeadingLevel.HEADING_1,
+          }),
+        );
+        category.subcategories?.forEach((subcategory) => {
           acc.push(
             new Paragraph({
-              text: category.label,
-              heading: HeadingLevel.HEADING_1,
+              text: subcategory.label,
+              heading: HeadingLevel.HEADING_2,
             }),
           );
-          category.subcategories?.forEach((subcategory) => {
-            acc.push(
-              new Paragraph({
-                text: subcategory.label,
-                heading: HeadingLevel.HEADING_2,
-              }),
-            );
-            capabilities
-              .filter((cap) => cap.subcategoryId === subcategory.id)
-              .forEach((cap) => acc.push(...capabilityToWord(data, cap)));
-          });
-          return acc;
-        }, [] as FileChild[])
+          capabilities
+            .filter((cap) => cap.subcategoryId === subcategory.id)
+            .forEach((cap) => acc.push(...capabilityToWord(data, cap)));
+        });
+        return acc;
+      }, [] as FileChild[])
       : capabilities.flatMap((cap) => capabilityToWord(data, cap) as FileChild[]);
 
   const solutionChildren: FileChild[] =
     solutions.length > 0
       ? [
-          new Paragraph({
-            text: t("solutions" as any) || "Solutions",
-            heading: HeadingLevel.HEADING_1,
-          }),
-          ...solutions.flatMap((sol) => solutionToWord(sol, capabilities)),
-        ]
+        new Paragraph({
+          text: tDynamic("solutions") || "Solutions",
+          heading: HeadingLevel.HEADING_1,
+        }),
+        ...solutions.flatMap((sol) => solutionToWord(sol, capabilities)),
+      ]
       : [];
 
   const roadmapChildren: FileChild[] = roadmapToWord(roadmapItems, solutions);
@@ -589,7 +615,7 @@ export const toWordFull = async (
       {
         children: [
           new Paragraph({
-            text: t("doc_title" as any) || `${title} Assessment Report`,
+            text: tDynamic("doc_title") || `${title} Assessment Report`,
             heading: HeadingLevel.TITLE,
           }),
           ...capabilityChildren,
@@ -643,99 +669,99 @@ const capabilityToWord = (
   const gapDesc =
     gaps && gaps.length > 0
       ? gaps.reduce(
-          (acc, gap) => {
-            const assessments = gap.gapAssessment?.items || [];
-            const gapRows = [
-              [t("prob_areas"), t("relevance"), t("expl")],
-              ...assessments.map((t) => [
-                t.label || "",
-                gapScale.find((ts) => ts.id === t.value)?.label || "",
-                t.desc || "",
-              ]),
-            ];
-            const doc =
-              gap.documentation &&
-              new Paragraph({
-                children: gap.documentation.reduce(
-                  (acc, doc) => {
+        (acc, gap) => {
+          const assessments = gap.gapAssessment?.items || [];
+          const gapRows = [
+            [t("prob_areas"), t("relevance"), t("expl")],
+            ...assessments.map((t) => [
+              t.label || "",
+              gapScale.find((ts) => ts.id === t.value)?.label || "",
+              t.desc || "",
+            ]),
+          ];
+          const doc =
+            gap.documentation &&
+            new Paragraph({
+              children: gap.documentation.reduce(
+                (acc, doc) => {
+                  acc.push(
+                    new TextRun(
+                      `[${doc.documentId || ""}]: ${doc.label || ""}${doc.link ? `, ` : ""}`,
+                    ),
+                  );
+                  doc.link &&
                     acc.push(
-                      new TextRun(
-                        `[${doc.documentId || ""}]: ${doc.label || ""}${doc.link ? `, ` : ""}`,
-                      ),
+                      new ExternalHyperlink({
+                        children: [
+                          new TextRun({
+                            text: doc.link,
+                            style: "Hyperlink",
+                          }),
+                        ],
+                        link: doc.link,
+                      }),
                     );
-                    doc.link &&
-                      acc.push(
-                        new ExternalHyperlink({
-                          children: [
-                            new TextRun({
-                              text: doc.link,
-                              style: "Hyperlink",
-                            }),
-                          ],
-                          link: doc.link,
-                        }),
-                      );
-                    return acc;
-                  },
-                  [] as Array<TextRun | ExternalHyperlink>,
-                ),
-              });
+                  return acc;
+                },
+                [] as Array<TextRun | ExternalHyperlink>,
+              ),
+            });
 
+          acc.push(
+            new Paragraph({
+              text: gap.title || "",
+              heading: HeadingLevel.HEADING_5,
+            }),
+          );
+          gap.desc &&
             acc.push(
               new Paragraph({
-                text: gap.title || "",
-                heading: HeadingLevel.HEADING_5,
+                text: gap.desc,
               }),
             );
-            gap.desc &&
-              acc.push(
-                new Paragraph({
-                  text: gap.desc,
-                }),
-              );
-            const gapStateRows: string[][] = [];
-            if (gap.gapSeverity !== undefined)
-              gapStateRows.push([t("gap_likert_severity"), `${gap.gapSeverity}/5`]);
-            if (gap.gapProbability !== undefined)
-              gapStateRows.push([t("gap_likert_probability"), `${gap.gapProbability}/5`]);
-            if (gap.gapImpact !== undefined)
-              gapStateRows.push([t("gap_likert_impact"), `${gap.gapImpact}/5`]);
-            if (gapStateRows.length > 0) acc.push(toTable(gapStateRows));
-            acc.push(toTable(gapRows));
-            if (doc) {
-              acc.push(
-                new Paragraph({
-                  text: t("doc"),
-                  heading: HeadingLevel.HEADING_6,
-                }),
-              );
-              acc.push(doc);
-            }
-            return acc;
-          },
-          [
-            new Paragraph({
-              text: t("gaps"),
-              heading: HeadingLevel.HEADING_4,
-            }),
-          ] as Array<Paragraph | Table | undefined>,
-        )
+          const gapStateRows: string[][] = [];
+          if (gap.gapSeverity !== undefined)
+            gapStateRows.push([t("gap_likert_severity"), `${gap.gapSeverity}/5`]);
+          if (gap.gapProbability !== undefined)
+            gapStateRows.push([t("gap_likert_probability"), `${gap.gapProbability}/5`]);
+          if (gap.gapImpact !== undefined)
+            gapStateRows.push([t("gap_likert_impact"), `${gap.gapImpact}/5`]);
+          if (gapStateRows.length > 0) acc.push(toTable(gapStateRows));
+          acc.push(toTable(gapRows));
+          if (doc) {
+            acc.push(
+              new Paragraph({
+                text: t("doc"),
+                heading: HeadingLevel.HEADING_6,
+              }),
+            );
+            acc.push(doc);
+          }
+          return acc;
+        },
+        [
+          new Paragraph({
+            text: t("gaps"),
+            heading: HeadingLevel.HEADING_4,
+          }),
+        ] as Array<Paragraph | Table | undefined>,
+      )
       : [];
 
   const stakeholderList = shs
     ? shs.map((s) => {
-        return new Paragraph({
-          text: s.label,
-          numbering: {
-            reference: "my-numbering-reference",
-            level: 0,
-          },
-          contextualSpacing: true,
-          spacing: {
-            before: 200,
-          },
-        });
-      })
+      return new Paragraph({
+        text: s.label,
+        numbering: {
+          reference: "my-numbering-reference",
+          level: 0,
+        },
+        contextualSpacing: true,
+        spacing: {
+          before: 200,
+        },
+      });
+    })
     : [];
 
   const actionPriorityText =
@@ -745,9 +771,8 @@ const capabilityToWord = (
 
   return [
     new Paragraph({
-      text: `${t("cap")} "${cap.label}" - ${t("ass_overall")}: ${
-        assessmentScale.find((ts) => ts.id === cap.assessmentId)?.label || ""
-      }${actionPriorityText}`,
+      text: `${t("cap")} "${cap.label}" - ${t("ass_overall")}: ${assessmentScale.find((ts) => ts.id === cap.assessmentId)?.label || ""
+        }${actionPriorityText}`,
       heading: HeadingLevel.HEADING_3,
     }),
     new Paragraph({
@@ -759,19 +784,17 @@ const capabilityToWord = (
     }),
     ...stakeholderList,
     new Paragraph({
-      text: `${t("goal")} - ${t("max_imp")}: ${
-        taskScale.find((ts) => ts.id === cap.taskAssessment?.assessmentId)
+      text: `${t("goal")} - ${t("max_imp")}: ${taskScale.find((ts) => ts.id === cap.taskAssessment?.assessmentId)
           ?.label || ""
-      }`,
+        }`,
       heading: HeadingLevel.HEADING_4,
     }),
     toTable(assRows),
     new Paragraph({
-      text: `${t("perf_asps")} - ${t("avg_perf")}: ${
-        performanceScale.find(
-          (ts) => ts.id === cap.performanceAssessment?.assessmentId,
-        )?.label || ""
-      }`,
+      text: `${t("perf_asps")} - ${t("avg_perf")}: ${performanceScale.find(
+        (ts) => ts.id === cap.performanceAssessment?.assessmentId,
+      )?.label || ""
+        }`,
       heading: HeadingLevel.HEADING_4,
     }),
     toTable(perfRows),

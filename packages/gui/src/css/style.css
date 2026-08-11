@@ -44,6 +44,7 @@ html {
   @media (max-width: 599px) {
     display: block !important;
   }
+
   @media (min-width: 600px) {
     display: none !important;
   }
@@ -53,6 +54,7 @@ html {
   @media (max-width: 599px) {
     display: none !important;
   }
+
   @media (min-width: 600px) {
     display: block !important;
   }
@@ -65,9 +67,11 @@ html {
   flex-wrap: wrap;
   align-items: stretch;
 }
-.dasf-step-cards > [class*="col"] {
+
+.dasf-step-cards>[class*="col"] {
   display: flex;
 }
+
 .dasf-step-card {
   display: flex;
   flex-direction: column;
@@ -76,9 +80,11 @@ html {
     transform 0.1s ease,
     box-shadow 0.1s ease;
 }
+
 .dasf-step-card .card-content {
   flex: 1;
 }
+
 .dasf-step-card:hover {
   transform: translateY(-2px);
 }
@@ -143,7 +149,8 @@ html {
   margin-left: 5px;
   font-size: 1rem;
   opacity: 0;
-  transition: opacity 0.3s; /* add a smooth transition effect */
+  transition: opacity 0.3s;
+  /* add a smooth transition effect */
 }
 
 .condensed:hover .info-icon {
@@ -152,6 +159,7 @@ html {
 
 /* Assessment plugin fixes for dark theme */
 .assessment-plugin {
+
   /* Fix label-select alignment */
   .input-field.select {
     margin-top: 0;
@@ -163,7 +171,7 @@ html {
   }
 
   /* Target the nested row inside the select column */
-  .col.s4.m2.l2 > .row {
+  .col.s4.m2.l2>.row {
     align-items: center;
     display: flex;
     height: 48px;
@@ -432,15 +440,18 @@ html {
   margin-top: 0;
   margin-bottom: 0;
 }
+
 .row.condensed .input-field.select-space {
   margin-top: 0;
 }
+
 /* Assessment score readability - fix white text on light background */
 /* Note: The plugin uses format like `.assessment-score.enblack-text` */
 .assessment-score {
   margin: 20px 0;
   padding: 5px 15px;
 }
+
 .assessment-score.enblack-text,
 .assessment-score.black-text {
   color: #000 !important;
@@ -453,6 +464,7 @@ html {
 
 /* Dark theme overrides for assessment components */
 [data-theme="dark"] {
+
   .assessment-score.enblack-text,
   .assessment-score.black-text {
     color: #000 !important;
@@ -467,6 +479,7 @@ html {
 /* Auto dark mode support */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
+
     .assessment-score.enblack-text,
     .assessment-score.black-text {
       color: #000 !important;
@@ -573,9 +586,11 @@ html {
       background: rgba(30, 30, 30, 0.85);
       box-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
     }
+
     .dasf-page-nav__item:hover {
       color: #64b5f6;
     }
+
     .dasf-page-nav__item--active {
       background: #1565c0;
       border-color: #1565c0;
@@ -733,9 +748,11 @@ html {
   transition: opacity 0.15s;
   flex-shrink: 0;
 }
+
 .caps li:hover .context-drawer-trigger {
   opacity: 0.6;
 }
+
 .caps li:hover .context-drawer-trigger:hover {
   opacity: 1;
   color: #1976d2;
@@ -764,7 +781,7 @@ html {
   border: solid 1px black;
 }
 
-.trl-plugin + .trl-plugin {
+.trl-plugin+.trl-plugin {
   margin-top: 28px;
 }
 
@@ -865,6 +882,24 @@ html {
 .trl-desc {
   font-size: 13px;
   color: var(--mm-text-primary, #212121);
+}
+
+.trl-description-field {
+  margin-top: 10px;
+}
+
+.trl-description-label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--mm-text-secondary, #757575);
+  margin-bottom: 2px;
+}
+
+.trl-description-field textarea.materialize-textarea {
+  min-height: 2.6rem;
+  line-height: 1.35;
+  padding-top: 0.35rem;
+  margin-bottom: 0;
 }
 
 /* Addressed gaps selector on Solutions page */
@@ -1024,12 +1059,10 @@ html {
   --lp-accent-light: #1976d2;
   --lp-header-bg: #0d1b2a;
   --lp-header-text: #ffffff;
-  --lp-hero-overlay: linear-gradient(
-    to bottom,
-    rgba(13, 27, 42, 0.45) 0%,
-    rgba(13, 27, 42, 0.15) 60%,
-    rgba(13, 27, 42, 0.55) 100%
-  );
+  --lp-hero-overlay: linear-gradient(to bottom,
+      rgba(13, 27, 42, 0.45) 0%,
+      rgba(13, 27, 42, 0.15) 60%,
+      rgba(13, 27, 42, 0.55) 100%);
   --lp-card-bg: #ffffff;
   --lp-card-border: rgba(0, 0, 0, 0.08);
   --lp-card-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
@@ -1132,6 +1165,7 @@ html {
   .landing-header-title {
     font-size: 1rem;
   }
+
   .landing-header {
     padding: 0 12px;
   }
@@ -1214,6 +1248,7 @@ html {
   opacity: 1;
   cursor: pointer;
 }
+
 .language-option img.clickable:hover,
 .language-option .flag-emoji.clickable:hover {
   opacity: 0.7;

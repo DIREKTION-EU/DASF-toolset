@@ -16,30 +16,33 @@ import {
   ThemeToggle,
   Tooltip,
 } from "mithril-materialized";
-import { actions, MeiosisComponent, sessionService, t } from "../services";
-import { Pages } from "../models/page";
-import { type Languages, i18n } from "../services";
-import { LanguageSwitcher } from "./ui/language-switcher";
 import type { ICapability } from "../models/capability-model/capability-model";
-import type { ISolution } from "../models/capability-model/solution";
-import { allSolutionReadinessConfigs } from "../models/capability-model/readiness-levels";
 import {
-  type CollabMode,
-  type CapabilityAnswer,
-  type CollaborationPatch,
-  type InvitePayload,
-  type SolutionAssessmentAnswer,
+  allSolutionReadinessConfigs,
+  readinessDescriptionFieldId,
+} from "../models/capability-model/readiness-levels";
+import type { ISolution } from "../models/capability-model/solution";
+import { Pages } from "../models/page";
+import type { MeiosisComponent } from "../services";
+import { actions, i18n, type Languages, sessionService, t, tDynamic } from "../services";
+import {
+  aggregateCapabilityPatches,
   buildInvitePayload,
   buildMailtoInvite,
   buildMailtoPatch,
   buildPatchPayload,
+  type CapabilityAnswer,
+  type CollabMode,
+  type CollaborationPatch,
   decodePayload,
-  aggregateCapabilityPatches,
-  mergeCapabilityAssessmentPatches,
-  mergeSolutionAssessmentPatches,
   entityId,
   entityLabel,
+  type InvitePayload,
+  mergeCapabilityAssessmentPatches,
+  mergeSolutionAssessmentPatches,
+  type SolutionAssessmentAnswer,
 } from "../services/collaboration-service";
+import { LanguageSwitcher } from "./ui/language-switcher";
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
 
@@ -64,7 +67,7 @@ const stringifyTranslation = (value: unknown) =>
   Array.isArray(value) ? value.join("") : value == null ? "" : `${value}`;
 
 const translatedOrFallback = (key: string, fallback: string) => {
-  const translated = stringifyTranslation(t(key as any));
+  const translated = stringifyTranslation(tDynamic(key));
   return translated && translated !== key && translated !== `@@${key}@@`
     ? translated
     : fallback;
@@ -139,7 +142,7 @@ const aggregateSolutionAssessments = (
       impactValues,
       impactAverage: impactValues.length
         ? impactValues.reduce((sum, value) => sum + value, 0) /
-          impactValues.length
+        impactValues.length
         : undefined,
       notes,
     };
@@ -310,17 +313,17 @@ const PatchLoader: MeiosisComponent = () => {
       const mergedCapabilityModel =
         nextState.catModel && nextState.collaboration?.patches
           ? mergeCapabilityAssessmentPatches(
-              nextState.catModel,
-              nextState.collaboration.patches,
-            )
+            nextState.catModel,
+            nextState.collaboration.patches,
+          )
           : undefined;
 
       const mergedModel =
         mergedCapabilityModel && nextState.collaboration?.patches
           ? mergeSolutionAssessmentPatches(
-              mergedCapabilityModel,
-              nextState.collaboration.patches,
-            )
+            mergedCapabilityModel,
+            nextState.collaboration.patches,
+          )
           : mergedCapabilityModel;
 
       if (mergedModel) {
@@ -382,82 +385,82 @@ const PatchLoader: MeiosisComponent = () => {
 
         errorMsg && m(".red-text.col.s12", m("small", errorMsg)),
         ignoredReason &&
-          m(
-            ".col.s12",
-            m(".chip.orange.lighten-4.black-text", [
-              m("i.material-icons.tiny", "block"),
-              " ",
-              ignoredReason === "id"
-                ? "Ignored duplicate patch (same patch id)."
-                : "Ignored duplicate patch (same content).",
-            ]),
-          ),
+        m(
+          ".col.s12",
+          m(".chip.orange.lighten-4.black-text", [
+            m("i.material-icons.tiny", "block"),
+            " ",
+            ignoredReason === "id"
+              ? "Ignored duplicate patch (same patch id)."
+              : "Ignored duplicate patch (same content).",
+          ]),
+        ),
 
         // Patch list
         patches.length === 0
           ? m("p.grey-text", t("collab_no_patches"))
           : [
-              m("p", t("collab_patches_count", patches.length)),
-              m("table.highlight", [
-                m(
-                  "thead",
+            m("p", t("collab_patches_count", patches.length)),
+            m("table.highlight", [
+              m(
+                "thead",
+                m("tr", [
+                  m("th", t("collab_contributor")),
+                  m("th", t("collab_received_at")),
+                  m("th", t("collab_mode_ca")),
+                  m("th", ""),
+                ]),
+              ),
+              m(
+                "tbody",
+                patches.map((p) =>
                   m("tr", [
-                    m("th", t("collab_contributor")),
-                    m("th", t("collab_received_at")),
-                    m("th", t("collab_mode_ca")),
-                    m("th", ""),
+                    m(
+                      "td",
+                      p.un ? `${p.un} (${p.ue ?? "?"})` : (p.ue ?? "—"),
+                    ),
+                    m("td", new Date(p.at).toLocaleString()),
+                    m("td", p.m.join(", ")),
+                    m(
+                      "td",
+                      m(
+                        "a.red-text",
+                        {
+                          style: "cursor:pointer",
+                          onclick: () => {
+                            actions.removePatch(attrs, p.pid);
+                            const nextState = attrs.getState();
+                            if (
+                              nextState.catModel &&
+                              nextState.collaboration?.patches
+                            ) {
+                              const mergedCapabilityModel =
+                                mergeCapabilityAssessmentPatches(
+                                  nextState.catModel,
+                                  nextState.collaboration.patches,
+                                );
+                              const mergedModel =
+                                mergeSolutionAssessmentPatches(
+                                  mergedCapabilityModel,
+                                  nextState.collaboration.patches,
+                                );
+                              actions.saveModel(attrs, mergedModel);
+                            }
+                          },
+                        },
+                        [
+                          m("i.material-icons.tiny", "delete"),
+                          " ",
+                          t("collab_remove_patch"),
+                        ],
+                      ),
+                    ),
                   ]),
                 ),
-                m(
-                  "tbody",
-                  patches.map((p) =>
-                    m("tr", [
-                      m(
-                        "td",
-                        p.un ? `${p.un} (${p.ue ?? "?"})` : (p.ue ?? "—"),
-                      ),
-                      m("td", new Date(p.at).toLocaleString()),
-                      m("td", p.m.join(", ")),
-                      m(
-                        "td",
-                        m(
-                          "a.red-text",
-                          {
-                            style: "cursor:pointer",
-                            onclick: () => {
-                              actions.removePatch(attrs, p.pid);
-                              const nextState = attrs.getState();
-                              if (
-                                nextState.catModel &&
-                                nextState.collaboration?.patches
-                              ) {
-                                const mergedCapabilityModel =
-                                  mergeCapabilityAssessmentPatches(
-                                    nextState.catModel,
-                                    nextState.collaboration.patches,
-                                  );
-                                const mergedModel =
-                                  mergeSolutionAssessmentPatches(
-                                    mergedCapabilityModel,
-                                    nextState.collaboration.patches,
-                                  );
-                                actions.saveModel(attrs, mergedModel);
-                              }
-                            },
-                          },
-                          [
-                            m("i.material-icons.tiny", "delete"),
-                            " ",
-                            t("collab_remove_patch"),
-                          ],
-                        ),
-                      ),
-                    ]),
-                  ),
-                ),
-              ]),
-              m(AggregatedResults, { ...attrs }),
-            ],
+              ),
+            ]),
+            m(AggregatedResults, { ...attrs }),
+          ],
       ]);
     },
   };
@@ -471,83 +474,82 @@ const AggregatedResults: MeiosisComponent = () => ({
     if (!patches.length) return null;
 
     const capabilityAgg = aggregateCapabilityPatches(patches);
-    // const allSolutions = attrs.state.catModel?.data?.solutions ?? [];
-    const solutionAgg = aggregateSolutionAssessments(patches, allSolutions);
-    if (!capabilityAgg.length && !solutionAgg.length) return null;
-
-    // Helper to resolve label for capability/task/performance/gap/solution
-    const getLabel = (id, arr) => arr?.find((x) => x.id === id)?.label || id;
     const allCaps = attrs.state.catModel?.data?.capabilities ?? [];
     const allTasks = attrs.state.catModel?.data?.mainTasks ?? [];
     const allPerf = attrs.state.catModel?.data?.performanceAspects ?? [];
     const allGaps = attrs.state.catModel?.data?.mainGaps ?? [];
     const allSolutions = attrs.state.catModel?.data?.solutions ?? [];
+    const solutionAgg = aggregateSolutionAssessments(patches, allSolutions);
+    if (!capabilityAgg.length && !solutionAgg.length) return null;
+
+    // Helper to resolve label for capability/task/performance/gap/solution
+    const getLabel = (id, arr) => arr?.find((x) => x.id === id)?.label || id;
     return m(".collab-aggregated", [
       m("h6", t("collab_aggregated_results")),
       capabilityAgg.length > 0 &&
-        m("table.striped.highlight", [
-          m(
-            "thead",
+      m("table.striped.highlight", [
+        m(
+          "thead",
+          m("tr", [
+            m("th", t("cap")),
+            m("th", t("collab_avg_action_priority")),
+            m("th", t("collab_task_items")),
+            m("th", t("collab_perf_items")),
+            m("th", t("collab_gap_items")),
+          ]),
+        ),
+        m(
+          "tbody",
+          capabilityAgg.map((a) =>
             m("tr", [
-              m("th", t("cap")),
-              m("th", t("collab_avg_action_priority")),
-              m("th", t("collab_task_items")),
-              m("th", t("collab_perf_items")),
-              m("th", t("collab_gap_items")),
+              m("td", m("code", getLabel(a.capabilityId, allCaps))),
+              m(
+                "td",
+                a.avgActionPriority != null
+                  ? a.avgActionPriority.toFixed(1)
+                  : "—",
+              ),
+              m(
+                "td",
+                a.taskItems.map((ti) =>
+                  m("div", [
+                    m("small.grey-text", `${getLabel(ti.id, allTasks)}: `),
+                    m("strong", getLabel(ti.avgValue, attrs.state.catModel?.data?.taskScale)),
+                    m("small.grey-text", ` (${ti.allValues.map(v => getLabel(v, attrs.state.catModel?.data?.taskScale)).join(", ")})`),
+                  ]),
+                ),
+              ),
+              m(
+                "td",
+                a.performanceItems.map((pi) =>
+                  m("div", [
+                    m("small.grey-text", `${getLabel(pi.id, allPerf)}: `),
+                    m("strong", getLabel(pi.avgValue, attrs.state.catModel?.data?.performanceScale)),
+                    m("small.grey-text", ` (${pi.allValues.map(v => getLabel(v, attrs.state.catModel?.data?.performanceScale)).join(", ")})`),
+                  ]),
+                ),
+              ),
+              m(
+                "td",
+                a.gaps.map((g) =>
+                  m("div", { style: "margin-bottom:8px" }, [
+                    m(
+                      "small.grey-text",
+                      `${t("gap")} ${g.gapIndex + 1}${g.titles.length ? `: ${g.titles.join(" | ")}` : ""}`,
+                    ),
+                    ...g.items.map((gi) =>
+                      m("div", [
+                        m("small.grey-text", `${getLabel(gi.id, allGaps)}: `),
+                        m("small", gi.allValues.map(v => getLabel(v, attrs.state.catModel?.data?.gapScale)).join(", ") || "—"),
+                      ]),
+                    ),
+                  ]),
+                ),
+              ),
             ]),
           ),
-          m(
-            "tbody",
-            capabilityAgg.map((a) =>
-              m("tr", [
-                m("td", m("code", getLabel(a.capabilityId, allCaps))),
-                m(
-                  "td",
-                  a.avgActionPriority != null
-                    ? a.avgActionPriority.toFixed(1)
-                    : "—",
-                ),
-                m(
-                  "td",
-                  a.taskItems.map((ti) =>
-                    m("div", [
-                      m("small.grey-text", `${getLabel(ti.id, allTasks)}: `),
-                      m("strong", getLabel(ti.avgValue, attrs.state.catModel?.data?.taskScale)),
-                      m("small.grey-text", ` (${ti.allValues.map(v => getLabel(v, attrs.state.catModel?.data?.taskScale)).join(", ")})`),
-                    ]),
-                  ),
-                ),
-                m(
-                  "td",
-                  a.performanceItems.map((pi) =>
-                    m("div", [
-                      m("small.grey-text", `${getLabel(pi.id, allPerf)}: `),
-                      m("strong", getLabel(pi.avgValue, attrs.state.catModel?.data?.performanceScale)),
-                      m("small.grey-text", ` (${pi.allValues.map(v => getLabel(v, attrs.state.catModel?.data?.performanceScale)).join(", ")})`),
-                    ]),
-                  ),
-                ),
-                m(
-                  "td",
-                  a.gaps.map((g) =>
-                    m("div", { style: "margin-bottom:8px" }, [
-                      m(
-                        "small.grey-text",
-                        `${t("gap")} ${g.gapIndex + 1}${g.titles.length ? `: ${g.titles.join(" | ")}` : ""}`,
-                      ),
-                      ...g.items.map((gi) =>
-                        m("div", [
-                          m("small.grey-text", `${getLabel(gi.id, allGaps)}: `),
-                          m("small", gi.allValues.map(v => getLabel(v, attrs.state.catModel?.data?.gapScale)).join(", ") || "—"),
-                        ]),
-                      ),
-                    ]),
-                  ),
-                ),
-              ]),
-            ),
-          ),
-        ]),
+        ),
+      ]),
       solutionAgg.length > 0 && [
         m("h6", t("SOLUTION")),
         m("table.striped.highlight", [
@@ -571,27 +573,27 @@ const AggregatedResults: MeiosisComponent = () => ({
                   "td",
                   solution.readiness.length > 0
                     ? solution.readiness.map((item) =>
-                        m("div", [
-                          m("small.grey-text", `${item.label}: `),
-                          m(
-                            "strong",
-                            `${item.prefix} ${item.average.toFixed(1)}`,
-                          ),
-                          m("small.grey-text", ` (${item.values.join(", ")})`),
-                        ]),
-                      )
+                      m("div", [
+                        m("small.grey-text", `${item.label}: `),
+                        m(
+                          "strong",
+                          `${item.prefix} ${item.average.toFixed(1)}`,
+                        ),
+                        m("small.grey-text", ` (${item.values.join(", ")})`),
+                      ]),
+                    )
                     : "—",
                 ),
                 m(
                   "td",
                   solution.impactAverage != null
                     ? m("div", [
-                        m("strong", solution.impactAverage.toFixed(1)),
-                        m(
-                          "small.grey-text",
-                          ` (${solution.impactValues.join(", ")})`,
-                        ),
-                      ])
+                      m("strong", solution.impactAverage.toFixed(1)),
+                      m(
+                        "small.grey-text",
+                        ` (${solution.impactValues.join(", ")})`,
+                      ),
+                    ])
                     : "—",
                 ),
                 m(
@@ -625,12 +627,12 @@ const UserAssessmentView: MeiosisComponent = () => {
       pa: a.pa ? { a: a.pa.a, i: a.pa.i.map((x) => ({ ...x })) } : undefined,
       g: a.g
         ? a.g.map((g) => ({
-            t: g.t,
-            d: g.d,
-            a: g.a,
-            i: g.i.map((x) => ({ ...x })),
-            l: g.l ? g.l.map((x) => ({ ...x })) : undefined,
-          }))
+          t: g.t,
+          d: g.d,
+          a: g.a,
+          i: g.i.map((x) => ({ ...x })),
+          l: g.l ? g.l.map((x) => ({ ...x })) : undefined,
+        }))
         : undefined,
     }));
 
@@ -675,12 +677,12 @@ const UserAssessmentView: MeiosisComponent = () => {
         pa: a.pa ? { a: a.pa.a, i: a.pa.i.map((x) => ({ ...x })) } : undefined,
         g: a.g
           ? a.g.map((g) => ({
-              t: g.t,
-              d: g.d,
-              a: g.a,
-              i: g.i.map((x) => ({ ...x })),
-              l: g.l ? g.l.map((x) => ({ ...x })) : undefined,
-            }))
+            t: g.t,
+            d: g.d,
+            a: g.a,
+            i: g.i.map((x) => ({ ...x })),
+            l: g.l ? g.l.map((x) => ({ ...x })) : undefined,
+          }))
           : undefined,
       });
     });
@@ -691,8 +693,12 @@ const UserAssessmentView: MeiosisComponent = () => {
   };
 
   const getOrCreate = (capId: string): CapabilityAnswer => {
-    if (!answers.has(capId)) answers.set(capId, { c: capId });
-    return answers.get(capId)!;
+    let answer = answers.get(capId);
+    if (!answer) {
+      answer = { c: capId };
+      answers.set(capId, answer);
+    }
+    return answer;
   };
 
   const setTaskItem = (capId: string, itemId: string, value: string) => {
@@ -804,19 +810,21 @@ const UserAssessmentView: MeiosisComponent = () => {
   const getOrCreateSolutionAssessment = (
     solutionId: string,
   ): SolutionAssessmentAnswer => {
-    if (!solutionAssessments.has(solutionId)) {
-      solutionAssessments.set(solutionId, { i: solutionId });
+    let solutionAssessment = solutionAssessments.get(solutionId);
+    if (!solutionAssessment) {
+      solutionAssessment = { i: solutionId };
+      solutionAssessments.set(solutionId, solutionAssessment);
     }
-    return solutionAssessments.get(solutionId)!;
+    return solutionAssessment;
   };
 
-  const setSolutionAssessmentValue = (
+  const setSolutionAssessmentValue = <K extends keyof SolutionAssessmentAnswer>(
     solutionId: string,
-    field: Exclude<keyof SolutionAssessmentAnswer, "i" | "n">,
-    value: number,
+    field: K,
+    value: SolutionAssessmentAnswer[K],
   ) => {
     const assessment = getOrCreateSolutionAssessment(solutionId);
-    assessment[field] = value as any;
+    assessment[field] = value;
   };
 
   const setSolutionAssessmentNote = (solutionId: string, note: string) => {
@@ -868,8 +876,15 @@ const UserAssessmentView: MeiosisComponent = () => {
               assessment.commercialisationRl != null ||
               assessment.securityRl != null ||
               assessment.legalPrivacyEthicalRl != null ||
+              assessment.trlDesc?.trim() ||
+              assessment.integrationRlDesc?.trim() ||
+              assessment.societalRlDesc?.trim() ||
+              assessment.manufacturingRlDesc?.trim() ||
+              assessment.commercialisationRlDesc?.trim() ||
+              assessment.securityRlDesc?.trim() ||
+              assessment.legalPrivacyEthicalRlDesc?.trim() ||
               assessment.imp != null ||
-              (assessment.n && assessment.n.trim())
+              assessment.n?.trim()
             );
           });
         const patch = buildPatchPayload(
@@ -919,7 +934,7 @@ const UserAssessmentView: MeiosisComponent = () => {
       const currentLabel =
         currentRef && currentCapId
           ? currentCap
-            ? t(currentCap.id as any) || currentCap.label
+            ? tDynamic(currentCap.id) || currentCap.label
             : entityLabel(currentRef, currentCapId)
           : "";
       const answer = currentCapId ? getOrCreate(currentCapId) : undefined;
@@ -996,570 +1011,591 @@ const UserAssessmentView: MeiosisComponent = () => {
 
         // Capability Assessment (ca mode)
         invitePayload.m.includes("ca") &&
-          m(".ca-section", [
-            m("h5", t("collab_mode_ca")),
-            totalPages > 0 &&
-              m(".row", [
-                m(".col.s12", [
-                  m(
-                    "div",
-                    {
-                      style:
-                        "display:flex; align-items:center; justify-content:space-between; gap: 8px; margin-bottom: 8px;",
-                    },
-                    [
-                      m(
-                        "button.btn-flat",
-                        {
-                          disabled: pageIndex === 0,
-                          onclick: () => {
-                            pageIndex = Math.max(0, pageIndex - 1);
-                            saveCurrentDraft();
-                          },
-                        },
-                        [
-                          m("i.material-icons.left", "chevron_left"),
-                          t("prev_cap"),
-                        ],
-                      ),
-                      m("strong", `${pageIndex + 1} / ${totalPages}`),
-                      m(
-                        "button.btn-flat",
-                        {
-                          disabled: pageIndex >= totalPages - 1,
-                          onclick: () => {
-                            pageIndex = Math.min(totalPages - 1, pageIndex + 1);
-                            saveCurrentDraft();
-                          },
-                        },
-                        [
-                          t("next_cap"),
-                          m("i.material-icons.right", "chevron_right"),
-                        ],
-                      ),
-                    ],
-                  ),
-                ]),
-              ]),
-            currentCapId &&
-              answer &&
-              m(".card.hoverable", [
-                m(".card-content", [
-                  m("span.card-title", currentLabel),
-                  currentCap?.desc && m("p.grey-text", currentCap.desc),
-
-                  // Task importance per mainTask
-                  mainTasks.length > 0 && [
-                    m("h6", t("goal")),
-                    ...mainTasks.map((task) => {
-                      const currentVal =
-                        answer.ta?.i.find((x) => x.id === task.id)?.v ?? "";
-                      const currentDesc =
-                        answer.ta?.i.find((x) => x.id === task.id)?.d ?? "";
-                      return m(".row.valign-wrapper", [
-                        m(".col.s12.m5", [
-                          m("label", t(task.id as any) || task.label),
-                          task.desc &&
-                            m(
-                              "small.grey-text.block.collab-field-desc",
-                              t(`${task.id}_desc` as any) || task.desc,
-                            ),
-                        ]),
-                        m(".col.s12.m7", [
-                          m(
-                            "select.browser-default",
-                            {
-                              value: currentVal,
-                              onchange: (e: Event) =>
-                                (() => {
-                                  setTaskItem(
-                                    currentCapId,
-                                    task.id,
-                                    (e.target as HTMLSelectElement).value,
-                                  );
-                                  saveCurrentDraft();
-                                })(),
-                            },
-                            [
-                              m("option[value='']", "—"),
-                              ...taskScale.map((s) =>
-                                m(
-                                  "option",
-                                  {
-                                    value: s.id,
-                                    selected: currentVal === s.id,
-                                  },
-                                  t(s.id as any) || s.label,
-                                ),
-                              ),
-                            ],
-                          ),
-                          m("label", t("expl")),
-                          m("textarea.materialize-textarea", {
-                            value: currentDesc,
-                            oninput: (e: Event) =>
-                              (() => {
-                                setTaskDesc(
-                                  currentCapId,
-                                  task.id,
-                                  (e.target as HTMLTextAreaElement).value,
-                                );
-                                saveCurrentDraft();
-                              })(),
-                          }),
-                        ]),
-                      ]);
-                    }),
-                  ],
-
-                  // Performance per performanceAspect
-                  performanceAspects.length > 0 && [
-                    m("h6", t("perf")),
-                    ...performanceAspects.map((aspect) => {
-                      const currentVal =
-                        answer.pa?.i.find((x) => x.id === aspect.id)?.v ?? "";
-                      const currentDesc =
-                        answer.pa?.i.find((x) => x.id === aspect.id)?.d ?? "";
-                      return m(".row.valign-wrapper", [
-                        m(".col.s12.m5", [
-                          m("label", t(aspect.id as any) || aspect.label),
-                          aspect.desc &&
-                            m(
-                              "small.grey-text.block.collab-field-desc",
-                              t(`${aspect.id}_desc` as any) || aspect.desc,
-                            ),
-                        ]),
-                        m(".col.s12.m7", [
-                          m(
-                            "select.browser-default",
-                            {
-                              value: currentVal,
-                              onchange: (e: Event) =>
-                                (() => {
-                                  setPerfItem(
-                                    currentCapId,
-                                    aspect.id,
-                                    (e.target as HTMLSelectElement).value,
-                                  );
-                                  saveCurrentDraft();
-                                })(),
-                            },
-                            [
-                              m("option[value='']", "—"),
-                              ...performanceScale.map((s) =>
-                                m(
-                                  "option",
-                                  {
-                                    value: s.id,
-                                    selected: currentVal === s.id,
-                                  },
-                                  t(s.id as any) || s.label,
-                                ),
-                              ),
-                            ],
-                          ),
-                          m("label", t("expl")),
-                          m("textarea.materialize-textarea", {
-                            value: currentDesc,
-                            oninput: (e: Event) =>
-                              (() => {
-                                setPerfDesc(
-                                  currentCapId,
-                                  aspect.id,
-                                  (e.target as HTMLTextAreaElement).value,
-                                );
-                                saveCurrentDraft();
-                              })(),
-                          }),
-                        ]),
-                      ]);
-                    }),
-                  ],
-
-                  // Gaps
-                  m("h6", t("gaps")),
-                  ...(answer.g?.map((gap, gapIndex) =>
-                    m(".card-panel", [
-                      m(".row", [
-                        m(".col.s12.m5", [
-                          m("label", t("title")),
-                          m("input[type=text]", {
-                            value: gap.t ?? "",
-                            oninput: (e: Event) =>
-                              (() => {
-                                setGapTitle(
-                                  currentCapId,
-                                  gapIndex,
-                                  (e.target as HTMLInputElement).value,
-                                );
-                                saveCurrentDraft();
-                              })(),
-                          }),
-                        ]),
-                        m(".col.s12.m6", [
-                          m("label", t("desc")),
-                          m("textarea.materialize-textarea", {
-                            value: gap.d ?? "",
-                            oninput: (e: Event) =>
-                              (() => {
-                                setGapDesc(
-                                  currentCapId,
-                                  gapIndex,
-                                  (e.target as HTMLTextAreaElement).value,
-                                );
-                                saveCurrentDraft();
-                              })(),
-                          }),
-                        ]),
-                        m(
-                          ".col.s12.m1",
-                          { style: "padding-top: 28px;" },
-                          m(
-                            "button.btn-flat.red-text",
-                            {
-                              onclick: () => {
-                                removeGap(currentCapId, gapIndex);
-                                saveCurrentDraft();
-                              },
-                            },
-                            m("i.material-icons", "delete"),
-                          ),
-                        ),
-                      ]),
-                      ...mainGaps.map((gapItem) => {
-                        const currentVal =
-                          gap.i.find((x) => x.id === gapItem.id)?.v ?? "";
-                        const currentDesc =
-                          gap.i.find((x) => x.id === gapItem.id)?.d ?? "";
-                        return m(".row.valign-wrapper", [
-                          m(".col.s12.m5", [
-                            m("label", t(gapItem.id as any) || gapItem.label),
-                            gapItem.desc &&
-                              m(
-                                "small.grey-text.block.collab-field-desc",
-                                t(`${gapItem.id}_desc` as any) || gapItem.desc,
-                              ),
-                          ]),
-                          m(".col.s12.m7", [
-                            m(
-                              "select.browser-default",
-                              {
-                                value: currentVal,
-                                onchange: (e: Event) =>
-                                  (() => {
-                                    setGapItem(
-                                      currentCapId,
-                                      gapIndex,
-                                      gapItem.id,
-                                      (e.target as HTMLSelectElement).value,
-                                      gapScaleIds,
-                                    );
-                                    saveCurrentDraft();
-                                  })(),
-                              },
-                              [
-                                m("option[value='']", "—"),
-                                ...gapScale.map((s) =>
-                                  m(
-                                    "option",
-                                    {
-                                      value: s.id,
-                                      selected: currentVal === s.id,
-                                    },
-                                    t(s.id as any) || s.label,
-                                  ),
-                                ),
-                              ],
-                            ),
-                            m("label", t("expl")),
-                            m("textarea.materialize-textarea", {
-                              value: currentDesc,
-                              oninput: (e: Event) =>
-                                (() => {
-                                  setGapItemDesc(
-                                    currentCapId,
-                                    gapIndex,
-                                    gapItem.id,
-                                    (e.target as HTMLTextAreaElement).value,
-                                  );
-                                  saveCurrentDraft();
-                                })(),
-                            }),
-                          ]),
-                        ]);
-                      }),
-
-                      // Gap Likert scales (Severity, Probability, Impact)
-                      m(
-                        "h6",
-                        translatedOrFallback(
-                          "gap_problem_categories_intro" as any,
-                          "Analyse this capability gap on the following problem categories.",
-                        ),
-                      ),
-                      [
-                        {
-                          id: "gapSeverity",
-                          labelKey: "gap_likert_severity",
-                          fallbackLabel: "Severity",
-                          fallbackTooltip:
-                            "How do you rate the severity of this capability gap?",
-                          startLabel: "Very low",
-                          endLabel: "Very high",
-                          middleLabel: "Average",
-                        },
-                        {
-                          id: "gapProbability",
-                          labelKey: "gap_likert_probability",
-                          fallbackLabel: "Probability",
-                          fallbackTooltip:
-                            "Suppose the gap is solved: What would this mean for the probability of occurrence of the gap?",
-                          startLabel: "No change",
-                          endLabel: "Big decrease",
-                          middleLabel: "—",
-                        },
-                        {
-                          id: "gapImpact",
-                          labelKey: "gap_likert_impact",
-                          fallbackLabel: "Impact",
-                          fallbackTooltip:
-                            "Suppose the gap is solved. What would this mean for the reduction in impact of the original gap?",
-                          startLabel: "No change",
-                          endLabel: "Big decrease",
-                          middleLabel: "—",
-                        },
-                      ].map((likert) => {
-                        const likertItem = (gap.l ?? []).find(
-                          (x) => x.id === likert.id,
-                        );
-                        const value = likertItem?.v;
-                        return m(".col.s12.m6.l4.condensed", [
-                          m("label.dasf-field-label", [
-                            translatedOrFallback(
-                              likert.labelKey,
-                              likert.fallbackLabel,
-                            ),
-                            m(
-                              "span.tooltipped.grey-text.info-icon",
-                              {
-                                "data-position": "bottom",
-                                "data-tooltip": likert.fallbackTooltip,
-                                oncreate: ({ dom }) =>
-                                  new Tooltip(dom as HTMLElement),
-                                onremove: ({ dom }) =>
-                                  Tooltip.getInstance(
-                                    dom as HTMLElement,
-                                  )?.destroy(),
-                              },
-                              m(Icon, { iconName: "info" }),
-                            ),
-                          ]),
-                          m(LikertScale, {
-                            min: 1,
-                            max: 5,
-                            value,
-                            showNumbers: true,
-                            startLabel: translatedOrFallback(
-                              `${likert.id}_start_label`,
-                              likert.startLabel,
-                            ),
-                            middleLabel: translatedOrFallback(
-                              `${likert.id}_middle_label`,
-                              likert.middleLabel,
-                            ),
-                            endLabel: translatedOrFallback(
-                              `${likert.id}_end_label`,
-                              likert.endLabel,
-                            ),
-                            layout: "horizontal",
-                            density: "compact",
-                            onchange: (nextValue) => {
-                              const likertArray = gap.l ?? [];
-                              const existingIndex = likertArray.findIndex(
-                                (x) => x.id === likert.id,
-                              );
-                              if (existingIndex >= 0) {
-                                likertArray[existingIndex].v = nextValue;
-                              } else {
-                                likertArray.push({
-                                  id: likert.id,
-                                  v: nextValue,
-                                });
-                              }
-                              gap.l = likertArray;
-                              // Update in answers map
-                              const capAnswer = answers.get(currentCapId);
-                              if (
-                                capAnswer &&
-                                capAnswer.g &&
-                                capAnswer.g[gapIndex]
-                              ) {
-                                capAnswer.g[gapIndex].l = likertArray;
-                              }
-                              saveCurrentDraft();
-                            },
-                          }),
-                        ]);
-                      }),
-                    ]),
-                  ) ?? []),
+        m(".ca-section", [
+          m("h5", t("collab_mode_ca")),
+          totalPages > 0 &&
+          m(".row", [
+            m(".col.s12", [
+              m(
+                "div",
+                {
+                  style:
+                    "display:flex; align-items:center; justify-content:space-between; gap: 8px; margin-bottom: 8px;",
+                },
+                [
                   m(
                     "button.btn-flat",
                     {
+                      disabled: pageIndex === 0,
                       onclick: () => {
-                        addGap(currentCapId);
+                        pageIndex = Math.max(0, pageIndex - 1);
                         saveCurrentDraft();
                       },
                     },
-                    [m("i.material-icons.left", "add"), t("add_gap")],
+                    [
+                      m("i.material-icons.left", "chevron_left"),
+                      t("prev_cap"),
+                    ],
                   ),
+                  m("strong", `${pageIndex + 1} / ${totalPages}`),
+                  m(
+                    "button.btn-flat",
+                    {
+                      disabled: pageIndex >= totalPages - 1,
+                      onclick: () => {
+                        pageIndex = Math.min(totalPages - 1, pageIndex + 1);
+                        saveCurrentDraft();
+                      },
+                    },
+                    [
+                      t("next_cap"),
+                      m("i.material-icons.right", "chevron_right"),
+                    ],
+                  ),
+                ],
+              ),
+            ]),
+          ]),
+          currentCapId &&
+          answer &&
+          m(".card.hoverable", [
+            m(".card-content", [
+              m("span.card-title", currentLabel),
+              currentCap?.desc && m("p.grey-text", currentCap.desc),
 
-                  // Action priority
+              // Task importance per mainTask
+              mainTasks.length > 0 && [
+                m("h6", t("goal")),
+                ...mainTasks.map((task) => {
+                  const currentVal =
+                    answer.ta?.i.find((x) => x.id === task.id)?.v ?? "";
+                  const currentDesc =
+                    answer.ta?.i.find((x) => x.id === task.id)?.d ?? "";
+                  return m(".row.valign-wrapper", [
+                    m(".col.s12.m5", [
+                      m("label", tDynamic(task.id) || task.label),
+                      task.desc &&
+                      m(
+                        "small.grey-text.block.collab-field-desc",
+                        tDynamic(`${task.id}_desc`) || task.desc,
+                      ),
+                    ]),
+                    m(".col.s12.m7", [
+                      m(
+                        "select.browser-default",
+                        {
+                          value: currentVal,
+                          onchange: (e: Event) =>
+                            (() => {
+                              setTaskItem(
+                                currentCapId,
+                                task.id,
+                                (e.target as HTMLSelectElement).value,
+                              );
+                              saveCurrentDraft();
+                            })(),
+                        },
+                        [
+                          m("option[value='']", "—"),
+                          ...taskScale.map((s) =>
+                            m(
+                              "option",
+                              {
+                                value: s.id,
+                                selected: currentVal === s.id,
+                              },
+                              tDynamic(s.id) || s.label,
+                            ),
+                          ),
+                        ],
+                      ),
+                      m("label", t("expl")),
+                      m("textarea.materialize-textarea", {
+                        value: currentDesc,
+                        oninput: (e: Event) =>
+                          (() => {
+                            setTaskDesc(
+                              currentCapId,
+                              task.id,
+                              (e.target as HTMLTextAreaElement).value,
+                            );
+                            saveCurrentDraft();
+                          })(),
+                      }),
+                    ]),
+                  ]);
+                }),
+              ],
+
+              // Performance per performanceAspect
+              performanceAspects.length > 0 && [
+                m("h6", t("perf")),
+                ...performanceAspects.map((aspect) => {
+                  const currentVal =
+                    answer.pa?.i.find((x) => x.id === aspect.id)?.v ?? "";
+                  const currentDesc =
+                    answer.pa?.i.find((x) => x.id === aspect.id)?.d ?? "";
+                  return m(".row.valign-wrapper", [
+                    m(".col.s12.m5", [
+                      m("label", tDynamic(aspect.id) || aspect.label),
+                      aspect.desc &&
+                      m(
+                        "small.grey-text.block.collab-field-desc",
+                        tDynamic(`${aspect.id}_desc`) || aspect.desc,
+                      ),
+                    ]),
+                    m(".col.s12.m7", [
+                      m(
+                        "select.browser-default",
+                        {
+                          value: currentVal,
+                          onchange: (e: Event) =>
+                            (() => {
+                              setPerfItem(
+                                currentCapId,
+                                aspect.id,
+                                (e.target as HTMLSelectElement).value,
+                              );
+                              saveCurrentDraft();
+                            })(),
+                        },
+                        [
+                          m("option[value='']", "—"),
+                          ...performanceScale.map((s) =>
+                            m(
+                              "option",
+                              {
+                                value: s.id,
+                                selected: currentVal === s.id,
+                              },
+                              tDynamic(s.id) || s.label,
+                            ),
+                          ),
+                        ],
+                      ),
+                      m("label", t("expl")),
+                      m("textarea.materialize-textarea", {
+                        value: currentDesc,
+                        oninput: (e: Event) =>
+                          (() => {
+                            setPerfDesc(
+                              currentCapId,
+                              aspect.id,
+                              (e.target as HTMLTextAreaElement).value,
+                            );
+                            saveCurrentDraft();
+                          })(),
+                      }),
+                    ]),
+                  ]);
+                }),
+              ],
+
+              // Gaps
+              m("h6", t("gaps")),
+              ...(answer.g?.map((gap, gapIndex) =>
+                m(".card-panel", [
                   m(".row", [
-                    m(".col.s12", [
-                      m("label", t("action_priority" as any)),
+                    m(".col.s12.m5", [
+                      m("label", t("title")),
+                      m("input[type=text]", {
+                        value: gap.t ?? "",
+                        oninput: (e: Event) =>
+                          (() => {
+                            setGapTitle(
+                              currentCapId,
+                              gapIndex,
+                              (e.target as HTMLInputElement).value,
+                            );
+                            saveCurrentDraft();
+                          })(),
+                      }),
+                    ]),
+                    m(".col.s12.m6", [
+                      m("label", t("desc")),
+                      m("textarea.materialize-textarea", {
+                        value: gap.d ?? "",
+                        oninput: (e: Event) =>
+                          (() => {
+                            setGapDesc(
+                              currentCapId,
+                              gapIndex,
+                              (e.target as HTMLTextAreaElement).value,
+                            );
+                            saveCurrentDraft();
+                          })(),
+                      }),
+                    ]),
+                    m(
+                      ".col.s12.m1",
+                      { style: "padding-top: 28px;" },
+                      m(
+                        "button.btn-flat.red-text",
+                        {
+                          onclick: () => {
+                            removeGap(currentCapId, gapIndex);
+                            saveCurrentDraft();
+                          },
+                        },
+                        m("i.material-icons", "delete"),
+                      ),
+                    ),
+                  ]),
+                  ...mainGaps.map((gapItem) => {
+                    const currentVal =
+                      gap.i.find((x) => x.id === gapItem.id)?.v ?? "";
+                    const currentDesc =
+                      gap.i.find((x) => x.id === gapItem.id)?.d ?? "";
+                    return m(".row.valign-wrapper", [
+                      m(".col.s12.m5", [
+                        m("label", tDynamic(gapItem.id) || gapItem.label),
+                        gapItem.desc &&
+                        m(
+                          "small.grey-text.block.collab-field-desc",
+                          tDynamic(`${gapItem.id}_desc`) || gapItem.desc,
+                        ),
+                      ]),
+                      m(".col.s12.m7", [
+                        m(
+                          "select.browser-default",
+                          {
+                            value: currentVal,
+                            onchange: (e: Event) =>
+                              (() => {
+                                setGapItem(
+                                  currentCapId,
+                                  gapIndex,
+                                  gapItem.id,
+                                  (e.target as HTMLSelectElement).value,
+                                  gapScaleIds,
+                                );
+                                saveCurrentDraft();
+                              })(),
+                          },
+                          [
+                            m("option[value='']", "—"),
+                            ...gapScale.map((s) =>
+                              m(
+                                "option",
+                                {
+                                  value: s.id,
+                                  selected: currentVal === s.id,
+                                },
+                                tDynamic(s.id) || s.label,
+                              ),
+                            ),
+                          ],
+                        ),
+                        m("label", t("expl")),
+                        m("textarea.materialize-textarea", {
+                          value: currentDesc,
+                          oninput: (e: Event) =>
+                            (() => {
+                              setGapItemDesc(
+                                currentCapId,
+                                gapIndex,
+                                gapItem.id,
+                                (e.target as HTMLTextAreaElement).value,
+                              );
+                              saveCurrentDraft();
+                            })(),
+                        }),
+                      ]),
+                    ]);
+                  }),
+
+                  // Gap Likert scales (Severity, Probability, Impact)
+                  m(
+                    "h6",
+                    translatedOrFallback(
+                      "gap_problem_categories_intro",
+                      "Analyse this capability gap on the following problem categories.",
+                    ),
+                  ),
+                  [
+                    {
+                      id: "gapSeverity",
+                      labelKey: "gap_likert_severity",
+                      fallbackLabel: "Severity",
+                      fallbackTooltip:
+                        "How do you rate the severity of this capability gap?",
+                      startLabel: "Very low",
+                      endLabel: "Very high",
+                      middleLabel: "Average",
+                    },
+                    {
+                      id: "gapProbability",
+                      labelKey: "gap_likert_probability",
+                      fallbackLabel: "Probability",
+                      fallbackTooltip:
+                        "Suppose the gap is solved: What would this mean for the probability of occurrence of the gap?",
+                      startLabel: "No change",
+                      endLabel: "Big decrease",
+                      middleLabel: "—",
+                    },
+                    {
+                      id: "gapImpact",
+                      labelKey: "gap_likert_impact",
+                      fallbackLabel: "Impact",
+                      fallbackTooltip:
+                        "Suppose the gap is solved. What would this mean for the reduction in impact of the original gap?",
+                      startLabel: "No change",
+                      endLabel: "Big decrease",
+                      middleLabel: "—",
+                    },
+                  ].map((likert) => {
+                    const likertItem = (gap.l ?? []).find(
+                      (x) => x.id === likert.id,
+                    );
+                    const value = likertItem?.v;
+                    return m(".col.s12.m6.l4.condensed", [
+                      m("label.dasf-field-label", [
+                        translatedOrFallback(
+                          likert.labelKey,
+                          likert.fallbackLabel,
+                        ),
+                        m(
+                          "span.tooltipped.grey-text.info-icon",
+                          {
+                            "data-position": "bottom",
+                            "data-tooltip": likert.fallbackTooltip,
+                            oncreate: ({ dom }) =>
+                              new Tooltip(dom as HTMLElement),
+                            onremove: ({ dom }) =>
+                              Tooltip.getInstance(
+                                dom as HTMLElement,
+                              )?.destroy(),
+                          },
+                          m(Icon, { iconName: "info" }),
+                        ),
+                      ]),
                       m(LikertScale, {
                         min: 1,
                         max: 5,
-                        value: answer.ap,
+                        value,
                         showNumbers: true,
                         startLabel: translatedOrFallback(
-                          "action_priority_label_1",
-                          "Not now",
+                          `${likert.id}_start_label`,
+                          likert.startLabel,
                         ),
                         middleLabel: translatedOrFallback(
-                          "action_priority_label_3",
-                          "Maybe",
+                          `${likert.id}_middle_label`,
+                          likert.middleLabel,
                         ),
                         endLabel: translatedOrFallback(
-                          "action_priority_label_5",
-                          "Urgent",
+                          `${likert.id}_end_label`,
+                          likert.endLabel,
                         ),
                         layout: "horizontal",
                         density: "compact",
                         onchange: (nextValue) => {
-                          setActionPriority(currentCapId, nextValue);
+                          const likertArray = gap.l ?? [];
+                          const existingIndex = likertArray.findIndex(
+                            (x) => x.id === likert.id,
+                          );
+                          if (existingIndex >= 0) {
+                            likertArray[existingIndex].v = nextValue;
+                          } else {
+                            likertArray.push({
+                              id: likert.id,
+                              v: nextValue,
+                            });
+                          }
+                          gap.l = likertArray;
+                          // Update in answers map
+                          const capAnswer = answers.get(currentCapId);
+                          if (capAnswer?.g?.[gapIndex]) {
+                            capAnswer.g[gapIndex].l = likertArray;
+                          }
+                          saveCurrentDraft();
+                        },
+                      }),
+                    ]);
+                  }),
+                ]),
+              ) ?? []),
+              m(
+                "button.btn-flat",
+                {
+                  onclick: () => {
+                    addGap(currentCapId);
+                    saveCurrentDraft();
+                  },
+                },
+                [m("i.material-icons.left", "add"), t("add_gap")],
+              ),
+
+              // Action priority
+              m(".row", [
+                m(".col.s12", [
+                  m("label", tDynamic("action_priority")),
+                  m(LikertScale, {
+                    min: 1,
+                    max: 5,
+                    value: answer.ap,
+                    showNumbers: true,
+                    startLabel: translatedOrFallback(
+                      "action_priority_label_1",
+                      "Not now",
+                    ),
+                    middleLabel: translatedOrFallback(
+                      "action_priority_label_3",
+                      "Maybe",
+                    ),
+                    endLabel: translatedOrFallback(
+                      "action_priority_label_5",
+                      "Urgent",
+                    ),
+                    layout: "horizontal",
+                    density: "compact",
+                    onchange: (nextValue) => {
+                      setActionPriority(currentCapId, nextValue);
+                      saveCurrentDraft();
+                    },
+                  }),
+                ]),
+              ]),
+            ]),
+          ]),
+        ]),
+
+        // Solution Assessment (sa mode)
+        invitePayload.m.includes("sa") &&
+        m(".sa-section", [
+          m("h5", t("collab_mode_sa")),
+          solutionRefs.length === 0
+            ? m("p.grey-text", t("solution_empty"))
+            : solutionRefs.map((solutionRef) => {
+              const solutionId = entityId(solutionRef);
+              const solution = allSolutions.find(
+                (s) => s.id === solutionId,
+              );
+              const solutionLabel = solution
+                ? solution.label
+                : entityLabel(solutionRef, solutionId);
+              const response = getOrCreateSolutionAssessment(solutionId);
+
+              return m(".card.hoverable", [
+                m(".card-content", [
+                  m("span.card-title", solutionLabel),
+                  ...(solution?.desc
+                    ? [m("p.grey-text", solution.desc)]
+                    : []),
+                  ...allSolutionReadinessConfigs.map((config) => {
+                    const readinessFieldId =
+                      config.id as keyof SolutionAssessmentAnswer;
+                    const currentValue =
+                      (response[readinessFieldId] as number | undefined) ??
+                      (solution?.[readinessFieldId as keyof ISolution] as
+                        | number
+                        | undefined) ??
+                      config.min;
+                    const descFieldId = readinessDescriptionFieldId(
+                      config.id,
+                    ) as keyof SolutionAssessmentAnswer;
+                    const descriptionText =
+                      (response[descFieldId] as string | undefined) ??
+                      (solution?.[descFieldId as keyof ISolution] as
+                        | string
+                        | undefined) ??
+                      "";
+                    const descIndex = currentValue - config.min;
+                    const description = translatedOrFallback(
+                      `${config.descriptionKeyPrefix}${currentValue}`,
+                      config.descriptions[descIndex] ?? "",
+                    );
+
+                    return m(".row", [
+                      m(".col.s12", [
+                        m(
+                          "label",
+                          translatedOrFallback(
+                            config.labelKey,
+                            config.fallbackLabel,
+                          ),
+                        ),
+                        m(
+                          "p.range-field",
+                          m("input[type=range]", {
+                            min: config.min,
+                            max: config.max,
+                            step: 1,
+                            value: currentValue,
+                            oninput: (e: Event) => {
+                              setSolutionAssessmentValue(
+                                solutionId,
+                                readinessFieldId,
+                                parseInt(
+                                  (e.target as HTMLInputElement).value,
+                                  10,
+                                ) as SolutionAssessmentAnswer[typeof readinessFieldId],
+                              );
+                              saveCurrentDraft();
+                            },
+                          }),
+                        ),
+                        m("small", `${config.prefix} ${currentValue}`),
+                        m(
+                          "small.grey-text.block.collab-field-desc",
+                          description,
+                        ),
+                        m("label", `${config.prefix} ${t("desc")}`),
+                        m("textarea.materialize-textarea", {
+                          value: descriptionText,
+                          oninput: (e: Event) => {
+                            setSolutionAssessmentValue(
+                              solutionId,
+                              descFieldId,
+                              (e.target as HTMLTextAreaElement).value,
+                            );
+                            saveCurrentDraft();
+                          },
+                        }),
+                      ]),
+                    ]);
+                  }),
+                  m(".row", [
+                    m(".col.s12", [
+                      m("label", t("sol_expected_impact_title")),
+                      m(
+                        "p.range-field",
+                        m("input[type=range][min=1][max=5][step=1]", {
+                          value: response.imp ?? 3,
+                          oninput: (e: Event) => {
+                            setSolutionAssessmentValue(
+                              solutionId,
+                              "imp",
+                              parseInt(
+                                (e.target as HTMLInputElement).value,
+                                10,
+                              ),
+                            );
+                            saveCurrentDraft();
+                          },
+                        }),
+                      ),
+                      m("small", `${response.imp ?? 3}`),
+                    ]),
+                  ]),
+                  m(".row", [
+                    m(".col.s12", [
+                      m("label", t("desc")),
+                      m("textarea.materialize-textarea", {
+                        value: response.n ?? "",
+                        oninput: (e: Event) => {
+                          setSolutionAssessmentNote(
+                            solutionId,
+                            (e.target as HTMLTextAreaElement).value,
+                          );
                           saveCurrentDraft();
                         },
                       }),
                     ]),
                   ]),
                 ]),
-              ]),
-          ]),
-
-        // Solution Assessment (sa mode)
-        invitePayload.m.includes("sa") &&
-          m(".sa-section", [
-            m("h5", t("collab_mode_sa")),
-            solutionRefs.length === 0
-              ? m("p.grey-text", t("solution_empty"))
-              : solutionRefs.map((solutionRef) => {
-                  const solutionId = entityId(solutionRef);
-                  const solution = allSolutions.find(
-                    (s) => s.id === solutionId,
-                  );
-                  const solutionLabel = solution
-                    ? solution.label
-                    : entityLabel(solutionRef, solutionId);
-                  const response = getOrCreateSolutionAssessment(solutionId);
-
-                  return m(".card.hoverable", [
-                    m(".card-content", [
-                      m("span.card-title", solutionLabel),
-                      ...(solution?.desc
-                        ? [m("p.grey-text", solution.desc)]
-                        : []),
-                      ...allSolutionReadinessConfigs.map((config) => {
-                        const currentValue =
-                          (response as any)[config.id] ??
-                          (solution as any)?.[config.id] ??
-                          config.min;
-                        const descIndex = currentValue - config.min;
-                        const description = translatedOrFallback(
-                          `${config.descriptionKeyPrefix}${currentValue}`,
-                          config.descriptions[descIndex] ?? "",
-                        );
-
-                        return m(".row", [
-                          m(".col.s12", [
-                            m(
-                              "label",
-                              translatedOrFallback(
-                                config.labelKey,
-                                config.fallbackLabel,
-                              ),
-                            ),
-                            m(
-                              "p.range-field",
-                              m("input[type=range]", {
-                                min: config.min,
-                                max: config.max,
-                                step: 1,
-                                value: currentValue,
-                                oninput: (e: Event) => {
-                                  setSolutionAssessmentValue(
-                                    solutionId,
-                                    config.id as any,
-                                    parseInt(
-                                      (e.target as HTMLInputElement).value,
-                                      10,
-                                    ),
-                                  );
-                                  saveCurrentDraft();
-                                },
-                              }),
-                            ),
-                            m("small", `${config.prefix} ${currentValue}`),
-                            m(
-                              "small.grey-text.block.collab-field-desc",
-                              description,
-                            ),
-                          ]),
-                        ]);
-                      }),
-                      m(".row", [
-                        m(".col.s12", [
-                          m("label", t("sol_expected_impact_title")),
-                          m(
-                            "p.range-field",
-                            m("input[type=range][min=1][max=5][step=1]", {
-                              value: response.imp ?? 3,
-                              oninput: (e: Event) => {
-                                setSolutionAssessmentValue(
-                                  solutionId,
-                                  "imp",
-                                  parseInt(
-                                    (e.target as HTMLInputElement).value,
-                                    10,
-                                  ),
-                                );
-                                saveCurrentDraft();
-                              },
-                            }),
-                          ),
-                          m("small", `${response.imp ?? 3}`),
-                        ]),
-                      ]),
-                      m(".row", [
-                        m(".col.s12", [
-                          m("label", t("desc")),
-                          m("textarea.materialize-textarea", {
-                            value: response.n ?? "",
-                            oninput: (e: Event) => {
-                              setSolutionAssessmentNote(
-                                solutionId,
-                                (e.target as HTMLTextAreaElement).value,
-                              );
-                              saveCurrentDraft();
-                            },
-                          }),
-                        ]),
-                      ]),
-                    ]),
-                  ]);
-                }),
-          ]),
+              ]);
+            }),
+        ]),
 
         // Done button
         m(".row", [
@@ -1640,25 +1676,25 @@ export const CollaborationPage: MeiosisComponent = () => {
         isUserView
           ? m(UserAssessmentView, { ...attrs })
           : [
-              canManageCollaborationState &&
-                m(".card-panel", [
-                  m(
-                    "button.btn-flat.waves-effect",
-                    { onclick: goToRegularTool },
-                    [m("i.material-icons.left", "home"), t("HOME", "TITLE")],
-                  ),
-                  m(ConfirmButton, {
-                    iconName: "delete",
-                    confirmIconName: "check",
-                    title: t("clear"),
-                    onclick: resetCollaboration,
-                  }),
-                ]),
-              m(".row", [
-                m(".col.s12.l6", m(FacilitatorSendInvite, { ...attrs })),
-                m(".col.s12.l6", m(PatchLoader, { ...attrs })),
-              ]),
-            ],
+            canManageCollaborationState &&
+            m(".card-panel", [
+              m(
+                "button.btn-flat.waves-effect",
+                { onclick: goToRegularTool },
+                [m("i.material-icons.left", "home"), t("HOME", "TITLE")],
+              ),
+              m(ConfirmButton, {
+                iconName: "delete",
+                confirmIconName: "check",
+                title: t("clear"),
+                onclick: resetCollaboration,
+              }),
+            ]),
+            m(".row", [
+              m(".col.s12.l6", m(FacilitatorSendInvite, { ...attrs })),
+              m(".col.s12.l6", m(PatchLoader, { ...attrs })),
+            ]),
+          ],
       ]);
     },
   };

@@ -9,6 +9,9 @@ export interface ReadinessLevelConfig {
   descriptions: string[];
 }
 
+export const readinessDescriptionFieldId = (readinessId: string) =>
+  `${readinessId}Desc`;
+
 const trlDescriptions = [
   "Basic principles observed",
   "Technology concept formulated",

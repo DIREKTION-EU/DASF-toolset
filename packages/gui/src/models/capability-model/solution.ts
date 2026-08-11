@@ -13,12 +13,19 @@ export interface IAssessmentQuestion extends ILabelled {
 export interface ISolution extends ILabelled {
   url?: string;
   trl?: number; // 1-9
+  trlDesc?: string;
   integrationRl?: number; // 1-9
+  integrationRlDesc?: string;
   societalRl?: number; // 1-9
+  societalRlDesc?: string;
   manufacturingRl?: number; // 1-9
+  manufacturingRlDesc?: string;
   commercialisationRl?: number; // 1-9
+  commercialisationRlDesc?: string;
   securityRl?: number; // 1-10
+  securityRlDesc?: string;
   legalPrivacyEthicalRl?: number; // 1-4
+  legalPrivacyEthicalRlDesc?: string;
   capabilityIds?: string[]; // linked gaps from Step 1
   compliance?: IComplianceCheck[];
   userNeeds?: IAssessmentQuestion[];
