@@ -16,6 +16,7 @@
   "author": "Erik Vullings <erik.vullings@tno.nl> (http://www.tno.nl)",
   "license": "MIT",
   "devDependencies": {
+    "@mithril-inspector/vite": "^0.3.2",
     "@types/node": "^26.2.0",
     "pnpm": "^11.21.0"
   }

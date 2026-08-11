@@ -6,3 +6,5 @@ packages:
   # - '!**/test/**'
 allowBuilds:
   '@parcel/watcher': true
+minimumReleaseAgeExclude:
+  - '@types/mithril@2.2.9'

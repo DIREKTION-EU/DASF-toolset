@@ -1,6 +1,7 @@
-import { defineConfig, loadEnv } from "vite";
-import { resolve } from "path";
+import { resolve } from "node:path";
+import { mithrilInspector } from "@mithril-inspector/vite"
 import { config } from "dotenv";
+import { defineConfig, loadEnv } from "vite";
 
 config();
 
@@ -21,8 +22,7 @@ const APP_DESC =
   "The DASF toolset consists of several core tools designed to simplify and systematize the assessment and screening process for disaster management. In addition to a user guide to support you through the assessment process. The toolset analysis is aligned with the latest EU priorities for disaster management, including the EU civil security taxonomy.";
 
 console.log(
-  `Running in ${
-    isProduction ? "production" : "development"
+  `Running in ${isProduction ? "production" : "development"
   } mode, serving from ${SERVER} and public path ${publicPath}, output directed to ${outputPath}.`,
 );
 
@@ -75,5 +75,12 @@ export default defineConfig({
         },
       },
     },
+    mithrilInspector({
+      editor: "code",
+      mode: "full",
+      ui: {
+        theme: "system",
+      },
+    }),
   ],
 });
