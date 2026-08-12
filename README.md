@@ -29,10 +29,10 @@ The application follows a 4-step process:
 - Hazard selection and contextualization for scenario-focused assessments
 - Capability and gap assessment with structured scoring
 - Solution catalog and assessment including:
-	- Technology readiness (TRL)
-	- Compliance checks (for example cybersecurity, interoperability, GDPR, AI Act, fundamental rights, and sector constraints)
-	- User, operational, and organizational fit
-	- Expected legal, ethical, societal, and environmental impact
+  - Technology readiness (TRL)
+  - Compliance checks (for example cybersecurity, interoperability, GDPR, AI Act, fundamental rights, and sector constraints)
+  - User, operational, and organizational fit
+  - Expected legal, ethical, societal, and environmental impact
 - Roadmapping support to translate findings into implementation actions
 - Multi-language interface via translation dictionaries
 - Role-aware behavior (regular users and facilitator/editor workflows)
