@@ -45,15 +45,15 @@ importers:
         specifier: 3.17.9
         version: 3.17.9
       mithril-ui-form:
-        specifier: ^2.3.0
-        version: 2.3.0(mithril-materialized@3.17.9)(mithril@2.3.8)
+        specifier: ^2.3.2
+        version: 2.3.2(mithril-materialized@3.17.9)(mithril@2.3.8)
       translate.js:
         specifier: ^1.3.2
         version: 1.3.2
     devDependencies:
       '@mithril-inspector/vite':
-        specifier: ^0.3.2
-        version: 0.3.2(vite@8.2.1(@types/node@26.2.0)(sass@1.102.0))
+        specifier: ^0.3.3
+        version: 0.3.3(vite@8.2.1(@types/node@26.2.0)(sass@1.102.0))
       '@types/file-saver':
         specifier: ^2.0.7
         version: 2.0.7
@@ -113,25 +113,48 @@ packages:
   '@mithril-inspector/adapter-kit@0.3.2':
     resolution: {integrity: sha512-GxpGxCCoxbsUOCCCTpfVPKve5nn3xgpqNNIgiIFQ1Vyeo+ph58ThGIC2F/aHqn5rzh276MqBiGfnRM2ItgwwzA==}
 
+  '@mithril-inspector/adapter-kit@0.3.3':
+    resolution: {integrity: sha512-LNK+yPwNiLUcSlBEFKvAKkByHWi+9xJU3klLrwekB5DhAuYkAZ8263NZTtIdPlkHsh3iQQDh9GHIHwgc0olKiQ==}
+
   '@mithril-inspector/overlay@0.3.2':
     resolution: {integrity: sha512-hvDQYAwIya4ekMZxwr7zg28FC1wbQNgkc29PFdwVkvSMaBJVSobzOLTVcepwUGYqKK/bDGy5zUq5O7E38pjpiQ==}
+
+  '@mithril-inspector/overlay@0.3.3':
+    resolution: {integrity: sha512-H2aiB2pIxfRWBAkgUYNr/YjC28QRi8YDDywwlECFTumYbU/+k+nm2ZD/SSGtxiOE45FBFUnsMgdQmiNzJ/55yw==}
 
   '@mithril-inspector/protocol@0.3.2':
     resolution: {integrity: sha512-d3YplWodz8XkcfVLtLssgsE2HTsLcQQrMjuJ6qYLGX/bxI5bFjOfzAIpA3EfoN00PVZlcKLmdpDs9WwnhidoXQ==}
 
+  '@mithril-inspector/protocol@0.3.3':
+    resolution: {integrity: sha512-XizC/K/lI5zvCAymq1qlE/rVUQfsBGPWD/MkE/RyUEH4aiqh4V3/lrmMDiB/fn2C5kH/+8l5In4BngthVJw3OA==}
+
   '@mithril-inspector/runtime@0.3.2':
     resolution: {integrity: sha512-0EkGBQ2lBBTitKFzeqlxI5q/jnVzqQM0HJJ7UMPIVFupvSAT4/3jP14ufbUlpPQY8U+cg4p48/QyzdruH+o32A==}
+
+  '@mithril-inspector/runtime@0.3.3':
+    resolution: {integrity: sha512-DalryMPxZSQdqMJI/lEe4m3lVDk51bHSo27C38g3Up7liYrJE5AQQGvUQNvKkkUoFYM5R6TjDi4DNH1uhjeLng==}
 
   '@mithril-inspector/server@0.3.2':
     resolution: {integrity: sha512-+2J4YBB6Zbksuxo/1fPaXTIlNPiVv4sCuLHIc165Efr5JC8TB52v0lCKEnH1WNl8k0oWIv7s9sol7cmr8uhJOA==}
 
+  '@mithril-inspector/server@0.3.3':
+    resolution: {integrity: sha512-SuzIiWAI+4Vm35hCWe6r/nW+QZMVYJDVDqiGl9XoiPF9yBUaMtm/l5up+p7nyldgLyL0ayhUqV6u08/ZFXT25g==}
+
   '@mithril-inspector/transform@0.3.2':
     resolution: {integrity: sha512-//+8JRTYkO3/33ET2CXTugzGKvPJUdTS/O49ox3rCfxx/RPyE55QMVHrHqga6yTzGSOY5G6ooxtLSx0PPcZABQ==}
+
+  '@mithril-inspector/transform@0.3.3':
+    resolution: {integrity: sha512-Bagbq6OVzTvydUtf/1e4f9kexnbHBJ+oYjtIx5zpIpf23KX1d8oRNB7t4Qkg/DR6q/1zvGKRXR4LXgny5nhoOg==}
 
   '@mithril-inspector/vite@0.3.2':
     resolution: {integrity: sha512-bSGaz3dtnJlgyegn5RjIQwJ9nJOaGXRrFBSLguH6my9yqA6tNRwJaCf2tJGt6MMu64yZbuxY1RXJUeYHidVRdw==}
     peerDependencies:
       vite: ^5.0.0 || ^6.0.0 || ^7.0.0 || ^8.0.0
+
+  '@mithril-inspector/vite@0.3.3':
+    resolution: {integrity: sha512-IYUlKz5JlBUn7MuvPRz24Q7zvyzBNkueEO+MP7mrjYsbttCM3FcAydZHetWNlIMi7HGjOHzIAwH8XalxF9y7rw==}
+    peerDependencies:
+      vite: ^8.2.1
 
   '@oxc-project/types@0.143.0':
     resolution: {integrity: sha512-u6JZdLBTLotrNC9Vd6vPssINdzcCzleKAH6EJKImQb7GtYvX5keN2dxkoK44stCc4tffE6QQRtZTXVSzsLUlWA==}
@@ -694,8 +717,8 @@ packages:
   mithril-ui-form-plugin@0.7.0:
     resolution: {integrity: sha512-VuYXutj1AuFag6pxGVJ1goV98eg0kE+LP54oo7Zs3t31Fso47pS4gp3O2PZolWeVbN+2KN2kLaPXnYBPZ5W/hg==}
 
-  mithril-ui-form@2.3.0:
-    resolution: {integrity: sha512-qh7CzXngILpZm+qyW1hdBRKMl8aTu+tfbarfP3UICzcRqqLVhKHf9k25+kFJBXPXgno80jO5s7rnKhgi5Ty6Uw==}
+  mithril-ui-form@2.3.2:
+    resolution: {integrity: sha512-iSVanF/K4Rr5LUHuaS4eOHXppPyiHyIy4MjNZJG3TiL0Kx8zPdfcKZ8UNYxEI/HqUHF3lLL57bZmjQwuG9BwHg==}
     peerDependencies:
       mithril: ^2.3.8
       mithril-materialized: ^3.17.9
@@ -894,26 +917,61 @@ snapshots:
     transitivePeerDependencies:
       - rollup
 
+  '@mithril-inspector/adapter-kit@0.3.3':
+    dependencies:
+      '@mithril-inspector/overlay': 0.3.3
+      '@mithril-inspector/protocol': 0.3.3
+      '@mithril-inspector/runtime': 0.3.3
+      '@mithril-inspector/server': 0.3.3
+      '@mithril-inspector/transform': 0.3.3
+    transitivePeerDependencies:
+      - rollup
+
   '@mithril-inspector/overlay@0.3.2':
     dependencies:
       '@mithril-inspector/protocol': 0.3.2
       mithril: 2.3.8
 
+  '@mithril-inspector/overlay@0.3.3':
+    dependencies:
+      '@mithril-inspector/protocol': 0.3.3
+      mithril: 2.3.8
+
   '@mithril-inspector/protocol@0.3.2': {}
+
+  '@mithril-inspector/protocol@0.3.3': {}
 
   '@mithril-inspector/runtime@0.3.2':
     dependencies:
       '@mithril-inspector/protocol': 0.3.2
+
+  '@mithril-inspector/runtime@0.3.3':
+    dependencies:
+      '@mithril-inspector/protocol': 0.3.3
 
   '@mithril-inspector/server@0.3.2':
     dependencies:
       '@mithril-inspector/protocol': 0.3.2
       '@types/connect': 3.4.38
 
+  '@mithril-inspector/server@0.3.3':
+    dependencies:
+      '@mithril-inspector/protocol': 0.3.3
+      '@types/connect': 3.4.38
+
   '@mithril-inspector/transform@0.3.2':
     dependencies:
       '@babel/parser': 8.0.4
       '@mithril-inspector/protocol': 0.3.2
+      '@rollup/pluginutils': 5.4.0
+      magic-string: 1.1.0
+    transitivePeerDependencies:
+      - rollup
+
+  '@mithril-inspector/transform@0.3.3':
+    dependencies:
+      '@babel/parser': 8.0.4
+      '@mithril-inspector/protocol': 0.3.3
       '@rollup/pluginutils': 5.4.0
       magic-string: 1.1.0
     transitivePeerDependencies:
@@ -927,6 +985,18 @@ snapshots:
       '@mithril-inspector/runtime': 0.3.2
       '@mithril-inspector/server': 0.3.2
       '@mithril-inspector/transform': 0.3.2
+      vite: 8.2.1(@types/node@26.2.0)(sass@1.102.0)
+    transitivePeerDependencies:
+      - rollup
+
+  '@mithril-inspector/vite@0.3.3(vite@8.2.1(@types/node@26.2.0)(sass@1.102.0))':
+    dependencies:
+      '@mithril-inspector/adapter-kit': 0.3.3
+      '@mithril-inspector/overlay': 0.3.3
+      '@mithril-inspector/protocol': 0.3.3
+      '@mithril-inspector/runtime': 0.3.3
+      '@mithril-inspector/server': 0.3.3
+      '@mithril-inspector/transform': 0.3.3
       vite: 8.2.1(@types/node@26.2.0)(sass@1.102.0)
     transitivePeerDependencies:
       - rollup
@@ -1317,7 +1387,7 @@ snapshots:
 
   mithril-ui-form-plugin@0.7.0: {}
 
-  mithril-ui-form@2.3.0(mithril-materialized@3.17.9)(mithril@2.3.8):
+  mithril-ui-form@2.3.2(mithril-materialized@3.17.9)(mithril@2.3.8):
     dependencies:
       dompurify: 3.4.13
       mithril: 2.3.8

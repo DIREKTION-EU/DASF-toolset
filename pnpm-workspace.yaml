@@ -8,5 +8,5 @@ allowBuilds:
   '@parcel/watcher': true
 minimumReleaseAgeExclude:
   - '@types/mithril@2.2.9'
-  - mithril-ui-form@2.3.0
+  - mithril-ui-form@2.3.0 || 2.3.2
   - slimdown-js@1.5.0
