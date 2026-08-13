@@ -988,6 +988,16 @@ html {
   margin-top: 2px;
 }
 
+/* Align question text with action/select controls in solution assessment rows */
+.sol-assessment-repeat-item .readonly .slimdown-view {
+  margin-top: 5px;
+}
+
+.sol-assessment-repeat-item .readonly .slimdown-view p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
 /* Hazard tagging chips on Assessment page */
 .dasf-field-label {
   font-size: 12px;

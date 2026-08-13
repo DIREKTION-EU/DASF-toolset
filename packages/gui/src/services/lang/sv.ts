@@ -568,6 +568,7 @@ export const messagesSV: Messages = {
   sol_partial: "Delvis",
   sol_fail: "Underkänd",
   sol_na: "N/T",
+  sol_not_applicable: "Ej tillämpligt",
   sol_user_needs_title: "Bedömning av användarbehov",
   sol_operational_needs_title: "Bedömning av operativa behov",
   sol_organisational_needs_title: "Bedömning av organisatoriska behov",

@@ -567,6 +567,7 @@ export const messagesPL: Messages = {
   sol_partial: "Częściowy",
   sol_fail: "Niezgodny",
   sol_na: "N/D",
+  sol_not_applicable: "Nie dotyczy",
   sol_user_needs_title: "Ocena potrzeb użytkowników",
   sol_operational_needs_title: "Ocena potrzeb operacyjnych",
   sol_organisational_needs_title: "Ocena potrzeb organizacyjnych",

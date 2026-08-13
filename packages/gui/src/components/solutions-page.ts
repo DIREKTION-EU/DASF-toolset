@@ -31,35 +31,40 @@ const translateItemLabels = (items?: Array<{ id?: string; label: string }>) => {
 };
 
 export const SolutionsPage: MeiosisComponent = () => {
-  const form = solutionForm();
-  const hiddenQuestionFieldIds = new Set([
-    "compliance-section",
-    "compliance",
-    "user-needs-section",
-    "userNeeds",
-    "operational-needs-section",
-    "operationalNeeds",
-    "organisational-needs-section",
-    "organisationalNeeds",
-    "expected-impact-section",
-    "expectedImpact",
-  ]);
-  const baseForm = form.filter(
-    (field) => !hiddenQuestionFieldIds.has(String(field.id || "")),
-  );
-  const questionForms = {
-    userNeeds: form.find((field) => field.id === "userNeeds"),
-    operationalNeeds: form.find((field) => field.id === "operationalNeeds"),
-    organisationalNeeds: form.find(
-      (field) => field.id === "organisationalNeeds",
-    ),
-    expectedImpact: form.find((field) => field.id === "expectedImpact"),
-    compliance: form.find((field) => field.id === "compliance"),
-  };
-
   return {
     oninit: ({ attrs }) => actions.setPage(attrs, Pages.SOLUTIONS),
     view: ({ attrs }) => {
+      const canManageQuestions =
+        attrs.state.role === "admin" ||
+        attrs.state.role === "facilitator" ||
+        attrs.state.curUser === "admin" ||
+        attrs.state.curUser === "facilitator";
+      const form = solutionForm(canManageQuestions);
+      const hiddenQuestionFieldIds = new Set([
+        "compliance-section",
+        "compliance",
+        "user-needs-section",
+        "userNeeds",
+        "operational-needs-section",
+        "operationalNeeds",
+        "organisational-needs-section",
+        "organisationalNeeds",
+        "expected-impact-section",
+        "expectedImpact",
+      ]);
+      const baseForm = form.filter(
+        (field) => !hiddenQuestionFieldIds.has(String(field.id || "")),
+      );
+      const questionForms = {
+        userNeeds: form.find((field) => field.id === "userNeeds"),
+        operationalNeeds: form.find((field) => field.id === "operationalNeeds"),
+        organisationalNeeds: form.find(
+          (field) => field.id === "organisationalNeeds",
+        ),
+        expectedImpact: form.find((field) => field.id === "expectedImpact"),
+        compliance: form.find((field) => field.id === "compliance"),
+      };
+
       const { catModel = { data: {} } as CapabilityModel } = attrs.state;
       const { data = {} } = catModel;
       const { solutions = [], capabilities = [] } = data;

@@ -12,6 +12,7 @@ const yesNoOptions = () => [
   { id: "yes", label: t("yes") },
   { id: "no", label: t("no") },
   { id: "partially", label: t("partially") },
+  { id: "na", label: t("sol_not_applicable") },
   { id: "unknown", label: t("TBD") },
 ];
 
@@ -50,7 +51,16 @@ const allReadinessConfigs = [
   ...additionalSolutionReadinessConfigs,
 ];
 
-export const solutionForm = () =>
+const COMPLIANCE_QUESTION_COUNT = 10;
+const USER_NEEDS_QUESTION_COUNT = 9;
+const OPERATIONAL_NEEDS_QUESTION_COUNT = 9;
+const ORGANISATIONAL_NEEDS_QUESTION_COUNT = 7;
+const EXPECTED_IMPACT_QUESTION_COUNT = 9;
+
+const lockQuestionList = (canManageQuestions: boolean, questionCount: number) =>
+  canManageQuestions ? {} : { min: questionCount, max: questionCount };
+
+export const solutionForm = (canManageQuestions = false) =>
   [
     {
       id: "label",
@@ -81,6 +91,8 @@ export const solutionForm = () =>
       label: t("sol_compliance_title"),
       repeat: true,
       pageSize: 10,
+      ...lockQuestionList(canManageQuestions, COMPLIANCE_QUESTION_COUNT),
+      repeatItemClass: "sol-assessment-repeat-item",
       type: [
         {
           id: "label",
@@ -97,7 +109,7 @@ export const solutionForm = () =>
             { id: "pass", label: t("sol_pass") },
             { id: "partial", label: t("sol_partial") },
             { id: "fail", label: t("sol_fail") },
-            { id: "na", label: t("sol_na") },
+            { id: "na", label: t("sol_not_applicable") },
           ],
           className: "col s4",
         },
@@ -113,6 +125,8 @@ export const solutionForm = () =>
       label: t("sol_user_needs_title"),
       repeat: true,
       pageSize: 10,
+      ...lockQuestionList(canManageQuestions, USER_NEEDS_QUESTION_COUNT),
+      repeatItemClass: "sol-assessment-repeat-item",
       type: [
         {
           id: "label",
@@ -140,6 +154,8 @@ export const solutionForm = () =>
       label: t("sol_operational_needs_title"),
       repeat: true,
       pageSize: 10,
+      ...lockQuestionList(canManageQuestions, OPERATIONAL_NEEDS_QUESTION_COUNT),
+      repeatItemClass: "sol-assessment-repeat-item",
       type: [
         {
           id: "label",
@@ -167,6 +183,8 @@ export const solutionForm = () =>
       label: t("sol_organisational_needs_title"),
       repeat: true,
       pageSize: 10,
+      ...lockQuestionList(canManageQuestions, ORGANISATIONAL_NEEDS_QUESTION_COUNT),
+      repeatItemClass: "sol-assessment-repeat-item",
       type: [
         {
           id: "label",
@@ -194,6 +212,8 @@ export const solutionForm = () =>
       label: t("sol_expected_impact_title"),
       repeat: true,
       pageSize: 10,
+      ...lockQuestionList(canManageQuestions, EXPECTED_IMPACT_QUESTION_COUNT),
+      repeatItemClass: "sol-assessment-repeat-item",
       type: [
         {
           id: "label",

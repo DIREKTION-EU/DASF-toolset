@@ -582,6 +582,7 @@ export const messages = {
   sol_partial: "Partial",
   sol_fail: "Fail",
   sol_na: "N/A",
+  sol_not_applicable: "Not applicable",
   sol_user_needs_title: "User Needs Assessment",
   sol_operational_needs_title: "Operational Needs Assessment",
   sol_organisational_needs_title: "Organisational Needs Assessment",

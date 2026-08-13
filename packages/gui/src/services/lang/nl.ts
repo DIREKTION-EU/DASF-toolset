@@ -583,6 +583,7 @@ export const messagesNL: Messages = {
   sol_partial: "Gedeeltelijk",
   sol_fail: "Voldoet niet",
   sol_na: "N.v.t.",
+  sol_not_applicable: "Niet van toepassing",
   sol_user_needs_title: "Gebruikersbehoeften",
   sol_operational_needs_title: "Operationele behoeften",
   sol_organisational_needs_title: "Organisatorische behoeften",
