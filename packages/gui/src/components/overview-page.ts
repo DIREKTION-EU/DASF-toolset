@@ -16,13 +16,12 @@ import {
   type ICategory,
   type ILabelled,
 } from "../models/capability-model/capability-model";
-import { actions, type MeiosisComponent, t, tDynamic } from "../services";
+import { actions, type MeiosisComponent, t } from "../services";
 import { routingSvc } from "../services/routing-service";
 import {
   colorPalette,
   formatDate,
   toWord,
-  translatedOrFallback,
   translateLabelOrFallback,
 } from "../utils";
 import { PageNav } from "./ui";
@@ -244,16 +243,13 @@ export const OverviewPage: MeiosisComponent = () => {
           "#category-list",
           filteredCategories.map(
             // filteredCategories.map(
-            ({ label, id: catId, subcategories, color }, i) =>
+            ({ id: catId, subcategories, color, ...category }, i) =>
               m(".category", [
                 i > 0 && m(".divider"),
                 m(i > 0 ? ".section.row" : ".row", [
                   m(
                     ".col.s12",
-                    m(
-                      "h5",
-                      translatedOrFallback(tDynamic(catId), catId, label),
-                    ),
+                    m("h5", translateLabelOrFallback({ id: catId, ...category })),
                   ),
                   subcategories &&
                   (subcategories as ISubcategoryVM[]).map((sc) =>

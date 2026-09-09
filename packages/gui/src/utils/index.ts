@@ -2,9 +2,10 @@ export * from "./word";
 
 import { padLeft } from "mithril-materialized";
 import type { Page, Pages } from "../models";
-import type {
-  ICapabilityDataModel,
-  ILabelled,
+import {
+  getDefaultCapabilityModelItem,
+  type ICapabilityDataModel,
+  type ILabelled,
 } from "../models/capability-model/capability-model";
 import { tDynamic } from "../services/translations";
 
@@ -42,10 +43,14 @@ export const translateLabelOrFallback = <
   T extends { id?: string; label: string },
 >(
   item: T,
-) =>
-  item.id
-    ? translatedOrFallback(tDynamic(item.id), item.id, item.label)
-    : item.label;
+) => {
+  if (!item.id) return item.label;
+
+  const defaultItem = getDefaultCapabilityModelItem(item.id);
+  if (!defaultItem || item.label !== defaultItem.label) return item.label;
+
+  return translatedOrFallback(tDynamic(item.id), item.id, item.label);
+};
 
 /**
  * Debounce function wrapper, i.e. between consecutive calls of the wrapped function,
@@ -491,14 +496,19 @@ export const list = (arr: string[] = [], prefix = "") =>
 const translateItem = <T extends ILabelled>(item: T): T => {
   const labelKey = item.id;
   const descKey = `${item.id}_desc`;
-  const labelT = tDynamic(labelKey);
-  const descT = item.desc ? tDynamic(descKey) : undefined;
+  const defaultItem = getDefaultCapabilityModelItem(item.id);
+  const label =
+    defaultItem && item.label === defaultItem.label
+      ? translatedOrFallback(tDynamic(labelKey), labelKey, item.label)
+      : item.label;
+  const desc =
+    defaultItem && item.desc === defaultItem.desc
+      ? translatedOrFallback(tDynamic(descKey), descKey, item.desc || "")
+      : item.desc;
   return {
     ...item,
-    label: translatedOrFallback(labelT, labelKey, item.label),
-    ...(item.desc !== undefined
-      ? { desc: translatedOrFallback(descT, descKey, item.desc || "") }
-      : {}),
+    label,
+    ...(item.desc !== undefined ? { desc } : {}),
   };
 };
 

@@ -858,3 +858,29 @@ export function defaultCapabilityModel(): CapabilityModel {
     data: JSON.parse(JSON.stringify(DEFAULT_MODEL_DATA)),
   };
 }
+
+const DEFAULT_LABELLED_ITEMS: ILabelled[] = [
+  ...(DEFAULT_MODEL_DATA.mainTasks ?? []),
+  ...(DEFAULT_MODEL_DATA.taskScale ?? []),
+  ...(DEFAULT_MODEL_DATA.performanceAspects ?? []),
+  ...(DEFAULT_MODEL_DATA.performanceScale ?? []),
+  ...(DEFAULT_MODEL_DATA.assessmentScale ?? []),
+  ...(DEFAULT_MODEL_DATA.mainGaps ?? []),
+  ...(DEFAULT_MODEL_DATA.gapScale ?? []),
+  ...(DEFAULT_MODEL_DATA.stakeholders ?? []),
+  ...(DEFAULT_MODEL_DATA.stakeholderTypes ?? []),
+  ...(DEFAULT_MODEL_DATA.categories ?? []).flatMap((category) => [
+    category,
+    ...category.subcategories.flatMap((subcategory) => [
+      subcategory,
+      ...(subcategory.capabilities ?? []),
+    ]),
+  ]),
+];
+
+const DEFAULT_LABELLED_ITEMS_BY_ID = new Map(
+  DEFAULT_LABELLED_ITEMS.map((item) => [item.id, item]),
+);
+
+export const getDefaultCapabilityModelItem = (id: string) =>
+  DEFAULT_LABELLED_ITEMS_BY_ID.get(id);
