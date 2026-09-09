@@ -13,7 +13,10 @@ import type {
   ICapabilityDataModel,
   CapabilityModel,
 } from "../models/capability-model/capability-model";
-import { defaultCapabilityModel } from "../models/capability-model/capability-model";
+import {
+  defaultCapabilityModel,
+  syncSelectedCapabilitiesWithCatalog,
+} from "../models/capability-model/capability-model";
 import {
   evaluationModel,
   projectEvaluationModel,
@@ -331,12 +334,13 @@ export const actions = {
   openSession: async (cell: MeiosisCell<State>, id: string) => {
     const session = await sessionService.getSession(id);
     if (!session) return;
-    localStorage.setItem(MODEL_KEY, JSON.stringify(session.model));
+    const model = migrateModel(session.model);
+    localStorage.setItem(MODEL_KEY, JSON.stringify(model));
     localStorage.setItem(LAST_SESSION_KEY, id);
     cell.update({
       currentSessionId: id,
-      catModel: () => session.model,
-      model: () => session.model,
+      catModel: () => model,
+      model: () => model,
     });
     routingSvc && routingSvc.switchTo(Pages.HOME);
   },
@@ -383,6 +387,7 @@ const migrateModel = (model: CapabilityModel): CapabilityModel => {
       model.data.enabledSteps = steps.map((s) => s - 1);
     }
   }
+  syncSelectedCapabilitiesWithCatalog(model.data);
   return model;
 };
 

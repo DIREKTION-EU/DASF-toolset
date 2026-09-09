@@ -114,6 +114,45 @@ export const getAllCapabilities = (
       ) ?? [],
   ) ?? [];
 
+export const syncSelectedCapabilitiesWithCatalog = (
+  data: Partial<ICapabilityDataModel>,
+): boolean => {
+  if (!data.capabilities?.length) return false;
+
+  const catalogById = new Map(
+    getAllCapabilities(data).map((capability) => [capability.id, capability]),
+  );
+  let changed = false;
+
+  data.capabilities = data.capabilities.map((selected) => {
+    const catalog = catalogById.get(selected.id);
+    if (
+      !catalog ||
+      (selected.label === catalog.label &&
+        selected.desc === catalog.desc &&
+        selected.order === catalog.order &&
+        selected.hide === catalog.hide &&
+        selected.categoryId === catalog.categoryId &&
+        selected.subcategoryId === catalog.subcategoryId)
+    ) {
+      return selected;
+    }
+
+    changed = true;
+    return {
+      ...selected,
+      label: catalog.label,
+      desc: catalog.desc,
+      order: catalog.order,
+      hide: catalog.hide,
+      categoryId: catalog.categoryId,
+      subcategoryId: catalog.subcategoryId,
+    };
+  });
+
+  return changed;
+};
+
 export type Documentation = {
   documentId?: string;
   label?: string;

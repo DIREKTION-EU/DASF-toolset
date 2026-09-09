@@ -71,6 +71,9 @@ export const OverviewPage: MeiosisComponent = () => {
       } = data;
 
       const catalogCapabilities = getAllCapabilities(data);
+      const catalogById = new Map(
+        catalogCapabilities.map((capability) => [capability.id, capability]),
+      );
       const filterFn = createTextFilter(textFilter);
       if (!userHasToggled && capabilities.length === 0) showCapAccordion = true;
       const filteredCapabilities = capabilities
@@ -206,9 +209,6 @@ export const OverviewPage: MeiosisComponent = () => {
                     },
                     [] as TreeNode[],
                   );
-                  const catalogById = new Map(
-                    catalogCapabilities.map((c) => [c.id, c]),
-                  );
                   const existingById = new Map(
                     capabilities.map((c) => [c.id, c]),
                   );
@@ -289,6 +289,11 @@ export const OverviewPage: MeiosisComponent = () => {
                                         defaultValue: cap.label,
                                         onchange: (v) => {
                                           cap.label = v || cap.label;
+                                          const catalogCapability =
+                                            catalogById.get(cap.id);
+                                          if (catalogCapability) {
+                                            catalogCapability.label = cap.label;
+                                          }
                                           actions.saveModel(
                                             attrs,
                                             catModel,

@@ -1,7 +1,12 @@
 import m from "mithril";
 import { type TabItem, Tabs } from "mithril-materialized";
 import { type FormAttributes, LayoutForm, render, type UIForm } from "mithril-ui-form";
-import { type CapabilityModel, type ICapabilityDataModel, Pages } from "../models";
+import {
+  type CapabilityModel,
+  type ICapabilityDataModel,
+  Pages,
+  syncSelectedCapabilitiesWithCatalog,
+} from "../models";
 import { defaultHazardTypes } from "../models/capability-model/hazard";
 import { actions, type MeiosisComponent, t, tDynamic } from "../services";
 import { getFormI18nConfig } from "../services/translations";
@@ -61,6 +66,7 @@ export const PreparationPage: MeiosisComponent = () => {
                 data.selectedHazardIds = (data.hazardTypes ?? [])
                   .filter((h) => h.selected)
                   .map((h) => h.id);
+                syncSelectedCapabilitiesWithCatalog(data);
                 actions.saveModel(attrs, catModel);
               },
             } as FormAttributes<ICapabilityDataModel>),
