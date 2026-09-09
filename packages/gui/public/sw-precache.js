@@ -4,7 +4,7 @@
 // browser resolves against wherever the app is actually hosted (e.g.
 // GitHub Pages project sites serve from a /<repo>/ subpath rather than
 // domain root).
-const CACHE_VERSION = 'v2';
+const CACHE_VERSION = 'v3';
 const CACHE_NAME = `dasf-toolset-${CACHE_VERSION}`;
 
 // Core assets to cache
@@ -95,6 +95,27 @@ self.addEventListener('fetch', (event) => {
 
   // Skip chrome-extension and other non-http protocols
   if (!event.request.url.startsWith('http')) {
+    return;
+  }
+
+  const isAppShellRequest =
+    event.request.mode === 'navigate' ||
+    ['script', 'style'].includes(event.request.destination);
+
+  if (isAppShellRequest) {
+    event.respondWith(
+      fetch(event.request)
+        .then((response) => {
+          if (response?.status === 200 && response.type === 'basic') {
+            const responseToCache = response.clone();
+            caches.open(CACHE_NAME)
+              .then((cache) => cache.put(event.request, responseToCache));
+          }
+          return response;
+        })
+        .catch(() => caches.match(event.request)
+          .then((cachedResponse) => cachedResponse || caches.match('./index.html')))
+    );
     return;
   }
 
