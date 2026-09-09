@@ -22,6 +22,10 @@ import { LANGUAGE, SAVED } from "./utils";
 import { type Languages, i18n } from "./services";
 import { registerServiceWorker } from "./register-sw";
 
+console.info(
+  `[DASF] Build ${import.meta.env.BUILD_COMMIT_SHA.slice(0, 7)} — ${import.meta.env.BUILD_COMMIT_DATE}\n${import.meta.env.BUILD_COMMIT_URL}`,
+);
+
 // Register service worker for PWA support (production only — avoid caching in dev)
 if (import.meta.env.DEV) {
   // Ensure dev HMR is never SW-controlled: unregister workers, clear caches, reload once.

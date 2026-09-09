@@ -1,4 +1,5 @@
 import { resolve } from "node:path";
+import { execFileSync } from "node:child_process";
 import { mithrilInspector } from "@mithril-inspector/vite"
 import { config } from "dotenv";
 import { defineConfig, loadEnv } from "vite";
@@ -20,6 +21,16 @@ const APP_TITLE_SHORT = env.APP_TITLE_SHORT || "DASF";
 const APP_DESC =
   env.APP_DESC ||
   "The DASF toolset consists of several core tools designed to simplify and systematize the assessment and screening process for disaster management. In addition to a user guide to support you through the assessment process. The toolset analysis is aligned with the latest EU priorities for disaster management, including the EU civil security taxonomy.";
+const BUILD_COMMIT_SHA =
+  process.env.GITHUB_SHA ||
+  execFileSync("git", ["rev-parse", "HEAD"], { encoding: "utf8" }).trim();
+const BUILD_COMMIT_DATE = execFileSync(
+  "git",
+  ["show", "-s", "--format=%cI", BUILD_COMMIT_SHA],
+  { encoding: "utf8" },
+).trim();
+const BUILD_COMMIT_URL =
+  `https://github.com/${process.env.GITHUB_REPOSITORY || "DIREKTION-EU/DASF-toolset"}/commit/${BUILD_COMMIT_SHA}`;
 
 console.log(
   `Running in ${isProduction ? "production" : "development"
@@ -61,6 +72,9 @@ export default defineConfig({
     "import.meta.env.APP_TITLE": JSON.stringify(APP_TITLE),
     "import.meta.env.APP_TITLE_SHORT": JSON.stringify(APP_TITLE_SHORT),
     "import.meta.env.APP_DESC": JSON.stringify(APP_DESC),
+    "import.meta.env.BUILD_COMMIT_SHA": JSON.stringify(BUILD_COMMIT_SHA),
+    "import.meta.env.BUILD_COMMIT_DATE": JSON.stringify(BUILD_COMMIT_DATE),
+    "import.meta.env.BUILD_COMMIT_URL": JSON.stringify(BUILD_COMMIT_URL),
   },
   plugins: [
     {

@@ -5,6 +5,9 @@ interface ImportMetaEnv {
   readonly APP_TITLE: string;
   readonly APP_TITLE_SHORT: string;
   readonly APP_DESC: string;
+  readonly BUILD_COMMIT_SHA: string;
+  readonly BUILD_COMMIT_DATE: string;
+  readonly BUILD_COMMIT_URL: string;
   readonly APP_PORT: string;
   readonly SERVER: string;
   readonly NODE_ENV: string;
