@@ -8,6 +8,7 @@ import {
 import { type FormAttributes, LayoutForm, SlimdownView } from "mithril-ui-form";
 import { type CapabilityModel, type ICapability, Pages } from "../models";
 import type { ILabelled } from "../models/capability-model/capability-model";
+import { stakeholderIds } from "../models/capability-model/stakeholder-ids";
 import { actions, i18n, type MeiosisComponent, t, tDynamic } from "../services";
 import type {
   CapabilityAssessmentResponseItem,
@@ -542,6 +543,7 @@ export const AssessmentPage: MeiosisComponent = () => {
         .shift() ||
         (capabilities.length > 0 && capabilities[0]) ||
         {}) as ICapability;
+      const capStakeholders = stakeholderIds(cap.capabilityStakeholders);
 
       if (!capabilityId && cap.id) {
         m.route.set(t("assessment_route"), { id: cap.id });
@@ -773,13 +775,12 @@ export const AssessmentPage: MeiosisComponent = () => {
                 m("p", cap.desc),
                 m("hr"),
               ]),
-              Array.isArray(cap.capabilityStakeholders) &&
-              cap.capabilityStakeholders.length > 0 &&
+              capStakeholders.length > 0 &&
               m(".dasf-report-section", [
                 m("h4", fallbackText("shs", "Stakeholders")),
                 m(
                   ".dasf-report-tags",
-                  cap.capabilityStakeholders.map((stakeholderId) =>
+                  capStakeholders.map((stakeholderId) =>
                     m(
                       "span.dasf-report-tag",
                       getOptionsLabel(stakeholders, stakeholderId, false) ||

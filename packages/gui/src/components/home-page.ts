@@ -1,6 +1,7 @@
 import m from "mithril";
 import { Button, FlatButton, Icon } from "mithril-materialized";
 import { type CapabilityModel, type ISolution, Pages } from "../models";
+import { stakeholderIds } from "../models/capability-model/stakeholder-ids";
 import { actions, type MeiosisComponent, routingSvc, t, tDynamic } from "../services";
 import { formatDate, toWordFull, translatedOrFallback } from "../utils";
 import { PageNav } from "./ui";
@@ -294,13 +295,7 @@ export const HomePage: MeiosisComponent = () => {
               const capAssessment = assessmentScale.find(
                 (a) => a.id === cap.assessmentId,
               );
-              const capStakeholders = Array.isArray(
-                cap.capabilityStakeholders,
-              )
-                ? cap.capabilityStakeholders
-                : cap.capabilityStakeholders
-                  ? [cap.capabilityStakeholders]
-                  : [];
+              const capStakeholders = stakeholderIds(cap.capabilityStakeholders);
               const capHazards = hazardTypes.filter((h) =>
                 (cap.hazardIds || []).includes(h.id),
               );

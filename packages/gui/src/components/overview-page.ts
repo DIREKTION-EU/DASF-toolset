@@ -16,6 +16,7 @@ import {
   type ICategory,
   type ILabelled,
 } from "../models/capability-model/capability-model";
+import { stakeholderIds } from "../models/capability-model/stakeholder-ids";
 import { actions, type MeiosisComponent, t } from "../services";
 import { routingSvc } from "../services/routing-service";
 import {
@@ -387,9 +388,9 @@ export const OverviewPage: MeiosisComponent = () => {
                                                         ),
                                                     ).length;
                                                   const stakeholderCount =
-                                                    (
-                                                      cap.capabilityStakeholders as string[]
-                                                    )?.length || 0;
+                                                    stakeholderIds(
+                                                      cap.capabilityStakeholders,
+                                                    ).length;
                                                   const hazardCount = (
                                                     cap.hazardIds || []
                                                   ).length;

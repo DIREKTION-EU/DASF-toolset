@@ -16,6 +16,7 @@ import {
 } from "docx";
 import { saveAs } from "file-saver";
 import { ICapability, ICapabilityDataModel } from "../models";
+import { stakeholderIds } from "../models/capability-model/stakeholder-ids";
 import {
   allSolutionReadinessConfigs,
   readinessDescriptionFieldId,
@@ -641,9 +642,8 @@ const capabilityToWord = (
     performanceScale = [],
     gapScale = [],
   } = data;
-  const shs =
-    cap.capabilityStakeholders &&
-    stakeholders.filter((s) => cap.capabilityStakeholders!.includes(s.id));
+  const selectedStakeholderIds = stakeholderIds(cap.capabilityStakeholders);
+  const shs = stakeholders.filter((s) => selectedStakeholderIds.includes(s.id));
 
   const tasks = cap.taskAssessment?.items || [];
   const assRows = [
