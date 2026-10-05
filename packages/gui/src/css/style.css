@@ -1351,6 +1351,40 @@ html {
   border-top: 1px solid var(--lp-divider);
 }
 
+.landing-tutorial-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 16px;
+  padding: 16px 20px;
+  background: var(--lp-card-bg);
+  border: 1px solid var(--lp-card-border);
+  border-radius: 8px;
+  color: var(--lp-body-text);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.landing-tutorial-link .material-icons {
+  color: var(--lp-step-icon-color);
+}
+
+.landing-tutorial-link .material-icons:last-child {
+  margin-left: auto;
+  font-size: 18px;
+}
+
+.landing-tutorial-link:hover,
+.landing-tutorial-link:focus-visible {
+  background: var(--lp-lang-hover);
+  color: var(--lp-body-text);
+}
+
+.landing-tutorial-link:focus-visible {
+  outline: 2px solid var(--lp-step-icon-color);
+  outline-offset: 2px;
+}
+
 /* DASF purpose section */
 .landing-purpose-section {
   padding: 32px 0 0;

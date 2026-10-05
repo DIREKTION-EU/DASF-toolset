@@ -671,6 +671,7 @@ export const messagesNL: Messages = {
   dasf_purpose_p2:
     "Het DASF biedt de basis voor een duurzaam proces voor onderzoeksprogrammering, zodat hulpverleners en belanghebbenden toegang hebben tot de meest effectieve en actuele hulpmiddelen voor rampenparaatheid en -respons. De complete set is bedoeld om regelmatig te worden uitgevoerd — bijvoorbeeld eens per jaar of eens per vier jaar — om een bijgewerkt inzicht te krijgen in de meest actuele capaciteitsbehoeften, capaciteitstekorten, potentiële oplossingen en om de routekaart voor bijvoorbeeld EU- of nationale onderzoeksmogelijkheden regelmatig bij te werken.",
   landing_assessment_process: "Beoordelingsproces",
+  landing_video_tutorial: "Bekijk de videotutorial op YouTube",
   landing_funded_by: "Gefinancierd door de Europese Unie",
   landing_trilateral_attribution:
     "Voor de totstandkoming van deze tool is gebruikgemaakt van essentiële bijdragen van Trilateral Research, zoals ontwikkeld in DIREKTION D1.2.",

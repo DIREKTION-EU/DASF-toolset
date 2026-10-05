@@ -658,6 +658,7 @@ export const messagesES: Messages = {
   dasf_purpose_p2:
     "El DASF proporciona la base para un proceso sostenible de programación de la investigación, garantizando que los equipos de respuesta y las partes interesadas tengan acceso a las herramientas más efectivas y actualizadas para la preparación y respuesta ante desastres. El conjunto completo está diseñado para ejecutarse regularmente — por ejemplo, una vez al año o una vez cada cuatro años — para obtener una visión actualizada de las necesidades de capacidades más actuales, las brechas de capacidades, las soluciones potenciales y para actualizar regularmente la hoja de ruta para las oportunidades de investigación de la UE o nacionales.",
   landing_assessment_process: "Proceso de evaluación",
+  landing_video_tutorial: "Ver el videotutorial en YouTube",
   landing_funded_by: "Financiado por la Unión Europea",
   landing_trilateral_attribution:
     "Para la creación de esta herramienta se utilizaron contribuciones esenciales de Trilateral Research, desarrolladas en el marco de DIREKTION D1.2.",

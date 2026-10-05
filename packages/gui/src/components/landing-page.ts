@@ -272,6 +272,20 @@ export const LandingPage: MeiosisComponent = () => {
                     ),
                   ]),
                 ]),
+
+                m(
+                  "a.landing-tutorial-link",
+                  {
+                    href: "https://www.youtube.com/watch?v=7A_PuLRl5mA",
+                    target: "_blank",
+                    rel: "noopener noreferrer",
+                  },
+                  [
+                    m(Icon, { iconName: "play_circle_outline" }),
+                    m("span", t("landing_video_tutorial")),
+                    m(Icon, { iconName: "open_in_new" }),
+                  ],
+                ),
               ]),
             ]),
 

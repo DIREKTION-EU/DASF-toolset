@@ -647,6 +647,7 @@ export const messagesPL: Messages = {
   dasf_purpose_p2:
     "DASF stanowi podstawę trwałego procesu programowania badań, zapewniając, że osoby reagujące i interesariusze mają dostęp do najbardziej efektywnych i aktualnych narzędzi do gotowości i reagowania na katastrofy. Kompletny zestaw ma być wykonywany regularnie — na przykład raz w roku lub raz na cztery lata — aby uzyskać zaktualizowany wgląd w najbardziej aktualne potrzeby w zakresie zdolności, luki w zdolnościach, potencjalne rozwiązania i regularnie aktualizować plan działania dla unijnych lub krajowych możliwości badawczych.",
   landing_assessment_process: "Proces oceny",
+  landing_video_tutorial: "Obejrzyj samouczek wideo na YouTube",
   landing_funded_by: "Finansowane przez Unię Europejską",
   landing_trilateral_attribution:
     "Do stworzenia tego narzędzia wykorzystano istotny wkład firmy Trilateral Research, opracowany w ramach DIREKTION D1.2.",

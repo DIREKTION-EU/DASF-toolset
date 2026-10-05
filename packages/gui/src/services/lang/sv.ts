@@ -654,6 +654,7 @@ export const messagesSV: Messages = {
   dasf_purpose_p2:
     "DASF utgör grunden för en hållbar process för forskningsprogrammering, vilket säkerställer att insatspersoner och intressenter har tillgång till de mest effektiva och aktuella verktygen för katastrofberedskap och -hantering. Den fullständiga uppsättningen är avsedd att genomföras regelbundet — till exempel en gång om året eller en gång vart fjärde år — för att få en uppdaterad insikt i de mest aktuella kapacitetsbehoven, kapacitetsluckorna, potentiella lösningar och för att regelbundet uppdatera färdplanen för EU:s eller nationella forskningsmöjligheter.",
   landing_assessment_process: "Bedömningsprocess",
+  landing_video_tutorial: "Se videohandledningen på YouTube",
   landing_funded_by: "Finansierat av Europeiska unionen",
   landing_trilateral_attribution:
     "För skapandet av detta verktyg användes viktiga bidrag från Trilateral Research, utvecklade inom ramen för DIREKTION D1.2.",
